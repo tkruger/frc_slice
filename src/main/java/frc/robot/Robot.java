@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
  * arcade steering.
  */
 public class Robot extends TimedRobot {
-  private final PWMSparkMax leftMotorFront = new PWMSparkMax(0);
-  private final PWMSparkMax leftMotorBack = new PWMSparkMax(1);
-  private final PWMSparkMax rightMotorFront = new PWMSparkMax(2);
-  private final PWMSparkMax rightMotorBack = new PWMSparkMax(3);
+  private final PWMSparkMax leftMotorFront = new PWMSparkMax(3);
+  private final PWMSparkMax leftMotorBack = new PWMSparkMax(4);
+  private final PWMSparkMax rightMotorFront = new PWMSparkMax(1);
+  private final PWMSparkMax rightMotorBack = new PWMSparkMax(2);
   private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
   private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
 
@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
     rightMotors.setInverted(true);
   }
+
 
   @Override
   public void teleopPeriodic() {
