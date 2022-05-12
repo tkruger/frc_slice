@@ -19,10 +19,10 @@ public class Drivetrain {
     rightMotors.setInverted(true);
   }
 
-  public static void arcadeDrive() {
-    // Drive with arcade drive.
-    // That means that the Y axis drives forward
-    // and backward, and the X turns left and right.
+  public static void runDrivetrain() {
+
+    // Drive with arcade drive. Left Y axis drives forward/backward, and Right X axis turns.
     robotDrivetrain.arcadeDrive(-Robot.leftJoystick.getY(), Robot.rightJoystick.getX());
+
   }
 }
