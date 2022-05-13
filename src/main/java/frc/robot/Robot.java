@@ -6,7 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import frc.robot.Subsystems.*;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class. Runs the motors with
@@ -18,17 +19,12 @@ public class Robot extends TimedRobot {
   public static final Joystick leftJoystick = new Joystick(0);
   public static final Joystick rightJoystick = new Joystick(1);
 
-  // Creates an ADXRS450_Gyro object on the onboard SPI port
-  ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-
   @Override
   public void robotInit() {
 
     //Initiates the drivetrain
     Drivetrain.drivetrainInit();
-
-    //Calibrates the Gyro before movement
-    gyro.calibrate();
+    GyroCode.gyroInit();
 
   }
 
