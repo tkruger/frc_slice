@@ -21,8 +21,12 @@ public class Drivetrain {
 
   public static void runDrivetrain() {
 
+    //Sets robot speed and turn speed
+    double forwardSpeed = -Robot.leftJoystick.getY();
+    double turnSpeed = Robot.rightJoystick.getX();
+
     // Drive with arcade drive. Left Y axis drives forward/backward, and Right X axis turns.
-    robotDrivetrain.arcadeDrive(-Robot.leftJoystick.getY(), Robot.rightJoystick.getX());
+    robotDrivetrain.arcadeDrive(forwardSpeed, turnSpeed);
 
   }
 }

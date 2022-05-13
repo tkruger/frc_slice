@@ -35,8 +35,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    //Run subsystem code on each tick
     Drivetrain.runDrivetrain();
-
+    Indexer.runIndexer();
+    Climber.climbArms();
 
   }
 }
