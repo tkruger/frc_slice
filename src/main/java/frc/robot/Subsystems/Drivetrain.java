@@ -14,7 +14,12 @@ public class Drivetrain {
   private static final MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
   private static final MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
   private static final DifferentialDrive robotDrivetrain = new DifferentialDrive(leftMotors, rightMotors);
-  static double startAngle = 0;
+
+  //Declare Quickturn Variables
+  static double startAngle;
+  static double endAngle;
+  static double forwardSpeed;
+  static double turnSpeed;
 
   public static void drivetrainInit() {
     // Inverts the right Drivetrain motors
@@ -27,6 +32,8 @@ public class Drivetrain {
     //Currently prints gyro angle
     if(Robot.leftJoystick.getRawButton(7) == true) {
       startAngle = GyroCode.robotAngle;
+      endAngle = startAngle + 180;
+
       System.out.println(startAngle);
       quickTurn();
     }
@@ -40,7 +47,24 @@ public class Drivetrain {
 
   }
 
+  //Turns robot 180 degrees
   public static void quickTurn() {
+    forwardSpeed = 0;
+    turnSpeed = 0.5;
+    int iterations = 0;
+
+    while(iterations <= 20) {
+      robotDrivetrain.arcadeDrive(forwardSpeed, turnSpeed);
+    }
+    iterations = 0;
+
+    if(GyroCode.robotAngle <= startAngle) {
+      turnSpeed = -turnSpeed;
+    }
+
+    while(GyroCode.robotAngle <= endAngle) {
+      robotDrivetrain.arcadeDrive(forwardSpeed, turnSpeed);
+    }
   }
 
 }

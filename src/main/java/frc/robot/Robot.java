@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 
     //Print driver control instructions to the console
     System.out.println("Forward/Back: Left Joystick Y;  Left/Right: Right Joystick X;  Spin Indexer: Left Joystick 1;  "
-       + "Output Gyro Angle: Left Joystick 7;  Climb Motors out/in: left/right 2; Left Climb Motor out/in: left/right 4;  " 
+       + "Quick Turn: Left Joystick 7;  Climb Motors out/in: left/right 2; Left Climb Motor out/in: left/right 4;  " 
        + "Right Climb Motor out/in: left/right 3");
 
   }
