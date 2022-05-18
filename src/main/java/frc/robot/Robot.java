@@ -15,15 +15,21 @@ import frc.robot.Subsystems.*;
 public class Robot extends TimedRobot {
 
   //Creates Joystick objects
-  public static final Joystick leftJoystick = new Joystick(0);
-  public static final Joystick rightJoystick = new Joystick(1);
+  public final Joystick leftJoystick = new Joystick(0);
+  public final Joystick rightJoystick = new Joystick(1);
+
+  //Instantiate classes
+  private GyroCode gyro = new GyroCode();
+  private Drivetrain drivetrain = new Drivetrain();
+  private Indexer indexer = new Indexer();
+  private Climber climber = new Climber();
 
   @Override
   public void robotInit() {
 
     //Initiates the drivetrain
-    Drivetrain.drivetrainInit();
-    GyroCode.gyroInit();
+    drivetrain.drivetrainInit();
+    gyro.gyroInit();
 
     //Print driver control instructions to the console
     System.out.println("Forward/Back: Left Joystick Y;  Left/Right: Right Joystick X;  Spin Indexer: Left Joystick 1;  "
@@ -36,9 +42,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     //Run subsystem code on each tick
-    Drivetrain.runDrivetrain();
-    Indexer.runIndexer();
-    Climber.climbArms();
+    drivetrain.runDrivetrain();
+    indexer.runIndexer();
+    climber.climbArms();
 
   }
 }

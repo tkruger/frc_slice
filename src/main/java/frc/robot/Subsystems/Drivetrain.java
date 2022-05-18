@@ -7,31 +7,35 @@ import frc.robot.Robot;
 
 public class Drivetrain {
   //Creates and Groups drivetrain motor objects
-  private static final PWMSparkMax leftMotorFront = new PWMSparkMax(3);
-  private static final PWMSparkMax leftMotorBack = new PWMSparkMax(4);
-  private static final PWMSparkMax rightMotorFront = new PWMSparkMax(1);
-  private static final PWMSparkMax rightMotorBack = new PWMSparkMax(2);
-  private static final MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
-  private static final MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
-  private static final DifferentialDrive robotDrivetrain = new DifferentialDrive(leftMotors, rightMotors);
+  private final PWMSparkMax leftMotorFront = new PWMSparkMax(3);
+  private final PWMSparkMax leftMotorBack = new PWMSparkMax(4);
+  private final PWMSparkMax rightMotorFront = new PWMSparkMax(1);
+  private final PWMSparkMax rightMotorBack = new PWMSparkMax(2);
+  private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
+  private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
+  private final DifferentialDrive robotDrivetrain = new DifferentialDrive(leftMotors, rightMotors);
 
   //Declare Quickturn Variables
-  static double startAngle;
-  static double endAngle;
-  static double forwardSpeed;
-  static double turnSpeed;
+  double startAngle;
+  double endAngle;
+  double forwardSpeed;
+  double turnSpeed;
 
-  public static void drivetrainInit() {
+  //Instantiate Classes
+  private GyroCode robotAngle = new GyroCode();
+  private Robot joysticks = new Robot();
+
+  public void drivetrainInit() {
     // Inverts the right Drivetrain motors
     rightMotors.setInverted(true);
   }
 
-  public static void runDrivetrain() {
+  public void runDrivetrain() {
 
     //Initiate quickTurn function
     //Currently prints gyro angle
-    if(Robot.leftJoystick.getRawButton(7) == true) {
-      startAngle = GyroCode.robotAngle;
+    if(joysticks.leftJoystick.getRawButton(7) == true) {
+      startAngle = robotAngle.gyroUpdate();
       endAngle = startAngle + 180;
 
       System.out.println(startAngle);
@@ -39,8 +43,8 @@ public class Drivetrain {
     }
 
     //Sets robot speed and turn speed
-    double forwardSpeed = -Robot.leftJoystick.getY();
-    double turnSpeed = Robot.rightJoystick.getX();
+    double forwardSpeed = -joysticks.leftJoystick.getY();
+    double turnSpeed = joysticks.rightJoystick.getX();
 
     // Drive with arcade drive. Left Y axis drives forward/backward, and Right X axis turns.
     robotDrivetrain.arcadeDrive(forwardSpeed, turnSpeed);
@@ -48,7 +52,7 @@ public class Drivetrain {
   }
 
   //Turns robot 180 degrees
-  public static void quickTurn() {
+  public void quickTurn() {
     forwardSpeed = 0;
     turnSpeed = 0.5;
     int iterations = 0;
@@ -58,11 +62,11 @@ public class Drivetrain {
     }
     iterations = 0;
 
-    if(GyroCode.robotAngle <= startAngle) {
+    if(robotAngle.gyroUpdate() <= startAngle) {
       turnSpeed = -turnSpeed;
     }
 
-    while(GyroCode.robotAngle <= endAngle) {
+    while(robotAngle.gyroUpdate() <= endAngle) {
       robotDrivetrain.arcadeDrive(forwardSpeed, turnSpeed);
     }
   }
