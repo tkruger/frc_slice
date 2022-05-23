@@ -1,12 +1,13 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import frc.robot.Robot;
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Indexer {
 
     //Declare indexer motor
-    private final PWMSparkMax indexMotor = new PWMSparkMax(7);
+    private final CANSparkMax indexMotor = new CANSparkMax(7, MotorType.kBrushless);
 
     //Instantiate Classes
     private Robot joysticks = new Robot();

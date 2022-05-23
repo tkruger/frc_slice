@@ -2,15 +2,16 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Robot;
 
 public class Drivetrain {
   //Creates and Groups drivetrain motor objects
-  private final PWMSparkMax leftMotorFront = new PWMSparkMax(3);
-  private final PWMSparkMax leftMotorBack = new PWMSparkMax(4);
-  private final PWMSparkMax rightMotorFront = new PWMSparkMax(1);
-  private final PWMSparkMax rightMotorBack = new PWMSparkMax(2);
+  private final CANSparkMax leftMotorFront = new CANSparkMax(3, MotorType.kBrushless);
+  private final CANSparkMax leftMotorBack = new CANSparkMax(4, MotorType.kBrushless);
+  private final CANSparkMax rightMotorFront = new CANSparkMax(1, MotorType.kBrushless);
+  private final CANSparkMax rightMotorBack = new CANSparkMax(2, MotorType.kBrushless);
   private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
   private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
   private final DifferentialDrive robotDrivetrain = new DifferentialDrive(leftMotors, rightMotors);

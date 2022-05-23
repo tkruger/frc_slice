@@ -1,14 +1,15 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Robot;
 
 public class Climber {
 
     //Declare Climb Motors
-    private final PWMSparkMax leftClimbMotor = new PWMSparkMax(5);
-    private final PWMSparkMax rightClimbMotor = new PWMSparkMax(6);
+    private final CANSparkMax leftClimbMotor = new CANSparkMax(5, MotorType.kBrushless);
+    private final CANSparkMax rightClimbMotor = new CANSparkMax(6, MotorType.kBrushless);
     private final MotorControllerGroup climbMotors = new MotorControllerGroup(leftClimbMotor, rightClimbMotor);
 
     //Instantiate Classes
