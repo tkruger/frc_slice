@@ -12,4 +12,19 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+
+    public static final int INTAKE_INTAKE_MOTOR = 11;
+    public static final int LEFT_JOYSTICK = 0;
+    public static final int RIGHT_JOYSTICK = 1;
+    //The move axis for the left joystick is currently unknown; it can be found in DriverStation
+    public static final int LEFT_JOYSTICK_MOVE_AXIS = 0;
+    //The rotate axis for the right joystick is currently unknown; it can be found in DriverStation
+    public static final int RIGHT_JOYSTICK_ROTATE_AXIS = 0;
+    public static final int CANSPARKMAX_LEFT_MOTOR_FRONT = 3;
+    public static final int CANSPARKMAX_LEFT_MOTOR_BACK = 4;
+    public static final int CANSPARKMAX_RIGHT_MOTOR_FRONT = 1;
+    public static final int CANSPARKMAX_RIGHT_MOTOR_BACK = 2;
+    public static final int INDEXER_INDEXER_MOTOR = 7;
+    
+}
