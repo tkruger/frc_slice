@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -16,6 +17,7 @@ public class Drivetrain extends SubsystemBase {
   //Creates drivetrain motor objects and groups
   private final CANSparkMax leftMotorFront, leftMotorBack, rightMotorFront, rightMotorBack;
   private final MotorControllerGroup leftMotors, rightMotors;
+  private final DifferentialDrive robotDrive;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -27,6 +29,8 @@ public class Drivetrain extends SubsystemBase {
     rightMotorBack = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT, MotorType.kBrushless);
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
+
+    robotDrive = new DifferentialDrive(leftMotors, rightMotors);
     
   }
 
@@ -42,16 +46,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) { 
 
-    if (turnSpeed > forwardSpeed && turnSpeed > 0.05) {
-      leftMotors.set(turnSpeed);
-      rightMotors.set(turnSpeed);
-    } else if (forwardSpeed > .05) {
-      leftMotors.set(forwardSpeed);
-      rightMotors.set(-forwardSpeed);
-    } else {
-      leftMotors.set(0.0);
-      rightMotors.set(0.0);
-    }
+    robotDrive.arcadeDrive(forwardSpeed, turnSpeed);
     
   }
 }
