@@ -24,7 +24,7 @@ public class DriveArcade extends CommandBase {
   
     //(NOTE TO SELF) Check if getRawAxis() or getX()/getY() should be used.
     //(NOTE TO SELF) Remove constants for getRawAxis if decided to not be used.
-    double moveSpeed = -RobotContainer.leftJoystick.getX();
+    double moveSpeed = RobotContainer.leftJoystick.getX();
     double rotateSpeed = RobotContainer.rightJoystick.getY();
 
     RobotContainer.m_drivetrain.arcadeDrive(moveSpeed, rotateSpeed);
