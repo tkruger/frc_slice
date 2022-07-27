@@ -12,15 +12,13 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.*;
 
-public class Drivetrain extends SubsystemBase {
+public class Shooter extends SubsystemBase {
   
-  //Creates drivetrain motor objects and groups
-  private final CANSparkMax leftMotorFront, leftMotorBack, rightMotorFront, rightMotorBack;
-  private final MotorControllerGroup leftMotors, rightMotors;
-  private final DifferentialDrive robotDrive;
+  //Creates shooter motor objects
+  private final CANSparkMax primaryFlywheel, secondaryFlywheel;
 
-  /** Creates a new Drivetrain. */
-  public Drivetrain() {
+  /** Creates a new Shooter. */
+  public Shooter() {
     
     //Instantiates motors and motor groups
     primaryFlywheel = new CANSparkMax(Constants.intake_FLYWHEEL_PRIMARY_PORT, MotorType.kBrushless);
@@ -38,9 +36,10 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public void ArcadeDrive(double forwardSpeed, double turnSpeed) { 
+  public void SetShooters(double primarySpeed, double secondarySpeed) { 
 
-    robotDrive.arcadeDrive(forwardSpeed, turnSpeed);
+    primaryFlywheel.set(primarySpeed);
+    secondaryFlywheel.set(secondarySpeed);
     
   }
 }
