@@ -13,6 +13,9 @@ public class ShooterCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
 
+  double primarySpeed;
+  double secondarySpeed;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -36,9 +39,9 @@ public class ShooterCommand extends CommandBase {
     //Sets Shooter flywheels
     if(RobotContainer.rightJoystick.getRawButton(1)) {
       double primarySpeed = 1;
-      double secondarySpeed = .5;
+      double secondarySpeed = -.5;
     }
-    RobotContainer.m_shooter.SetShooters(primarySpeed, -secondarySpeed);
+    RobotContainer.m_shooter.SetShooters(primarySpeed, secondarySpeed);
   }
 
   // Called once the command ends or is interrupted.
