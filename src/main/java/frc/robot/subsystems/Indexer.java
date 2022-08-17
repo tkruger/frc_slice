@@ -12,17 +12,16 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.*;
 
-public class Shooter extends SubsystemBase {
+public class Indexer extends SubsystemBase {
   
   //Creates shooter motor objects
-  private final CANSparkMax primaryFlywheel, secondaryFlywheel;
+  private final CANSparkMax indexerMotor;
 
   /** Creates a new Shooter. */
-  public Shooter() {
+  public Indexer() {
     
     //Instantiates motors and motor groups
-    primaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_PRIMARY_PORT, MotorType.kBrushless);
-    secondaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_SECONDARY_PORT, MotorType.kBrushless);
+    indexerMotor = new CANSparkMax(Constants.indexer_MOTOR_PORT, MotorType.kBrushless);
     
   }
 
@@ -36,10 +35,9 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public void SetShooters(double primarySpeed, double secondarySpeed) { 
+  public void SetIndexer(double Speed) { 
 
-    primaryFlywheel.set(primarySpeed);
-    secondaryFlywheel.set(secondarySpeed);
+    indexerMotor.set(Speed);
     
   }
 }
