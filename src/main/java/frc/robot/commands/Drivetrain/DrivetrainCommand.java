@@ -8,6 +8,9 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /** An example command that uses an example subsystem. */
 public class DrivetrainCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -34,20 +37,39 @@ public class DrivetrainCommand extends CommandBase {
   @Override
   public void execute() {
     //Sets robot speed and turn speed
-    double forwardSpeed = RobotContainer.leftJoystick.getY();
-    double turnSpeed = RobotContainer.rightJoystick.getY();
+    double forwardSpeed = -(RobotContainer.leftJoystick.getY());
+    double turnSpeed = RobotContainer.rightJoystick.getX();
     RobotContainer.m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
+
+    //Updates odometry
+    RobotContainer.m_drivetrain.periodic();
+
+    //Prints out odometry information
+    System.out.println(m_drivetrain.getPose());
+    SmartDashboard.putNumber("a", m_drivetrain.getHeading());
+    SmartDashboard.putNumber("b", m_drivetrain.getTurnRate());
+
+    //Prints out wheel speeds
+    System.out.println(m_drivetrain.getCurrentWheelSpeeds());
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
     m_drivetrain.ArcadeDrive(0, 0);
+
+    //Resets gyro
+    m_drivetrain.zeroHeading();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     return false;
+    
   }
 }

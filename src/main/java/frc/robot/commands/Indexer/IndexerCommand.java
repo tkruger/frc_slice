@@ -39,7 +39,7 @@ public class IndexerCommand extends CommandBase {
     if(RobotContainer.rightJoystick.getRawButton(5)) {
       double Speed = 1;
     }
-    else if(RobotContainer.leftJoystick.getRawButton(5)) {
+    if(RobotContainer.leftJoystick.getRawButton(5)) {
       double Speed = -1;
     }
     RobotContainer.m_indexer.SetIndexer(Speed);

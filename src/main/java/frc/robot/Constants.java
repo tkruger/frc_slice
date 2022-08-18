@@ -20,8 +20,8 @@ public final class Constants {
 
     //Define Drivetrain Motor Ports
     public static final int drivetrain_LEFT_FRONT_PORT = 3;
-    public static final int drivetrain_LEFT_BACK_PORT = 4;
-    public static final int drivetrain_RIGHT_FRONT_PORT = 1;
+    public static final int drivetrain_LEFT_BACK_PORT = 1;
+    public static final int drivetrain_RIGHT_FRONT_PORT = 4;
     public static final int drivetrain_RIGHT_BACK_PORT = 2;
 
     //Define Shooter Motor Ports
@@ -31,4 +31,20 @@ public final class Constants {
     //Define Indexer Motor Port
     public static final int indexer_MOTOR_PORT = 7;
 
+    //Define Encoder Ports
+    public static final int[] drivetrain_LEFT_ENCODER = new int[] {0,1};
+    public static final int[] drivetrain_RIGHT_ENCODER = new int[] {2,3};
+
+    //Define Encoder Reveresed Booleans
+    public static final boolean drivetrain_LEFT_ENCODER_REVERSED = false;
+    public static final boolean drivetrain_RIGHT_ENCODER_REVERSED = false;
+
+    //Define Encoder Wheel Information
+    public static final int drivetrain_ENCODER_CPR = 1024;
+    public static final double drivetrain_WHEEL_DIAMETER_METERS = 0.15;
+
+    //Define Encoder Distance Calculation Math
+    public static final double drivetrain_ENCODER_DISTANCE_PER_PULSE =
+        // Assumes the encoders are directly mounted on the wheel shafts
+        (drivetrain_WHEEL_DIAMETER_METERS * Math.PI) / (double) drivetrain_ENCODER_CPR;
 }
