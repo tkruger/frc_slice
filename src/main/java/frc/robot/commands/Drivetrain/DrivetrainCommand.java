@@ -46,8 +46,8 @@ public class DrivetrainCommand extends CommandBase {
 
     //Prints out odometry information
     System.out.println(m_drivetrain.getPose());
-    SmartDashboard.putNumber("a", m_drivetrain.getHeading());
-    SmartDashboard.putNumber("b", m_drivetrain.getTurnRate());
+    System.out.println(m_drivetrain.getHeading());
+    System.out.println(m_drivetrain.getTurnRate());
 
     //Prints out wheel speeds
     System.out.println(m_drivetrain.getCurrentWheelSpeeds());
