@@ -36,10 +36,13 @@ public class ShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double primarySpeed = 0;
+    double secondarySpeed = 0;
+
     //Sets Shooter flywheels
     if(RobotContainer.rightJoystick.getRawButton(1)) {
-      double primarySpeed = 1;
-      double secondarySpeed = -.5;
+      primarySpeed = 1;
+      secondarySpeed = -.5;
     }
     RobotContainer.m_shooter.SetShooters(primarySpeed, secondarySpeed);
   }
