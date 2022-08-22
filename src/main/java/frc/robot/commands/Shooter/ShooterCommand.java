@@ -13,8 +13,8 @@ public class ShooterCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
 
-  double primarySpeed;
-  double secondarySpeed;
+  double primarySpeed = 0;
+  double secondarySpeed = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -36,14 +36,17 @@ public class ShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double primarySpeed = 0;
-    double secondarySpeed = 0;
 
     //Sets Shooter flywheels
-    if(RobotContainer.rightJoystick.getRawButton(1)) {
-      primarySpeed = 1;
-      secondarySpeed = -.5;
+    if(RobotContainer.leftJoystick.getRawButton(1)) {
+      primarySpeed = -RobotContainer.rightJoystick.getZ();
+      secondarySpeed = RobotContainer.leftJoystick.getZ();
     }
+    else {
+      primarySpeed = 0;
+      secondarySpeed = 0;
+    }
+
     RobotContainer.m_shooter.SetShooters(primarySpeed, secondarySpeed);
   }
 

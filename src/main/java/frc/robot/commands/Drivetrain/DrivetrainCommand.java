@@ -34,7 +34,7 @@ public class DrivetrainCommand extends CommandBase {
   @Override
   public void execute() {
     //Sets robot speed and turn speed
-    double forwardSpeed = -(RobotContainer.leftJoystick.getY());
+    double forwardSpeed = RobotContainer.leftJoystick.getY();
     double turnSpeed = RobotContainer.rightJoystick.getX();
     RobotContainer.m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 

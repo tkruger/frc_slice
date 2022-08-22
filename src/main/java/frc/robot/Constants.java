@@ -25,7 +25,7 @@ public final class Constants {
     public static final int drivetrain_RIGHT_BACK_PORT = 2;
 
     //Define Shooter Motor Ports
-    public static final int shooter_FLYWHEEL_PRIMARY_PORT = 5;
+    public static final int shooter_FLYWHEEL_PRIMARY_PORT = 9;
     public static final int shooter_FLYWHEEL_SECONDARY_PORT = 6;
 
     //Define Indexer Motor Port

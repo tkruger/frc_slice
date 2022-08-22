@@ -6,8 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-//import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
+import frc.robot.commands.Indexer.*;
+import frc.robot.commands.Shooter.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
@@ -36,6 +37,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain));
+    m_indexer.setDefaultCommand(new IndexerCommand(m_indexer));
+    m_shooter.setDefaultCommand(new ShooterCommand(m_shooter));
   }
 
   /**
