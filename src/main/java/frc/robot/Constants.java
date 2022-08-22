@@ -29,7 +29,7 @@ public final class Constants {
     public static final int shooter_FLYWHEEL_SECONDARY_PORT = 6;
 
     //Define Indexer Motor Port
-    public static final int indexer_MOTOR_PORT = 7;
+    public static final int indexer_MOTOR_PORT = 10;
 
     //Define Encoder Ports
     public static final int[] drivetrain_LEFT_ENCODER = new int[] {0,1};

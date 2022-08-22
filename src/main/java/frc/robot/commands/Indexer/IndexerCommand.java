@@ -35,12 +35,14 @@ public class IndexerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double Speed = 0;
+
     //Sets Indexer motor
     if(RobotContainer.rightJoystick.getRawButton(5)) {
-      double Speed = 1;
+      Speed = 1;
     }
     if(RobotContainer.leftJoystick.getRawButton(5)) {
-      double Speed = -1;
+      Speed = -1;
     }
     RobotContainer.m_indexer.SetIndexer(Speed);
   }
