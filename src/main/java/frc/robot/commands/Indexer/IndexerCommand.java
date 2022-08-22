@@ -13,7 +13,7 @@ public class IndexerCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
 
-  double Speed;
+  double Speed = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -35,15 +35,29 @@ public class IndexerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Speed = 0;
 
+    boolean indexerForwardFast = RobotContainer.rightJoystick.getRawButton(5);
+    boolean indexerBackwardFast = RobotContainer.leftJoystick.getRawButton(5);    
+    boolean indexerForwardSlow = RobotContainer.rightJoystick.getRawButton(3);
+    boolean indexerBackwardSlow = RobotContainer.leftJoystick.getRawButton(3); 
+    
     //Sets Indexer motor
-    if(RobotContainer.rightJoystick.getRawButton(5)) {
-      Speed = 1;
+    if(indexerForwardFast == true) {
+      Speed = 0.6;
     }
-    if(RobotContainer.leftJoystick.getRawButton(5)) {
-      Speed = -1;
+    else if(indexerBackwardFast == true) {
+      Speed = -0.6;
     }
+    else if(indexerForwardSlow == true) {
+      Speed = 0.3;
+    }
+    else if(indexerBackwardSlow == true) {
+      Speed = -0.3;
+    }
+    else {
+      Speed = 0;
+    }
+    
     RobotContainer.m_indexer.SetIndexer(Speed);
   }
 
