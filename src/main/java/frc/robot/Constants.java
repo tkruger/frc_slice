@@ -28,6 +28,9 @@ public final class Constants {
     public static final int shooter_FLYWHEEL_PRIMARY_PORT = 9;
     public static final int shooter_FLYWHEEL_SECONDARY_PORT = 6;
 
+    //Define Intake Motor Port
+    public static final int intake_MOTOR_PORT = 11;
+
     //Define Indexer Motor Port
     public static final int indexer_MOTOR_PORT = 10;
 

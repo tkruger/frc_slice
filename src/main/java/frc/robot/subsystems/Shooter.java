@@ -21,6 +21,9 @@ public class Shooter extends SubsystemBase {
     //Instantiates motors and motor groups
     primaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_PRIMARY_PORT, MotorType.kBrushless);
     secondaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_SECONDARY_PORT, MotorType.kBrushless);
+
+    primaryFlywheel.restoreFactoryDefaults();
+    secondaryFlywheel.restoreFactoryDefaults();
     
   }
 

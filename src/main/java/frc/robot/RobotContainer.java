@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
+import frc.robot.commands.Intake.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,6 +25,7 @@ public class RobotContainer {
   public static final Drivetrain m_drivetrain = new Drivetrain();
   public static final Shooter m_shooter = new Shooter();
   public static final Indexer m_indexer = new Indexer();
+  public static final Intake m_intake = new Intake();
 
   public static final DrivetrainCommand m_autoCommand = new DrivetrainCommand(m_drivetrain);
 
@@ -39,6 +41,8 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain));
     m_indexer.setDefaultCommand(new IndexerCommand(m_indexer));
     m_shooter.setDefaultCommand(new ShooterCommand(m_shooter));
+    m_intake.setDefaultCommand(new IntakeCommand(m_intake));
+    
   }
 
   /**
