@@ -36,10 +36,10 @@ public class IndexerCommand extends CommandBase {
   @Override
   public void execute() {
 
-    boolean indexerForwardFast = RobotContainer.rightJoystick.getRawButton(5);
-    boolean indexerBackwardFast = RobotContainer.leftJoystick.getRawButton(5);    
-    boolean indexerForwardSlow = RobotContainer.rightJoystick.getRawButton(3);
-    boolean indexerBackwardSlow = RobotContainer.leftJoystick.getRawButton(3); 
+    boolean indexerForwardFast = RobotContainer.leftJoystick.getRawButton(5);
+    boolean indexerBackwardFast = RobotContainer.rightJoystick.getRawButton(5);    
+    boolean indexerForwardSlow = RobotContainer.leftJoystick.getRawButton(3);
+    boolean indexerBackwardSlow = RobotContainer.rightJoystick.getRawButton(3); 
     
     //Sets Indexer motor
     if(indexerForwardFast == true) {
