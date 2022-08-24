@@ -19,6 +19,8 @@ public class Indexer extends SubsystemBase {
     
     //Instantiates motors and motor groups
     indexerMotor = new CANSparkMax(Constants.indexer_MOTOR_PORT, MotorType.kBrushless);
+
+    indexerMotor.restoreFactoryDefaults();
     
   }
 

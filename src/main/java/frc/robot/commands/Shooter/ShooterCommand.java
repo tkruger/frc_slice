@@ -39,8 +39,11 @@ public class ShooterCommand extends CommandBase {
 
     //Sets Shooter flywheels
     if(RobotContainer.leftJoystick.getRawButton(1)) {
-      primarySpeed = -RobotContainer.rightJoystick.getZ();
+      primarySpeed = RobotContainer.rightJoystick.getZ();
       secondarySpeed = RobotContainer.leftJoystick.getZ();
+
+      primarySpeed = -((primarySpeed + 1) / 2);
+      secondarySpeed = (secondarySpeed + 1) / 2;
     }
     else {
       primarySpeed = 0;

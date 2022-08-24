@@ -60,6 +60,9 @@ public class DrivetrainCommand extends CommandBase {
     //Resets gyro
     m_drivetrain.zeroHeading();
 
+    //Resets encoder count 
+    m_drivetrain.resetEncoders();
+
   }
 
   // Returns true when the command should end.
