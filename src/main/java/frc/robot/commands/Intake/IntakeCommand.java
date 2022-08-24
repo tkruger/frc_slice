@@ -29,8 +29,8 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void execute() {
 
-    boolean intakeForwardPressed = RobotContainer.leftJoystick.getRawButtonPressed(2);
-    boolean intakeBackward = RobotContainer.rightJoystick.getRawButton(2);
+    boolean intakeForwardPressed = RobotContainer.rightJoystick.getRawButtonPressed(2);
+    boolean intakeBackward = RobotContainer.leftJoystick.getRawButton(2);
 
     if(intakeForwardPressed == true) {
       if(intakeForwardToggle == true) {
