@@ -6,6 +6,7 @@ package frc.robot.commands.Drivetrain;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -13,15 +14,20 @@ public class DrivetrainCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain m_drivetrain;
 
+  private final Joystick leftJoystick, rightJoystick;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DrivetrainCommand(Drivetrain drivetrain) {
+  public DrivetrainCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     m_drivetrain = drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
+
+    this.leftJoystick = leftJoystick;
+    this.rightJoystick = rightJoystick;
   }
 
   // Called when the command is initially scheduled.
@@ -34,8 +40,8 @@ public class DrivetrainCommand extends CommandBase {
   @Override
   public void execute() {
     //Sets robot speed and turn speed
-    double forwardSpeed = RobotContainer.leftJoystick.getY();
-    double turnSpeed = RobotContainer.rightJoystick.getX();
+    double forwardSpeed = leftJoystick.getY();
+    double turnSpeed = rightJoystick.getX();
     RobotContainer.m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 
     //Updates odometry

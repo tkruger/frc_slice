@@ -6,6 +6,7 @@ package frc.robot.commands.Shooter;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -16,15 +17,21 @@ public class ShooterCommand extends CommandBase {
   double primarySpeed = 0;
   double secondarySpeed = 0;
 
+  private final Joystick leftJoystick;
+  private final Joystick rightJoystick;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterCommand(Shooter shooter) {
+  public ShooterCommand(Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
     m_shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
+
+    this.leftJoystick = leftJoystick;
+    this.rightJoystick = rightJoystick;
   }
 
   // Called when the command is initially scheduled.
@@ -39,8 +46,8 @@ public class ShooterCommand extends CommandBase {
 
     //Sets Shooter flywheels
     if(RobotContainer.leftJoystick.getRawButton(1)) {
-      primarySpeed = RobotContainer.rightJoystick.getZ();
-      secondarySpeed = RobotContainer.leftJoystick.getZ();
+      primarySpeed = rightJoystick.getZ();
+      secondarySpeed = leftJoystick.getZ();
 
       primarySpeed = -((primarySpeed + 1) / 2);
       secondarySpeed = (secondarySpeed + 1) / 2;

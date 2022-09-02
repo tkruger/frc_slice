@@ -9,18 +9,32 @@ import frc.robot.*;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.*;
+//import com.revrobotics.CANSparkMax.ControlType;
 
 public class Shooter extends SubsystemBase {
   
-  //Creates shooter motor objects
+  //Creates shooter motor, pid controllers, and encoder objects
   private final CANSparkMax primaryFlywheel, secondaryFlywheel;
+  private final SparkMaxPIDController primaryPidController, secondaryPidController;
+  private final RelativeEncoder primaryEncoder, secondaryEncoder;
 
   /** Creates a new Shooter. */
   public Shooter() {
     
-    //Instantiates motors and motor groups
+    //Instantiates motors
     primaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_PRIMARY_PORT, MotorType.kBrushless);
     secondaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_SECONDARY_PORT, MotorType.kBrushless);
+
+    //Instantiates pid controllers
+    primaryPidController = primaryFlywheel.getPIDController();
+    secondaryPidController = secondaryFlywheel.getPIDController();
+
+    //Instantiates motor encoders
+    primaryEncoder = primaryFlywheel.getEncoder();
+    secondaryEncoder = secondaryFlywheel.getEncoder();
+
+    primaryEncoder.setVelocityConversionFactor(2);
+    secondaryEncoder.setVelocityConversionFactor(2);
 
     primaryFlywheel.restoreFactoryDefaults();
     secondaryFlywheel.restoreFactoryDefaults();
@@ -39,8 +53,13 @@ public class Shooter extends SubsystemBase {
 
   public void SetShooters(double primarySpeed, double secondarySpeed) { 
 
-    primaryFlywheel.set(primarySpeed);
-    secondaryFlywheel.set(secondarySpeed);
+    //set motor speed with PWM (deprecated)
+    //primaryFlywheel.set(primarySpeed);
+    //secondaryFlywheel.set(secondarySpeed);
     
+    //set motor speed with PID (experimental)
+    primaryPidController.setReference(primarySpeed, CANSparkMax.ControlType.kVelocity);
+    secondaryPidController.setReference(secondarySpeed, CANSparkMax.ControlType.kVelocity);
+
   }
 }

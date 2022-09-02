@@ -6,12 +6,14 @@ package frc.robot.commands.Indexer;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class IndexerCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
+  private final Joystick leftJoystick, rightJoystick;
 
   double Speed = 0;
 
@@ -20,8 +22,12 @@ public class IndexerCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IndexerCommand(Indexer indexer) {
+  public IndexerCommand(Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {
     m_indexer = indexer;
+    
+    this.leftJoystick = leftJoystick;
+    this.rightJoystick = rightJoystick;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
   }
@@ -36,10 +42,10 @@ public class IndexerCommand extends CommandBase {
   @Override
   public void execute() {
 
-    boolean indexerForwardFast = RobotContainer.leftJoystick.getRawButton(5);
-    boolean indexerBackwardFast = RobotContainer.rightJoystick.getRawButton(5);    
-    boolean indexerForwardSlow = RobotContainer.leftJoystick.getRawButton(3);
-    boolean indexerBackwardSlow = RobotContainer.rightJoystick.getRawButton(3); 
+    boolean indexerForwardFast = leftJoystick.getRawButton(5);
+    boolean indexerForwardSlow = leftJoystick.getRawButton(3);
+    boolean indexerBackwardFast = rightJoystick.getRawButton(5);    
+    boolean indexerBackwardSlow = rightJoystick.getRawButton(3); 
     
     //Sets Indexer motor
     if(indexerForwardFast == true) {

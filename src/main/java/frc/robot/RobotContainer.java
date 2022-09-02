@@ -27,10 +27,10 @@ public class RobotContainer {
   public static final Indexer m_indexer = new Indexer();
   public static final Intake m_intake = new Intake();
 
-  public static final DrivetrainCommand m_autoCommand = new DrivetrainCommand(m_drivetrain);
-
   public static Joystick leftJoystick = new Joystick(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
   public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
+
+  public static final DrivetrainCommand m_autoCommand = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -38,10 +38,10 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain));
-    m_indexer.setDefaultCommand(new IndexerCommand(m_indexer));
-    m_shooter.setDefaultCommand(new ShooterCommand(m_shooter));
-    m_intake.setDefaultCommand(new IntakeCommand(m_intake));
+    m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick));
+    m_indexer.setDefaultCommand(new IndexerCommand(m_indexer, leftJoystick, rightJoystick));
+    m_shooter.setDefaultCommand(new ShooterCommand(m_shooter, leftJoystick, rightJoystick));
+    m_intake.setDefaultCommand(new IntakeCommand(m_intake, leftJoystick, rightJoystick));
     
   }
 
