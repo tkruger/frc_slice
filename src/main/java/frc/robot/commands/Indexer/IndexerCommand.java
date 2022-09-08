@@ -9,7 +9,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An example command that uses an example subsystem. */
+/** An Indexer command that uses an indexer subsystem. */
 public class IndexerCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
@@ -18,8 +18,6 @@ public class IndexerCommand extends CommandBase {
   double Speed = 0;
 
   /**
-   * Creates a new ExampleCommand.
-   *
    * @param subsystem The subsystem used by this command.
    */
   public IndexerCommand(Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {

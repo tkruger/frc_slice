@@ -9,7 +9,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An example command that uses an example subsystem. */
+/** A Shooter command that uses a shooter subsystem. */
 public class ShooterCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
@@ -21,8 +21,6 @@ public class ShooterCommand extends CommandBase {
   private final Joystick rightJoystick;
 
   /**
-   * Creates a new ExampleCommand.
-   *
    * @param subsystem The subsystem used by this command.
    */
   public ShooterCommand(Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
