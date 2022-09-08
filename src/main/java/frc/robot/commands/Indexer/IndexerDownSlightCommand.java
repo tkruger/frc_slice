@@ -40,7 +40,7 @@ public class IndexerDownSlightCommand extends CommandBase {
   @Override
   public void execute() {
     
-    Speed = -.3;
+    Speed = .3;
     
     RobotContainer.m_indexer.SetIndexer(Speed);
   }
@@ -55,7 +55,7 @@ public class IndexerDownSlightCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if(Time.get() >= 0.5) {
+    if(Time.get() >= 0.3) {
       return true;
     } else {
       return false;

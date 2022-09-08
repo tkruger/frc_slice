@@ -54,12 +54,12 @@ public class Shooter extends SubsystemBase {
   public void SetShooters(double primarySpeed, double secondarySpeed) { 
 
     //set motor speed with PWM (deprecated)
-    //primaryFlywheel.set(primarySpeed);
-    //secondaryFlywheel.set(secondarySpeed);
+    primaryFlywheel.set(primarySpeed);
+    secondaryFlywheel.set(secondarySpeed);
     
     //set motor speed with PID (experimental)
-    primaryPidController.setReference(primarySpeed, CANSparkMax.ControlType.kVelocity);
-    secondaryPidController.setReference(secondarySpeed, CANSparkMax.ControlType.kVelocity);
+    //primaryPidController.setReference(primarySpeed, CANSparkMax.ControlType.kVelocity);
+    //secondaryPidController.setReference(secondarySpeed, CANSparkMax.ControlType.kVelocity);
 
   }
 }

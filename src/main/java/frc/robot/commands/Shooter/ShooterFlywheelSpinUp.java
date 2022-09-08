@@ -7,6 +7,7 @@ package frc.robot.commands.Shooter;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.Timer; 
 
 /** A Shooter command that uses a shooter subsystem. */
 public class ShooterFlywheelSpinUp extends CommandBase {
@@ -19,11 +20,16 @@ public class ShooterFlywheelSpinUp extends CommandBase {
   private final Joystick leftJoystick;
   private final Joystick rightJoystick;
 
+  private Timer Time;
+
   /**
    * @param subsystem The subsystem used by this command.
    */
   public ShooterFlywheelSpinUp(Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
     m_shooter = shooter;
+
+    Time = new Timer();
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
 
@@ -34,7 +40,8 @@ public class ShooterFlywheelSpinUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    Time.reset();
+    Time.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,9 +67,9 @@ public class ShooterFlywheelSpinUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(primarySpeed > 0 && secondarySpeed > 0) {
-        return true;
-    }
+    if(Time.get() >= 3) {
+      return true;
+    } 
     return false;
   }
 }
