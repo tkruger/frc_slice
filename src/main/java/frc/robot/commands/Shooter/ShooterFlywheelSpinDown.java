@@ -7,7 +7,7 @@ package frc.robot.commands.Shooter;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An example command that uses an example subsystem. */
+/** A Shooter command that uses a shooter subsystem. */
 public class ShooterFlywheelSpinDown extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;

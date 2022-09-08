@@ -9,7 +9,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer; 
 
-/** An example command that uses an example subsystem. */
+/** An Indexer command that uses an indexer subsystem. */
 public class IndexerDownSlightCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
@@ -18,8 +18,6 @@ public class IndexerDownSlightCommand extends CommandBase {
   Timer Time;
 
   /**
-   * Creates a new ExampleCommand.
-   *
    * @param subsystem The subsystem used by this command.
    */
   public IndexerDownSlightCommand(Indexer indexer) {
