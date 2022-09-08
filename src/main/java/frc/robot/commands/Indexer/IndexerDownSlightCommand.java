@@ -15,13 +15,15 @@ public class IndexerDownSlightCommand extends CommandBase {
   private final Indexer m_indexer;
 
   double Speed = 0;
-  Timer Time;
+  private Timer Time;
 
   /**
    * @param subsystem The subsystem used by this command.
    */
   public IndexerDownSlightCommand(Indexer indexer) {
     m_indexer = indexer;
+
+    Time = new Timer();
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
