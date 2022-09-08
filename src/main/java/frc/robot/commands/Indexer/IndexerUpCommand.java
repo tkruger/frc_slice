@@ -40,7 +40,7 @@ public class IndexerUpCommand extends CommandBase {
   @Override
   public void execute() {
     
-    Speed = .5;
+    Speed = -.5;
     
     RobotContainer.m_indexer.SetIndexer(Speed);
   }

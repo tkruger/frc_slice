@@ -43,10 +43,10 @@ public class Indexer extends SubsystemBase {
   public void SetIndexer(double Speed) { 
 
     //set motor speed with PWM (deprecated)
-    //indexerMotor.set(Speed);
+    indexerMotor.set(Speed);
 
     //set motor speed with PID (experimental)
-    indexerPidController.setReference(Speed, CANSparkMax.ControlType.kVelocity);
+    //indexerPidController.setReference(Speed, CANSparkMax.ControlType.kVelocity);
     
   }
 }
