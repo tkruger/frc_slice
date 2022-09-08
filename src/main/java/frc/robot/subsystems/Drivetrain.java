@@ -84,8 +84,8 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     m_odometry.update(
       m_gyro.getRotation2d(),
-      leftEncoder.getRate(),
-      rightEncoder.getRate());
+      leftEncoder.getDistance(),
+      rightEncoder.getDistance());
 
   }
 
@@ -123,6 +123,18 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+    /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(rightVolts);
+    robotDrive.feed();
+  }
+
   public void resetEncoders() {
 
     leftEncoder.reset();
@@ -134,6 +146,42 @@ public class Drivetrain extends SubsystemBase {
 
     return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
 
+  }
+
+    /**
+   * Gets the average distance of the two encoders.
+   *
+   * @return the average of the two encoder readings
+   */
+  public double getAverageEncoderDistance() {
+    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+  }
+
+  /**
+   * Gets the left drive encoder.
+   *
+   * @return the left drive encoder
+   */
+  public Encoder getLeftEncoder() {
+    return leftEncoder;
+  }
+
+  /**
+   * Gets the right drive encoder.
+   *
+   * @return the right drive encoder
+   */
+  public Encoder getRightEncoder() {
+    return rightEncoder;
+  }
+
+  /**
+   * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
+   *
+   * @param maxOutput the maximum output to which the drive will be constrained
+   */
+  public void setMaxOutput(double maxOutput) {
+    robotDrive.setMaxOutput(maxOutput);
   }
 
   public void zeroHeading() {
