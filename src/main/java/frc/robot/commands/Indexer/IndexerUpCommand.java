@@ -15,13 +15,15 @@ public class IndexerUpCommand extends CommandBase {
   private final Indexer m_indexer;
 
   double Speed = 0;
-  Timer Time;
+  private Timer Time;
 
   /**
    * @param subsystem The subsystem used by this command.
    */
   public IndexerUpCommand(Indexer indexer) {
     m_indexer = indexer;
+
+    Time = new Timer();
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
@@ -55,9 +57,8 @@ public class IndexerUpCommand extends CommandBase {
 
     if(Time.get() >= 3) {
       return true;
-    } else {
-      return false;
-    }
+    } 
+    return false;
 
   }
 }
