@@ -6,12 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.auto.alignlessShootSequence;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -30,7 +32,10 @@ public class RobotContainer {
   public static Joystick leftJoystick = new Joystick(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
   public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
 
-  public static final DrivetrainCommand m_autoCommand = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick);
+  public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
+
+  public static final alignlessShootSequence m_alignlessShootAuto = 
+        new alignlessShootSequence(m_indexer, m_shooter, leftJoystick, rightJoystick);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -52,7 +57,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    rightTrigger.whenHeld(m_alignlessShootAuto);
   }
 
   /**
@@ -61,7 +66,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // A DrivetrainCommand will run in autonomous
-    return m_autoCommand;
+    // A alignlessShootAuto will run in autonomous
+    return m_alignlessShootAuto;
   }
 }
