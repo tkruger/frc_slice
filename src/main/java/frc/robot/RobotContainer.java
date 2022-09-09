@@ -13,8 +13,8 @@ import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
+//import frc.robot.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,10 +29,8 @@ public class RobotContainer {
   public static final Indexer m_indexer = new Indexer();
   public static final Intake m_intake = new Intake();
 
-  public static Joystick leftJoystick = new Joystick(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
-  public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
-
-  public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
+  private static Joystick leftJoystick = Button.leftJoystick;
+  private static Joystick rightJoystick = Button.rightJoystick;
 
   public static final alignlessShootSequence m_alignlessShootAuto = 
         new alignlessShootSequence(m_indexer, m_shooter, leftJoystick, rightJoystick);
@@ -57,7 +55,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    rightTrigger.whenHeld(m_alignlessShootAuto);
+    Button.rightTrigger.whenHeld(m_alignlessShootAuto);
   }
 
   /**
