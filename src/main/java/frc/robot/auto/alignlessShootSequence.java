@@ -6,10 +6,10 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Indexer.IndexerDownSlightCommand;
-import frc.robot.commands.Indexer.IndexerUpCommand;
-import frc.robot.commands.Shooter.ShooterFlywheelSpinDown;
-import frc.robot.commands.Shooter.ShooterFlywheelSpinUp;
+import frc.robot.commands.Indexer.AutoShoot.IndexerDownSlightCommand;
+import frc.robot.commands.Indexer.AutoShoot.IndexerUpCommand;
+import frc.robot.commands.Shooter.AutoShoot.ShooterFlywheelSpinDown;
+import frc.robot.commands.Shooter.AutoShoot.ShooterFlywheelSpinUp;
 import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
