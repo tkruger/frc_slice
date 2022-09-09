@@ -67,7 +67,7 @@ public class ShooterFlywheelSpinUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Time.get() >= 2) {
+    if(Time.get() >= 3) {
       return true;
     } 
     return false;
