@@ -73,9 +73,9 @@ public class Limelight extends SubsystemBase {
 
   }
   
-  public void setCameraMode() {
+  public void setCameraMode(int mode) {
 
-    cm.setNumber(0);
+    cm.setNumber(mode);
 
   }
 

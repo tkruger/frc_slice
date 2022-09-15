@@ -4,21 +4,18 @@
 
 package frc.robot.commands.Limelight;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
-public class LimelightCommand extends CommandBase {
+public class LimelightScheduleableCommand extends CommandBase {
   /** Creates a new LimelightRun. */
 
   private final Limelight m_limelight;
 
   private final Drivetrain m_drivetrain;
-
-  private final Joystick leftJoystick;
 
   static double targetDetected;
   static double targetXOffset;
@@ -27,20 +24,22 @@ public class LimelightCommand extends CommandBase {
   double xSteeringAdjust;
   double ySteeringAdjust;
 
-  public LimelightCommand(Limelight limelight, Drivetrain drivetrain, Joystick leftJoystick) {
+  boolean finished = false;
+
+  public LimelightScheduleableCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight);
 
     this.m_limelight = limelight;
     this.m_drivetrain = drivetrain;
 
-    this.leftJoystick = leftJoystick;
-
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_limelight.setCameraMode(0);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -50,7 +49,7 @@ public class LimelightCommand extends CommandBase {
     targetXOffset = m_limelight.getXOffset();
     targetYOffset = m_limelight.getYOffset();
 
-    if(leftJoystick.getRawButton(1) & targetDetected == 1) {
+    if(targetDetected == 1) {
 
       if (targetXOffset > 10) {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 10;
@@ -60,23 +59,25 @@ public class LimelightCommand extends CommandBase {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
 
-      if (targetYOffset < 2) {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * -2;
-      } else if (targetXOffset > -2) {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * 2;
+      if (-0.5 < targetYOffset && targetYOffset < 3) {
+        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * -3;
+      } else if (-0.5 > targetYOffset && targetYOffset > -3) {
+        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * 3;
       } else {
         ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
       }
-
-      ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
-
+      
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
 
-    } else if(leftJoystick.getRawButton(1) & targetDetected == 0) {
+    } else {
       ySteeringAdjust = 0;
       xSteeringAdjust = 15 * Constants.limelight_STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
+    }
+
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 0.5 && java.lang.Math.abs(targetYOffset) < 0.5) {
+      finished = true;
     }
 
     SmartDashboard.putNumber("Limelight Target Detected:", targetDetected);
@@ -95,6 +96,7 @@ public class LimelightCommand extends CommandBase {
   public void end(boolean interrupted) {
 
     m_limelight.setLedMode(1);
+    m_limelight.setCameraMode(1);
 
   }
 
@@ -102,7 +104,7 @@ public class LimelightCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    return false;
+    return finished;
 
   }
 }

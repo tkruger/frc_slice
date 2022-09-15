@@ -43,7 +43,7 @@ public class ShooterCommand extends CommandBase {
   public void execute() {
 
     //Sets Shooter flywheels
-    if(leftJoystick.getRawButton(1)) {
+    if(leftJoystick.getRawButton(12)) {
       primarySpeed = rightJoystick.getZ();
       secondarySpeed = leftJoystick.getZ();
 

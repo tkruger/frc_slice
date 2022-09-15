@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.auto.alignlessShootSequence;
+import frc.robot.auto.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
@@ -37,6 +37,11 @@ public class RobotContainer {
   public static final alignlessShootSequence m_alignlessShootAuto = 
         new alignlessShootSequence(m_indexer, m_shooter, leftJoystick, rightJoystick);
 
+  public static final alignedShootSequence m_alignedShootAuto = 
+        new alignedShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
+
+  public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -47,7 +52,7 @@ public class RobotContainer {
     m_indexer.setDefaultCommand(new IndexerCommand(m_indexer, leftJoystick, rightJoystick));
     m_shooter.setDefaultCommand(new ShooterCommand(m_shooter, leftJoystick, rightJoystick));
     m_intake.setDefaultCommand(new IntakeCommand(m_intake, leftJoystick, rightJoystick));
-    m_limelight.setDefaultCommand(new LimelightCommand(m_limelight, m_drivetrain, leftJoystick));
+    m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
 
   }
 
@@ -58,7 +63,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Button.rightTrigger.whenHeld(m_alignlessShootAuto);
+    Button.rightButton12.whenHeld(m_alignlessShootAuto);
+    Button.rightTrigger.whenHeld(m_alignedShootAuto);
+    Button.leftTrigger.whenHeld(m_limelightAlign);
   }
 
   /**
