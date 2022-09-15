@@ -58,6 +58,11 @@ public class Drivetrain extends SubsystemBase {
     rightMotorFront.setControlFramePeriodMs(250);
     rightMotorBack.setControlFramePeriodMs(250);
 
+    leftMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    leftMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    rightMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    rightMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
     robotDrive = new DifferentialDrive(leftMotors, rightMotors);
     
     rightMotors.setInverted(true);
