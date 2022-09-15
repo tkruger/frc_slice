@@ -11,6 +11,7 @@ import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Intake.*;
+import frc.robot.commands.Limelight.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,6 +29,7 @@ public class RobotContainer {
   public static final Shooter m_shooter = new Shooter();
   public static final Indexer m_indexer = new Indexer();
   public static final Intake m_intake = new Intake();
+  public static final Limelight m_limelight = new Limelight();
 
   private static Joystick leftJoystick = Button.leftJoystick;
   private static Joystick rightJoystick = Button.rightJoystick;
@@ -45,7 +47,8 @@ public class RobotContainer {
     m_indexer.setDefaultCommand(new IndexerCommand(m_indexer, leftJoystick, rightJoystick));
     m_shooter.setDefaultCommand(new ShooterCommand(m_shooter, leftJoystick, rightJoystick));
     m_intake.setDefaultCommand(new IntakeCommand(m_intake, leftJoystick, rightJoystick));
-    
+    m_limelight.setDefaultCommand(new LimelightCommand(m_limelight, m_drivetrain, leftJoystick));
+
   }
 
   /**

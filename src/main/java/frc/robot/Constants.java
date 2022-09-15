@@ -50,4 +50,7 @@ public final class Constants {
     public static final double drivetrain_ENCODER_DISTANCE_PER_PULSE =
         // Assumes the encoders are directly mounted on the wheel shafts
         (drivetrain_WHEEL_DIAMETER_METERS * Math.PI) / (double) drivetrain_ENCODER_CPR;
+        
+    public static final float limelight_STEERING_ADJUST_PROPORTION = 0.03f;
+    public static final float limelight_MOVEMENT_ADJUST_PROPORTION = 0.04f;
 }

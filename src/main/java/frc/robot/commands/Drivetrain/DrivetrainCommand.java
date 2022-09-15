@@ -4,10 +4,10 @@
 
 package frc.robot.commands.Drivetrain;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** A Drivetrain command that uses a drivetrain subsystem. */
 public class DrivetrainCommand extends CommandBase {
@@ -40,19 +40,25 @@ public class DrivetrainCommand extends CommandBase {
     //Sets robot speed and turn speed
     double forwardSpeed = leftJoystick.getY();
     double turnSpeed = rightJoystick.getX();
-    RobotContainer.m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 
-    //Updates odometry
-    RobotContainer.m_drivetrain.periodic();
+    if(!leftJoystick.getRawButton(1)) {
 
-    //Prints out odometry information
-    System.out.println(m_drivetrain.getPose());
-    System.out.println(m_drivetrain.getHeading());
-    System.out.println(m_drivetrain.getTurnRate());
+      m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 
-    //Prints out wheel speeds
-    System.out.println(m_drivetrain.getCurrentWheelSpeeds());
+    }
 
+    //Updates and prints out encoder speeds and rotation 2d heading
+    System.out.println(m_drivetrain.getEstimatedGlobalPose(m_drivetrain.updateOdometry()));
+
+    //Prints out rotation 2d heading in degrees
+    SmartDashboard.putNumber("Drivetrain Heading", m_drivetrain.getHeading());
+
+    //Prints out gyro turn rate
+    SmartDashboard.putNumber("Drivetrain Turn Rate", m_drivetrain.getTurnRate());
+
+    //Prints out motor velocities
+    SmartDashboard.putNumberArray("Drivetrain Motor Velocities", m_drivetrain.updateVelocities());
+  
   }
 
   // Called once the command ends or is interrupted.
@@ -64,8 +70,11 @@ public class DrivetrainCommand extends CommandBase {
     //Resets gyro
     m_drivetrain.zeroHeading();
 
-    //Resets encoder count 
+    //Resets encoder counts
     m_drivetrain.resetEncoders();
+
+    //Resets odometry position
+    m_drivetrain.resetOdometry();
 
   }
 
