@@ -63,9 +63,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //Shoot without aligning
     Button.rightButton12.whenHeld(m_alignlessShootAuto);
-    Button.rightTrigger.whenHeld(m_alignedShootAuto);
+
+    //Align without shooting
     Button.leftTrigger.whenHeld(m_limelightAlign);
+
+    //Align and shoot
+    Button.rightTrigger.whenHeld(m_alignedShootAuto);
   }
 
   /**
@@ -75,6 +80,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // A alignlessShootAuto will run in autonomous
-    return m_alignlessShootAuto;
+    return m_alignedShootAuto;
   }
 }

@@ -18,7 +18,11 @@ public class alignlessShootSequence extends SequentialCommandGroup {
   public alignlessShootSequence(Indexer indexer, Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new IndexerDownSlightCommand(indexer), new ShooterFlywheelSpinUp(shooter, leftJoystick, rightJoystick),
-          new IndexerUpCommand(indexer), new ShooterFlywheelSpinDown(shooter));
+    addCommands(
+      new IndexerDownSlightCommand(indexer), 
+      new ShooterFlywheelSpinUp(shooter, leftJoystick, rightJoystick),
+      new IndexerUpCommand(indexer), 
+      new ShooterFlywheelSpinDown(shooter)
+    );
   }
 }

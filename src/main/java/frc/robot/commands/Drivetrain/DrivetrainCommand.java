@@ -41,7 +41,7 @@ public class DrivetrainCommand extends CommandBase {
     double forwardSpeed = leftJoystick.getY();
     double turnSpeed = rightJoystick.getX();
 
-    if(!leftJoystick.getRawButton(1)) {
+    if(!leftJoystick.getRawButton(1) && !rightJoystick.getRawButton(1)) {
 
       m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 
