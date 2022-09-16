@@ -38,7 +38,7 @@ public class LimelightScheduleableCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_limelight.setCameraMode(0);
+    m_limelight.setCameraMode(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,10 +59,10 @@ public class LimelightScheduleableCommand extends CommandBase {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
 
-      if (-0.5 < targetYOffset && targetYOffset < 3) {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * -3;
-      } else if (-0.5 > targetYOffset && targetYOffset > -3) {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * 3;
+      if (-0.5 < targetYOffset && targetYOffset < 6) {
+        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * -6;
+      } else if (-0.5 > targetYOffset && targetYOffset > -6) {
+        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * 6;
       } else {
         ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
       }
@@ -76,7 +76,7 @@ public class LimelightScheduleableCommand extends CommandBase {
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 0.5 && java.lang.Math.abs(targetYOffset) < 0.5) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 2 && java.lang.Math.abs(targetYOffset) < 4) {
       finished = true;
     }
 

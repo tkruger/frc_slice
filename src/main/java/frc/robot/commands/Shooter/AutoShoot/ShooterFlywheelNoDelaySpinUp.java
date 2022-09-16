@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class ShooterFlywheelNoDelaySpinUp extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
+  private final Indexer m_indexer;
 
   double primarySpeed = 0;
   double secondarySpeed = 0;
@@ -25,8 +26,9 @@ public class ShooterFlywheelNoDelaySpinUp extends CommandBase {
   /**
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterFlywheelNoDelaySpinUp(Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
+  public ShooterFlywheelNoDelaySpinUp(Shooter shooter, Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {
     m_shooter = shooter;
+    m_indexer = indexer;
 
     Time = new Timer();
 
@@ -42,6 +44,7 @@ public class ShooterFlywheelNoDelaySpinUp extends CommandBase {
   public void initialize() {
     Time.reset();
     Time.start();
+    m_indexer.SetIndexer(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -67,7 +70,7 @@ public class ShooterFlywheelNoDelaySpinUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Time.get() > .1) {
+    if(Time.get() > .3) {
       return true;
     } 
     return false;

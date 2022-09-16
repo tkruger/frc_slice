@@ -55,7 +55,7 @@ public class IndexerDownSlightCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if(Time.get() >= 0.3) {
+    if(Time.get() >= 0.4) {
       return true;
     } else {
       return false;

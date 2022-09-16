@@ -22,7 +22,7 @@ public class alignedShootSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new IndexerDownSlightCommand(indexer), 
-      new ShooterFlywheelNoDelaySpinUp(shooter, leftJoystick, rightJoystick), 
+      new ShooterFlywheelNoDelaySpinUp(shooter, indexer, leftJoystick, rightJoystick), 
       new LimelightScheduleableCommand(limelight, drivetrain), 
       new IndexerUpCommand(indexer), 
       new ShooterFlywheelSpinDown(shooter)
