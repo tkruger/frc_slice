@@ -7,6 +7,8 @@ package frc.robot.auto;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Limelight.LimelightScheduleableCommand;
+import frc.robot.commands.Indexer.AutoShoot.*;
+import frc.robot.commands.Shooter.AutoShoot.*;
 import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,9 +16,11 @@ import frc.robot.subsystems.*;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class alignedShootSequence extends SequentialCommandGroup {
   /** Creates a new alignedShootSequence. */
-  public alignedShootSequence(Indexer indexer, Shooter shooter, Drivetrain drivetrain, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
+  public alignedShootSequence(Indexer indexer, Shooter shooter, Drivetrain drivetrain, Limelight limelight, 
+      Joystick leftJoystick, Joystick rightJoystick) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new LimelightScheduleableCommand(limelight, drivetrain), new alignlessShootSequence(indexer, shooter, leftJoystick, rightJoystick));
+    addCommands(new IndexerDownSlightCommand(indexer), new ShooterFlywheelNoDelaySpinUp(shooter, leftJoystick, rightJoystick), 
+        new LimelightScheduleableCommand(limelight, drivetrain), new IndexerUpCommand(indexer), new ShooterFlywheelSpinDown(shooter));
   }
 }
