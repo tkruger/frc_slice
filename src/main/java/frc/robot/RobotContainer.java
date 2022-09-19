@@ -40,6 +40,9 @@ public class RobotContainer {
   public static final alignedShootSequence m_alignedShootAuto = 
         new alignedShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
 
+  public static final ShooterCommand m_shooterCommand =
+        new ShooterCommand(m_shooter, leftJoystick, rightJoystick);
+
   public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -71,6 +74,9 @@ public class RobotContainer {
 
     //Align and shoot
     Button.rightTrigger.whenHeld(m_alignedShootAuto);
+
+    //Spin flywheels
+    Button.leftButton12.whenPressed(m_shooterCommand);
   }
 
   /**

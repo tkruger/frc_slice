@@ -47,19 +47,27 @@ public class ShooterCommand extends CommandBase {
   public void execute() {
 
     //Sets Shooter flywheels
-    if(leftJoystick.getRawButton(12)) {
+    if(leftJoystick.getRawButton(11)) {
       primarySpeed = rightJoystick.getZ();
       secondarySpeed = leftJoystick.getZ();
 
-      primarySpeed = -((primarySpeed + 1) / 2);
-      secondarySpeed = (secondarySpeed + 1) / 2;
+      //PWM only (too low for PID)
+      //primarySpeed = -((primarySpeed + 1) / 2);
+      //secondarySpeed = (secondarySpeed + 1) / 2;
+
+      //PID ONLY (way too high for PWM)
+      primarySpeed = -((primarySpeed + 1) * 710);
+      secondarySpeed = (secondarySpeed + 1) * 710;
+
     }
     else {
       primarySpeed = 0;
       secondarySpeed = 0;
     }
 
-    RobotContainer.m_shooter.SetShooters(primarySpeed, secondarySpeed);
+    System.out.println("ShooterCommand");
+
+    m_shooter.SetShooters(primarySpeed, secondarySpeed);
   }
 
   // Called once the command ends or is interrupted.
