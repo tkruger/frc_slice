@@ -13,18 +13,18 @@ public class Indexer extends SubsystemBase {
   
   //Creates shooter motor objects
   private final CANSparkMax indexerMotor;
-  private final SparkMaxPIDController indexerPidController;
-  private final RelativeEncoder indexerEncoder;
+  //private final SparkMaxPIDController indexerPidController;
+  //private final RelativeEncoder indexerEncoder;
 
   /** Creates a new Shooter. */
   public Indexer() {
     
     //Instantiates motors and encoders
     indexerMotor = new CANSparkMax(Constants.indexer_MOTOR_PORT, MotorType.kBrushless);
-    indexerPidController = indexerMotor.getPIDController();
-    indexerEncoder = indexerMotor.getEncoder();
+    //indexerPidController = indexerMotor.getPIDController();
+    //indexerEncoder = indexerMotor.getEncoder();
 
-    indexerEncoder.setVelocityConversionFactor(2);
+    //indexerEncoder.setVelocityConversionFactor(2);
 
     indexerMotor.restoreFactoryDefaults();
     
@@ -42,7 +42,7 @@ public class Indexer extends SubsystemBase {
 
   public void SetIndexer(double Speed) { 
 
-    //set motor speed with PWM (deprecated)
+    //set motor speed with PWM
     indexerMotor.set(Speed);
 
     //set motor speed with PID (experimental)
