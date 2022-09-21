@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -11,13 +12,18 @@ import frc.robot.RobotContainer;
 //import frc.robot.subsystems.Intake;
 
 public class IntakeCommand extends CommandBase {
-  /** Creates a new RunIntake. */
+
+  private final Joystick leftJoystick;
+  private final Joystick rightJoystick;
 
   boolean intakeForwardToggle = false;
 
-  public IntakeCommand(Intake intake) {
+  public IntakeCommand(Intake intake, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_intake);
+
+    this.leftJoystick = leftJoystick;
+    this.rightJoystick = rightJoystick;
     
   }
 
@@ -29,8 +35,8 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void execute() {
 
-    boolean intakeForwardPressed = RobotContainer.rightJoystick.getRawButtonPressed(2);
-    boolean intakeBackward = RobotContainer.leftJoystick.getRawButton(2);
+    boolean intakeForwardPressed = rightJoystick.getRawButtonPressed(2);
+    boolean intakeBackward = leftJoystick.getRawButton(2);
 
     if(intakeForwardPressed == true) {
       if(intakeForwardToggle == true) {
