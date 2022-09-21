@@ -71,4 +71,26 @@ public class Shooter extends SubsystemBase {
     //secondaryFlywheel.set(secondarySpeed);
     
   }
+
+  // Shooter Math
+  // https://www.desmos.com/calculator/jyxaoog9fd
+  public double GetShotAngle(double distance) {
+    double x2 = distance;
+    double y2 = Constants.hubHeight;
+    double x1 = x2 + Constants.secondaryPointDistance;
+    double y1 = y2 + Constants.secondaryPointHeight;
+
+    //double A = ((x2*y1) - (x1 * y2))/((Math.pow(x1, 1) * x2)-(Math.pow(x2, 2) * x1));
+    double B = ((-Math.pow(x2, 2) * y1)+(Math.pow(x1, 2) * y2))/((Math.pow(x1, 2) * x2)-(Math.pow(x2, 2) * x1));
+    double shotAngle = Math.toDegrees(Math.atan(B));
+    return shotAngle;
+  }
+
+  public double getDistance(double angleToGoal) {
+    double trueAngle = angleToGoal + Constants.limelightAngle;
+    double height = Constants.hubHeight - Constants.limelightHeight; 
+    double distance = height / Math.tan(Math.toRadians(trueAngle));
+    distance += Constants.goalRadius;
+    return distance;
+  }
 }

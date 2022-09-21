@@ -53,4 +53,13 @@ public final class Constants {
         
     public static final float limelight_STEERING_ADJUST_PROPORTION = 0.03f;
     public static final float limelight_MOVEMENT_ADJUST_PROPORTION = 0.04f;
+
+    //Shooter math constants
+    public static final double goalRadius = 0.61; //Radius of hub in meters
+    public static final double hubHeight = 2.64; //Height of top goal off the ground in meters
+    public static final double limelightHeight = 0.71755; //Height of the limelight off the ground in meters, NOT ACCURATE
+    public static final double limelightAngle = 27.0; //Angle of limelight from horizontal, NOT ACCURATE
+
+    public static final double secondaryPointDistance = -2.0; //Distance of secondary point from center of top goal
+    public static final double secondaryPointHeight = 1.0; //Height of secondary point from center of top goal
 }
