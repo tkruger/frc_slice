@@ -8,7 +8,6 @@ THIS COMMAND IS DEPRECATED, USE ALIGNLESS OR ALIGNED SHOOT SEQUENCE INSTEAD
 
 package frc.robot.commands.Shooter;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
