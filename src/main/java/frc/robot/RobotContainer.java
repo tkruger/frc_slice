@@ -141,7 +141,7 @@ public class RobotContainer {
                 Constants.kvVoltsSecondsPerMeter,
                 Constants.kaVoltsSecondsSquaredPerMeter),
             Constants.kDriveKinematics,
-            m_drivetrain::getCurrentWheelSpeeds,
+            m_drivetrain::getWheelSpeeds,
             new PIDController(Constants.kPDriveVel, 0, 0),
             new PIDController(Constants.kPDriveVel, 0, 0),
             // RamseteCommand passes volts to the callback

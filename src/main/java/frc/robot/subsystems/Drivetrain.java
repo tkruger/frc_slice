@@ -15,6 +15,7 @@ import com.revrobotics.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
@@ -109,15 +110,23 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
   public Pose2d updateOdometry() {
 
-    double leftEncodersDistance = leftEncoderFront.getPosition() + leftEncoderFront.getPosition();
-    double rightEncodersDistance = rightEncoderFront.getPosition() + rightEncoderBack.getPosition();
+    double leftEncodersDistance = getAverageLeftEncoderDistance();
+    double rightEncodersDistance = getAverageRightEncoderDistance();
 
     return
       m_odometry.update(
         m_gyro.getRotation2d(), leftEncodersDistance, rightEncodersDistance);
 
+  }
+
+  public void resetOdometry(Pose2d position) {
+    m_odometry.resetPosition(position, m_gyro.getRotation2d());
   }
 
   public double[] updateVelocities() {
@@ -130,9 +139,6 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
 
   /**
    * Drives the robot at given x, y and theta speeds. Speeds range from [-1, 1] and the linear
@@ -192,7 +198,19 @@ public class Drivetrain extends SubsystemBase {
 
   public double getAverageRightEncoderDistance() {
     return (rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) / 2.0; 
-}
+  }
+
+  public double getAverageLeftEncoderVelocity() {
+    return (leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity()) / 2.0; 
+  }
+
+public double getAverageRightEncoderVelocity() {
+  return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()) / 2.0; 
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getAverageLeftEncoderVelocity(), getAverageRightEncoderVelocity());
+  }
 
   /**
    * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
