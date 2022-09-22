@@ -15,11 +15,13 @@ import com.revrobotics.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 
+import edu.wpi.first.math.StateSpaceUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.util.Units;
 
 public class Drivetrain extends SubsystemBase {
   
@@ -32,9 +34,7 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDriveOdometry m_odometry;
 
-  private final Encoder leftEncoder;
-  private final Encoder rightEncoder;
-
+  public final RelativeEncoder leftEncoderFront, leftEncoderBack, rightEncoderFront, rightEncoderBack;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -53,6 +53,11 @@ public class Drivetrain extends SubsystemBase {
     rightMotorFront.restoreFactoryDefaults();
     rightMotorBack.restoreFactoryDefaults();
 
+    leftMotorFront.setControlFramePeriodMs(250);
+    leftMotorBack.setControlFramePeriodMs(250);
+    rightMotorFront.setControlFramePeriodMs(250);
+    rightMotorBack.setControlFramePeriodMs(250);
+
     leftMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
     leftMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
     rightMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -67,20 +72,12 @@ public class Drivetrain extends SubsystemBase {
 
     m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
-    //(NOTE TO SELF) Check what ports are used by the encoders if the robot has them.
-    leftEncoder = 
-    new Encoder(
-      Constants.drivetrain_LEFT_ENCODER[0], 
-      Constants.drivetrain_LEFT_ENCODER[1], 
-      Constants.drivetrain_LEFT_ENCODER_REVERSED);
-    rightEncoder = 
-    new Encoder(
-      Constants.drivetrain_RIGHT_ENCODER[0], 
-      Constants.drivetrain_RIGHT_ENCODER[1], 
-      Constants.drivetrain_RIGHT_ENCODER_REVERSED);
+    //(NOTE TO SELF) Check if we use quadature encoders
+    leftEncoderFront = leftMotorFront.getEncoder();
+    leftEncoderBack = leftMotorBack.getEncoder();
 
-    leftEncoder.setDistancePerPulse(Constants.drivetrain_ENCODER_DISTANCE_PER_PULSE);
-    rightEncoder.setDistancePerPulse(Constants.drivetrain_ENCODER_DISTANCE_PER_PULSE);
+    rightEncoderFront = rightMotorFront.getEncoder();
+    rightEncoderBack = rightMotorBack.getEncoder();
 
   }
 
@@ -99,17 +96,37 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public Pose2d getPose() {
+  //(NOTE TO SELF) The standard deviations values are place holders and should be measured proplerly for our robot
+  public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {
 
-    return m_odometry.getPoseMeters();
+    var rand = 
+      StateSpaceUtil.makeWhiteNoiseVector(VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(5)));
+
+    return new Pose2d(
+        estimatedRobotPose.getX() + rand.get(0, 0),
+        estimatedRobotPose.getY() + rand.get(1, 0),
+        estimatedRobotPose.getRotation().plus(new Rotation2d(rand.get(2, 0))));
 
   }
 
-  public void resetOdometry(Pose2d pose) {
+  public Pose2d updateOdometry() {
 
-    pose = m_odometry.getPoseMeters();
+    double leftEncodersDistance = leftEncoderFront.getPosition() + leftEncoderFront.getPosition();
+    double rightEncodersDistance = rightEncoderFront.getPosition() + rightEncoderBack.getPosition();
 
-    m_odometry.resetPosition(pose, m_gyro.getRotation2d());
+    return
+      m_odometry.update(
+        m_gyro.getRotation2d(), leftEncodersDistance, rightEncodersDistance);
+
+  }
+
+  public double[] updateVelocities() {
+
+    return new double[] {
+      leftEncoderFront.getVelocity(), 
+      leftEncoderBack.getVelocity(), 
+      rightEncoderFront.getVelocity(), 
+      rightEncoderBack.getVelocity()};
 
   }
 
@@ -128,6 +145,7 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+
     /**
    * Controls the left and right sides of the drive directly with voltages.
    *
@@ -140,16 +158,18 @@ public class Drivetrain extends SubsystemBase {
     robotDrive.feed();
   }
 
-  public void resetEncoders() {
+  public void resetOdometry() {
 
-    leftEncoder.reset();
-    rightEncoder.reset();
+    m_odometry.resetPosition(m_odometry.getPoseMeters(), m_gyro.getRotation2d());
 
   }
 
-  public DifferentialDriveWheelSpeeds getCurrentWheelSpeeds() {
+  public void resetEncoders() {
 
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+    leftEncoderFront.setPosition(0);
+    leftEncoderBack.setPosition(0);
+    rightEncoderFront.setPosition(0);
+    rightEncoderBack.setPosition(0);
 
   }
 

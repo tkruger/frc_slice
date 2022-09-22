@@ -29,7 +29,7 @@ public final class Constants {
 
     //Define Shooter Motor Ports
     public static final int shooter_FLYWHEEL_PRIMARY_PORT = 9;
-    public static final int shooter_FLYWHEEL_SECONDARY_PORT = 6;
+    public static final int shooter_FLYWHEEL_SECONDARY_PORT = 12;
 
     //Define Intake Motor Port
     public static final int intake_MOTOR_PORT = 11;
@@ -54,6 +54,8 @@ public final class Constants {
         // Assumes the encoders are directly mounted on the wheel shafts
         (drivetrain_WHEEL_DIAMETER_METERS * Math.PI) / (double) drivetrain_ENCODER_CPR;
 
+    public static final float limelight_STEERING_ADJUST_PROPORTION = 0.03f;
+    public static final float limelight_MOVEMENT_ADJUST_PROPORTION = 0.04f;
 
     // ===============================
     // Autonomous
@@ -75,3 +77,15 @@ public final class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
     }
+
+    // ===============================
+    // Shooter Math
+    // ===============================
+    public static final double goalRadius = 0.61; //Radius of hub in meters
+    public static final double hubHeight = 2.64; //Height of top goal off the ground in meters
+    public static final double limelightHeight = 0.71755; //Height of the limelight off the ground in meters, NOT ACCURATE
+    public static final double limelightAngle = 27.0; //Angle of limelight from horizontal, NOT ACCURATE
+
+    public static final double secondaryPointDistance = -2.0; //Distance of secondary point from center of top goal
+    public static final double secondaryPointHeight = 1.0; //Height of secondary point from center of top goal
+}

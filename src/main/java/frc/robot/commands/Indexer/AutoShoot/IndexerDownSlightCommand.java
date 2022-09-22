@@ -2,29 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Indexer;
+package frc.robot.commands.Indexer.AutoShoot;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.Timer; 
 
 /** An Indexer command that uses an indexer subsystem. */
-public class IndexerCommand extends CommandBase {
+public class IndexerDownSlightCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
-  private final Joystick leftJoystick, rightJoystick;
 
   double Speed = 0;
+  private Timer Time;
 
   /**
    * @param subsystem The subsystem used by this command.
    */
-  public IndexerCommand(Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {
+  public IndexerDownSlightCommand(Indexer indexer) {
     m_indexer = indexer;
-    
-    this.leftJoystick = leftJoystick;
-    this.rightJoystick = rightJoystick;
+
+    Time = new Timer();
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
@@ -33,34 +32,15 @@ public class IndexerCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    Time.reset();
+    Time.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    boolean indexerForwardFast = leftJoystick.getRawButton(5);
-    boolean indexerForwardSlow = leftJoystick.getRawButton(3);
-    boolean indexerBackwardFast = rightJoystick.getRawButton(5);    
-    boolean indexerBackwardSlow = rightJoystick.getRawButton(3); 
     
-    //Sets Indexer motor
-    if(indexerForwardFast == true) {
-      Speed = 0.6;
-    }
-    else if(indexerBackwardFast == true) {
-      Speed = -0.6;
-    }
-    else if(indexerForwardSlow == true) {
-      Speed = 0.3;
-    }
-    else if(indexerBackwardSlow == true) {
-      Speed = -0.3;
-    }
-    else {
-      Speed = 0;
-    }
+    Speed = .3;
     
     RobotContainer.m_indexer.SetIndexer(Speed);
   }
@@ -74,6 +54,12 @@ public class IndexerCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+    if(Time.get() >= 0.4) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 }
