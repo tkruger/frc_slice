@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -76,7 +75,6 @@ public final class Constants {
     // Ramsete controller parameters. There are maethematically determined to be the best parameters for almost every robot
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
-    }
 
     // ===============================
     // Shooter Math

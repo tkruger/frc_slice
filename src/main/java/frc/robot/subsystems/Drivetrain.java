@@ -86,8 +86,8 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     m_odometry.update(
       m_gyro.getRotation2d(),
-      leftEncoder.getDistance(),
-      rightEncoder.getDistance());
+      getAverageLeftEncoderDistance(),
+      getAverageRightEncoderDistance());
 
   }
 
@@ -128,6 +128,10 @@ public class Drivetrain extends SubsystemBase {
       rightEncoderFront.getVelocity(), 
       rightEncoderBack.getVelocity()};
 
+  }
+
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
   }
 
   /**
@@ -179,26 +183,16 @@ public class Drivetrain extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+    return (getAverageLeftEncoderDistance() + getAverageRightEncoderDistance()) / 2.0;
   }
 
-  /**
-   * Gets the left drive encoder.
-   *
-   * @return the left drive encoder
-   */
-  public Encoder getLeftEncoder() {
-    return leftEncoder;
+  public double getAverageLeftEncoderDistance() {
+      return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) / 2.0; 
   }
 
-  /**
-   * Gets the right drive encoder.
-   *
-   * @return the right drive encoder
-   */
-  public Encoder getRightEncoder() {
-    return rightEncoder;
-  }
+  public double getAverageRightEncoderDistance() {
+    return (rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) / 2.0; 
+}
 
   /**
    * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
