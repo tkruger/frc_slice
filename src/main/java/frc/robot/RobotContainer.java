@@ -53,9 +53,6 @@ public class RobotContainer {
   public static final alignedShootSequence m_alignedShootAuto = 
         new alignedShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
 
-  public static final ShooterCommand m_shooterCommand =
-        new ShooterCommand(m_shooter, leftJoystick, rightJoystick);
-
   public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -87,9 +84,6 @@ public class RobotContainer {
 
     //Align and shoot
     Button.rightTrigger.whenHeld(m_alignedShootAuto);
-
-    //Spin flywheels
-    Button.leftButton12.whenPressed(m_shooterCommand);
   }
 
   /**
@@ -131,9 +125,21 @@ public class RobotContainer {
             // Pass config
             config);
 
+    // A test trajectory to follow.  All units in 3 meters.
+    Trajectory testTrajectory =
+        TrajectoryGenerator.generateTrajectory(
+            // Start at the origin facing the +X direction
+            new Pose2d(0, 0, new Rotation2d(0)),
+            // Pass through these two interior waypoints, making an 's' curve path
+            List.of(new Translation2d(0.3, 0.6), new Translation2d(0.6, -0.3)),
+            // End 3 meters straight ahead of where we started, facing forward
+            new Pose2d(1, 0, new Rotation2d(0)),
+            // Pass config
+            config);
+
     RamseteCommand ramseteCommand =
         new RamseteCommand(
-            exampleTrajectory,
+            /*exampleTrajectory*/ testTrajectory,
             m_drivetrain::getPose,
             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
             new SimpleMotorFeedforward(
