@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.auto;
 
 import java.util.List;
 
@@ -16,12 +16,13 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import frc.robot.Constants;
 
 /** Add your docs here. */
 public class Trajectories {
     
     // Create a voltage constraint to ensure we don't accelerate too fast
-    DifferentialDriveVoltageConstraint autoVoltageConstraint =
+    public static DifferentialDriveVoltageConstraint autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(
                 Constants.ksVolts,
@@ -31,7 +32,7 @@ public class Trajectories {
             10);
 
     // Create config for trajectory
-    TrajectoryConfig config =
+    public static TrajectoryConfig config =
         new TrajectoryConfig(
                 Constants.kMaxSpeedMetersPerSeconds,
                 Constants.kMaxAccelerationMetersPerSecondSquared)
@@ -41,7 +42,7 @@ public class Trajectories {
             .addConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
+    public static Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
@@ -53,7 +54,7 @@ public class Trajectories {
             config);
 
     // A test trajectory to follow.  All units in 3 meters.
-    Trajectory testTrajectory =
+    public static Trajectory testTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
