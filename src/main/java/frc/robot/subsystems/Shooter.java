@@ -10,6 +10,7 @@ import frc.robot.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.*;
 //import com.revrobotics.CANSparkMax.ControlType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
   
@@ -47,6 +48,8 @@ public class Shooter extends SubsystemBase {
 
     primaryFlywheel.restoreFactoryDefaults();
     secondaryFlywheel.restoreFactoryDefaults();
+
+    secondaryFlywheel.setIdleMode(CANSparkMax.IdleMode.kCoast);
     
   }
 
@@ -63,12 +66,15 @@ public class Shooter extends SubsystemBase {
   public void SetShooters(double primarySpeed, double secondarySpeed) { 
 
     //set motor speed with PID (experimental)
-    primaryPidController.setReference(primarySpeed, CANSparkMax.ControlType.kVelocity);
-    secondaryPidController.setReference(secondarySpeed, CANSparkMax.ControlType.kVelocity);
+    //primaryPidController.setReference(primarySpeed, CANSparkMax.ControlType.kVelocity);
+    //secondaryPidController.setReference(secondarySpeed, CANSparkMax.ControlType.kVelocity);
     
     //set motor speed with PWM (deprecated)
-    //primaryFlywheel.set(primarySpeed);
-    //secondaryFlywheel.set(secondarySpeed);
+    primaryFlywheel.set(primarySpeed);
+    secondaryFlywheel.set(secondarySpeed);
+
+    SmartDashboard.putNumber("Lower Shooter", primarySpeed);
+    SmartDashboard.putNumber("Upper Shooter", secondarySpeed);  
     
   }
 

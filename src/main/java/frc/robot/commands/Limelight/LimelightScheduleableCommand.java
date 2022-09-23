@@ -59,13 +59,15 @@ public class LimelightScheduleableCommand extends CommandBase {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
 
-      if (-0.5 < targetYOffset && targetYOffset < 6) {
+      /*if (1 < targetYOffset && targetYOffset < 6) {
         ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * -6;
-      } else if (-0.5 > targetYOffset && targetYOffset > -6) {
+      } else if (-1 > targetYOffset && targetYOffset > -6) {
         ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * 6;
       } else {
         ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
-      }
+      }*/
+
+      ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
       
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
 
