@@ -10,7 +10,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
-public class LimelightScheduleableCommand extends CommandBase {
+public class LimelightXCommand extends CommandBase {
   /** Creates a new LimelightRun. */
 
   private final Limelight m_limelight;
@@ -26,7 +26,7 @@ public class LimelightScheduleableCommand extends CommandBase {
 
   boolean finished = false;
 
-  public LimelightScheduleableCommand(Limelight limelight, Drivetrain drivetrain) {
+  public LimelightXCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight);
 
@@ -58,18 +58,8 @@ public class LimelightScheduleableCommand extends CommandBase {
       } else {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
-
-      /*if (1 < targetYOffset && targetYOffset < 6) {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * -6;
-      } else if (-1 > targetYOffset && targetYOffset > -6) {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * 6;
-      } else {
-        ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
-      }*/
-
-      ySteeringAdjust = Constants.limelight_MOVEMENT_ADJUST_PROPORTION * targetYOffset;
       
-      m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
+      m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
 
     } else {
       ySteeringAdjust = 0;
@@ -97,7 +87,6 @@ public class LimelightScheduleableCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_limelight.setLedMode(1);
     m_limelight.setCameraMode(1);
 
   }

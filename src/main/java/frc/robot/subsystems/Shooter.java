@@ -13,6 +13,7 @@ import frc.robot.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.*;
 //import com.revrobotics.CANSparkMax.ControlType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
   
@@ -61,10 +62,13 @@ public class Shooter extends SubsystemBase {
     primaryTargetSpeed = 0;
     secondaryTargetSpeed = 0;
 
+    secondaryFlywheel.setIdleMode(CANSparkMax.IdleMode.kCoast);
+
     regressionTab = Shuffleboard.getTab("Regression");
     shotPowerInput = regressionTab.add("Shot Power", 0.0); 
     primarySpeedOutput = regressionTab.add("Primary Flywheel Speed", 0.0);
     secondarySpeedOutput = regressionTab.add("Secondary Flywheel Speed", 0.0);
+    
   }
 
   @Override
@@ -92,6 +96,11 @@ public class Shooter extends SubsystemBase {
 
     primaryTargetSpeed = primarySpeed;
     secondaryTargetSpeed = secondarySpeed;
+    // primaryFlywheel.set(primarySpeed);
+    // secondaryFlywheel.set(secondarySpeed);
+
+    // SmartDashboard.putNumber("Lower Shooter", primarySpeed);
+    // SmartDashboard.putNumber("Upper Shooter", secondarySpeed);  
     
   }
 

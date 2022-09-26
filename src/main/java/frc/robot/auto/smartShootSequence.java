@@ -7,6 +7,7 @@ package frc.robot.auto;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Limelight.LimelightScheduleableCommand;
+import frc.robot.commands.Limelight.LimelightXCommand;
 import frc.robot.commands.Indexer.AutoShoot.*;
 import frc.robot.commands.Shooter.AutoShoot.*;
 import frc.robot.subsystems.*;
@@ -22,7 +23,7 @@ public class smartShootSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new IndexerDownSlightCommand(indexer), 
-      new LimelightScheduleableCommand(limelight, drivetrain), 
+      new LimelightXCommand(limelight, drivetrain), 
       new SmartAutoShoot(limelight, shooter),
       new IndexerUpCommand(indexer), 
       new ShooterFlywheelSpinDown(shooter)
