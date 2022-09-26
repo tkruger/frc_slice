@@ -53,6 +53,9 @@ public class RobotContainer {
   public static final alignedShootSequence m_alignedShootAuto = 
         new alignedShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
 
+  public static final smartShootSequence m_smartShootAuto = 
+        new smartShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
+
   public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -92,6 +95,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return m_smartShootAuto;
   }
 }

@@ -56,6 +56,9 @@ public final class Constants {
     public static final float limelight_STEERING_ADJUST_PROPORTION = 0.03f;
     public static final float limelight_MOVEMENT_ADJUST_PROPORTION = 0.04f;
 
+    // Error threshold for shooters during smart shoot routine
+    public static final double auto_shooter_threshold = 0.1;
+
     // ===============================
     // Autonomous
     // ===============================

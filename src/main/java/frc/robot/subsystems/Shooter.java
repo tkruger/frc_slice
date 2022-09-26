@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.*;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -17,6 +20,13 @@ public class Shooter extends SubsystemBase {
   private final CANSparkMax primaryFlywheel, secondaryFlywheel;
   private final SparkMaxPIDController primaryPidController, secondaryPidController;
   private final RelativeEncoder primaryEncoder, secondaryEncoder;
+
+  // Current target speed
+  private double primaryTargetSpeed, secondaryTargetSpeed;
+
+  // Shuffleboard stuff for adjusting power during regression
+  private final ShuffleboardTab regressionTab;
+  private final SimpleWidget shotPowerInput, primarySpeedOutput, secondarySpeedOutput;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -47,12 +57,22 @@ public class Shooter extends SubsystemBase {
 
     primaryFlywheel.restoreFactoryDefaults();
     secondaryFlywheel.restoreFactoryDefaults();
-    
+
+    primaryTargetSpeed = 0;
+    secondaryTargetSpeed = 0;
+
+    regressionTab = Shuffleboard.getTab("Regression");
+    shotPowerInput = regressionTab.add("Shot Power", 0.0); 
+    primarySpeedOutput = regressionTab.add("Primary Flywheel Speed", 0.0);
+    secondarySpeedOutput = regressionTab.add("Secondary Flywheel Speed", 0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // Output the current flywheel speeds to Shuffleboard
+    primarySpeedOutput.getEntry().setDouble(primaryEncoder.getVelocity());
+    secondarySpeedOutput.getEntry().setDouble(secondaryEncoder.getVelocity());
   }
 
   @Override
@@ -69,12 +89,24 @@ public class Shooter extends SubsystemBase {
     //set motor speed with PWM (deprecated)
     //primaryFlywheel.set(primarySpeed);
     //secondaryFlywheel.set(secondarySpeed);
+
+    primaryTargetSpeed = primarySpeed;
+    secondaryTargetSpeed = secondarySpeed;
     
+  }
+
+  // Checks whether the flywheel velocities are within a set threshold of the desired velocity
+  public boolean atTargetSpeed() {
+    boolean primaryAtTarget = Math.abs(primaryEncoder.getVelocity() - primaryTargetSpeed) < Constants.auto_shooter_threshold;
+    boolean secondaryAtTarget = Math.abs(secondaryEncoder.getVelocity() - secondaryTargetSpeed) < Constants.auto_shooter_threshold;
+    
+    return primaryAtTarget && secondaryAtTarget;
   }
 
   // Shooter Math
   // https://www.desmos.com/calculator/jyxaoog9fd
-  public double GetShotAngle(double distance) {
+  // Gets optimal angle of shot in degrees
+  public double getShotAngle(double distance) {
     double x2 = distance;
     double y2 = Constants.hubHeight;
     double x1 = x2 + Constants.secondaryPointDistance;
@@ -86,11 +118,22 @@ public class Shooter extends SubsystemBase {
     return shotAngle;
   }
 
+  // Gets the distance to the goal given the angle read from the limelight
   public double getDistance(double angleToGoal) {
     double trueAngle = angleToGoal + Constants.limelightAngle;
     double height = Constants.hubHeight - Constants.limelightHeight; 
     double distance = height / Math.tan(Math.toRadians(trueAngle));
     distance += Constants.goalRadius;
     return distance;
+  }
+
+  // Waiting on Mathew for this method to actually do anything
+  public double getSecondaryMotorSpeed(double primaryMotorSpeed, double angle) {
+    return primaryMotorSpeed;
+  }
+
+  // Spins the motors at the velocity inputed on Shuffleboard
+  public double getShotPower(double distance) {
+    return shotPowerInput.getEntry().getDouble(0.0);
   }
 }
