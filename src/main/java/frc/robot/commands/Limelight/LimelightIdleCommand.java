@@ -30,7 +30,6 @@ public class LimelightIdleCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_limelight.periodic();
     m_limelight.setLedMode(1);
     m_limelight.setCameraMode(1);
     m_limelight.setPipeline();

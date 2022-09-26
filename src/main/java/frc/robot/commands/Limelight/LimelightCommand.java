@@ -83,7 +83,6 @@ public class LimelightCommand extends CommandBase {
     SmartDashboard.putNumber("Limelight X Offset", targetXOffset);
     SmartDashboard.putNumber("Limelight Y Offset", targetYOffset);
 
-    m_limelight.periodic();
     m_limelight.setLedMode(3);
     m_limelight.setCameraMode(0);
     m_limelight.setPipeline();
