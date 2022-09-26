@@ -24,7 +24,7 @@ public class LimelightScheduleableCommand extends CommandBase {
   double xSteeringAdjust;
   double ySteeringAdjust;
 
-  boolean finished = false;
+  boolean finished;
 
   public LimelightScheduleableCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,6 +39,8 @@ public class LimelightScheduleableCommand extends CommandBase {
   @Override
   public void initialize() {
     m_limelight.setCameraMode(1);
+
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
