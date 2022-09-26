@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
 
   // Shuffleboard stuff for adjusting power during regression
   private final ShuffleboardTab regressionTab;
-  private final SimpleWidget shotPowerInput, primarySpeedOutput, secondarySpeedOutput;
+  private final SimpleWidget shotPowerInput, primarySpeedOutput, secondarySpeedOutput, primaryTargetOutput, secondaryTargetOutput;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -68,7 +68,8 @@ public class Shooter extends SubsystemBase {
     shotPowerInput = regressionTab.add("Shot Power", 0.0); 
     primarySpeedOutput = regressionTab.add("Primary Flywheel Speed", 0.0);
     secondarySpeedOutput = regressionTab.add("Secondary Flywheel Speed", 0.0);
-    
+    primaryTargetOutput = regressionTab.add("Primary Flywheel Target", 0.0);
+    secondaryTargetOutput = regressionTab.add("Secondary Flywheel Target", 0.0);
   }
 
   @Override
@@ -96,6 +97,9 @@ public class Shooter extends SubsystemBase {
 
     primaryTargetSpeed = primarySpeed;
     secondaryTargetSpeed = secondarySpeed;
+
+    primaryTargetOutput.getEntry().setDouble(primaryTargetSpeed);
+    secondaryTargetOutput.getEntry().setDouble(secondaryTargetSpeed);
     // primaryFlywheel.set(primarySpeed);
     // secondaryFlywheel.set(secondarySpeed);
 
