@@ -28,7 +28,7 @@ public class LimelightXCommand extends CommandBase {
 
   public LimelightXCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(limelight);
+    addRequirements(limelight, drivetrain);
 
     this.m_limelight = limelight;
     this.m_drivetrain = drivetrain;
@@ -52,10 +52,10 @@ public class LimelightXCommand extends CommandBase {
 
     if(targetDetected == 1) {
 
-      if (targetXOffset > 10) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 10;
-      } else if (targetXOffset < -10) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -10;
+      if (targetXOffset > 15) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 15;
+      } else if (targetXOffset < -15) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -15;
       } else {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
@@ -64,12 +64,12 @@ public class LimelightXCommand extends CommandBase {
 
     } else {
       ySteeringAdjust = 0;
-      xSteeringAdjust = 15 * Constants.limelight_STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 20 * Constants.limelight_STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 2 && java.lang.Math.abs(targetYOffset) < 4) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 3) {
       finished = true;
     }
 
@@ -88,6 +88,10 @@ public class LimelightXCommand extends CommandBase {
   public void end(boolean interrupted) {
 
     m_limelight.setCameraMode(1);
+
+    targetXOffset = 0;
+    targetYOffset = 0;
+    targetDetected = 0;
 
   }
 

@@ -83,7 +83,7 @@ public class RobotContainer {
     Button.rightButton12.whenHeld(m_alignlessShootAuto);
 
     //Align without shooting
-    Button.leftTrigger.whenHeld(m_limelightAlign);
+    Button.leftTrigger.whenHeld(m_smartShootAuto);
 
     //Align and shoot
     Button.rightTrigger.whenHeld(m_alignedShootAuto);

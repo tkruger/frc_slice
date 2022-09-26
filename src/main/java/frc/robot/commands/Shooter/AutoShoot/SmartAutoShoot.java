@@ -18,6 +18,9 @@ public class SmartAutoShoot extends CommandBase {
   private final ShuffleboardTab regressionTab;
   private final SimpleWidget measuredAngleOutput, measuredDistanceOutput, shotAngleOutput; 
 
+  private double distanceToHub;
+  private double angleToHub;
+
   /** Creates a new SmartAutoShooter. */
   public SmartAutoShoot(Limelight limelight, Shooter shooter) {
     m_limelight = limelight;
@@ -35,12 +38,13 @@ public class SmartAutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double angleToHub = m_limelight.getYOffset();
-    double distanceToHub = m_shooter.getDistance(angleToHub);
+
+    angleToHub = m_limelight.getYOffset();
+    distanceToHub = m_shooter.getDistance(angleToHub);
     double shotAngle = m_shooter.getShotAngle(distanceToHub);
     double primarySpeed = m_shooter.getShotPower(distanceToHub);
     double secondarySpeed = m_shooter.getSecondaryMotorSpeed(primarySpeed, shotAngle);
-    m_shooter.SetShooters(primarySpeed, secondarySpeed);
+    m_shooter.SetShooters(-primarySpeed, secondarySpeed);
 
     measuredAngleOutput.getEntry().setDouble(angleToHub);
     measuredDistanceOutput.getEntry().setDouble(distanceToHub);

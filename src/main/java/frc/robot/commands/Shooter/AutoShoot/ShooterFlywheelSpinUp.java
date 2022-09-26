@@ -52,8 +52,13 @@ public class ShooterFlywheelSpinUp extends CommandBase {
     primarySpeed = rightJoystick.getZ();
     secondarySpeed = leftJoystick.getZ();
 
-    primarySpeed = -((primarySpeed + 1) / 2);
-    secondarySpeed = (secondarySpeed + 1) / 2;
+    //PWM only (too low for PID)
+    //primarySpeed = -((primarySpeed + 1) / 2);
+    //secondarySpeed = (secondarySpeed + 1) / 2;
+
+    //PID ONLY (way too high for PWM)
+    primarySpeed = -((primarySpeed + 1) * 710);
+    secondarySpeed = (secondarySpeed + 1) * 710;
 
     m_shooter.SetShooters(primarySpeed, secondarySpeed);
   }

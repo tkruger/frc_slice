@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.*;
 import frc.robot.*;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -36,18 +37,24 @@ public class Shooter extends SubsystemBase {
     primaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_PRIMARY_PORT, MotorType.kBrushless);
     secondaryFlywheel = new CANSparkMax(Constants.shooter_FLYWHEEL_SECONDARY_PORT, MotorType.kBrushless);
 
+    primaryFlywheel.restoreFactoryDefaults();
+    secondaryFlywheel.restoreFactoryDefaults();
+
     //Instantiates pid controllers
     primaryPidController = primaryFlywheel.getPIDController();
     secondaryPidController = secondaryFlywheel.getPIDController();
 
     //Sets pid controller P, I, and D values
-    primaryPidController.setP(0.10269);
-    primaryPidController.setI(0);
+    //primaryPidController.setP(.00000033728);
+    primaryPidController.setP(.000032591);
+    primaryPidController.setI(0.0000002);
     primaryPidController.setD(0);
+    primaryPidController.setFF(0.0);
 
-    secondaryPidController.setP(0.1692);
-    secondaryPidController.setI(0);
+    secondaryPidController.setP(.000032591);
+    secondaryPidController.setI(0.0000002);
     secondaryPidController.setD(0);
+    secondaryPidController.setFF(0.0);
 
     //Instantiates motor encoders
     primaryEncoder = primaryFlywheel.getEncoder();
@@ -55,9 +62,6 @@ public class Shooter extends SubsystemBase {
 
     primaryEncoder.setVelocityConversionFactor(2);
     secondaryEncoder.setVelocityConversionFactor(2);
-
-    primaryFlywheel.restoreFactoryDefaults();
-    secondaryFlywheel.restoreFactoryDefaults();
 
     primaryTargetSpeed = 0;
     secondaryTargetSpeed = 0;
@@ -76,6 +80,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // Output the current flywheel speeds to Shuffleboard
+
     primarySpeedOutput.getEntry().setDouble(primaryEncoder.getVelocity());
     secondarySpeedOutput.getEntry().setDouble(secondaryEncoder.getVelocity());
   }
@@ -100,8 +105,6 @@ public class Shooter extends SubsystemBase {
 
     primaryTargetOutput.getEntry().setDouble(primaryTargetSpeed);
     secondaryTargetOutput.getEntry().setDouble(secondaryTargetSpeed);
-    // primaryFlywheel.set(primarySpeed);
-    // secondaryFlywheel.set(secondarySpeed);
 
     // SmartDashboard.putNumber("Lower Shooter", primarySpeed);
     // SmartDashboard.putNumber("Upper Shooter", secondarySpeed);  
