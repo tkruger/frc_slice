@@ -6,7 +6,6 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Limelight.LimelightScheduleableCommand;
 import frc.robot.commands.Limelight.LimelightXCommand;
 import frc.robot.commands.Indexer.AutoShoot.*;
 import frc.robot.commands.Shooter.AutoShoot.*;
