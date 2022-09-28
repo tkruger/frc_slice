@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 /*
-THIS COMMAND IS DEPRECATED, USE ALIGNLESS OR ALIGNED SHOOT SEQUENCE INSTEAD
+THIS COMMAND IS DEPRECATED, USE ALIGNLESS OR SMART SHOOT SEQUENCE INSTEAD
 */
 
 package frc.robot.commands.Shooter;

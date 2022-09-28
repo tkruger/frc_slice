@@ -4,18 +4,6 @@
 
 package frc.robot;
 
-/*import java.util.List;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;*/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.auto.*;
@@ -57,6 +45,12 @@ public class RobotContainer {
 
   public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
+  public static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, 0.5);
+  public static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, -0.5);
+
+  public static final IntakeSchedulableCommand m_toggleIntake = new IntakeSchedulableCommand(m_intake, 1);
+  public static final IntakeSchedulableCommand m_reverseIntake = new IntakeSchedulableCommand(m_intake, -1);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -64,9 +58,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick));
-    m_indexer.setDefaultCommand(new IndexerCommand(m_indexer, leftJoystick, rightJoystick));
+    m_indexer.setDefaultCommand(new IndexerSchedulableCommand(m_indexer, 0));
     m_shooter.setDefaultCommand(new ShooterCommand(m_shooter, leftJoystick, rightJoystick));
-    m_intake.setDefaultCommand(new IntakeCommand(m_intake, leftJoystick, rightJoystick));
+    m_intake.setDefaultCommand(new IntakeSchedulableCommand(m_intake, 0));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
 
   }
@@ -79,13 +73,22 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //Shoot without aligning
-    Button.rightButton12.whenHeld(m_alignlessShootAuto);
+    Button.rightTrigger.whenHeld(m_alignlessShootAuto);
 
-    //Align without shooting
+    //Any* distance shooting
     Button.leftTrigger.whenHeld(m_smartShootAuto);
 
-    //Align and shoot
-    Button.rightTrigger.whenHeld(m_alignedShootAuto);
+    //Run indexer up
+    Button.indexerUpFast.whenHeld(m_runIndexerUp);
+    
+    //Run indexer down
+    Button.indexerDownFast.whenHeld(m_runIndexerDown);
+
+    //Toggle intake
+    Button.intakeToggle.whenPressed(m_toggleIntake);
+
+    //Reverse intake
+    Button.intakeReverse.whenHeld(m_reverseIntake);
   }
 
   /**

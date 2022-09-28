@@ -2,33 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*
-THIS COMMAND IS DEPRECATED, USE INDEXER SCHEDULABLE COMMAND INSTEAD
-*/
-
 package frc.robot.commands.Indexer;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An Indexer command that uses an indexer subsystem. */
-public class IndexerCommand extends CommandBase {
+public class IndexerSchedulableCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
-  private final Joystick leftJoystick, rightJoystick;
-
   double Speed = 0;
 
   /**
    * @param subsystem The subsystem used by this command.
    */
-  public IndexerCommand(Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {
+  public IndexerSchedulableCommand(Indexer indexer, double Speed) {
     m_indexer = indexer;
-    
-    this.leftJoystick = leftJoystick;
-    this.rightJoystick = rightJoystick;
+    this.Speed = Speed;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
@@ -43,29 +34,6 @@ public class IndexerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    boolean indexerForwardFast = leftJoystick.getRawButton(5);
-    boolean indexerForwardSlow = leftJoystick.getRawButton(3);
-    boolean indexerBackwardFast = rightJoystick.getRawButton(5);    
-    boolean indexerBackwardSlow = rightJoystick.getRawButton(3); 
-    
-    //Sets Indexer motor
-    if(indexerForwardFast == true) {
-      Speed = 0.6;
-    }
-    else if(indexerBackwardFast == true) {
-      Speed = -0.6;
-    }
-    else if(indexerForwardSlow == true) {
-      Speed = 0.3;
-    }
-    else if(indexerBackwardSlow == true) {
-      Speed = -0.3;
-    }
-    else {
-      Speed = 0;
-    }
-    
     RobotContainer.m_indexer.SetIndexer(Speed);
   }
 
