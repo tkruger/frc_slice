@@ -148,6 +148,8 @@ public class Shooter extends SubsystemBase {
 
   // Spins the motors at the velocity inputed on Shuffleboard
   public double getShotPower(double distance) {
-    return shotPowerInput.getEntry().getDouble(0.0);
+    // https://www.desmos.com/calculator/vlunb8xtw2
+    double power = (903.227 / (1 + Math.exp(-7.44717 * (distance - 3.36109)))) + 4254.94;
+    return power;
   }
 }
