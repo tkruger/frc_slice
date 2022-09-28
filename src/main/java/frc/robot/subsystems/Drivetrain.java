@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+/// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -7,21 +7,35 @@ package frc.robot.subsystems;
 import frc.robot.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Timer;
 
-import com.revrobotics.*;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+//import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-
+//import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.StateSpaceUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.math.VecBuilder;
+/*import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;*/
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.util.Units;
 
 public class Drivetrain extends SubsystemBase {
@@ -33,9 +47,15 @@ public class Drivetrain extends SubsystemBase {
 
   private final Gyro m_gyro;
 
-  private final DifferentialDriveOdometry m_odometry;
+  //private final DifferentialDriveOdometry m_drivetrainOdometry;
 
-  public final RelativeEncoder leftEncoderFront, leftEncoderBack, rightEncoderFront, rightEncoderBack;
+  public final RelativeEncoder leftEncoderFront;
+  public final RelativeEncoder leftEncoderBack;
+
+  public final RelativeEncoder rightEncoderFront;
+  public final RelativeEncoder rightEncoderBack;
+
+  public static DifferentialDrivePoseEstimator m_poseEstimator;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -54,11 +74,6 @@ public class Drivetrain extends SubsystemBase {
     rightMotorFront.restoreFactoryDefaults();
     rightMotorBack.restoreFactoryDefaults();
 
-    leftMotorFront.setControlFramePeriodMs(250);
-    leftMotorBack.setControlFramePeriodMs(250);
-    rightMotorFront.setControlFramePeriodMs(250);
-    rightMotorBack.setControlFramePeriodMs(250);
-
     leftMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
     leftMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
     rightMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -68,28 +83,29 @@ public class Drivetrain extends SubsystemBase {
     
     rightMotors.setInverted(true);
 
-    //(NOTE TO SELF) Check what type of gyroscope we use.
+    //(NOTE TO SELF) Check if we use quadature encoders
+    leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
+    leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
+
+    rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
+    rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
+
     m_gyro = new ADXRS450_Gyro();
 
-    m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+    //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
-    //(NOTE TO SELF) Check if we use quadature encoders
-    leftEncoderFront = leftMotorFront.getEncoder();
-    leftEncoderBack = leftMotorBack.getEncoder();
+    //These standard deviation values should be measured proplerly for our robot
+    m_poseEstimator = new DifferentialDrivePoseEstimator(m_gyro.getRotation2d(),
+      new Pose2d(),
+      VecBuilder.fill(0, 0, Units.degreesToRadians(0), 0, 0),
+      VecBuilder.fill(0, 0, Units.degreesToRadians(0)),
+      VecBuilder.fill(0., 0, Units.degreesToRadians(0)));
 
-    rightEncoderFront = rightMotorFront.getEncoder();
-    rightEncoderBack = rightMotorBack.getEncoder();
-
-  }
+    }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    m_odometry.update(
-      m_gyro.getRotation2d(),
-      getAverageLeftEncoderDistance(),
-      getAverageRightEncoderDistance());
-
   }
 
   @Override
@@ -97,11 +113,11 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  //(NOTE TO SELF) The standard deviations values are place holders and should be measured proplerly for our robot
   public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {
 
+    //These white noise element intensity values should be proplery measured for our robot
     var rand = 
-      StateSpaceUtil.makeWhiteNoiseVector(VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(5)));
+      StateSpaceUtil.makeWhiteNoiseVector(VecBuilder.fill(0, 0, Units.degreesToRadians(0)));
 
     return new Pose2d(
         estimatedRobotPose.getX() + rand.get(0, 0),
@@ -110,35 +126,24 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
-
   public Pose2d updateOdometry() {
 
-    double leftEncodersDistance = getAverageLeftEncoderDistance();
-    double rightEncodersDistance = getAverageRightEncoderDistance();
+    m_poseEstimator.update(
+      m_gyro.getRotation2d(), 
+        new DifferentialDriveWheelSpeeds(
+          getAverageLeftEncoderVelocity(), 
+          getAverageRightEncoderVelocity()),
+      getAverageLeftEncoderDistance(),
+      getAverageRightEncoderDistance());
 
-    return
-      m_odometry.update(
-        m_gyro.getRotation2d(), leftEncodersDistance, rightEncodersDistance);
+    //This latency value(0.3) is a place holder for now and should be measured properly for our robot
+    m_poseEstimator.addVisionMeasurement(
+      getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition()),
+      Timer.getFPGATimestamp() - 0.3);
 
-  }
-
-  public void resetOdometry(Pose2d position) {
-    m_odometry.resetPosition(position, m_gyro.getRotation2d());
-  }
-
-  public double[] updateVelocities() {
-
-    return new double[] {
-      leftEncoderFront.getVelocity(), 
-      leftEncoderBack.getVelocity(), 
-      rightEncoderFront.getVelocity(), 
-      rightEncoderBack.getVelocity()};
+    return m_poseEstimator.getEstimatedPosition();
 
   }
-
 
   /**
    * Drives the robot at given x, y and theta speeds. Speeds range from [-1, 1] and the linear
@@ -155,39 +160,47 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-
-    /**
-   * Controls the left and right sides of the drive directly with voltages.
-   *
-   * @param leftVolts the commanded left output
-   * @param rightVolts the commanded right output
-   */
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(leftVolts);
-    rightMotors.setVoltage(rightVolts);
-    robotDrive.feed();
-  }
-
   public void resetOdometry() {
-
-    m_odometry.resetPosition(m_odometry.getPoseMeters(), m_gyro.getRotation2d());
-
-  }
-
-  public void resetEncoders() {
 
     leftEncoderFront.setPosition(0);
     leftEncoderBack.setPosition(0);
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
+    m_poseEstimator.resetPosition(updateOdometry(), m_gyro.getRotation2d());
+
+    m_gyro.reset();
+
   }
 
-    /**
-   * Gets the average distance of the two encoders.
-   *
-   * @return the average of the two encoder readings
-   */
+  public double getLeftFrontVelocity() {
+
+    return
+    leftEncoderFront.getVelocity();
+
+  }
+
+  public double getLeftBackVelocity() {
+
+    return
+    leftEncoderBack.getVelocity();
+
+  }
+
+  public double getRightFrontVelocity() {
+
+    return
+    rightEncoderFront.getVelocity();
+
+  }
+
+  public double getRightBackVelocity() {
+
+    return
+    rightEncoderBack.getVelocity();
+
+  }
+
   public double getAverageEncoderDistance() {
     return (getAverageLeftEncoderDistance() + getAverageRightEncoderDistance()) / 2.0;
   }
@@ -204,7 +217,7 @@ public class Drivetrain extends SubsystemBase {
     return (leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity()) / 2.0; 
   }
 
-public double getAverageRightEncoderVelocity() {
+  public double getAverageRightEncoderVelocity() {
   return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()) / 2.0; 
   }
 
@@ -212,21 +225,7 @@ public double getAverageRightEncoderVelocity() {
     return new DifferentialDriveWheelSpeeds(getAverageLeftEncoderVelocity(), getAverageRightEncoderVelocity());
   }
 
-  /**
-   * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
-   *
-   * @param maxOutput the maximum output to which the drive will be constrained
-   */
-  public void setMaxOutput(double maxOutput) {
-    robotDrive.setMaxOutput(maxOutput);
-  }
-
-  public void zeroHeading() {
-
-    m_gyro.reset();
-
-  }
-
+  
   public double getHeading() {
 
     return m_gyro.getRotation2d().getDegrees();
@@ -240,3 +239,4 @@ public double getAverageRightEncoderVelocity() {
   }
 
 }
+
