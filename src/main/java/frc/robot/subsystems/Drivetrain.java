@@ -97,9 +97,9 @@ public class Drivetrain extends SubsystemBase {
     //These standard deviation values should be measured proplerly for our robot
     m_poseEstimator = new DifferentialDrivePoseEstimator(m_gyro.getRotation2d(),
       new Pose2d(),
-      VecBuilder.fill(0, 0, Units.degreesToRadians(0), 0, 0),
-      VecBuilder.fill(0, 0, Units.degreesToRadians(0)),
-      VecBuilder.fill(0., 0, Units.degreesToRadians(0)));
+      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1), 0.1, 0.1),
+      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)),
+      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)));
 
     }
 
