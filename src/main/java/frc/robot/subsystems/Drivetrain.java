@@ -9,11 +9,14 @@ import frc.robot.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 //import com.revrobotics.CANSparkMaxLowLevel;
@@ -49,11 +52,10 @@ public class Drivetrain extends SubsystemBase {
 
   //private final DifferentialDriveOdometry m_drivetrainOdometry;
 
-  public final RelativeEncoder leftEncoderFront;
-  public final RelativeEncoder leftEncoderBack;
-
-  public final RelativeEncoder rightEncoderFront;
-  public final RelativeEncoder rightEncoderBack;
+  public final RelativeEncoder leftEncoderFront, leftEncoderBack, rightEncoderFront, rightEncoderBack;
+  
+  // PID Controllers
+  public final SparkMaxPIDController leftPIDFront, leftPIDBack, rightPIDFront, rightPIDBack;
 
   public static DifferentialDrivePoseEstimator m_poseEstimator;
 
@@ -89,6 +91,11 @@ public class Drivetrain extends SubsystemBase {
 
     rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
     rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+
+    leftPIDFront = leftMotorFront.getPIDController();
+    leftPIDBack = leftMotorBack.getPIDController();
+    rightPIDFront = rightMotorFront.getPIDController();
+    rightPIDBack = rightMotorBack.getPIDController();
 
     m_gyro = new ADXRS450_Gyro();
 
@@ -158,6 +165,15 @@ public class Drivetrain extends SubsystemBase {
 
     robotDrive.arcadeDrive(forwardSpeed, turnSpeed);
 
+  }
+
+  public void PIDArcadeDrive(double forwardSpeed, double turnSpeed) {
+    WheelSpeeds speeds = DifferentialDrive.arcadeDriveIK(forwardSpeed, turnSpeed, true);
+
+    leftPIDFront.setReference(speeds.left, ControlType.kVelocity);
+    leftPIDBack.setReference(speeds.left, ControlType.kVelocity);
+    rightPIDFront.setReference(speeds.right, ControlType.kVelocity);
+    rightPIDBack.setReference(speeds.right, ControlType.kVelocity);
   }
 
   public void resetOdometry() {
@@ -236,6 +252,28 @@ public class Drivetrain extends SubsystemBase {
 
     return -m_gyro.getRate();
 
+  }
+
+  public void setPIDF(double kP, double kI, double kD, double kF) {
+    leftPIDFront.setP(kP);
+    leftPIDBack.setP(kP);
+    rightPIDFront.setP(kP);
+    rightPIDBack.setP(kP);
+
+    leftPIDFront.setI(kI);
+    leftPIDBack.setI(kI);
+    rightPIDFront.setI(kI);
+    rightPIDBack.setI(kI);
+
+    leftPIDFront.setD(kD);
+    leftPIDBack.setD(kD);
+    rightPIDFront.setD(kD);
+    rightPIDBack.setD(kD);
+
+    leftPIDFront.setFF(kF);
+    leftPIDBack.setFF(kF);
+    rightPIDFront.setFF(kF);
+    rightPIDBack.setFF(kF);
   }
 
 }
