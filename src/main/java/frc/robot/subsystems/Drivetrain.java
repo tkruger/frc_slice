@@ -84,11 +84,11 @@ public class Drivetrain extends SubsystemBase {
     rightMotors.setInverted(true);
 
     //(NOTE TO SELF) Check if we use quadature encoders
-    leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
-    leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
+    leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
 
-    rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
-    rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.drivetrain_ENCODER_CPR);
+    rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
 
     m_gyro = new ADXRS450_Gyro();
 

@@ -45,7 +45,7 @@ public final class Constants {
     public static final boolean drivetrain_RIGHT_ENCODER_REVERSED = false;
 
     //Define Encoder Wheel Information
-    public static final int drivetrain_ENCODER_CPR = 1024;
+    public static final int drivetrain_ENCODER_CPR = 42;
     public static final double drivetrain_WHEEL_DIAMETER_METERS = 0.15;
 
     //Define Encoder Distance Calculation Math

@@ -64,15 +64,12 @@ public class Trajectories {
             new Pose2d(1, 0, new Rotation2d(0)),
             // Pass config
             config);
-    public static Trajectory gigadoodoofardtrajectory = 
-        //i eated 7 sements
-        //it didnt evens like move nowhere which is why its all 0
-        new Pose2d(0, 0, new Rotation2d(0)),
-        //oh my goodness grashush it moved 1!!! alexa where is my wife!!!!!!!!!
-        List.of(new Translation2d(1, 0), new Translation2d(1,0)),
-        new Pose2d(0, 0, new Rotation2d(3.14159265))
-        //PASS CONFIG WOPEEEE
-        config);        
+    public static Trajectory otherTrajectory = 
+        TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, new Rotation2d(0)),
+            List.of(new Translation2d(1, 0), new Translation2d(1,0)),
+            new Pose2d(0, 0, new Rotation2d(3.14159265)),
+            config);        
 
 
 

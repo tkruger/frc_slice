@@ -26,7 +26,7 @@ public class Shooter extends SubsystemBase {
 
   // Shuffleboard stuff for adjusting power during regression
   private final ShuffleboardTab regressionTab;
-  private final SimpleWidget shotPowerInput, primarySpeedOutput, secondarySpeedOutput, primaryTargetOutput, secondaryTargetOutput;
+  private final SimpleWidget /*shotPowerInput,*/ primarySpeedOutput, secondarySpeedOutput, primaryTargetOutput, secondaryTargetOutput;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
     secondaryFlywheel.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
     regressionTab = Shuffleboard.getTab("Regression");
-    shotPowerInput = regressionTab.add("Shot Power", 0.0); 
+    //shotPowerInput = regressionTab.add("Shot Power", 0.0); 
     primarySpeedOutput = regressionTab.add("Primary Flywheel Speed", 0.0);
     secondarySpeedOutput = regressionTab.add("Secondary Flywheel Speed", 0.0);
     primaryTargetOutput = regressionTab.add("Primary Flywheel Target", 0.0);
