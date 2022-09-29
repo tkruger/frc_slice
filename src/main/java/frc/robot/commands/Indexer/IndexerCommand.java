@@ -8,7 +8,6 @@ THIS COMMAND IS DEPRECATED, USE INDEXER SCHEDULABLE COMMAND INSTEAD
 
 package frc.robot.commands.Indexer;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -66,7 +65,7 @@ public class IndexerCommand extends CommandBase {
       Speed = 0;
     }
     
-    RobotContainer.m_indexer.SetIndexer(Speed);
+    m_indexer.SetIndexer(Speed);
   }
 
   // Called once the command ends or is interrupted.

@@ -45,11 +45,14 @@ public class RobotContainer {
 
   public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
-  public static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, 0.5);
-  public static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, -0.5);
+  public static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, -0.5);
+  public static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, 0.5);
 
-  public static final IntakeSchedulableCommand m_toggleIntake = new IntakeSchedulableCommand(m_intake, 1);
-  public static final IntakeSchedulableCommand m_reverseIntake = new IntakeSchedulableCommand(m_intake, -1);
+  public static final IntakeForwardCommand m_forwardIntake = new IntakeForwardCommand(m_intake);
+  public static final IntakeReverseCommand m_reverseIntake = new IntakeReverseCommand(m_intake);
+
+  public static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
+  public static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -60,7 +63,7 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick));
     m_indexer.setDefaultCommand(new IndexerSchedulableCommand(m_indexer, 0));
     m_shooter.setDefaultCommand(new ShooterCommand(m_shooter, leftJoystick, rightJoystick));
-    m_intake.setDefaultCommand(new IntakeSchedulableCommand(m_intake, 0));
+    m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
 
   }
@@ -85,10 +88,13 @@ public class RobotContainer {
     Button.indexerDownFast.whenHeld(m_runIndexerDown);
 
     //Toggle intake
-    Button.intakeToggle.whenPressed(m_toggleIntake);
+    Button.intakeToggle.toggleWhenPressed(m_forwardIntake);
 
     //Reverse intake
     Button.intakeReverse.whenHeld(m_reverseIntake);
+
+    Button.indexerIntakeIn.whenHeld(m_inIntakeIndexer);
+    Button.indexerIntakeOut.whenHeld(m_outIntakeIndexer);
   }
 
   /**
