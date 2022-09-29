@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
+
 /**
  * A class to filter the input of a joystick axis.
  */
@@ -23,11 +25,7 @@ public class JoyFilter {
     }
 
     public double withDead(double raw) {
-        if (raw < deadzone) {
-            return 0;
-        }else {
-            return (raw - deadzone * Math.signum(raw))/(1 - deadzone);
-        }
+        return MathUtil.applyDeadband(raw, deadzone);
     }
 
     public double filter(double raw) {
