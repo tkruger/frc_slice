@@ -8,20 +8,22 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An Indexer command that uses an indexer subsystem. */
-public class IndexerSchedulableCommand extends CommandBase {
+public class IndexerIntakeCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
-  double Speed = 0;
+  private final Intake m_intake;
+  private boolean isForward;
 
   /**
    * @param subsystem The subsystem used by this command.
    */
-  public IndexerSchedulableCommand(Indexer indexer, double Speed) {
+  public IndexerIntakeCommand(Indexer indexer, Intake intake, boolean isForward) {
     m_indexer = indexer;
-    this.Speed = Speed;
+    m_intake = intake;
+    this.isForward = isForward;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexer);
+    addRequirements(indexer, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -33,13 +35,20 @@ public class IndexerSchedulableCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexer.SetIndexer(Speed);
+    if(isForward){
+      m_indexer.SetIndexer(-0.5);
+      m_intake.runIntake(true, false);
+    } else if(!isForward){
+      m_indexer.SetIndexer(0.5);
+      m_intake.runIntake(false, true);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_indexer.SetIndexer(0);
+    m_intake.runIntake(false, false);
   }
 
   // Returns true when the command should end.

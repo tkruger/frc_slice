@@ -14,10 +14,12 @@ public final class Button {
     public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
 
     //Define Indexer Buttons
-    public static JoystickButton indexerUpSlow = new JoystickButton(rightJoystick, 3); //Right Top 3
     public static JoystickButton indexerUpFast = new JoystickButton(rightJoystick, 5); //Right Top 5
-    public static JoystickButton indexerDownSlow = new JoystickButton(leftJoystick, 3); //Left Top 3
     public static JoystickButton indexerDownFast = new JoystickButton(leftJoystick, 5); //Left Top 5
+
+    //Define Intake + Indexer Buttons
+    public static JoystickButton indexerIntakeIn = new JoystickButton(rightJoystick, 3); //Right Top 3
+    public static JoystickButton indexerIntakeOut = new JoystickButton(leftJoystick, 3); //Left Top 3
 
     //Define Intake Buttons
     public static JoystickButton intakeToggle = new JoystickButton(rightJoystick, 2); //Right Top 2

@@ -7,22 +7,19 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import frc.robot.RobotContainer;
 //import frc.robot.subsystems.Intake;
 
-public class IntakeSchedulableCommand extends CommandBase {
+public class IntakeReverseCommand extends CommandBase {
+
+  Intake m_intake;
 
   boolean intakeForwardPressed = false;
   boolean intakeForwardToggle = false;
   boolean intakeBackward = false;
 
-  private int direction;
-
-  public IntakeSchedulableCommand(Intake intake, int direction) {
+  public IntakeReverseCommand(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_intake);
-    
-    this.direction = direction;
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -33,41 +30,22 @@ public class IntakeSchedulableCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(direction == 1){
-      intakeForwardPressed = true;
-      intakeBackward = false;
-    } else if(direction == -1){
-      intakeBackward = true;
-      intakeForwardPressed = false;
-    } else{
-      intakeForwardPressed = false;
-      intakeBackward = false;
-    }
+    intakeBackward = true;
 
-    if(intakeForwardPressed == true) {
-      if(intakeForwardToggle == true) {
-      intakeForwardToggle = false;
-      }
-      else if (intakeForwardToggle == false) {
-      intakeForwardToggle = true;
-      }
-    }
-
-    RobotContainer.m_intake.runIntake(intakeForwardToggle, intakeBackward);
+    m_intake.runIntake(intakeForwardToggle, intakeBackward);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeBackward = false;
+    m_intake.runIntake(intakeForwardToggle, intakeBackward);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intakeForwardPressed == true){
-      return true;
-    } else{
-      return false;
-    }
+    return false;
   }
 }
