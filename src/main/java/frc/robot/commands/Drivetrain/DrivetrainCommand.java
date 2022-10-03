@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Drivetrain;
 
-import frc.robot.JoyFilter;
+import frc.robot.JoystickFilter;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,7 +22,7 @@ public class DrivetrainCommand extends CommandBase {
   private final Joystick leftJoystick;
   private final Joystick rightJoystick;
 
-  private final JoyFilter forwardFilter, turnFilter;
+  private final JoystickFilter forwardFilter, turnFilter;
 
   /**
    * Creates a new ExampleCommand.
@@ -37,8 +37,8 @@ public class DrivetrainCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoyFilter(0.05, 0.3);
-    turnFilter = new JoyFilter(0.05, 0.3);
+    forwardFilter = new JoystickFilter(0.05, 0.3);
+    turnFilter = new JoystickFilter(0.05, 0.3);
 
   }
 

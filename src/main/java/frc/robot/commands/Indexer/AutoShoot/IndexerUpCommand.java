@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Indexer.AutoShoot;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer; 
@@ -42,7 +41,7 @@ public class IndexerUpCommand extends CommandBase {
     
     Speed = -.5;
     
-    RobotContainer.m_indexer.SetIndexer(Speed);
+    m_indexer.SetIndexer(Speed);
   }
 
   // Called once the command ends or is interrupted.

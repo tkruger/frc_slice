@@ -14,8 +14,8 @@ import frc.robot.commands.Intake.*;
 import frc.robot.commands.Limelight.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.Joystick;
-//import frc.robot.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,34 +25,36 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static final Drivetrain m_drivetrain = new Drivetrain();
-  public static final Shooter m_shooter = new Shooter();
-  public static final Indexer m_indexer = new Indexer();
-  public static final Intake m_intake = new Intake();
-  public static final Limelight m_limelight = new Limelight();
+  static final Drivetrain m_drivetrain = new Drivetrain();
+  static final Shooter m_shooter = new Shooter();
+  static final Indexer m_indexer = new Indexer();
+  static final Intake m_intake = new Intake();
+  static final Limelight m_limelight = new Limelight();
 
   private static Joystick leftJoystick = Button.leftJoystick;
   private static Joystick rightJoystick = Button.rightJoystick;
 
-  public static final alignlessShootSequence m_alignlessShootAuto = 
+  static final alignlessShootSequence m_alignlessShootAuto = 
         new alignlessShootSequence(m_indexer, m_shooter, leftJoystick, rightJoystick);
 
-  public static final alignedShootSequence m_alignedShootAuto = 
+  static final alignedShootSequence m_alignedShootAuto = 
         new alignedShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
 
-  public static final smartShootSequence m_smartShootAuto = 
+  static final smartShootSequence m_smartShootAuto = 
         new smartShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
 
-  public static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
+  static final RamseteCommand m_testTrajectory = Trajectories.generateRamseteCommand(m_drivetrain, Trajectories.testTrajectory);
 
-  public static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, -0.5);
-  public static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, 0.5);
+  static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
-  public static final IntakeForwardCommand m_forwardIntake = new IntakeForwardCommand(m_intake);
-  public static final IntakeReverseCommand m_reverseIntake = new IntakeReverseCommand(m_intake);
+  static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, -0.5);
+  static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, 0.5);
+ 
+  static final IntakeForwardCommand m_forwardIntake = new IntakeForwardCommand(m_intake);
+  static final IntakeReverseCommand m_reverseIntake = new IntakeReverseCommand(m_intake);
 
-  public static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
-  public static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);
+  static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
+  static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -62,7 +64,7 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick));
     m_indexer.setDefaultCommand(new IndexerSchedulableCommand(m_indexer, 0));
-    m_shooter.setDefaultCommand(new ShooterCommand(m_shooter, leftJoystick, rightJoystick));
+    m_shooter.setDefaultCommand(new ShooterIdleCommand(m_shooter));
     m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
 
@@ -103,6 +105,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_smartShootAuto;
+    return m_testTrajectory;
   }
 }
