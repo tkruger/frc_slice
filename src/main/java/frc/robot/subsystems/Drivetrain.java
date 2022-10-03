@@ -276,5 +276,11 @@ public class Drivetrain extends SubsystemBase {
     rightPIDBack.setFF(kF);
   }
 
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(rightVolts);
+    robotDrive.feed();
+  }
+
 }
 
