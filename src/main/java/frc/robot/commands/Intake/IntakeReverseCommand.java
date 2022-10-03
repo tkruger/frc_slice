@@ -13,13 +13,11 @@ public class IntakeReverseCommand extends CommandBase {
 
   Intake m_intake;
 
-  boolean intakeForwardPressed = false;
-  boolean intakeForwardToggle = false;
-  boolean intakeBackward = false;
-
   public IntakeReverseCommand(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intake);
+    addRequirements(intake);
+
+    m_intake = intake;
   }
 
   // Called when the command is initially scheduled.
@@ -30,17 +28,14 @@ public class IntakeReverseCommand extends CommandBase {
   @Override
   public void execute() {
 
-    intakeBackward = true;
-
-    m_intake.runIntake(intakeForwardToggle, intakeBackward);
+    m_intake.runIntake(false, true);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeBackward = false;
-    m_intake.runIntake(intakeForwardToggle, intakeBackward);
+    m_intake.runIntake(false, false);
   }
 
   // Returns true when the command should end.
