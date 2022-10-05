@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.*;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -25,8 +26,8 @@ public class Shooter extends SubsystemBase {
   private double primaryTargetSpeed, secondaryTargetSpeed;
 
   // Shuffleboard stuff for adjusting power during regression
-  private final ShuffleboardTab regressionTab;
-  private final SimpleWidget /*shotPowerInput,*/ primarySpeedOutput, secondarySpeedOutput, primaryTargetOutput, secondaryTargetOutput;
+  private final ShuffleboardTab regressionTab, smartDashboard;
+  private final SimpleWidget /*shotPowerInput,*/ primarySpeedOutput, secondarySpeedOutput, primaryTargetOutput, secondaryTargetOutput, shotPowerAdjust;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -66,12 +67,15 @@ public class Shooter extends SubsystemBase {
 
     secondaryFlywheel.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
+    // Shuffleboard tabs
+    smartDashboard = Shuffleboard.getTab("SmartDashboard");
     regressionTab = Shuffleboard.getTab("Regression");
     //shotPowerInput = regressionTab.add("Shot Power", 0.0); 
     primarySpeedOutput = regressionTab.add("Primary Flywheel Speed", 0.0);
     secondarySpeedOutput = regressionTab.add("Secondary Flywheel Speed", 0.0);
     primaryTargetOutput = regressionTab.add("Primary Flywheel Target", 0.0);
     secondaryTargetOutput = regressionTab.add("Secondary Flywheel Target", 0.0);
+    shotPowerAdjust = smartDashboard.add("Adjust Shot Power", 0.0);
   }
 
   @Override
@@ -150,6 +154,16 @@ public class Shooter extends SubsystemBase {
   public double getShotPower(double distance) {
     // https://www.desmos.com/calculator/vlunb8xtw2
     double power = (903.227 / (1 + Math.exp(-7.44717 * (distance - 3.36109)))) + 4254.94;
+    power += shotPowerAdjust.getEntry().getDouble(0.0);
     return power;
+  }
+
+  public static boolean goodShotDistance(double angleToGoal) {
+    double trueAngle = angleToGoal + Constants.limelightAngle;
+    double height = Constants.hubHeight - Constants.limelightHeight; 
+    double distance = height / Math.tan(Math.toRadians(trueAngle));
+    distance += Constants.goalRadius;
+
+    return (Constants.minimumShotDistance < distance) && (Constants.maximumShotDistance > distance);
   }
 }
