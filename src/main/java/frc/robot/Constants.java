@@ -72,8 +72,8 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final double kMaxSpeedMetersPerSeconds = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxSpeedMetersPerSeconds = 0.1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
 
     // Ramsete controller parameters. There are maethematically determined to be the best parameters for almost every robot
     public static final double kRamseteB = 2;

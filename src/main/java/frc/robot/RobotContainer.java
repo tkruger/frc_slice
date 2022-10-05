@@ -105,6 +105,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_testTrajectory;
+    m_drivetrain.resetOdometry(Trajectories.testTrajectory.getInitialPose());
+    return m_testTrajectory.andThen(() -> m_drivetrain.tankDriveVolts(0.0, 0.0));
   }
 }

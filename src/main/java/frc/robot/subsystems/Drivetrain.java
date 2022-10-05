@@ -176,14 +176,14 @@ public class Drivetrain extends SubsystemBase {
     rightPIDBack.setReference(speeds.right, ControlType.kVelocity);
   }
 
-  public void resetOdometry() {
+  public void resetOdometry(Pose2d position) {
 
     leftEncoderFront.setPosition(0);
     leftEncoderBack.setPosition(0);
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
-    m_poseEstimator.resetPosition(updateOdometry(), m_gyro.getRotation2d());
+    m_poseEstimator.resetPosition(position, m_gyro.getRotation2d());
 
     m_gyro.reset();
 
