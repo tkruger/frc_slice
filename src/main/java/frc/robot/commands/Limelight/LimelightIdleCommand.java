@@ -4,8 +4,10 @@
 
 package frc.robot.commands.Limelight;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 
 public class LimelightIdleCommand extends CommandBase {
   /** Creates a new LimelightRun. */
@@ -33,7 +35,16 @@ public class LimelightIdleCommand extends CommandBase {
     m_limelight.setLedMode(1);
     m_limelight.setCameraMode(1);
     m_limelight.setPipeline();
-
+    
+    // Tell the driver if the robot sees the target and if the distance to the target is between tested values.
+    if (m_limelight.getTargetDetected() == 1) {
+      boolean goodShotDistance = Shooter.goodShotDistance(m_limelight.getYOffset());
+      SmartDashboard.putBoolean("Good Shot Distance", goodShotDistance);
+      SmartDashboard.putBoolean("Sees Target", true);
+    }else {
+      SmartDashboard.putBoolean("Good Shot Distance", false);
+      SmartDashboard.putBoolean("Sees Target", false);
+    }
   }
 
   // Called once the command ends or is interrupted.

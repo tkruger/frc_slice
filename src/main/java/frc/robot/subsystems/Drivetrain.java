@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.Timer;
 
 import com.revrobotics.RelativeEncoder;
@@ -48,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
   private final MotorControllerGroup leftMotors, rightMotors;
   private final DifferentialDrive robotDrive;
 
-  private final Gyro m_gyro;
+  private final ADXRS450_Gyro m_gyro;
 
   //private final DifferentialDriveOdometry m_drivetrainOdometry;
 
@@ -58,6 +60,8 @@ public class Drivetrain extends SubsystemBase {
   public final SparkMaxPIDController leftPIDFront, leftPIDBack, rightPIDFront, rightPIDBack;
 
   public static DifferentialDrivePoseEstimator m_poseEstimator;
+
+  public final Field2d field2d = new Field2d();
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -108,11 +112,18 @@ public class Drivetrain extends SubsystemBase {
       VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)),
       VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)));
 
-    }
+    // Display current gyro heading on Shuffleboard
+    Shuffleboard.getTab("SmartDashboard").add(m_gyro);
+    // Display how the robot is moving on Shuffleboard
+    Shuffleboard.getTab("SmartDashboard").add(robotDrive);
+
+
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    field2d.setRobotPose(getEstimatedPosition());
   }
 
   @Override
@@ -150,6 +161,10 @@ public class Drivetrain extends SubsystemBase {
 
     return m_poseEstimator.getEstimatedPosition();
 
+  }
+
+  public Pose2d getEstimatedPosition() {
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   /**
