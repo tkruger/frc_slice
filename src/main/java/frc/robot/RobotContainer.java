@@ -12,6 +12,7 @@ import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Limelight.*;
+import frc.robot.commands.Climber.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -30,6 +31,7 @@ public class RobotContainer {
   static final Indexer m_indexer = new Indexer();
   static final Intake m_intake = new Intake();
   static final Limelight m_limelight = new Limelight();
+  static final Climber m_climber = new Climber();
 
   private static Joystick leftJoystick = Button.leftJoystick;
   private static Joystick rightJoystick = Button.rightJoystick;
@@ -56,6 +58,9 @@ public class RobotContainer {
   static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
   static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);
 
+  public static final ClimberSchedulableCommand m_extendClimbers = new ClimberSchedulableCommand(m_climber, true);
+  public static final ClimberSchedulableCommand m_retractClimbers = new ClimberSchedulableCommand(m_climber, false);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -67,6 +72,7 @@ public class RobotContainer {
     m_shooter.setDefaultCommand(new ShooterIdleCommand(m_shooter));
     m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
+    m_climber.setDefaultCommand(new ClimberIdleCommand(m_climber));
 
   }
 
@@ -95,8 +101,13 @@ public class RobotContainer {
     //Reverse intake
     Button.intakeReverse.whenHeld(m_reverseIntake);
 
+    //Run indexer and intake simultaneously
     Button.indexerIntakeIn.whenHeld(m_inIntakeIndexer);
     Button.indexerIntakeOut.whenHeld(m_outIntakeIndexer);
+
+    //Extend climber
+    Button.climberArmsUp.whenHeld(m_extendClimbers);
+    Button.climberArmsDown.whenHeld(m_retractClimbers);
   }
 
   /**
