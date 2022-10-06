@@ -57,8 +57,8 @@ public class ShooterFlywheelSpinUp extends CommandBase {
     //secondarySpeed = (secondarySpeed + 1) / 2;
 
     //PID ONLY (way too high for PWM)
-    primarySpeed = -((primarySpeed + 1) * 710);
-    secondarySpeed = (secondarySpeed + 1) * 710;
+    primarySpeed = -((primarySpeed + 1) * 2850);
+    secondarySpeed = (secondarySpeed + 1) * 2850;
 
     m_shooter.SetShooters(primarySpeed, secondarySpeed);
   }
