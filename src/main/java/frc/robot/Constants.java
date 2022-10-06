@@ -36,6 +36,11 @@ public final class Constants {
     //Define Indexer Motor Port
     public static final int indexer_MOTOR_PORT = 10;
 
+    //Define Climber Constants
+    public static final int climber_LEFT_MOTOR_PORT = 5;
+    public static final int climber_RIGHT_MOTOR_PORT = 7;
+    public static final double climber_SPEED = 0.1;
+
     //Define Encoder Ports
     public static final int[] drivetrain_LEFT_ENCODER = new int[] {0,1};
     public static final int[] drivetrain_RIGHT_ENCODER = new int[] {2,3};
@@ -72,8 +77,8 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final double kMaxSpeedMetersPerSeconds = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxSpeedMetersPerSeconds = 0.1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
 
     // Ramsete controller parameters. There are maethematically determined to be the best parameters for almost every robot
     public static final double kRamseteB = 2;
