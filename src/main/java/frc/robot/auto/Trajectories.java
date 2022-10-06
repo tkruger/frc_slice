@@ -69,8 +69,8 @@ public class Trajectories {
     public static Trajectory otherTrajectory = 
         TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, new Rotation2d(0)),
-            List.of(new Translation2d(1, 0), new Translation2d(1,0)),
-            new Pose2d(0, 0, new Rotation2d(3.14159265)),
+            List.of(new Translation2d(1, 0), new Translation2d(2,0)),
+            new Pose2d(3, 0, new Rotation2d(3.14159265)),
             config);        
 
     public static RamseteCommand generateRamseteCommand(Drivetrain drive, Trajectory trajectory) {

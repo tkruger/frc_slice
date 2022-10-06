@@ -39,7 +39,7 @@ public final class Constants {
     //Define Climber Constants
     public static final int climber_LEFT_MOTOR_PORT = 5;
     public static final int climber_RIGHT_MOTOR_PORT = 7;
-    public static final double climber_SPEED = 0.1;
+    public static final double climber_SPEED = 0.2;
 
     //Define Encoder Ports
     public static final int[] drivetrain_LEFT_ENCODER = new int[] {0,1};

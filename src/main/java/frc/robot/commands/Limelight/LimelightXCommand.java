@@ -69,7 +69,7 @@ public class LimelightXCommand extends CommandBase {
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 2.5 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 3 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
       finished = true;
     }
 
