@@ -178,12 +178,12 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) { 
 
-    robotDrive.arcadeDrive(forwardSpeed, turnSpeed);
+    robotDrive.arcadeDrive(-forwardSpeed, turnSpeed);
 
   }
 
   public void PIDArcadeDrive(double forwardSpeed, double turnSpeed) {
-    WheelSpeeds speeds = DifferentialDrive.arcadeDriveIK(forwardSpeed, turnSpeed, true);
+    WheelSpeeds speeds = DifferentialDrive.arcadeDriveIK(-forwardSpeed, turnSpeed, true);
 
     leftPIDFront.setReference(speeds.left, ControlType.kVelocity);
     leftPIDBack.setReference(speeds.left, ControlType.kVelocity);
