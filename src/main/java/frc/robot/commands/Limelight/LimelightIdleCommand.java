@@ -41,7 +41,7 @@ public class LimelightIdleCommand extends CommandBase {
       boolean goodShotDistance = Shooter.goodShotDistance(m_limelight.getYOffset());
       SmartDashboard.putBoolean("Good Shot Distance", goodShotDistance);
       SmartDashboard.putBoolean("Sees Target", true);
-    }else {
+    } else {
       SmartDashboard.putBoolean("Good Shot Distance", false);
       SmartDashboard.putBoolean("Sees Target", false);
     }

@@ -95,6 +95,6 @@ public final class Constants {
     public static final double secondaryPointDistance = -2.0; //Distance of secondary point from center of top goal
     public static final double secondaryPointHeight = 1.0; //Height of secondary point from center of top goal
 
-    public static final double minimumShotDistance = 2.165; // The closest distance we've collected rgeression data from
+    public static final double minimumShotDistance = 2.165; // The closest distance we've collected regression data from
     public static final double maximumShotDistance = 4.383; // The furthest distance we've collected regression data from
 }
