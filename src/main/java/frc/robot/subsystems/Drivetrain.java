@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.Timer;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -30,7 +29,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.StateSpaceUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 //import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj.Timer;
@@ -155,9 +153,9 @@ public class Drivetrain extends SubsystemBase {
       getAverageRightEncoderDistance());
 
     //This latency value(0.3) is a place holder for now and should be measured properly for our robot
-    m_poseEstimator.addVisionMeasurement(
-      getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition()),
-      Timer.getFPGATimestamp() - 0.3);
+    // m_poseEstimator.addVisionMeasurement(
+    //   getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition()),
+    //   Timer.getFPGATimestamp() - 0.3);
 
     return m_poseEstimator.getEstimatedPosition();
 
@@ -295,6 +293,10 @@ public class Drivetrain extends SubsystemBase {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
     robotDrive.feed();
+  }
+
+  public void stopDrive() {
+    tankDriveVolts(0, 0);
   }
 
 }

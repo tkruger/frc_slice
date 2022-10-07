@@ -16,6 +16,7 @@ import frc.robot.commands.Climber.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -116,7 +117,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    m_drivetrain.resetOdometry(Trajectories.testTrajectory.getInitialPose());
-    return m_testTrajectory.andThen(() -> m_drivetrain.tankDriveVolts(0.0, 0.0));
+    return new TrajectoryFollowerSequence(m_drivetrain, Trajectories.testTrajectory, Trajectories.testTrajectory.getInitialPose());
   }
 }
