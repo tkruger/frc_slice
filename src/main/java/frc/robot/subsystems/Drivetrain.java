@@ -87,12 +87,23 @@ public class Drivetrain extends SubsystemBase {
     
     rightMotors.setInverted(true);
 
-    //(NOTE TO SELF) Check if we use quadature encoders
     leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
     leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
 
     rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
     rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+
+    leftEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
+    leftEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
+
+    rightEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
+    rightEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
+
+    leftEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
+    leftEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
+
+    rightEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
+    rightEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
 
     leftPIDFront = leftMotorFront.getPIDController();
     leftPIDBack = leftMotorBack.getPIDController();
@@ -185,8 +196,8 @@ public class Drivetrain extends SubsystemBase {
 
     leftPIDFront.setReference(speeds.left, ControlType.kVelocity);
     leftPIDBack.setReference(speeds.left, ControlType.kVelocity);
-    rightPIDFront.setReference(speeds.right, ControlType.kVelocity);
-    rightPIDBack.setReference(speeds.right, ControlType.kVelocity);
+    rightPIDFront.setReference(-speeds.right, ControlType.kVelocity);
+    rightPIDBack.setReference(-speeds.right, ControlType.kVelocity);
   }
 
   public void resetOdometry(Pose2d position) {

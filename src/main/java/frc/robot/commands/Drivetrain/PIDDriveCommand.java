@@ -39,14 +39,16 @@ public class PIDDriveCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoystickFilter(0.05, 0.3);
-    turnFilter = new JoystickFilter(0.05, 0.3);
+    forwardFilter = new JoystickFilter(0.1, 0.8);
+    turnFilter = new JoystickFilter(0.1, 0.5);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    m_drivetrain.setPIDF(.18, .000008, .22, .62);
 
     //Resets gyro heading, encoder positions, and pose reading
     m_drivetrain.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
@@ -61,7 +63,7 @@ public class PIDDriveCommand extends CommandBase {
     double forwardSpeed = forwardFilter.filter(leftJoystick.getY());
     double turnSpeed = turnFilter.filter(rightJoystick.getX());
 
-    m_drivetrain.PIDArcadeDrive(forwardSpeed, turnSpeed);
+    m_drivetrain.PIDArcadeDrive(forwardSpeed * 2.5, turnSpeed * 3);
 
     //Updates the odometry with a new estimated robot pose
     m_drivetrain.updateOdometry();
@@ -75,17 +77,11 @@ public class PIDDriveCommand extends CommandBase {
     //Prints out gyro turn rate
     SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());
 
-    //Prints out left front motor velocity
-    SmartDashboard.putNumber("Left Front Motor Velocity:", m_drivetrain.getLeftFrontVelocity());
+   //Prints out left side velocity
+   SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());
 
-    //Prints out left back motor velocity
-    SmartDashboard.putNumber("Left Back Motor Velocity:", m_drivetrain.getLeftBackVelocity());
-
-    //Prints out right front motor velocity
-    SmartDashboard.putNumber("Right Front Motor Velocity:", m_drivetrain.getRightFrontVelocity());
-
-    //Prints out right back motor velocity
-    SmartDashboard.putNumber("Right Back Motor Velocity:", m_drivetrain.getRightBackVelocity());
+   //Prints out right side velocity
+   SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
 
   }
 

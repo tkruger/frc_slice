@@ -75,17 +75,11 @@ public class DrivetrainCommand extends CommandBase {
     //Prints out gyro turn rate
     SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());
 
-    //Prints out left front motor velocity
-    SmartDashboard.putNumber("Left Front Motor Velocity:", m_drivetrain.getLeftFrontVelocity());
+    //Prints out left side velocity
+    SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());
 
-    //Prints out left back motor velocity
-    SmartDashboard.putNumber("Left Back Motor Velocity:", m_drivetrain.getLeftBackVelocity());
-
-    //Prints out right front motor velocity
-    SmartDashboard.putNumber("Right Front Motor Velocity:", m_drivetrain.getRightFrontVelocity());
-
-    //Prints out right back motor velocity
-    SmartDashboard.putNumber("Right Back Motor Velocity:", m_drivetrain.getRightBackVelocity());
+    //Prints out right side velocity
+    SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
 
   }
 

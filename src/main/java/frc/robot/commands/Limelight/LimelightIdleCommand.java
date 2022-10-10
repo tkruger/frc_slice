@@ -32,7 +32,7 @@ public class LimelightIdleCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_limelight.setLedMode(1);
+    m_limelight.setLedMode(3);
     m_limelight.setCameraMode(1);
     m_limelight.setPipeline();
     
@@ -45,6 +45,8 @@ public class LimelightIdleCommand extends CommandBase {
       SmartDashboard.putBoolean("Good Shot Distance", false);
       SmartDashboard.putBoolean("Sees Target", false);
     }
+
+    SmartDashboard.putNumber("Limelight X Offset", m_limelight.getXOffset());
   }
 
   // Called once the command ends or is interrupted.

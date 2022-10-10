@@ -53,10 +53,15 @@ public final class Constants {
     public static final int drivetrain_ENCODER_CPR = 42;
     public static final double drivetrain_WHEEL_DIAMETER_METERS = 0.15;
 
+    public static final double drivetrain_VELOCITY_CONVERSION_FACTOR = Math.PI * drivetrain_WHEEL_DIAMETER_METERS /(60 * 10.75);
+    public static final double drivetrain_POSITION_CONVERSION_RATIO = Math.PI * drivetrain_WHEEL_DIAMETER_METERS / 10.75;
+
+    public static final double drivetrain_MAXIMUM_VELOCITY = 4.1644;
+
     //Define Encoder Distance Calculation Math
     public static final double drivetrain_ENCODER_DISTANCE_PER_PULSE =
         // Assumes the encoders are directly mounted on the wheel shafts
-        (drivetrain_WHEEL_DIAMETER_METERS * Math.PI) / (double) drivetrain_ENCODER_CPR;
+        drivetrain_VELOCITY_CONVERSION_FACTOR / (double) drivetrain_ENCODER_CPR;
 
     public static final float limelight_STEERING_ADJUST_PROPORTION = 0.03f;
     public static final float limelight_MOVEMENT_ADJUST_PROPORTION = 0.04f;

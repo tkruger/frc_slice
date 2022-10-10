@@ -68,7 +68,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick));
+    m_drivetrain.setDefaultCommand(new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
     m_indexer.setDefaultCommand(new IndexerSchedulableCommand(m_indexer, 0));
     m_shooter.setDefaultCommand(new ShooterIdleCommand(m_shooter));
     m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));

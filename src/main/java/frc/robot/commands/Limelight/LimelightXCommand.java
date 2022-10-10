@@ -64,12 +64,12 @@ public class LimelightXCommand extends CommandBase {
 
     } else {
       ySteeringAdjust = 0;
-      xSteeringAdjust = 17 * Constants.limelight_STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 19 * Constants.limelight_STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 3 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 4.2 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
       finished = true;
     }
 
