@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj.Timer; 
 
 public class LimelightXCommand extends CommandBase {
   /** Creates a new LimelightRun. */
@@ -24,6 +25,8 @@ public class LimelightXCommand extends CommandBase {
   double xSteeringAdjust;
   double ySteeringAdjust;
 
+  private Timer Time;
+
   boolean finished;
 
   public LimelightXCommand(Limelight limelight, Drivetrain drivetrain) {
@@ -32,6 +35,9 @@ public class LimelightXCommand extends CommandBase {
 
     this.m_limelight = limelight;
     this.m_drivetrain = drivetrain;
+
+    Time.reset();
+    Time.start();
 
   }
 
@@ -56,6 +62,10 @@ public class LimelightXCommand extends CommandBase {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
       } else if (targetXOffset < -8) {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
+      } else if (targetXOffset < 5) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 4;
+      } else if (targetXOffset > -5) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -4;
       } else {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
@@ -98,6 +108,9 @@ public class LimelightXCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(Time.get() >= 8) {
+      return true;
+    }
 
     return finished;
 
