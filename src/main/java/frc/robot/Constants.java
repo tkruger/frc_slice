@@ -69,6 +69,9 @@ public final class Constants {
     // Error threshold for shooters during smart shoot routine
     public static final double auto_shooter_threshold = 10;
 
+    public static final double limelight_X_ALIGN_KP = 1;
+    public static final double limelight_X_ALIGN_KI = 0.01;
+
     // ===============================
     // Autonomous
     // ===============================

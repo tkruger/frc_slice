@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer; 
 
 public class LimelightXCommand extends CommandBase {
@@ -25,6 +26,8 @@ public class LimelightXCommand extends CommandBase {
   double xSteeringAdjust;
   double ySteeringAdjust;
 
+  double iAccummulator;
+
   private final Timer Time;
 
   boolean finished;
@@ -37,6 +40,8 @@ public class LimelightXCommand extends CommandBase {
     this.m_drivetrain = drivetrain;
 
     Time = new Timer();
+
+    iAccummulator = 0;
 
   }
 
@@ -61,23 +66,34 @@ public class LimelightXCommand extends CommandBase {
 
     if(targetDetected == 1) {
 
-      if (targetXOffset > 8) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
-      } else if (targetXOffset < -8) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
-      } else if (targetXOffset < 5 && targetXOffset > 0) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 4;
-      } else if (targetXOffset > -5 && targetXOffset < 0) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -4;
-      } else {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
+      // if (targetXOffset > 8) {
+      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
+      // } else if (targetXOffset < -8) {
+      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
+      // } else if (targetXOffset < 5 && targetXOffset > 0) {
+      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 4;
+      // } else if (targetXOffset > -5 && targetXOffset < 0) {
+      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -4;
+      // } else {
+      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
+      // }
+      if (Math.abs(targetXOffset) < 5) {
+        iAccummulator += targetXOffset * 0.02;
+      }else {
+        iAccummulator = 0;
       }
+
+      xSteeringAdjust = iAccummulator * Constants.limelight_X_ALIGN_KI + targetXOffset * Constants.limelight_X_ALIGN_KP;
+      xSteeringAdjust = MathUtil.clamp(xSteeringAdjust, -8, 8);
+
       
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
 
     } else {
       ySteeringAdjust = 0;
       xSteeringAdjust = 17 * Constants.limelight_STEERING_ADJUST_PROPORTION;
+
+      iAccummulator = 0;
 
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
