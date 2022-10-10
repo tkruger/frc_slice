@@ -25,7 +25,7 @@ public class LimelightXCommand extends CommandBase {
   double xSteeringAdjust;
   double ySteeringAdjust;
 
-  private Timer Time;
+  private final Timer Time;
 
   boolean finished;
 
@@ -36,8 +36,7 @@ public class LimelightXCommand extends CommandBase {
     this.m_limelight = limelight;
     this.m_drivetrain = drivetrain;
 
-    Time.reset();
-    Time.start();
+    Time = new Timer();
 
   }
 
@@ -46,6 +45,10 @@ public class LimelightXCommand extends CommandBase {
   public void initialize() {
     m_limelight.setCameraMode(1);
     finished = false;
+
+    Time.reset();
+    Time.start();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,9 +65,9 @@ public class LimelightXCommand extends CommandBase {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
       } else if (targetXOffset < -8) {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
-      } else if (targetXOffset < 5) {
+      } else if (targetXOffset < 5 && targetXOffset > 0) {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 4;
-      } else if (targetXOffset > -5) {
+      } else if (targetXOffset > -5 && targetXOffset < 0) {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -4;
       } else {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
@@ -74,12 +77,12 @@ public class LimelightXCommand extends CommandBase {
 
     } else {
       ySteeringAdjust = 0;
-      xSteeringAdjust = 19 * Constants.limelight_STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 17 * Constants.limelight_STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 4.2 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 3 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
       finished = true;
     }
 
@@ -108,7 +111,7 @@ public class LimelightXCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Time.get() >= 8) {
+    if(Time.get() >= 3) {
       return true;
     }
 
