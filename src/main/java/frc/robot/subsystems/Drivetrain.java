@@ -61,6 +61,9 @@ public class Drivetrain extends SubsystemBase {
 
   public final Field2d field2d = new Field2d();
 
+  // The current target position of every motor
+  public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     
@@ -304,6 +307,38 @@ public class Drivetrain extends SubsystemBase {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
     robotDrive.feed();
+  }
+
+  /**
+   * Drives forwards a given distance
+   * @param distance in meters
+   */
+  public void driveDistance(double distance) {
+
+    leftTargetPositionFront = leftEncoderFront.getPosition() + distance;
+    leftTargetPositionBack = leftEncoderBack.getPosition() + distance;
+    rightTargetPositionFront = rightEncoderFront.getPosition() + distance;
+    rightTargetPositionBack = rightEncoderBack.getPosition() + distance;
+
+    leftPIDFront.setReference(leftTargetPositionFront, ControlType.kPosition);
+    leftPIDBack.setReference(leftTargetPositionBack, ControlType.kPosition);
+    rightPIDFront.setReference(rightTargetPositionFront, ControlType.kPosition);
+    rightPIDBack.setReference(rightTargetPositionBack, ControlType.kPosition);
+
+  }
+
+  /**
+   * Checks to see if the robot is at the it's target position set from driveDistance()
+   * @param threshold the maximum distance any wheel can be from it's target position, in meters
+   * @return Whether or not the robot is at the target position
+   */
+  public boolean atTargetPosition(double threshold) {
+    double lf = Math.abs(leftTargetPositionFront - leftEncoderFront.getPosition());
+    double lb = Math.abs(leftTargetPositionBack - leftEncoderBack.getPosition());
+    double rf = Math.abs(rightTargetPositionFront - rightEncoderBack.getPosition());
+    double rb = Math.abs(rightTargetPositionBack - rightEncoderBack.getPosition());
+
+    return (lf <= threshold && lb <= threshold && rf <= threshold && rb <= threshold);
   }
 
   public void stopDrive() {
