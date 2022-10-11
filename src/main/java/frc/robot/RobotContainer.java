@@ -59,8 +59,10 @@ public class RobotContainer {
   static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
   static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);
 
-  public static final ClimberSchedulableCommand m_extendClimbers = new ClimberSchedulableCommand(m_climber, true);
-  public static final ClimberSchedulableCommand m_retractClimbers = new ClimberSchedulableCommand(m_climber, false);
+  static final ClimberSchedulableCommand m_extendClimbers = new ClimberSchedulableCommand(m_climber, true);
+  static final ClimberSchedulableCommand m_retractClimbers = new ClimberSchedulableCommand(m_climber, false);
+
+  static final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -109,6 +111,8 @@ public class RobotContainer {
     //Extend climber
     Button.climberArmsUp.whenHeld(m_extendClimbers);
     Button.climberArmsDown.whenHeld(m_retractClimbers);
+
+    Button.leftButton7.toggleWhenPressed(m_oldDrivetrain);
   }
 
   /**
