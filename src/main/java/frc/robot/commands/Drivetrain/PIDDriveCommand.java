@@ -77,11 +77,11 @@ public class PIDDriveCommand extends CommandBase {
     //Prints out gyro turn rate
     SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());
 
-   //Prints out left side velocity
-   SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());
+    //Prints out left side velocity
+    SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());
 
-   //Prints out right side velocity
-   SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
+    //Prints out right side velocity
+    SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
 
   }
 

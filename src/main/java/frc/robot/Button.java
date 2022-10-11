@@ -13,6 +13,9 @@ public final class Button {
     public static Joystick leftJoystick = new Joystick(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
     public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
 
+    //Define Drivetrain Buttons
+    public static JoystickButton leftButton7 = new JoystickButton(leftJoystick, 7); //Left Bottom 7
+
     //Define Indexer Buttons
     public static JoystickButton indexerUpFast = new JoystickButton(rightJoystick, 5); //Right Top 5
     public static JoystickButton indexerDownFast = new JoystickButton(leftJoystick, 5); //Left Top 5
@@ -44,7 +47,6 @@ public final class Button {
     //Unassigned Left Joystick Buttons
     public static JoystickButton leftButton4 = new JoystickButton(leftJoystick, 4); //Left Top 4
     public static JoystickButton leftButton6 = new JoystickButton(leftJoystick, 6); //Left Top 6
-    public static JoystickButton leftButton7 = new JoystickButton(leftJoystick, 7); //Left Bottom 7
     public static JoystickButton leftButton8 = new JoystickButton(leftJoystick, 8); //Left Bottom 8
     public static JoystickButton leftButton9 = new JoystickButton(leftJoystick, 9); //Left Bottom 9
     public static JoystickButton leftButton10 = new JoystickButton(leftJoystick, 10); //Left Bottom 10
