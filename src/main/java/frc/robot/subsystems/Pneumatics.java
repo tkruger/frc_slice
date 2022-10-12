@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+
 
 public class Pneumatics extends SubsystemBase
 {
@@ -18,12 +20,14 @@ public class Pneumatics extends SubsystemBase
   Joystick m_rightJoystick; 
   private final DoubleSolenoid dSolenoid;
   private final Compressor compressor;
+  private boolean compressorEnabled;
   
   // Constructor
   public Pneumatics() {
 
     compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     dSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    compressorEnabled = compressor.enabled();
 
   }
 
@@ -36,7 +40,7 @@ public class Pneumatics extends SubsystemBase
   @Override
   public void periodic() 
   {
-    compressor.enableDigital();
+    SmartDashboard.putBoolean("Compressor status", compressorEnabled);
   }
 
   @Override

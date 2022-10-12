@@ -12,14 +12,14 @@ import frc.robot.subsystems.Pneumatics;
 // A Pneumatics command that uses an pneumatics subsystem.
 public class PneumaticsIdleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Pneumatics m_pneumatics;
+  //private final Pneumatics m_pneumatics;
 
   // constructor
   public PneumaticsIdleCommand(Pneumatics pneumatics) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(pneumatics);
 
-    this.m_pneumatics = pneumatics;
+    //this.m_pneumatics = pneumatics;
 
   }
 

@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+//import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
@@ -17,7 +17,7 @@ import com.revrobotics.CANSparkMax;
 public class Climber extends SubsystemBase {
   // Instance Variables
   private final CANSparkMax leftClimberMotor, rightClimberMotor;
-  private final MotorControllerGroup climberMotors;
+  //private final MotorControllerGroup climberMotors;
   public final RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
   // Constructor
@@ -31,7 +31,7 @@ public class Climber extends SubsystemBase {
     leftClimberMotor.restoreFactoryDefaults();
 
     // Assign motor controller group
-    climberMotors = new MotorControllerGroup(rightClimberMotor, leftClimberMotor);
+    //climberMotors = new MotorControllerGroup(rightClimberMotor, leftClimberMotor);
 
     // Assign Encoders
     leftClimberEncoder = leftClimberMotor.getEncoder();
