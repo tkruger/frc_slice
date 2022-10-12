@@ -53,8 +53,8 @@ public class RobotContainer {
   static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, -0.5);
   static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, 0.5);
  
-  static final IntakeForwardCommand m_forwardIntake = new IntakeForwardCommand(m_intake);
-  static final IntakeReverseCommand m_reverseIntake = new IntakeReverseCommand(m_intake);
+  static final IntakeCommand m_forwardIntake = new IntakeCommand(m_intake, true);
+  static final IntakeCommand m_reverseIntake = new IntakeCommand(m_intake, false);
 
   static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
   static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);

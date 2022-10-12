@@ -21,7 +21,7 @@ public class smartShootSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new IndexerDownSlightCommand(indexer), 
+      new TimedIndexerCommand(indexer, 0.2, 0.3), 
       new LimelightXCommand(limelight, drivetrain), 
       new SmartAutoShoot(limelight, shooter),
       new IndexerUpCommand(indexer), 

@@ -2,41 +2,35 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.Shooter.AutoShoot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.*;
-//import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
-public class IntakeReverseCommand extends CommandBase {
-
-  Intake m_intake;
-
-  public IntakeReverseCommand(Intake intake) {
+public class ConstantSpeedShooterCommand extends CommandBase {
+  Shooter m_shooter;
+  double m_speed;
+  /** Creates a new ConstantSpeedShooterCommand. */
+  public ConstantSpeedShooterCommand(Shooter shooter, double speed) {
+    m_shooter = shooter;
+    m_speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
-
-    m_intake = intake;
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_shooter.SetShooters(-m_speed, m_speed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    m_intake.runIntake(false, true);
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_intake.runIntake(false, false);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
