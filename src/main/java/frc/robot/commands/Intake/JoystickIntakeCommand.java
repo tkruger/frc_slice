@@ -2,26 +2,37 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
+THIS COMMAND IS DEPRECATED, USE INTAKE SCHEDULABLE COMMAND INSTEAD
+*/
+
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import frc.robot.subsystems.Intake;
 
-public class IntakeForwardCommand extends CommandBase {
+@Deprecated
+public class JoystickIntakeCommand extends CommandBase {
 
-  Intake m_intake;
+  private final Joystick leftJoystick;
+  private final Joystick rightJoystick;
 
-  boolean intakeForwardPressed = false;
+  private final Intake m_intake;
+
   boolean intakeForwardToggle = false;
-  boolean intakeBackward = false;
 
-  public IntakeForwardCommand(Intake intake) {
+  public JoystickIntakeCommand(Intake intake, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
 
     m_intake = intake;
+
+    this.leftJoystick = leftJoystick;
+    this.rightJoystick = rightJoystick;
+    
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +43,17 @@ public class IntakeForwardCommand extends CommandBase {
   @Override
   public void execute() {
 
-    intakeForwardToggle = true;
+    boolean intakeForwardPressed = rightJoystick.getRawButtonPressed(2);
+    boolean intakeBackward = leftJoystick.getRawButton(2);
+
+    if(intakeForwardPressed == true) {
+      if(intakeForwardToggle == true) {
+      intakeForwardToggle = false;
+      }
+      else if (intakeForwardToggle == false) {
+      intakeForwardToggle = true;
+      }
+    }
 
     m_intake.runIntake(intakeForwardToggle, intakeBackward);
 
@@ -41,13 +62,16 @@ public class IntakeForwardCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeForwardToggle = false;
-    m_intake.runIntake(intakeForwardToggle, intakeBackward);
+
+    m_intake.runIntake(false, false);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     return false;
+    
   }
 }
