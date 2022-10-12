@@ -33,6 +33,7 @@ public class RobotContainer {
   static final Intake m_intake = new Intake();
   static final Limelight m_limelight = new Limelight();
   static final Climber m_climber = new Climber();
+  static final Pneumatics m_pneumatics = new Pneumatics();
 
   private static Joystick leftJoystick = Button.leftJoystick;
   private static Joystick rightJoystick = Button.rightJoystick;
@@ -62,6 +63,9 @@ public class RobotContainer {
   static final ClimberSchedulableCommand m_extendClimbers = new ClimberSchedulableCommand(m_climber, true);
   static final ClimberSchedulableCommand m_retractClimbers = new ClimberSchedulableCommand(m_climber, false);
 
+  static final PneumaticsInCommand m_inPneumatics = new PneumaticsInCommand(m_pneumatics);
+  static final PneumaticsOutCommand m_outPneumatics = new PneumaticsOutCommand(m_pneumatics);
+
   static final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -76,6 +80,8 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
     m_climber.setDefaultCommand(new ClimberIdleCommand(m_climber));
+    m_pneumatics.setDefaultCommand(new PneumaticsIdleCommand(m_pneumatics));
+
 
   }
 
@@ -111,6 +117,9 @@ public class RobotContainer {
     //Extend climber
     Button.climberArmsUp.whenHeld(m_extendClimbers);
     Button.climberArmsDown.whenHeld(m_retractClimbers);
+
+    Button.climberPneumaticsIn.whenHeld(m_inPneumatics);
+    Button.climberPneumaticsOut.whenHeld(m_outPneumatics);
 
     Button.leftButton7.toggleWhenPressed(m_oldDrivetrain);
   }
