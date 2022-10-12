@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax;
@@ -49,6 +50,9 @@ public class Climber extends SubsystemBase {
     leftClimberEncoder.getVelocity();
     rightClimberEncoder.getVelocity();
 
+    SmartDashboard.putNumber("Left Climber Position", leftClimberEncoder.getPosition());
+    SmartDashboard.putNumber("Right Climber Position", rightClimberEncoder.getPosition());
+
   }
 
   @Override
@@ -57,11 +61,12 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimber(double climberSpeed) {
-    climberMotors.set(climberSpeed);
+    leftClimberMotor.set(climberSpeed);  
+    rightClimberMotor.set(climberSpeed);
   }
 
   public void setLeftClimber(double climberSpeed) {
-    leftClimberMotor.set(climberSpeed);
+    leftClimberMotor.set(climberSpeed);  
   }
 
   public void setRightClimber(double climberSpeed) {
