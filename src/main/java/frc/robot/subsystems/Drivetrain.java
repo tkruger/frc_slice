@@ -341,6 +341,13 @@ public class Drivetrain extends SubsystemBase {
     return (lf <= threshold && lb <= threshold && rf <= threshold && rb <= threshold);
   }
 
+  public void setMaxSpeed(double max) {
+    leftPIDFront.setOutputRange(-max, max);
+    leftPIDBack.setOutputRange(-max, max);
+    rightPIDFront.setOutputRange(-max, max);
+    rightPIDBack.setOutputRange(-max, max);
+  }
+
   public void stopDrive() {
     tankDriveVolts(0, 0);
   }

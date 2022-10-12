@@ -15,8 +15,8 @@ public class SmartAutoShoot extends CommandBase {
   private final Limelight m_limelight;
   private final Shooter m_shooter;
 
-  private final ShuffleboardTab regressionTab;
-  private final SimpleWidget measuredAngleOutput, measuredDistanceOutput, shotAngleOutput; 
+  //private final ShuffleboardTab regressionTab;
+  //private final SimpleWidget measuredAngleOutput, measuredDistanceOutput, shotAngleOutput; 
 
   private double distanceToHub;
   private double angleToHub;
@@ -29,10 +29,10 @@ public class SmartAutoShoot extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_limelight, m_shooter);
 
-    regressionTab = Shuffleboard.getTab("Regression");
-    measuredAngleOutput = regressionTab.add("Measured Angle to Goal", 0.0);
-    measuredDistanceOutput = regressionTab.add("Measured Distance to Goal", 0.0);
-    shotAngleOutput = regressionTab.add("Desired Shot Angle", 0.0);
+    // regressionTab = Shuffleboard.getTab("Regression");
+    // measuredAngleOutput = regressionTab.add("Measured Angle to Goal but Again", 0.0);
+    // measuredDistanceOutput = regressionTab.add("Measured Distance to Goal", 0.0);
+    // shotAngleOutput = regressionTab.add("Desired Shot Angle", 0.0);
   }
 
   // Called when the command is initially scheduled.
@@ -46,9 +46,9 @@ public class SmartAutoShoot extends CommandBase {
     double secondarySpeed = m_shooter.getSecondaryMotorSpeed(primarySpeed, shotAngle);
     m_shooter.SetShooters(-primarySpeed, secondarySpeed);
 
-    measuredAngleOutput.getEntry().setDouble(angleToHub);
-    measuredDistanceOutput.getEntry().setDouble(distanceToHub);
-    shotAngleOutput.getEntry().setDouble(shotAngle);
+    //measuredAngleOutput.getEntry().setDouble(angleToHub);
+    //measuredDistanceOutput.getEntry().setDouble(distanceToHub);
+    //shotAngleOutput.getEntry().setDouble(shotAngle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -130,6 +130,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TrajectoryFollowerSequence(m_drivetrain, Trajectories.testTrajectory, Trajectories.testTrajectory.getInitialPose());
+    //return new TrajectoryFollowerSequence(m_drivetrain, Trajectories.testTrajectory, Trajectories.testTrajectory.getInitialPose());
+    return new simpleAutoRoutine(m_indexer, m_intake, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
   }
 }

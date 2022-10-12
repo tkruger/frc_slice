@@ -21,6 +21,7 @@ public class SimpleAutoDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_drivetrain.setMaxSpeed(0.3);
     m_drivetrain.driveDistance(m_distance);
   }
 
@@ -32,6 +33,7 @@ public class SimpleAutoDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.stopDrive();
+    m_drivetrain.setMaxSpeed(10);
   }
 
   // Returns true when the command should end.
