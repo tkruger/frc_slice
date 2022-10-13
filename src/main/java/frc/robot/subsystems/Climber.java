@@ -20,6 +20,15 @@ public class Climber extends SubsystemBase {
   //private final MotorControllerGroup climberMotors;
   public final RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
+  private double leftClimbPositionOffset = 0;
+  private double rightClimbPositionOffset = 0;
+
+  private double leftRawClimbPosition;
+  private double rightRawClimbPosition;
+
+  public double leftClimbPosition;
+  public double rightClimbPosition;
+
   // Constructor
   public Climber() {
     // Assign individual motors
@@ -43,15 +52,18 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // Gets distance travelled
-    leftClimberEncoder.getPosition();
-    rightClimberEncoder.getPosition();
+    leftRawClimbPosition = leftClimberEncoder.getPosition();
+    rightRawClimbPosition = rightClimberEncoder.getPosition();
+
+    leftClimbPosition = leftRawClimbPosition + leftClimbPositionOffset;
+    rightClimbPosition = rightRawClimbPosition + rightClimbPositionOffset;
 
     // Gets encoder current rate
     leftClimberEncoder.getVelocity();
     rightClimberEncoder.getVelocity();
 
-    SmartDashboard.putNumber("Left Climber Position", leftClimberEncoder.getPosition());
-    SmartDashboard.putNumber("Right Climber Position", rightClimberEncoder.getPosition());
+    SmartDashboard.putNumber("Left Climber Position", leftClimbPosition);
+    SmartDashboard.putNumber("Right Climber Position", rightClimbPosition);
 
   }
 
@@ -71,5 +83,10 @@ public class Climber extends SubsystemBase {
 
   public void setRightClimber(double climberSpeed) {
     rightClimberMotor.set(climberSpeed);
+  }
+
+  public void zeroClimberPosition() {
+    leftClimbPositionOffset = leftRawClimbPosition;
+    rightClimbPositionOffset = rightRawClimbPosition;
   }
 }

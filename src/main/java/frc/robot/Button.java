@@ -14,7 +14,7 @@ public final class Button {
     public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
 
     //Define Drivetrain Buttons
-    public static JoystickButton leftButton7 = new JoystickButton(leftJoystick, 7); //Left Bottom 7
+    public static JoystickButton driveMethod = new JoystickButton(leftJoystick, 4); //Left Top 4
 
     //Define Indexer Buttons
     public static JoystickButton indexerUpFast = new JoystickButton(rightJoystick, 5); //Right Top 5
@@ -35,22 +35,27 @@ public final class Button {
     //Define Climber Buttons
     public static JoystickButton climberArmsDown = new JoystickButton(rightJoystick, 7); //Right Bottom 7
     public static JoystickButton climberArmsUp = new JoystickButton(rightJoystick, 8); //Right Bottom 8
-    public static JoystickButton climberPneumaticsIn = new JoystickButton(rightJoystick, 9); //Right Bottom 9
-    public static JoystickButton climberPneumaticsOut = new JoystickButton(rightJoystick, 10); //Right Bottom 10
+    public static JoystickButton leftClimberDown = new JoystickButton(rightJoystick, 9); //Right Bottom 9
+    public static JoystickButton leftClimberUp = new JoystickButton(rightJoystick, 10); //Right Bottom 10
+    public static JoystickButton rightClimberDown = new JoystickButton(rightJoystick, 11); //Right Bottom 9
+    public static JoystickButton rightClimberUp = new JoystickButton(rightJoystick, 12); //Right Bottom 10
+    public static JoystickButton zeroClimber = new JoystickButton(leftJoystick, 9); //Left Bottom 9
+
+    //Define Pneumatics Buttons
+    public static JoystickButton pneumaticsIn = new JoystickButton(leftJoystick, 7); //Left Bottom 7
+    public static JoystickButton pneumaticsOut = new JoystickButton(leftJoystick, 8); //Left Bottom 8
+
+    //Define Climber + Pneumatics Buttons
+    public static JoystickButton climberPneumaticsBack = new JoystickButton(leftJoystick, 10); //Left Bottom 10
+    public static JoystickButton climberPneumaticsMin = new JoystickButton(leftJoystick, 11); //Left Bottom 11
+    public static JoystickButton climberPneumaticsUp = new JoystickButton(leftJoystick, 12); //Left Bottom 12
 
     //Unassigned Right Joystick Buttons
     public static JoystickButton rightButton4 = new JoystickButton(rightJoystick, 4); //Right Top 4
     public static JoystickButton rightButton6 = new JoystickButton(rightJoystick, 6); // Right Top 6
-    public static JoystickButton rightButton11 = new JoystickButton(rightJoystick, 11); //Right Bottom 11
-    public static JoystickButton rightButton12 = new JoystickButton(rightJoystick, 12); //Right Bottom 12
 
     //Unassigned Left Joystick Buttons
-    public static JoystickButton leftButton4 = new JoystickButton(leftJoystick, 4); //Left Top 4
     public static JoystickButton leftButton6 = new JoystickButton(leftJoystick, 6); //Left Top 6
-    public static JoystickButton leftButton8 = new JoystickButton(leftJoystick, 8); //Left Bottom 8
-    public static JoystickButton leftButton9 = new JoystickButton(leftJoystick, 9); //Left Bottom 9
-    public static JoystickButton leftButton10 = new JoystickButton(leftJoystick, 10); //Left Bottom 10
-    public static JoystickButton leftButton11 = new JoystickButton(leftJoystick, 11); //Left Bottom 11
-    public static JoystickButton leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12
+    
 
 }
