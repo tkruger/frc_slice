@@ -66,25 +66,26 @@ public class LimelightXCommand extends CommandBase {
 
     if(targetDetected == 1) {
 
-      // if (targetXOffset > 8) {
-      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
-      // } else if (targetXOffset < -8) {
-      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
-      // } else if (targetXOffset < 5 && targetXOffset > 0) {
-      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 4;
-      // } else if (targetXOffset > -5 && targetXOffset < 0) {
-      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -4;
-      // } else {
-      //   xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
-      // }
-      if (Math.abs(targetXOffset) < 5) {
-        iAccummulator += targetXOffset * 0.02;
-      }else {
-        iAccummulator = 0;
+      if (targetXOffset > 8) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
+      } else if (targetXOffset < -8) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
+      } else if (targetXOffset < 5 && targetXOffset > 0) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 5;
+      } else if (targetXOffset > -5 && targetXOffset < 0) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -5;
+      } else {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
 
-      xSteeringAdjust = iAccummulator * Constants.limelight_X_ALIGN_KI + targetXOffset * Constants.limelight_X_ALIGN_KP;
-      xSteeringAdjust = MathUtil.clamp(xSteeringAdjust, -8, 8);
+      // if (Math.abs(targetXOffset) < 5) {
+      //   iAccummulator += targetXOffset * 0.02;
+      // }else {
+      //   iAccummulator = 0;
+      // }
+
+      // xSteeringAdjust = iAccummulator * Constants.limelight_X_ALIGN_KI + targetXOffset * Constants.limelight_X_ALIGN_KP;
+      // xSteeringAdjust = MathUtil.clamp(xSteeringAdjust, -8, 8);
 
       
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
@@ -121,6 +122,8 @@ public class LimelightXCommand extends CommandBase {
     targetXOffset = 0;
     targetYOffset = 0;
     targetDetected = 0;
+
+    m_drivetrain.stopDrive();
 
   }
 

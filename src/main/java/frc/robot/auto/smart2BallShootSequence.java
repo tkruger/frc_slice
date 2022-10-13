@@ -32,7 +32,7 @@ public class smart2BallShootSequence extends SequentialCommandGroup {
     ParallelDeadlineGroup horizontalAlignGroup = new ParallelDeadlineGroup(horizontalAlign, spinUp);
 
     addCommands(
-      new TimedIndexerCommand(indexer, 0.2, 0.3),
+      new TimedIndexerCommand(indexer, 0.3, 0.5),
       horizontalAlignGroup,
       new SmartAutoShoot(limelight, shooter),
       new TimedIndexerCommand(indexer, -0.5, 1.5),

@@ -72,7 +72,7 @@ public final class Constants {
         public static final float limelight_MOVEMENT_ADJUST_PROPORTION = 0.04f;
 
         public static final double limelight_X_ALIGN_KP = 1;
-        public static final double limelight_X_ALIGN_KI = 0.01;
+        public static final double limelight_X_ALIGN_KI = 0.005;
 
 
 

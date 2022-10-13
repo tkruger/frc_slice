@@ -201,6 +201,8 @@ public class Drivetrain extends SubsystemBase {
     leftPIDBack.setReference(speeds.left, ControlType.kVelocity);
     rightPIDFront.setReference(-speeds.right, ControlType.kVelocity);
     rightPIDBack.setReference(-speeds.right, ControlType.kVelocity);
+
+    robotDrive.feed();
   }
 
   public void resetOdometry(Pose2d position) {
@@ -350,6 +352,10 @@ public class Drivetrain extends SubsystemBase {
 
   public void stopDrive() {
     tankDriveVolts(0, 0);
+  }
+
+  public void feedDrive() {
+    robotDrive.feed();
   }
 
 }
