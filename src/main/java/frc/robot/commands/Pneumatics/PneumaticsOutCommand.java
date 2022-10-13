@@ -27,16 +27,12 @@ public class PneumaticsOutCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    m_pneumatics.setSolenoid(DoubleSolenoid.Value.kReverse);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-    m_pneumatics.setSolenoid(DoubleSolenoid.Value.kReverse);
-
-  }
+  public void execute() { }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -45,7 +41,7 @@ public class PneumaticsOutCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
 
