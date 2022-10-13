@@ -48,7 +48,7 @@ public class PIDDriveCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.setPIDF(.18, .000008, .1, .62);
+    m_drivetrain.setPIDF(.17, .000002, .12, .62);
 
     //Resets gyro heading, encoder positions, and pose reading
     m_drivetrain.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
