@@ -21,6 +21,7 @@ public class SimpleAutoDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_drivetrain.setPIDF(0.3, 0.01, 0, 0);
     m_drivetrain.setMaxSpeed(0.3);
     m_drivetrain.driveDistance(m_distance);
   }
