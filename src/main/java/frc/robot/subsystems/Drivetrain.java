@@ -317,8 +317,8 @@ public class Drivetrain extends SubsystemBase {
 
     leftTargetPositionFront = leftEncoderFront.getPosition() + distance;
     leftTargetPositionBack = leftEncoderBack.getPosition() + distance;
-    rightTargetPositionFront = rightEncoderFront.getPosition() + distance;
-    rightTargetPositionBack = rightEncoderBack.getPosition() + distance;
+    rightTargetPositionFront = rightEncoderFront.getPosition() - distance;
+    rightTargetPositionBack = rightEncoderBack.getPosition() - distance;
 
     leftPIDFront.setReference(leftTargetPositionFront, ControlType.kPosition);
     leftPIDBack.setReference(leftTargetPositionBack, ControlType.kPosition);
