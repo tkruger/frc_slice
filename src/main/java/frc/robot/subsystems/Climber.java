@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+//import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
@@ -17,8 +17,17 @@ import com.revrobotics.CANSparkMax;
 public class Climber extends SubsystemBase {
   // Instance Variables
   private final CANSparkMax leftClimberMotor, rightClimberMotor;
-  private final MotorControllerGroup climberMotors;
+  //private final MotorControllerGroup climberMotors;
   public final RelativeEncoder leftClimberEncoder, rightClimberEncoder;
+
+  private double leftClimbPositionOffset = 0;
+  private double rightClimbPositionOffset = 0;
+
+  private double leftRawClimbPosition;
+  private double rightRawClimbPosition;
+
+  public double leftClimbPosition;
+  public double rightClimbPosition;
 
   // Constructor
   public Climber() {
@@ -31,7 +40,7 @@ public class Climber extends SubsystemBase {
     leftClimberMotor.restoreFactoryDefaults();
 
     // Assign motor controller group
-    climberMotors = new MotorControllerGroup(rightClimberMotor, leftClimberMotor);
+    //climberMotors = new MotorControllerGroup(rightClimberMotor, leftClimberMotor);
 
     // Assign Encoders
     leftClimberEncoder = leftClimberMotor.getEncoder();
@@ -43,15 +52,18 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // Gets distance travelled
-    leftClimberEncoder.getPosition();
-    rightClimberEncoder.getPosition();
+    leftRawClimbPosition = leftClimberEncoder.getPosition();
+    rightRawClimbPosition = rightClimberEncoder.getPosition();
+
+    leftClimbPosition = leftRawClimbPosition + leftClimbPositionOffset;
+    rightClimbPosition = rightRawClimbPosition + rightClimbPositionOffset;
 
     // Gets encoder current rate
     leftClimberEncoder.getVelocity();
     rightClimberEncoder.getVelocity();
 
-    SmartDashboard.putNumber("Left Climber Position", leftClimberEncoder.getPosition());
-    SmartDashboard.putNumber("Right Climber Position", rightClimberEncoder.getPosition());
+    SmartDashboard.putNumber("Left Climber Position", leftClimbPosition);
+    SmartDashboard.putNumber("Right Climber Position", rightClimbPosition);
 
   }
 
@@ -71,5 +83,10 @@ public class Climber extends SubsystemBase {
 
   public void setRightClimber(double climberSpeed) {
     rightClimberMotor.set(climberSpeed);
+  }
+
+  public void zeroClimberPosition() {
+    leftClimbPositionOffset = leftRawClimbPosition;
+    rightClimbPositionOffset = rightRawClimbPosition;
   }
 }

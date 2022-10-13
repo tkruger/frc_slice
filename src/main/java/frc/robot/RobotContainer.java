@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.auto.*;
@@ -12,11 +13,11 @@ import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Limelight.*;
+import frc.robot.commands.Pneumatics.*;
 import frc.robot.commands.Climber.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -62,6 +63,15 @@ public class RobotContainer {
 
   static final ClimberSchedulableCommand m_extendClimbers = new ClimberSchedulableCommand(m_climber, true);
   static final ClimberSchedulableCommand m_retractClimbers = new ClimberSchedulableCommand(m_climber, false);
+  static final ClimberOneArmSchedulableCommand m_extendLeftClimbers = new ClimberOneArmSchedulableCommand(m_climber, true, true);
+  static final ClimberOneArmSchedulableCommand m_retractLeftClimbers = new ClimberOneArmSchedulableCommand(m_climber, false, true);
+  static final ClimberOneArmSchedulableCommand m_extendRightClimbers = new ClimberOneArmSchedulableCommand(m_climber, true, false);
+  static final ClimberOneArmSchedulableCommand m_retractRightClimbers = new ClimberOneArmSchedulableCommand(m_climber, false, false);
+
+  static final climbPositionInSequence m_minClimbers = new climbPositionInSequence(m_climber, m_pneumatics, 0);
+  static final climbPositionInSequence m_verticalClimbers = new climbPositionInSequence(m_climber, m_pneumatics, -10);
+  static final climbPositionOutSequence m_backClimbers = new climbPositionOutSequence(m_climber, m_pneumatics, -15);
+  static final ClimberZeroPositionCommand m_zeroClimbers = new ClimberZeroPositionCommand(m_climber);
 
   static final PneumaticsInCommand m_inPneumatics = new PneumaticsInCommand(m_pneumatics);
   static final PneumaticsOutCommand m_outPneumatics = new PneumaticsOutCommand(m_pneumatics);
@@ -81,7 +91,6 @@ public class RobotContainer {
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
     m_climber.setDefaultCommand(new ClimberIdleCommand(m_climber));
     m_pneumatics.setDefaultCommand(new PneumaticsIdleCommand(m_pneumatics));
-
 
   }
 
@@ -114,14 +123,28 @@ public class RobotContainer {
     Button.indexerIntakeIn.whenHeld(m_inIntakeIndexer);
     Button.indexerIntakeOut.whenHeld(m_outIntakeIndexer);
 
-    //Extend climber
+    //Run both climbers
     Button.climberArmsUp.whenHeld(m_extendClimbers);
     Button.climberArmsDown.whenHeld(m_retractClimbers);
 
-    Button.climberPneumaticsIn.whenHeld(m_inPneumatics);
-    Button.climberPneumaticsOut.whenHeld(m_outPneumatics);
+    //Run left climbers
+    Button.leftClimberUp.whenHeld(m_extendLeftClimbers);
+    Button.leftClimberDown.whenHeld(m_retractLeftClimbers);
 
-    Button.leftButton7.toggleWhenPressed(m_oldDrivetrain);
+    //Run right climbers
+    Button.rightClimberUp.whenHeld(m_extendRightClimbers);
+    Button.rightClimberDown.whenHeld(m_retractRightClimbers);
+
+    //Toggle Pneumatics
+    Button.pneumaticsIn.whenHeld(m_inPneumatics);
+    Button.pneumaticsOut.whenHeld(m_outPneumatics);
+
+    //Set position of climbers and pneumatics
+    Button.climberPneumaticsMin.whenHeld(m_minClimbers);
+    Button.climberPneumaticsUp.whenHeld(m_verticalClimbers);
+    Button.climberPneumaticsBack.whenHeld(m_backClimbers);
+
+    Button.driveMethod.toggleWhenPressed(m_oldDrivetrain);
   }
 
   /**
