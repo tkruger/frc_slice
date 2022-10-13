@@ -21,6 +21,9 @@ public class Pneumatics extends SubsystemBase
   private final DoubleSolenoid dSolenoid;
   private final Compressor compressor;
   private boolean compressorEnabled;
+  private boolean pressureSwitchValue;
+  private double compressorCurrent;
+
   
   // Constructor
   public Pneumatics() {
@@ -28,6 +31,8 @@ public class Pneumatics extends SubsystemBase
     compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     dSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
     compressorEnabled = compressor.enabled();
+    pressureSwitchValue = compressor.getPressureSwitchValue();
+    compressorCurrent = compressor.getCurrent();
 
   }
 
@@ -40,7 +45,10 @@ public class Pneumatics extends SubsystemBase
   @Override
   public void periodic() 
   {
-    SmartDashboard.putBoolean("Compressor status", compressorEnabled);
+    SmartDashboard.putBoolean("Compressor status:", compressorEnabled);
+    SmartDashboard.putBoolean("Pressure Switch Value:", pressureSwitchValue);
+    SmartDashboard.putNumber("Compresor Current:", compressorCurrent);
+
   }
 
   @Override
