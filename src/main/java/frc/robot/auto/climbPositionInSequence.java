@@ -14,12 +14,12 @@ import frc.robot.subsystems.*;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class climbPositionInSequence extends SequentialCommandGroup {
   /** Creates a new alignlessShootSequence. */
-  public climbPositionInSequence(Climber climber, Pneumatics pneumatics, double climbTarget) {
+  public climbPositionInSequence(Climber climber, Pneumatics pneumatics, double climbLeftTarget, double climbRightTarget) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new PneumaticsInCommand(pneumatics),
-      new ClimberPositionCommand(climber, climbTarget)
+      new ClimberPositionCommand(climber, climbLeftTarget, climbRightTarget)
     );
     
   }

@@ -42,8 +42,8 @@ public final class Button {
     public static JoystickButton zeroClimber = new JoystickButton(leftJoystick, 9); //Left Bottom 9
 
     //Define Pneumatics Buttons
-    public static JoystickButton pneumaticsIn = new JoystickButton(leftJoystick, 7); //Left Bottom 7
-    public static JoystickButton pneumaticsOut = new JoystickButton(leftJoystick, 8); //Left Bottom 8
+    public static JoystickButton pneumaticsOut = new JoystickButton(leftJoystick, 7); //Left Bottom 7
+    public static JoystickButton pneumaticsIn = new JoystickButton(leftJoystick, 8); //Left Bottom 8
 
     //Define Climber + Pneumatics Buttons
     public static JoystickButton climberPneumaticsBack = new JoystickButton(leftJoystick, 10); //Left Bottom 10

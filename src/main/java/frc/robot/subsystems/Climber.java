@@ -55,8 +55,8 @@ public class Climber extends SubsystemBase {
     leftRawClimbPosition = leftClimberEncoder.getPosition();
     rightRawClimbPosition = rightClimberEncoder.getPosition();
 
-    leftClimbPosition = leftRawClimbPosition + leftClimbPositionOffset;
-    rightClimbPosition = rightRawClimbPosition + rightClimbPositionOffset;
+    leftClimbPosition = leftRawClimbPosition - leftClimbPositionOffset;
+    rightClimbPosition = rightRawClimbPosition - rightClimbPositionOffset;
 
     // Gets encoder current rate
     leftClimberEncoder.getVelocity();

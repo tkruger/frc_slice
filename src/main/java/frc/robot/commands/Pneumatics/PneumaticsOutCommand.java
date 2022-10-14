@@ -27,7 +27,7 @@ public class PneumaticsOutCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_pneumatics.setSolenoid(DoubleSolenoid.Value.kReverse);
+    m_pneumatics.setSolenoid(DoubleSolenoid.Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

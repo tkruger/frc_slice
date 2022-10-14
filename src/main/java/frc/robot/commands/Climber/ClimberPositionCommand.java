@@ -17,18 +17,22 @@ public class ClimberPositionCommand extends CommandBase {
   private final Climber m_climber;
   
   double climberSpeed = 0;
-  double targetPosition;
+  double targetLeftPosition;
+  double targetRightPosition;
 
   boolean leftFinished = false;
   boolean rightFinished = false;
+
+  double leftSpeed, rightSpeed;
   
   // Constructor
-  public ClimberPositionCommand(Climber climber, double targetPosition) {
+  public ClimberPositionCommand(Climber climber, double targetLeftPosition, double targetRightPosition) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
 
     m_climber = climber;
-    this.targetPosition = targetPosition;
+    this.targetLeftPosition = targetLeftPosition;
+    this.targetRightPosition = targetRightPosition;
   }
 
   // Method 1
@@ -36,29 +40,44 @@ public class ClimberPositionCommand extends CommandBase {
   public void initialize() {
     //Sets climber motors
     climberSpeed = Constants.climber_SPEED;
+    leftFinished = false;
+    rightFinished = false;
+    leftSpeed = 0;
+    rightSpeed = 0;
   }
 
   // Method 2
   @Override
   public void execute() {  
 
-    if(Math.abs(Math.abs(targetPosition) - Math.abs(m_climber.leftClimbPosition)) < 1) {
+    if(Math.abs(Math.abs(targetLeftPosition) - Math.abs(m_climber.leftClimbPosition)) < 1) {
       leftFinished = true;
-      m_climber.setLeftClimber(0);
-    } else if(targetPosition > m_climber.leftClimbPosition) {
-      m_climber.setLeftClimber(climberSpeed);
-    } else if(targetPosition < m_climber.leftClimbPosition) {
-      m_climber.setLeftClimber(-climberSpeed);
+      leftSpeed = 0;
+    } else if(targetLeftPosition > m_climber.leftClimbPosition) {
+      leftSpeed = climberSpeed;
+    } else if(targetLeftPosition < m_climber.leftClimbPosition) {
+      leftSpeed = -climberSpeed;
     }
 
-    if(Math.abs(Math.abs(targetPosition) - Math.abs(m_climber.rightClimbPosition)) < 1) {
-      rightFinished = true;
-      m_climber.setRightClimber(0);
-    } else if(targetPosition > m_climber.rightClimbPosition) {
-      m_climber.setRightClimber(climberSpeed);
-    } else if(targetPosition < m_climber.rightClimbPosition) {
-      m_climber.setRightClimber(-climberSpeed);
+    if(Math.abs(Math.abs(targetLeftPosition) - Math.abs(m_climber.leftClimbPosition)) < 20) {
+      leftSpeed = leftSpeed * 0.5;
     }
+
+    if(Math.abs(Math.abs(targetRightPosition) - Math.abs(m_climber.rightClimbPosition)) < 1) {
+      rightFinished = true;
+      rightSpeed = 0;
+    } else if(targetRightPosition > m_climber.rightClimbPosition) {
+      rightSpeed = climberSpeed;
+    } else if(targetRightPosition < m_climber.rightClimbPosition) {
+      rightSpeed = -climberSpeed;
+    }
+
+    if(Math.abs(Math.abs(targetRightPosition) - Math.abs(m_climber.rightClimbPosition)) < 20) {
+      rightSpeed = rightSpeed * 0.5;
+    }
+
+    m_climber.setLeftClimber(leftSpeed);
+    m_climber.setRightClimber(rightSpeed);
 
   }
 

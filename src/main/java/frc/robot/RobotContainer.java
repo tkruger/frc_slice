@@ -67,9 +67,9 @@ public class RobotContainer {
   static final ClimberOneArmSchedulableCommand m_extendRightClimbers = new ClimberOneArmSchedulableCommand(m_climber, true, false);
   static final ClimberOneArmSchedulableCommand m_retractRightClimbers = new ClimberOneArmSchedulableCommand(m_climber, false, false);
 
-  static final climbPositionInSequence m_minClimbers = new climbPositionInSequence(m_climber, m_pneumatics, 0);
-  static final climbPositionInSequence m_verticalClimbers = new climbPositionInSequence(m_climber, m_pneumatics, -10);
-  static final climbPositionOutSequence m_backClimbers = new climbPositionOutSequence(m_climber, m_pneumatics, -15);
+  static final climbPositionInSequence m_minClimbers = new climbPositionInSequence(m_climber, m_pneumatics, 0, 0);
+  static final climbPositionInSequence m_verticalClimbers = new climbPositionInSequence(m_climber, m_pneumatics, -308, -291);
+  static final climbPositionOutSequence m_backClimbers = new climbPositionOutSequence(m_climber, m_pneumatics, -320, -320);
   static final ClimberZeroPositionCommand m_zeroClimbers = new ClimberZeroPositionCommand(m_climber);
 
   static final PneumaticsInCommand m_inPneumatics = new PneumaticsInCommand(m_pneumatics);
@@ -142,6 +142,7 @@ public class RobotContainer {
     Button.climberPneumaticsMin.whenHeld(m_minClimbers);
     Button.climberPneumaticsUp.whenHeld(m_verticalClimbers);
     Button.climberPneumaticsBack.whenHeld(m_backClimbers);
+    Button.zeroClimber.whenPressed(m_zeroClimbers);
 
     Button.driveMethod.toggleWhenPressed(m_oldDrivetrain);
   }
