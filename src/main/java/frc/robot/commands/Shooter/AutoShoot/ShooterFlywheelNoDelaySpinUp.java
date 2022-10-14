@@ -5,9 +5,8 @@
 package frc.robot.commands.Shooter.AutoShoot;
 
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer; 
 
 /** A Shooter command that uses a shooter subsystem. */
 public class ShooterFlywheelNoDelaySpinUp extends CommandBase {

@@ -7,11 +7,11 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class IntakeCommand extends CommandBase {
+public class IntakeSchedulableCommand extends CommandBase {
   private final Intake m_intake;
   private final boolean m_forward;
   /** Creates a new ConstantSpeedIntakeCommand. */
-  public IntakeCommand(Intake intake, boolean forward) {
+  public IntakeSchedulableCommand(Intake intake, boolean forward) {
     m_intake = intake;
     m_forward = forward;
     // Use addRequirements() here to declare subsystem dependencies.

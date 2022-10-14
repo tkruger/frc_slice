@@ -1,20 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.ErrorCode;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
-//import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-//import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
-//import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import frc.robot.RobotContainer;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** A Shooter command that uses a shooter subsystem. */
 @Deprecated
-public class ShooterCommand extends CommandBase {
+public class OldShooterCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
 
@@ -27,7 +27,7 @@ public class ShooterCommand extends CommandBase {
   /**
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterCommand(Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
+  public OldShooterCommand(Shooter shooter, Joystick leftJoystick, Joystick rightJoystick) {
     m_shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);

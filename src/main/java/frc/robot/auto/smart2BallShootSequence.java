@@ -4,15 +4,8 @@
 
 package frc.robot.auto;
 
-/*import javax.swing.text.Position;
-import edu.wpi.first.math.geometry.Pose2d;
-import frc.robot.commands.Intake.IntakeCommand;
-import frc.robot.commands.Drivetrain.ResetOdometryCommand;
-import frc.robot.commands.Drivetrain.SimpleAutoDrive;*/
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.Limelight.LimelightXCommand;
 import frc.robot.commands.Indexer.IndexerIntakeCommand;
 import frc.robot.commands.Indexer.AutoShoot.*;

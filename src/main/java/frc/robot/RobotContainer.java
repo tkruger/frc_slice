@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.auto.*;
@@ -55,8 +54,8 @@ public class RobotContainer {
   static final IndexerSchedulableCommand m_runIndexerUp = new IndexerSchedulableCommand(m_indexer, -0.5);
   static final IndexerSchedulableCommand m_runIndexerDown = new IndexerSchedulableCommand(m_indexer, 0.5);
  
-  static final IntakeCommand m_forwardIntake = new IntakeCommand(m_intake, true);
-  static final IntakeCommand m_reverseIntake = new IntakeCommand(m_intake, false);
+  static final IntakeSchedulableCommand m_forwardIntake = new IntakeSchedulableCommand(m_intake, true);
+  static final IntakeSchedulableCommand m_reverseIntake = new IntakeSchedulableCommand(m_intake, false);
 
   static final IndexerIntakeCommand m_inIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, true);
   static final IndexerIntakeCommand m_outIntakeIndexer = new IndexerIntakeCommand(m_indexer, m_intake, false);

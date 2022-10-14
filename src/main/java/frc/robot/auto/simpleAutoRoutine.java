@@ -6,18 +6,11 @@ package frc.robot.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Drivetrain.ResetOdometryCommand;
-import frc.robot.commands.Drivetrain.SimpleAutoDrive;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Indexer.AutoShoot.TimedIndexerCommand;
-import frc.robot.commands.Intake.IntakeCommand;
-//import frc.robot.commands.Shooter.AutoShoot.ConstantSpeedShooterCommand;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
+import frc.robot.commands.Intake.IntakeSchedulableCommand;
+import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,7 +22,7 @@ public class simpleAutoRoutine extends SequentialCommandGroup {
   Joystick leftJoystick, Joystick rightJoystick) {
 
     SimpleAutoDrive forward = new SimpleAutoDrive(drivetrain, 1.5);
-    IntakeCommand runIntake = new IntakeCommand(intake, true);
+    IntakeSchedulableCommand runIntake = new IntakeSchedulableCommand(intake, true);
     ParallelDeadlineGroup forwardGroup = new ParallelDeadlineGroup(forward, runIntake);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

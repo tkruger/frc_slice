@@ -65,7 +65,7 @@ public final class Constants {
     //Define Climber Constants
         public static final int climber_LEFT_MOTOR_PORT = 5;
         public static final int climber_RIGHT_MOTOR_PORT = 7;
-        public static final double climber_SPEED = 0.2;
+        public static final double climber_SPEED = 0.3;
 
     //Define Limelight Constants
         public static final float limelight_STEERING_ADJUST_PROPORTION = 0.03f;

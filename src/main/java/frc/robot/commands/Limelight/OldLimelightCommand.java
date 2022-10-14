@@ -15,7 +15,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
-public class LimelightCommand extends CommandBase {
+@Deprecated
+public class OldLimelightCommand extends CommandBase {
   /** Creates a new LimelightRun. */
 
   private final Limelight m_limelight;
@@ -31,7 +32,7 @@ public class LimelightCommand extends CommandBase {
   double xSteeringAdjust;
   double ySteeringAdjust;
 
-  public LimelightCommand(Limelight limelight, Drivetrain drivetrain, Joystick leftJoystick) {
+  public OldLimelightCommand(Limelight limelight, Drivetrain drivetrain, Joystick leftJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight);
 

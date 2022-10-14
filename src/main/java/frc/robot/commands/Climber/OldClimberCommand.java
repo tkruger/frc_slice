@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** A climber command that uses an climber subsystem. */
 @Deprecated
-public class ClimberCommand extends CommandBase {
+public class OldClimberCommand extends CommandBase {
   // Warning Supression
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -21,7 +21,7 @@ public class ClimberCommand extends CommandBase {
   Joystick m_rightJoystick;
 
   // Constructor
-  public ClimberCommand(Climber climber, Joystick rightJoystick) {
+  public OldClimberCommand(Climber climber, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
 

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An Indexer command that uses an indexer subsystem. */
 @Deprecated
-public class IndexerCommand extends CommandBase {
+public class OldIndexerCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
   private final Joystick leftJoystick, rightJoystick;
@@ -24,7 +24,7 @@ public class IndexerCommand extends CommandBase {
   /**
    * @param subsystem The subsystem used by this command.
    */
-  public IndexerCommand(Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {
+  public OldIndexerCommand(Indexer indexer, Joystick leftJoystick, Joystick rightJoystick) {
     m_indexer = indexer;
     
     this.leftJoystick = leftJoystick;

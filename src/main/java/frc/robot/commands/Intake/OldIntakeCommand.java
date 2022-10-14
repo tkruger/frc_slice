@@ -11,11 +11,9 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
-//import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import frc.robot.subsystems.Intake;
 
 @Deprecated
-public class JoystickIntakeCommand extends CommandBase {
+public class OldIntakeCommand extends CommandBase {
 
   private final Joystick leftJoystick;
   private final Joystick rightJoystick;
@@ -24,7 +22,7 @@ public class JoystickIntakeCommand extends CommandBase {
 
   boolean intakeForwardToggle = false;
 
-  public JoystickIntakeCommand(Intake intake, Joystick leftJoystick, Joystick rightJoystick) {
+  public OldIntakeCommand(Intake intake, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
 

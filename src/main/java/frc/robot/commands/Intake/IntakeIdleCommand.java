@@ -6,8 +6,6 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
-//import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import frc.robot.subsystems.Intake;
 
 public class IntakeIdleCommand extends CommandBase {
 
