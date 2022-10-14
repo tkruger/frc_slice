@@ -31,8 +31,8 @@ public class LimelightIdleCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_limelight.setLedMode(3);
-    m_limelight.setCameraMode(1);
+    m_limelight.setLedMode(1);
+    m_limelight.setCameraMode(0);
     m_limelight.setPipeline();
     
     // Tell the driver if the robot sees the target and if the distance to the target is between tested values.
