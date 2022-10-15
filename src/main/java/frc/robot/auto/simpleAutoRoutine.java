@@ -8,7 +8,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.Drivetrain.*;
-import frc.robot.commands.Indexer.AutoShoot.TimedIndexerCommand;
+import frc.robot.commands.Indexer.AutoShoot.IndexerDownSlightCommand;
+//import frc.robot.commands.Indexer.AutoShoot.TimedIndexerCommand;
 import frc.robot.commands.Intake.IntakeSchedulableCommand;
 import frc.robot.subsystems.*;
 
@@ -21,14 +22,15 @@ public class simpleAutoRoutine extends SequentialCommandGroup {
   public simpleAutoRoutine(Indexer indexer, Intake intake, Shooter shooter, Drivetrain drivetrain, Limelight limelight, 
   Joystick leftJoystick, Joystick rightJoystick) {
 
-    SimpleAutoDrive forward = new SimpleAutoDrive(drivetrain, 1.5);
+    SimpleAutoDrive forward = new SimpleAutoDrive(drivetrain, 2.0);
     IntakeSchedulableCommand runIntake = new IntakeSchedulableCommand(intake, true);
     ParallelDeadlineGroup forwardGroup = new ParallelDeadlineGroup(forward, runIntake);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ResetOdometryCommand(drivetrain, new Pose2d()),
-      new TimedIndexerCommand(indexer, -0.5, 0.5),
+      /*new TimedIndexerCommand(indexer, -0.5, 0.5),*/
+      new IndexerDownSlightCommand(indexer),
       forwardGroup,
       new smart2BallShootSequence(indexer, intake, shooter, drivetrain, limelight, leftJoystick, rightJoystick)
     );

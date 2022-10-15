@@ -47,7 +47,8 @@ public class LimelightXCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_limelight.setCameraMode(1);
+    m_limelight.setCameraMode(0);
+    m_limelight.setLedMode(3);
     finished = false;
 
     Time.reset();
@@ -65,14 +66,14 @@ public class LimelightXCommand extends CommandBase {
 
     if(targetDetected == 1) {
 
-      if (targetXOffset > 8) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 8;
-      } else if (targetXOffset < -8) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -8;
-      } else if (targetXOffset < 5 && targetXOffset > 0) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 5;
-      } else if (targetXOffset > -5 && targetXOffset < 0) {
-        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -5;
+      if (targetXOffset > 10) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 14;
+      } else if (targetXOffset < -10) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -14;
+      } else if (targetXOffset <= 10 && targetXOffset > 0) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * 10;
+      } else if (targetXOffset >= -10 && targetXOffset < 0) {
+        xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * -10;
       } else {
         xSteeringAdjust = Constants.limelight_STEERING_ADJUST_PROPORTION * targetXOffset;
       }
@@ -93,12 +94,12 @@ public class LimelightXCommand extends CommandBase {
       ySteeringAdjust = 0;
       xSteeringAdjust = 17 * Constants.limelight_STEERING_ADJUST_PROPORTION;
 
-      iAccummulator = 0;
+      //iAccummulator = 0;
 
       m_drivetrain.ArcadeDrive(ySteeringAdjust, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 3 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 5 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
       finished = true;
     }
 
@@ -116,7 +117,7 @@ public class LimelightXCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_limelight.setCameraMode(1);
+    m_limelight.setCameraMode(0);
 
     targetXOffset = 0;
     targetYOffset = 0;

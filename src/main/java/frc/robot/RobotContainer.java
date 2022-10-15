@@ -68,8 +68,8 @@ public class RobotContainer {
   static final ClimberOneArmSchedulableCommand m_retractRightClimbers = new ClimberOneArmSchedulableCommand(m_climber, false, false);
 
   static final climbPositionInSequence m_minClimbers = new climbPositionInSequence(m_climber, m_pneumatics, 0, 0);
-  static final climbPositionInSequence m_verticalClimbers = new climbPositionInSequence(m_climber, m_pneumatics, -308, -291);
-  static final climbPositionOutSequence m_backClimbers = new climbPositionOutSequence(m_climber, m_pneumatics, -320, -320);
+  static final climbPositionInSequence m_verticalClimbers = new climbPositionInSequence(m_climber, m_pneumatics, -328, -291);
+  static final climbPositionOutSequence m_backClimbers = new climbPositionOutSequence(m_climber, m_pneumatics, -340, -320);
   static final ClimberZeroPositionCommand m_zeroClimbers = new ClimberZeroPositionCommand(m_climber);
 
   static final PneumaticsInCommand m_inPneumatics = new PneumaticsInCommand(m_pneumatics);

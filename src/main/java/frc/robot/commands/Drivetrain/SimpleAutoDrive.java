@@ -11,6 +11,7 @@ public class SimpleAutoDrive extends CommandBase {
   /** Creates a new SimpleAutoDrive. */
   private final Drivetrain m_drivetrain;
   private final double m_distance;
+
   public SimpleAutoDrive(Drivetrain drivetrain, Double distance) {
     m_drivetrain = drivetrain;
     m_distance = distance;
@@ -29,7 +30,7 @@ public class SimpleAutoDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.feedDrive();
+    m_drivetrain.ArcadeDrive(-0.7, 0);
   }
 
   // Called once the command ends or is interrupted.

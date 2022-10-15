@@ -59,7 +59,7 @@ public class ShooterFlywheelSpinUp extends CommandBase {
     primarySpeed = -((primarySpeed + 1) * 2850);
     secondarySpeed = (secondarySpeed + 1) * 2850;
 
-    m_shooter.SetShooters(primarySpeed, secondarySpeed);
+    m_shooter.SetShooters(1600, 400);
   }
 
   // Called once the command ends or is interrupted.

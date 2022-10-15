@@ -59,8 +59,8 @@ public class ClimberPositionCommand extends CommandBase {
       leftSpeed = -climberSpeed;
     }
 
-    if(Math.abs(Math.abs(targetLeftPosition) - Math.abs(m_climber.leftClimbPosition)) < 20) {
-      leftSpeed *= 0.3;
+    if(Math.abs(Math.abs(targetLeftPosition) - Math.abs(m_climber.leftClimbPosition)) < 30) {
+      leftSpeed *= 0.5;
     }
 
     if(Math.abs(Math.abs(targetRightPosition) - Math.abs(m_climber.rightClimbPosition)) < 1) {
@@ -72,8 +72,8 @@ public class ClimberPositionCommand extends CommandBase {
       rightSpeed = -climberSpeed;
     }
 
-    if(Math.abs(Math.abs(targetRightPosition) - Math.abs(m_climber.rightClimbPosition)) < 20) {
-      rightSpeed *= 0.3;
+    if(Math.abs(Math.abs(targetRightPosition) - Math.abs(m_climber.rightClimbPosition)) < 30) {
+      rightSpeed *= 0.5;
     }
 
     m_climber.setLeftClimber(leftSpeed);

@@ -115,7 +115,7 @@ public class Shooter extends SubsystemBase {
     boolean primaryAtTarget = Math.abs(primaryEncoder.getVelocity() - primaryTargetSpeed) < Constants.auto_shooter_threshold;
     boolean secondaryAtTarget = Math.abs(secondaryEncoder.getVelocity() - secondaryTargetSpeed) < Constants.auto_shooter_threshold;
     
-    return primaryAtTarget && secondaryAtTarget;
+    return (primaryAtTarget && secondaryAtTarget);
   }
 
   // Shooter Math

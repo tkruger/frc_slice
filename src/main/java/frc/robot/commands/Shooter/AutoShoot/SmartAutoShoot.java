@@ -44,6 +44,9 @@ public class SmartAutoShoot extends CommandBase {
     double secondarySpeed = m_shooter.getSecondaryMotorSpeed(primarySpeed, shotAngle);
     m_shooter.SetShooters(-primarySpeed, secondarySpeed);
 
+    m_limelight.setCameraMode(0);
+    m_limelight.setLedMode(3);
+
     //measuredAngleOutput.getEntry().setDouble(angleToHub);
     //measuredDistanceOutput.getEntry().setDouble(distanceToHub);
     //shotAngleOutput.getEntry().setDouble(shotAngle);

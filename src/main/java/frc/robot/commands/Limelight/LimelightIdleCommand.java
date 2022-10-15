@@ -24,7 +24,7 @@ public class LimelightIdleCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_limelight.setCameraMode(1);
+    m_limelight.setCameraMode(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
