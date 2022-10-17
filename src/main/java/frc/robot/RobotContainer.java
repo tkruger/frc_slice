@@ -16,7 +16,7 @@ import frc.robot.commands.Pneumatics.*;
 import frc.robot.commands.Climber.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
+//import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -46,8 +46,8 @@ public class RobotContainer {
 
   static final smartShootSequence m_smartShootAuto = 
         new smartShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
-
-  static final RamseteCommand m_testTrajectory = Trajectories.generateRamseteCommand(m_drivetrain, Trajectories.testTrajectory);
+      
+  //static final RamseteCommand m_testTrajectory = Trajectories.generateRamseteCommand(m_drivetrain, Trajectories.testTrajectory);
 
   static final LimelightScheduleableCommand m_limelightAlign = new LimelightScheduleableCommand(m_limelight, m_drivetrain);
 
@@ -154,6 +154,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //return new TrajectoryFollowerSequence(m_drivetrain, Trajectories.testTrajectory, Trajectories.testTrajectory.getInitialPose());
-    return new simpleAutoRoutine(m_indexer, m_intake, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
+    //return new simpleAutoRoutine(m_indexer, m_intake, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
+    return new pathWeaverAutoRoutine(m_drivetrain, m_intake, m_indexer, m_shooter, m_limelight, leftJoystick, rightJoystick);
   }
 }

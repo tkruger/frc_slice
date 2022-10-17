@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
@@ -26,6 +25,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.util.Units;
 
+import com.kauailabs.navx.frc.AHRS;
+
 public class Drivetrain extends SubsystemBase {
   
   //Creates drivetrain motor objects and groups
@@ -33,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
   private final MotorControllerGroup leftMotors, rightMotors;
   private final DifferentialDrive robotDrive;
 
-  private final ADXRS450_Gyro m_gyro;
+  private final AHRS navXGyro;
 
   //private final DifferentialDriveOdometry m_drivetrainOdometry;
 
@@ -98,19 +99,19 @@ public class Drivetrain extends SubsystemBase {
     rightPIDFront = rightMotorFront.getPIDController();
     rightPIDBack = rightMotorBack.getPIDController();
 
-    m_gyro = new ADXRS450_Gyro();
+    navXGyro = new AHRS();
 
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
     //These standard deviation values should be measured proplerly for our robot
-    m_poseEstimator = new DifferentialDrivePoseEstimator(m_gyro.getRotation2d(),
+    m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
       new Pose2d(),
-      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1), 0.1, 0.1),
-      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)),
-      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)));
+      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0), 0, 0),
+      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0)),
+      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0)));
 
     // Display current gyro heading on Shuffleboard
-    Shuffleboard.getTab("SmartDashboard").add(m_gyro);
+    Shuffleboard.getTab("SmartDashboard").add(navXGyro);
     // Display how the robot is moving on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(robotDrive);
 
@@ -144,7 +145,7 @@ public class Drivetrain extends SubsystemBase {
   public Pose2d updateOdometry() {
 
     m_poseEstimator.update(
-      m_gyro.getRotation2d(), 
+      new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())), 
         new DifferentialDriveWheelSpeeds(
           getAverageLeftEncoderVelocity(), 
           getAverageRightEncoderVelocity()),
@@ -197,9 +198,10 @@ public class Drivetrain extends SubsystemBase {
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
-    m_poseEstimator.resetPosition(position, m_gyro.getRotation2d());
+    m_poseEstimator.resetPosition(position, new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())));
 
-    m_gyro.reset();
+    //navXGyro.reset();
+    navXGyro.zeroYaw();
 
   }
 
@@ -258,13 +260,13 @@ public class Drivetrain extends SubsystemBase {
   
   public double getHeading() {
 
-    return m_gyro.getRotation2d().getDegrees();
+    return navXGyro.getYaw();
 
   }
 
   public double getTurnRate() {
 
-    return -m_gyro.getRate();
+    return -navXGyro.getRate();
 
   }
 

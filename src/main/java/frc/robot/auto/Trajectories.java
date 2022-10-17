@@ -4,19 +4,20 @@
 
 package frc.robot.auto;
 
-import java.util.List;
+//import java.util.List;
 
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.*;
+//import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.*;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 /** Add your docs here. */
-public class Trajectories {
+public class Trajectories extends SequentialCommandGroup{
     
     // Create a voltage constraint to ensure we don't accelerate too fast
     public static DifferentialDriveVoltageConstraint autoVoltageConstraint =
@@ -38,7 +39,7 @@ public class Trajectories {
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
 
-    // An example trajectory to follow.  All units in meters.
+    /* An example trajectory to follow.  All units in meters.
     public static Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
@@ -66,7 +67,7 @@ public class Trajectories {
             new Pose2d(0, 0, new Rotation2d(0)),
             List.of(new Translation2d(1, 0), new Translation2d(2,0)),
             new Pose2d(3, 0, new Rotation2d(0)),
-            config);        
+            config);*/   
 
     public static RamseteCommand generateRamseteCommand(Drivetrain drive, Trajectory trajectory) {
         RamseteCommand trajectoryFollower = new RamseteCommand(
