@@ -39,7 +39,7 @@ public class Trajectories extends SequentialCommandGroup{
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
 
-    /* An example trajectory to follow.  All units in meters.
+    /*//An example trajectory to follow.  All units in meters.
     public static Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction

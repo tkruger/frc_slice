@@ -106,9 +106,9 @@ public class Drivetrain extends SubsystemBase {
     //These standard deviation values should be measured proplerly for our robot
     m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
       new Pose2d(),
-      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0), 0, 0),
-      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0)),
-      VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0)));
+      VecBuilder.fill(0, 0, Units.degreesToRadians(0), 0, 0),
+      VecBuilder.fill(0, 0, Units.degreesToRadians(0)),
+      VecBuilder.fill(0, 0, Units.degreesToRadians(0)));
 
     // Display current gyro heading on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(navXGyro);
@@ -266,7 +266,7 @@ public class Drivetrain extends SubsystemBase {
 
   public double getTurnRate() {
 
-    return -navXGyro.getRate();
+    return navXGyro.getRate();
 
   }
 
