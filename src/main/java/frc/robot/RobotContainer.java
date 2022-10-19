@@ -155,6 +155,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new TrajectoryFollowerSequence(m_drivetrain, Trajectories.testTrajectory, Trajectories.testTrajectory.getInitialPose());
     //return new simpleAutoRoutine(m_indexer, m_intake, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
-    return new pathWeaverAutoRoutine(m_drivetrain, m_intake, m_indexer, m_shooter, m_limelight, leftJoystick, rightJoystick);
+    return new pathWeaver3BallAutoRoutine(m_drivetrain, m_intake, m_indexer, m_shooter, m_limelight, leftJoystick, rightJoystick);
   }
 }
