@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 
 /** An example command that uses an example subsystem. */
 public class PIDDriveCommand extends CommandBase {
@@ -21,6 +25,10 @@ public class PIDDriveCommand extends CommandBase {
   private final Joystick rightJoystick;
 
   private final JoystickFilter forwardFilter, turnFilter;
+
+  private final ShuffleboardTab driveTab;
+
+  private final SimpleWidget driveHeadingWidget;
 
   /**
    * Creates a new ExampleCommand.
@@ -37,6 +45,9 @@ public class PIDDriveCommand extends CommandBase {
 
     forwardFilter = new JoystickFilter(0.1, 0.8);
     turnFilter = new JoystickFilter(0.1, 0.5);
+
+    driveTab = Shuffleboard.getTab("Driver Tab");
+    driveHeadingWidget = driveTab.add("Drive Heading", 0.0).withPosition(2, 2).withSize(2, 2).withWidget("Gyro");
 
   }
 
@@ -69,6 +80,8 @@ public class PIDDriveCommand extends CommandBase {
 
     //Prints out the rotation 2d heading
     SmartDashboard.putNumber("Drivetrain Heading:", m_drivetrain.getHeading());
+
+    driveHeadingWidget.getEntry().setDouble(m_drivetrain.getHeading());
 
     //Prints out gyro turn rate
     SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());

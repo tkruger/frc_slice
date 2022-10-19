@@ -99,7 +99,7 @@ public class Drivetrain extends SubsystemBase {
     rightPIDFront = rightMotorFront.getPIDController();
     rightPIDBack = rightMotorBack.getPIDController();
 
-    navXGyro = new AHRS(SerialPort.Port.kUSB2);
+    navXGyro = new AHRS(SerialPort.Port.kUSB1);
 
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
