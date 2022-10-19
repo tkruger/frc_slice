@@ -1,24 +1,37 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [10]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Climber": "Subsystem",
       "/LiveWindow/Drivetrain": "Subsystem",
       "/LiveWindow/Indexer": "Subsystem",
       "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Limelight": "Subsystem",
+      "/LiveWindow/Pneumatics": "Subsystem",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[0]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[3]": "Gyro",
+      "/Shuffleboard/SmartDashboard/DifferentialDrive[1]": "DifferentialDrive",
+      "/Shuffleboard/SmartDashboard/navX-Sensor[3]": "Gyro"
+    }
+  },
+  "NetworkTables": {
+    "Shuffleboard": {
+      "Regression": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "DifferentialDrive[1]": {
+          "open": true
+        },
+        "navX-Sensor[3]": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
     }
   }
 }
