@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import frc.robot.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -106,11 +106,11 @@ public class Drivetrain extends SubsystemBase {
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
     //These standard deviation values should be measured proplerly for our robot
-    m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
+    /*m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
       new Pose2d(),
       new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), // State measurement standard deviations. X, Y, theta.
       new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
-      new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global measurement standard deviations. X, Y, and theta.
+      new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global measurement standard deviations. X, Y, and theta.*/
 
     // Display current gyro heading on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(navXGyro);

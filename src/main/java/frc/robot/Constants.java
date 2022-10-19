@@ -54,7 +54,7 @@ public final class Constants {
         public static final int shooter_FLYWHEEL_SECONDARY_PORT = 12;
 
         // Error threshold for shooters during smart shoot routine
-        public static final double auto_shooter_threshold = 10;
+        public static final double auto_shooter_threshold = 40;
 
     //Define Intake Motor Port
         public static final int intake_MOTOR_PORT = 11;
