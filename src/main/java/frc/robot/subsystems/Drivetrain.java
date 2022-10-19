@@ -271,7 +271,7 @@ public class Drivetrain extends SubsystemBase {
 
   public double getTurnRate() {
 
-    return -navXGyro.getRate();
+    return navXGyro.getRate();
 
   }
 

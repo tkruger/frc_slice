@@ -3,7 +3,9 @@ package frc.robot.auto;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import edu.wpi.first.math.trajectory.*;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -24,7 +26,7 @@ public class Paths {
         autoPathSelection = smartDashboardTab.add("Auto Path", "").getEntry().getString("");
 
         //Path and trajectory object declarations
-        blue1trajectory1JSON = "Paths/Blue 1 Path 1.wpilib.json";
+        blue1trajectory1JSON = "output/Blue 1 Path 1.wpilib.json";
 
         blue1Trajectory1 = new Trajectory();
         blue1TrajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(blue1trajectory1JSON);
@@ -33,11 +35,12 @@ public class Paths {
             blue1Trajectory1 = TrajectoryUtil.fromPathweaverJson(blue1TrajectoryPath1);
         } 
         catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory" + blue1trajectory1JSON, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + blue1trajectory1JSON, ex.getStackTrace());
         }
 
 
-        //Trajectory selection for autonomous(These return statements all use blue1Trajectory1 as a placeholder for now until more trajecotry objects are created)
+        /*Trajectory selection for autonomous
+        (These return statements all use blue1Trajectory1 as a placeholder for now until more trajectory objects are created)*/
         if(autoPathSelection == "Blue 1 Auto") {
 
             if(pathNumber == 1) {

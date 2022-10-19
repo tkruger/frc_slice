@@ -41,9 +41,6 @@ public class RobotContainer {
   static final alignlessShootSequence m_alignlessShootAuto = 
         new alignlessShootSequence(m_indexer, m_shooter, leftJoystick, rightJoystick);
 
-  static final alignedShootSequence m_alignedShootAuto = 
-        new alignedShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
-
   static final smartShootSequence m_smartShootAuto = 
         new smartShootSequence(m_indexer, m_shooter, m_drivetrain, m_limelight, leftJoystick, rightJoystick);
       

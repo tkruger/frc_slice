@@ -62,6 +62,7 @@ public class Shooter extends SubsystemBase {
     primaryTargetSpeed = 0;
     secondaryTargetSpeed = 0;
 
+    primaryFlywheel.setIdleMode(CANSparkMax.IdleMode.kCoast);
     secondaryFlywheel.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
     // Shuffleboard tabs

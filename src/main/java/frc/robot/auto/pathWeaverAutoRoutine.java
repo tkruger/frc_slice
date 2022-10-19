@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class pathWeaverAutoRoutine extends SequentialCommandGroup {
-  /** Add your docs here. */
 
+  /** Creates a new pathWeaverAutoRoutine. */
   public pathWeaverAutoRoutine(Drivetrain drivetrain, Intake intake, Indexer indexer, Shooter shooter, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
 
     IntakeSchedulableCommand runIntake = new IntakeSchedulableCommand(intake, true);
@@ -34,11 +34,8 @@ public class pathWeaverAutoRoutine extends SequentialCommandGroup {
 
     RamseteCommand path3TrajectoryForward = Trajectories.generateRamseteCommand(drivetrain, Paths.getAutoPath(3));
 
-
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ResetOdometryCommand(drivetrain, new Pose2d()),
       new IndexerDownSlightCommand(indexer),
@@ -50,16 +47,6 @@ public class pathWeaverAutoRoutine extends SequentialCommandGroup {
       new SmartAutoShoot(limelight, shooter)
     );
 
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
-
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
   }
+  
 }
