@@ -6,19 +6,20 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
-//import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import frc.robot.RobotContainer;
-//import frc.robot.subsystems.Intake;
 
-public class IntakeCommand extends CommandBase {
-  /** Creates a new RunIntake. */
+public class IntakeIdleCommand extends CommandBase {
 
+  Intake m_intake;
+
+  boolean intakeForwardPressed = false;
   boolean intakeForwardToggle = false;
+  boolean intakeBackward = false;
 
-  public IntakeCommand(Intake intake) {
+  public IntakeIdleCommand(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_intake);
-    
+    addRequirements(intake);
+
+    m_intake = intake;
   }
 
   // Called when the command is initially scheduled.
@@ -29,35 +30,24 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void execute() {
 
-    boolean intakeForwardPressed = RobotContainer.rightJoystick.getRawButtonPressed(2);
-    boolean intakeBackward = RobotContainer.leftJoystick.getRawButton(2);
+    intakeBackward = false;
+    intakeForwardToggle = false;
 
-    if(intakeForwardPressed == true) {
-      if(intakeForwardToggle == true) {
-      intakeForwardToggle = false;
-      }
-      else if (intakeForwardToggle == false) {
-      intakeForwardToggle = true;
-      }
-    }
-
-    RobotContainer.m_intake.runIntake(intakeForwardToggle, intakeBackward);
+    m_intake.runIntake(intakeForwardToggle, intakeBackward);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    RobotContainer.m_intake.runIntake(false, false);
-
+    intakeBackward = false;
+    intakeForwardToggle = false;
+    m_intake.runIntake(intakeForwardToggle, intakeBackward);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return false;
-    
   }
 }

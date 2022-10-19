@@ -12,10 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.Joystick;
 
-//import edu.wpi.first.wpilibj.smartdashboard.*;
-
 /** An example command that uses an example subsystem. */
-public class DrivetrainCommand extends CommandBase {
+public class PIDDriveCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain m_drivetrain;
 
@@ -29,7 +27,7 @@ public class DrivetrainCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DrivetrainCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
+  public PIDDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     this.m_drivetrain = drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -37,14 +35,16 @@ public class DrivetrainCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoystickFilter(0.05, 0.3);
-    turnFilter = new JoystickFilter(0.05, 0.3);
+    forwardFilter = new JoystickFilter(0.1, 0.8);
+    turnFilter = new JoystickFilter(0.1, 0.5);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    m_drivetrain.setPIDF(.17, .000002, .12, .62);
 
     //Resets gyro heading, encoder positions, and pose reading
     m_drivetrain.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
@@ -59,7 +59,7 @@ public class DrivetrainCommand extends CommandBase {
     double forwardSpeed = forwardFilter.filter(leftJoystick.getY());
     double turnSpeed = turnFilter.filter(rightJoystick.getX());
 
-    m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
+    m_drivetrain.PIDArcadeDrive(forwardSpeed * 2.5, turnSpeed * 3);
 
     //Updates the odometry with a new estimated robot pose
     m_drivetrain.updateOdometry();
