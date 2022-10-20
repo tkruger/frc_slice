@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
-import edu.wpi.first.wpilibj.SerialPort;
-
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -106,7 +104,7 @@ public class Drivetrain extends SubsystemBase {
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
     //These standard deviation values should be measured proplerly for our robot
-    /*m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
+    m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
       new Pose2d(),
       new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), // State measurement standard deviations. X, Y, theta.
       new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
