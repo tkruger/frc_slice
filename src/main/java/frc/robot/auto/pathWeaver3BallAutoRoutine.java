@@ -24,13 +24,11 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
   /** Creates a new pathWeaverAutoRoutine. */
   public pathWeaver3BallAutoRoutine(Drivetrain drivetrain, Intake intake, Indexer indexer, Shooter shooter, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
 
-    IntakeSchedulableCommand runIntake = new IntakeSchedulableCommand(intake, true);
-
     TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(1), new Pose2d());
-    ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, runIntake);
+    ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, new IntakeSchedulableCommand(intake, true));
 
     TrajectoryFollowerSequence path2TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(2), new Pose2d());
-    ParallelDeadlineGroup path2ForwardGroup = new ParallelDeadlineGroup(path2TrajectoryForward, runIntake);
+    ParallelDeadlineGroup path2ForwardGroup = new ParallelDeadlineGroup(path2TrajectoryForward, new IntakeSchedulableCommand(intake, true));
 
     TrajectoryFollowerSequence path3TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(3), new Pose2d());
 

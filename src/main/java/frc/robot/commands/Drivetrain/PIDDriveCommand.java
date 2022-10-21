@@ -84,7 +84,7 @@ public class PIDDriveCommand extends CommandBase {
     driveHeadingWidget.getEntry().setDouble(m_drivetrain.getHeading());
 
     //Prints out gyro turn rate
-    SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());
+    SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());    
 
     //Prints out left side velocity
     SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());

@@ -78,6 +78,9 @@ public class DrivetrainCommand extends CommandBase {
 
     //Prints out right side velocity
     SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
+    
+    SmartDashboard.putNumber("Left Side Position: ", m_drivetrain.getAverageLeftEncoderDistance());
+    SmartDashboard.putNumber("Right Side Position: ", m_drivetrain.getAverageRightEncoderDistance());
 
   }
 

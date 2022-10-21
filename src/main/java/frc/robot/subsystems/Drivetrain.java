@@ -123,6 +123,8 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     field2d.setRobotPose(getEstimatedPosition());
+
+    //updateField2d();
   }
 
   @Override
@@ -132,11 +134,11 @@ public class Drivetrain extends SubsystemBase {
 
   public void updateField2d() {
 
+    // Pushes the trajectory to Field2d.
+    field2d.getObject("field2d").setTrajectory(Paths.returnAutoTrajectory());
+
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(field2d);
-
-    // Pushes the trajectory to Field2d.
-    field2d.getObject("Current Trajectory").setTrajectory(Paths.returnAutoTrajectory());
 
   }
 

@@ -31,7 +31,7 @@ public class Paths {
     public static Trajectory getAutoPath(int pathNumber) {
 
         ShuffleboardTab smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
-        autoPathSelection = smartDashboardTab.add("Auto Path", 1).getEntry().getDouble(1);
+        //autoPathSelection = smartDashboardTab.add("Auto Path", 1).getEntry().getDouble(1);
 
         //Path string variable declarations
         blue1Trajectory1JSON = "output/Blue 1 Path 1.wpilib.json";
@@ -67,6 +67,7 @@ public class Paths {
 
         /*Trajectory selection for autonomous
         (Many of these return statements use blue1Trajectory1 as a placeholder for now until more trajectory objects are created)*/
+        autoPathSelection = 1.0;
         if(autoPathSelection == 1) {
 
             if(pathNumber == 1) {
