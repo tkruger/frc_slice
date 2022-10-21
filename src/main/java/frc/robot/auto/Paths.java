@@ -149,4 +149,10 @@ public class Paths {
         return returnTrajectory;
 
     }
+
+    public static Trajectory returnAutoTrajectory() {
+
+        return returnTrajectory;
+
+    }
 }

@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
-
+import frc.robot.auto.Paths;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
@@ -127,6 +128,16 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public void updateField2d() {
+
+    // Creates and pushes Field2d to SmartDashboard.
+    SmartDashboard.putData(field2d);
+
+    // Pushes the trajectory to Field2d.
+    field2d.getObject("Current Trajectory").setTrajectory(Paths.returnAutoTrajectory());
+
   }
 
   public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {
