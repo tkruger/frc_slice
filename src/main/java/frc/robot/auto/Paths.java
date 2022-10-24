@@ -34,7 +34,7 @@ public class Paths {
 
         try {
             smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
-            autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withPosition(4, 2);
+            autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withWidget(BuiltInWidgets.kNumberSlider);
         } catch (Exception e) {
             System.out.println("autoPathWidget Caught");
         }

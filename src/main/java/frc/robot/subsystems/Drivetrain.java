@@ -60,6 +60,9 @@ public class Drivetrain extends SubsystemBase {
     rightMotorFront = new CANSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT, MotorType.kBrushless);
     rightMotorBack = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT, MotorType.kBrushless);
 
+    rightMotorBack.setInverted(true);
+    rightMotorFront.setInverted(true);
+    
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
 
@@ -98,8 +101,6 @@ public class Drivetrain extends SubsystemBase {
     rightPIDFront = rightMotorFront.getPIDController();
     rightPIDBack = rightMotorBack.getPIDController();
 
-    rightMotors.setInverted(true);
-
     navXGyro = new AHRS(SerialPort.Port.kUSB1);
 
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
@@ -124,6 +125,9 @@ public class Drivetrain extends SubsystemBase {
     field2d.setRobotPose(getEstimatedPosition());
 
     //updateField2d();
+
+    SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
+    SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
   }
 
   @Override
@@ -250,7 +254,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAverageLeftEncoderDistance() {
-      return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) / 2.0; 
+    return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) / 2.0; 
   }
 
   public double getAverageRightEncoderDistance() {
