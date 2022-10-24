@@ -8,8 +8,7 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class Paths {
 
@@ -25,13 +24,22 @@ public class Paths {
     static Path blue1TrajectoryPath3;
     static String blue1Trajectory3JSON;
 
-    static Double autoPathSelection;
     static Trajectory returnTrajectory;
+
+    private static ShuffleboardTab smartDashboardTab;
+    private static Double autoPathSelection;
+    private static SimpleWidget autoPathWidget;
 
     public static Trajectory getAutoPath(int pathNumber) {
 
-        ShuffleboardTab smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
-        //autoPathSelection = smartDashboardTab.add("Auto Path", 1).getEntry().getDouble(1);
+        try {
+            smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
+            autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withPosition(4, 2);
+        } catch (Exception e) {
+            System.out.println("autoPathWidget Caught");
+        }
+        
+        autoPathSelection = autoPathWidget.getEntry().getDouble(1);
 
         //Path string variable declarations
         blue1Trajectory1JSON = "output/Blue 1 Path 1.wpilib.json";
