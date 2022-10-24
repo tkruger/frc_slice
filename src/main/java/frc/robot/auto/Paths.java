@@ -68,7 +68,7 @@ public class Paths {
         /*Trajectory selection for autonomous
         (Many of these return statements use blue1Trajectory1 as a placeholder for now until more trajectory objects are created)*/
         autoPathSelection = 1.0;
-        if(autoPathSelection == 1) {
+        if(autoPathSelection == 1.0) {
 
             if(pathNumber == 1) {
                 returnTrajectory = blue1Trajectory1;
@@ -81,7 +81,7 @@ public class Paths {
             }
         }
 
-        else if(autoPathSelection == 2) {
+        else if(autoPathSelection == 2.0) {
 
             if(pathNumber == 1) {
                 returnTrajectory = blue1Trajectory1;
@@ -94,7 +94,7 @@ public class Paths {
 
         }
 
-        else if(autoPathSelection == 3) {
+        else if(autoPathSelection == 3.0) {
 
             if(pathNumber == 1) {
                 returnTrajectory = blue1Trajectory1;
@@ -108,7 +108,7 @@ public class Paths {
 
         }
 
-        else if(autoPathSelection == 4) {
+        else if(autoPathSelection == 4.0) {
 
             if(pathNumber == 1) {
                 returnTrajectory = blue1Trajectory1;
@@ -121,7 +121,7 @@ public class Paths {
             }
         }
 
-        else if(autoPathSelection == 5) {
+        else if(autoPathSelection == 5.0) {
 
             if(pathNumber == 1) {
                 returnTrajectory = blue1Trajectory1;
@@ -134,7 +134,7 @@ public class Paths {
             }
         }
 
-        else if(autoPathSelection == 6) {
+        else if(autoPathSelection == 6.0) {
 
             if(pathNumber == 1) {
                 returnTrajectory = blue1Trajectory1;

@@ -24,13 +24,13 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
   /** Creates a new pathWeaverAutoRoutine. */
   public pathWeaver3BallAutoRoutine(Drivetrain drivetrain, Intake intake, Indexer indexer, Shooter shooter, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
 
-    TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(1), new Pose2d());
+    TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(1), Paths.returnAutoTrajectory().getInitialPose());
     ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, new IntakeSchedulableCommand(intake, true));
 
-    TrajectoryFollowerSequence path2TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(2), new Pose2d());
+    TrajectoryFollowerSequence path2TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(2), Paths.returnAutoTrajectory().getInitialPose());
     ParallelDeadlineGroup path2ForwardGroup = new ParallelDeadlineGroup(path2TrajectoryForward, new IntakeSchedulableCommand(intake, true));
 
-    TrajectoryFollowerSequence path3TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(3), new Pose2d());
+    TrajectoryFollowerSequence path3TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(3), Paths.returnAutoTrajectory().getInitialPose());
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

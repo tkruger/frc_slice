@@ -115,8 +115,7 @@ public class Drivetrain extends SubsystemBase {
     Shuffleboard.getTab("SmartDashboard").add(navXGyro);
     // Display how the robot is moving on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(robotDrive);
-
-
+    
   }
 
   @Override
@@ -134,11 +133,11 @@ public class Drivetrain extends SubsystemBase {
 
   public void updateField2d() {
 
-    // Pushes the trajectory to Field2d.
-    field2d.getObject("field2d").setTrajectory(Paths.returnAutoTrajectory());
-
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(field2d);
+
+    // Pushes the trajectory to Field2d.
+    field2d.getObject("Trajectory").setTrajectory(Paths.returnAutoTrajectory());
 
   }
 
@@ -214,7 +213,7 @@ public class Drivetrain extends SubsystemBase {
     m_poseEstimator.resetPosition(position, new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())));
 
     //navXGyro.reset();
-    navXGyro.zeroYaw();
+    //navXGyro.zeroYaw();
 
   }
 
