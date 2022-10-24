@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.ErrorCode;
+//import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -12,23 +12,23 @@ public class Intake extends SubsystemBase {
     private final TalonFX intakeMotor;
     private TalonFXConfiguration config;
 
-    private Faults faults;
+    //private Faults faults;
 
     public Intake() {
 
         intakeMotor = new TalonFX(Constants.intake_MOTOR_PORT);
         config = new TalonFXConfiguration();
-        faults = new Faults();
+        //faults = new Faults();
+
+        intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
+
+        intakeMotor.configAllSettings(config);
 
     }
 
-    public void runIntake(boolean intakeMotorForwardToggle, boolean intakeMotorBackward) {
+    public void runIntake(boolean intakeMotorForwardToggle, boolean intakeMotorBackward) {    
 
-        intakeMotor.configAllSettings(config);
-    
-        intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
-
-        System.out.println(intakeMotor.getSelectedSensorPosition());
+        /*System.out.println(intakeMotor.getSelectedSensorPosition());
         System.out.println(intakeMotor.getSelectedSensorVelocity());
         System.out.println(intakeMotor.getMotorOutputPercent());
         System.out.println(intakeMotor.getStatorCurrent());
@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
         ErrorCode faultsError = intakeMotor.getFaults(faults);
 
         System.out.println(error);
-        System.out.println(faultsError);
+        System.out.println(faultsError);*/
     
         if(intakeMotorForwardToggle == true) {
             intakeMotor.set(TalonFXControlMode.PercentOutput, -.5);
