@@ -74,8 +74,6 @@ public class Drivetrain extends SubsystemBase {
     rightMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     robotDrive = new DifferentialDrive(leftMotors, rightMotors);
-    
-    rightMotors.setInverted(true);
 
     leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
     leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
@@ -99,6 +97,8 @@ public class Drivetrain extends SubsystemBase {
     leftPIDBack = leftMotorBack.getPIDController();
     rightPIDFront = rightMotorFront.getPIDController();
     rightPIDBack = rightMotorBack.getPIDController();
+
+    rightMotors.setInverted(true);
 
     navXGyro = new AHRS(SerialPort.Port.kUSB1);
 
@@ -182,7 +182,7 @@ public class Drivetrain extends SubsystemBase {
    * speeds have no effect on the angular speed.
    *
    * @param forwardSpeed Speed of the robot moving in the x and y directions direction (left/right/forwards/bacwards).
-   * @param rotateSpeed Speed of the robot rotating.
+   * @param turnSpeed Speed of the robot rotating.
    * @param fieldRelative Whether the provided move and rotate speeds are relative to the field.
    */
 

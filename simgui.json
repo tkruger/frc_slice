@@ -1,4 +1,13 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -12,8 +21,10 @@
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[0]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
       "/LiveWindow/Ungrouped/navX-Sensor[3]": "Gyro",
       "/Shuffleboard/SmartDashboard/DifferentialDrive[1]": "DifferentialDrive",
+      "/Shuffleboard/SmartDashboard/navX-Sensor[2]": "Gyro",
       "/Shuffleboard/SmartDashboard/navX-Sensor[3]": "Gyro"
     }
   },
