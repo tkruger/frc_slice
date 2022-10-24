@@ -119,22 +119,6 @@ public class Drivetrain extends SubsystemBase {
     
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    field2d.setRobotPose(getEstimatedPosition());
-
-    //updateField2d();
-
-    SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
-
   public void updateField2d() {
 
     // Creates and pushes Field2d to SmartDashboard.
@@ -143,6 +127,22 @@ public class Drivetrain extends SubsystemBase {
     // Pushes the trajectory to Field2d.
     field2d.getObject("Trajectory").setTrajectory(Paths.returnAutoTrajectory());
 
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    field2d.setRobotPose(getEstimatedPosition());
+
+    updateField2d();
+
+    SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
+    SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
   }
 
   public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {
