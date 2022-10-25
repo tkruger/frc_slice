@@ -35,6 +35,7 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new autoPathWidgetCommand(),
       new IndexerDownSlightCommand(indexer),
       path1ForwardGroup,
       new smart2BallShootSequence(indexer, intake, shooter, drivetrain, limelight, leftJoystick, rightJoystick),

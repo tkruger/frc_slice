@@ -29,6 +29,14 @@ public class Paths {
     private static Double autoPathSelection;
     private static SimpleWidget autoPathWidget;
 
+    public static void createAutoPathWidget() {
+
+        smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
+        autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withWidget(BuiltInWidgets.kNumberSlider);
+        autoPathSelection = autoPathWidget.getEntry().getDouble(1);
+
+    }
+
     public static Trajectory getAutoPath(int trajectoryNumber) {
 
         try {
