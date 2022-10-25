@@ -26,27 +26,18 @@ public class Paths {
     static Trajectory returnTrajectory;
 
     private static ShuffleboardTab smartDashboardTab;
-    private static Double autoPathSelection;
+    static Double autoPathSelection;
     private static SimpleWidget autoPathWidget;
 
     public static void createAutoPathWidget() {
 
         smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
         autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withWidget(BuiltInWidgets.kNumberSlider);
-        autoPathSelection = autoPathWidget.getEntry().getDouble(1);
+        autoPathSelection = autoPathWidget.getEntry().getDouble(1.0);
 
     }
 
     public static Trajectory getAutoPath(int trajectoryNumber) {
-
-        try {
-            smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
-            autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withWidget(BuiltInWidgets.kNumberSlider);
-            autoPathSelection = autoPathWidget.getEntry().getDouble(1);
-        } catch (Exception e) {
-            System.out.println("autoPathWidget Caught");
-        }
-
         //Path string variable declarations
         blue1Path1JSON = "output/Blue 1 Path 1.wpilib.json";
         blue1Path2JSON = "output/Blue 1 Path 2.wpilib.json";
@@ -81,9 +72,9 @@ public class Paths {
 
         /*Trajectory selection for autonomous
         (Many of these return statements use blue1Trajectory1 as a placeholder for now until more trajectory objects are created)*/
-        if(autoPathSelection == 1.0) {
+        if(autoPathSelection == 1) {
 
-            if(trajectoryNumber == 1) {
+            if(trajectoryNumber == 1.0) {
                 returnTrajectory = blue1Trajectory1;
             }
             else if(trajectoryNumber == 2) {
@@ -168,5 +159,9 @@ public class Paths {
 
         return returnTrajectory;
 
+    }
+
+    public static Trajectory returnPlaceholderTrajectory() {
+        return new Trajectory();
     }
 }

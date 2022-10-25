@@ -62,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
 
     rightMotorBack.setInverted(true);
     rightMotorFront.setInverted(true);
-    
+
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
 
@@ -106,7 +106,7 @@ public class Drivetrain extends SubsystemBase {
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
     //These standard deviation values should be measured proplerly for our robot
-    m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())),
+    m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(getHeading())),
       new Pose2d(),
       new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), // State measurement standard deviations. X, Y, theta.
       new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
@@ -125,7 +125,11 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putData(field2d);
 
     // Pushes the trajectory to Field2d.
-    field2d.getObject("Trajectory").setTrajectory(Paths.returnAutoTrajectory());
+    try {
+      field2d.getObject("Trajectory").setTrajectory(Paths.returnAutoTrajectory());
+    } catch (Exception exception) {
+      field2d.getObject("Trajectory").setTrajectory(Paths.returnPlaceholderTrajectory());
+    }
 
   }
 
@@ -161,7 +165,7 @@ public class Drivetrain extends SubsystemBase {
   public Pose2d updateOdometry() {
 
     m_poseEstimator.update(
-      new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())), 
+      new Rotation2d(Units.degreesToRadians(getHeading())), 
         new DifferentialDriveWheelSpeeds(
           getAverageLeftEncoderVelocity(), 
           getAverageRightEncoderVelocity()),
@@ -214,7 +218,7 @@ public class Drivetrain extends SubsystemBase {
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
-    m_poseEstimator.resetPosition(position, new Rotation2d(Units.degreesToRadians(navXGyro.getYaw())));
+    m_poseEstimator.resetPosition(position, new Rotation2d(Units.degreesToRadians(getHeading())));
 
     //navXGyro.reset();
     //navXGyro.zeroYaw();
