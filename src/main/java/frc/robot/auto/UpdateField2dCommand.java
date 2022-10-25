@@ -5,24 +5,29 @@
 package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
-public class autoPathWidgetCommand extends CommandBase {
-  /** Creates a new autoPathWidgetCommand. */
-  public autoPathWidgetCommand() {
+public class UpdateField2dCommand extends CommandBase {
+  /** Creates a new field2dCommand. */
+  int m_trajectoryNumber;
+
+  public UpdateField2dCommand(int trajectoryNumber) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_trajectoryNumber = trajectoryNumber;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-    Paths.createAutoPathWidget();
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    Drivetrain.updateField2d(m_trajectoryNumber);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override

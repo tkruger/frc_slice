@@ -72,9 +72,9 @@ public class Paths {
 
         /*Trajectory selection for autonomous
         (Many of these return statements use blue1Trajectory1 as a placeholder for now until more trajectory objects are created)*/
-        if(autoPathSelection == 1) {
+        if(autoPathSelection == 1.0) {
 
-            if(trajectoryNumber == 1.0) {
+            if(trajectoryNumber == 1) {
                 returnTrajectory = blue1Trajectory1;
             }
             else if(trajectoryNumber == 2) {

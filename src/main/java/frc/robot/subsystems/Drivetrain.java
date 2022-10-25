@@ -46,7 +46,7 @@ public class Drivetrain extends SubsystemBase {
 
   public static DifferentialDrivePoseEstimator m_poseEstimator;
 
-  public final Field2d field2d = new Field2d();
+  public static final Field2d field2d = new Field2d();
 
   // The current target position of every motor
   public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
@@ -119,34 +119,33 @@ public class Drivetrain extends SubsystemBase {
     
   }
 
-  public void updateField2d() {
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    field2d.setRobotPose(getEstimatedPosition());
+
+    SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
+    SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
+
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
+
+  public static void updateField2d(int trajectoryNumber) {
 
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(field2d);
 
     // Pushes the trajectory to Field2d.
     try {
-      field2d.getObject("Trajectory").setTrajectory(Paths.returnAutoTrajectory());
+      field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath(trajectoryNumber));
     } catch (Exception exception) {
       field2d.getObject("Trajectory").setTrajectory(Paths.returnPlaceholderTrajectory());
     }
 
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    field2d.setRobotPose(getEstimatedPosition());
-
-    updateField2d();
-
-    SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 
   public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {

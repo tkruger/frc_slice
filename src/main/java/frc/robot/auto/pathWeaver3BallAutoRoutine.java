@@ -25,17 +25,22 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
   public pathWeaver3BallAutoRoutine(Drivetrain drivetrain, Intake intake, Indexer indexer, Shooter shooter, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
 
     TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(1), Paths.returnAutoTrajectory().getInitialPose());
+    UpdateField2dCommand path1Field2d = new UpdateField2dCommand(1);
     ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, new IntakeSchedulableCommand(intake, true));
 
     TrajectoryFollowerSequence path2TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(2), Paths.returnAutoTrajectory().getInitialPose());
+    UpdateField2dCommand path2Field2d = new UpdateField2dCommand(2);
     ParallelDeadlineGroup path2ForwardGroup = new ParallelDeadlineGroup(path2TrajectoryForward, new IntakeSchedulableCommand(intake, true));
 
     TrajectoryFollowerSequence path3TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(3), Paths.returnAutoTrajectory().getInitialPose());
+    UpdateField2dCommand path3Field2d = new UpdateField2dCommand(3);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new autoPathWidgetCommand(),
+      path1Field2d,
+      path2Field2d,
+      path3Field2d,
       new IndexerDownSlightCommand(indexer),
       path1ForwardGroup,
       new smart2BallShootSequence(indexer, intake, shooter, drivetrain, limelight, leftJoystick, rightJoystick),
