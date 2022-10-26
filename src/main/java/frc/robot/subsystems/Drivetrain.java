@@ -60,11 +60,13 @@ public class Drivetrain extends SubsystemBase {
     rightMotorFront = new CANSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT, MotorType.kBrushless);
     rightMotorBack = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT, MotorType.kBrushless);
 
-    rightMotorBack.setInverted(true);
-    rightMotorFront.setInverted(true);
+    //rightMotorBack.setInverted(true);
+    //rightMotorFront.setInverted(true);
 
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
+
+    rightMotors.setInverted(true);
 
     leftMotorFront.restoreFactoryDefaults();
     leftMotorBack.restoreFactoryDefaults();
@@ -121,6 +123,8 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    updateOdometry();
+
     // This method will be called once per scheduler run
     field2d.setRobotPose(getEstimatedPosition());
 
@@ -279,7 +283,7 @@ public class Drivetrain extends SubsystemBase {
   
   public double getHeading() {
 
-    return navXGyro.getYaw();
+    return -navXGyro.getYaw();
 
   }
 

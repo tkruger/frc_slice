@@ -9,7 +9,7 @@ import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.math.geometry.*;
+//import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
@@ -54,9 +54,6 @@ public class PIDDriveCommand extends CommandBase {
 
     m_drivetrain.setPIDF(.17, .000002, .12, .62);
 
-    //Resets gyro heading, encoder positions, and pose reading
-    m_drivetrain.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -70,7 +67,7 @@ public class PIDDriveCommand extends CommandBase {
     m_drivetrain.PIDArcadeDrive(forwardSpeed * 2.5, turnSpeed * 3);
 
     //Updates the odometry with a new estimated robot pose
-    m_drivetrain.updateOdometry();
+    //m_drivetrain.updateOdometry();
 
     //Prints out the estimated robot pose
     //System.out.println(m_drivetrain.updateOdometry());
