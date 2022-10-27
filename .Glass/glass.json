@@ -33,6 +33,7 @@
           "arrows": false,
           "style": "Track"
         },
+        "image": "C:\\Users\\olivi\\.vscode\\vs projects\\2022 Off-Season Team Code(Current code)\\PathWeaverField Branch Local\\frc_slice\\.Glass\\2022-field.png",
         "window": {
           "visible": true
         }
@@ -43,7 +44,7 @@
     "visible": true
   },
   "NetworkTables Settings": {
-    "mode": "Client",
+    "mode": "Disabled",
     "serverTeam": "8738"
   }
 }
