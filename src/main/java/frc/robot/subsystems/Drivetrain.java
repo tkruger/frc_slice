@@ -170,10 +170,10 @@ public class Drivetrain extends SubsystemBase {
     m_poseEstimator.update(
       new Rotation2d(Units.degreesToRadians(getHeading())), 
         new DifferentialDriveWheelSpeeds(
-          getAverageLeftEncoderVelocity(), 
-          getAverageRightEncoderVelocity()),
-      getAverageLeftEncoderDistance(),
-      getAverageRightEncoderDistance());
+          leftEncoderFront.getVelocity(), 
+          rightEncoderFront.getVelocity()),
+      leftEncoderBack.getPosition(),
+      rightEncoderBack.getPosition());
 
     //This latency value(0.3) is a place holder for now and should be measured properly for our robot
     // m_poseEstimator.addVisionMeasurement(

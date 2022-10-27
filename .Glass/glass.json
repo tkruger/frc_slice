@@ -33,7 +33,7 @@
           "arrows": false,
           "style": "Track"
         },
-        "image": "C:\\Users\\olivi\\.vscode\\vs projects\\2022 Off-Season Team Code(Current code)\\PathWeaverField Branch Local\\frc_slice\\.Glass\\2022-field.png",
+        "image": "C:\\Users\\Slice Robotics Club\\Documents\\SLICE 2023 Code\\frc_slice-git.1\\.Glass\\2022-field.png",
         "window": {
           "visible": true
         }
@@ -44,7 +44,7 @@
     "visible": true
   },
   "NetworkTables Settings": {
-    "mode": "Disabled",
+    "mode": "Client",
     "serverTeam": "8738"
   }
 }

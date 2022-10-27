@@ -34,7 +34,7 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
 
     TrajectoryFollowerSequence path3TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(3), Paths.returnAutoTrajectory().getInitialPose());
     UpdateField2dCommand path3Field2d = new UpdateField2dCommand(3);
-    ParallelDeadlineGroup path3ForwardGroup = new ParallelDeadlineGroup(path3TrajectoryForward, new IntakeSchedulableCommand(intake, true), path3Field2d);
+    ParallelDeadlineGroup path3ForwardGroup = new ParallelDeadlineGroup(path3TrajectoryForward, path3Field2d);
 
 
     // Add your commands in the addCommands() call, e.g.

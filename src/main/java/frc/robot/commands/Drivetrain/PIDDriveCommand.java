@@ -64,7 +64,7 @@ public class PIDDriveCommand extends CommandBase {
     double forwardSpeed = forwardFilter.filter(leftJoystick.getY());
     double turnSpeed = turnFilter.filter(rightJoystick.getX());
 
-    m_drivetrain.PIDArcadeDrive(forwardSpeed * 2.5, turnSpeed * 3);
+    m_drivetrain.PIDArcadeDrive(forwardSpeed * 3.5, turnSpeed * 3);
 
     //Updates the odometry with a new estimated robot pose
     //m_drivetrain.updateOdometry();
