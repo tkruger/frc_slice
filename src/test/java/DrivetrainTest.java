@@ -29,7 +29,7 @@ public class DrivetrainTest {
     public void shutdown() throws Exception {
     }
   
-    @Test // marks this method as a test
+    // marks this method as a test
     public void testForward() {
         /**
          * TODO: Implement motor tests
@@ -38,5 +38,6 @@ public class DrivetrainTest {
         // Act as if a user is pushing the forward button
         // Assert in case the motor is NOT doing what you expect
         assertEquals(0.0, 0.0, DELTA); // make sure that the value set to the motor is 0
-    }    
+    }
+
 }
