@@ -4,28 +4,23 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.*;
-import frc.robot.Button;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.Example;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** A Drive command that uses a Drivetrain subsystem. */
-public class DriveCommand extends CommandBase {
+/** An example command that uses an example subsystem. */
+public class ExampleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Drivetrain m_drivetrain;
-
-  private static Joystick leftJoystick = Button.leftJoystick;
-  private static Joystick rightJoystick = Button.rightJoystick;
+  private final Example m_subsystem;
 
   /**
-   * Creates a new DriveCommand.
+   * Creates a new ExampleCommand.
    * @param subsystem The subsystem used by this command.
    */
-  public DriveCommand(Drivetrain drivetrain) {
+  public ExampleCommand(Example subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
+    addRequirements(subsystem);
 
-    m_drivetrain = drivetrain;
+    m_subsystem = subsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -34,18 +29,12 @@ public class DriveCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    //Sets robot speed and turn speed
-    double forwardSpeed = leftJoystick.getY();
-    double turnSpeed = rightJoystick.getX();
-
-    m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.ArcadeDrive(0, 0);
+      // I would recommend setting any motors in the subsystem to zero here, but it is not required
   }
 
   // Returns true when the command should end.

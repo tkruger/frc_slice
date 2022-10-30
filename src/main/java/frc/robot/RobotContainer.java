@@ -23,6 +23,7 @@ public class RobotContainer {
   private static Joystick leftJoystick = Button.leftJoystick;
   private static Joystick rightJoystick = Button.rightJoystick;
 
+  //Create any commands here
   private final DriveCommand m_drive = new DriveCommand(m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -40,7 +41,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    // Call any buttons here along with the commands you want to run when they are pressed
   }
 
   /**
