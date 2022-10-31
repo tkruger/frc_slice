@@ -171,7 +171,7 @@ public class Drivetrain extends SubsystemBase {
       new Rotation2d(Units.degreesToRadians(getHeading())), 
         new DifferentialDriveWheelSpeeds(
           leftEncoderFront.getVelocity(), 
-          -rightEncoderFront.getVelocity()),
+          rightEncoderFront.getVelocity()),
           (leftEncoderBack.getPosition() + leftEncoderFront.getPosition()),
           -(rightEncoderBack.getPosition() + rightEncoderFront.getPosition()));
 
@@ -224,7 +224,7 @@ public class Drivetrain extends SubsystemBase {
     m_poseEstimator.resetPosition(position, new Rotation2d(Units.degreesToRadians(getHeading())));
 
     //navXGyro.reset();
-    //navXGyro.zeroYaw();
+    navXGyro.zeroYaw();
 
   }
 
@@ -265,7 +265,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAverageRightEncoderDistance() {
-    return (rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) / 2.0; 
+    return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) / 2.0; 
   }
 
   public double getAverageLeftEncoderVelocity() {
@@ -283,7 +283,7 @@ public class Drivetrain extends SubsystemBase {
   
   public double getHeading() {
 
-    return -navXGyro.getYaw();
+    return -navXGyro.getCompassHeading();
 
   }
 
