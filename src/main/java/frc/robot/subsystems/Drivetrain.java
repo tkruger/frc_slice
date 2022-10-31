@@ -224,7 +224,7 @@ public class Drivetrain extends SubsystemBase {
     m_poseEstimator.resetPosition(position, new Rotation2d(Units.degreesToRadians(getHeading())));
 
     //navXGyro.reset();
-    navXGyro.zeroYaw();
+    //navXGyro.zeroYaw();
 
   }
 
@@ -283,7 +283,7 @@ public class Drivetrain extends SubsystemBase {
   
   public double getHeading() {
 
-    return -navXGyro.getCompassHeading();
+    return -navXGyro.getYaw() + 180;
 
   }
 
