@@ -1,7 +1,17 @@
 {
   "NetworkTables": {
+    "Shuffleboard": {
+      "SmartDashboard": {
+        "DifferentialDrive[1]": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Limelight": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
