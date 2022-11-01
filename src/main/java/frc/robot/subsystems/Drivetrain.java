@@ -48,6 +48,8 @@ public class Drivetrain extends SubsystemBase {
 
   public static final Field2d field2d = new Field2d();
 
+  private double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
+
   // The current target position of every motor
   public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
 
@@ -170,10 +172,16 @@ public class Drivetrain extends SubsystemBase {
     m_poseEstimator.update(
       new Rotation2d(Units.degreesToRadians(getHeading())), 
         new DifferentialDriveWheelSpeeds(
-          leftEncoderFront.getVelocity(), 
-          rightEncoderFront.getVelocity()),
-          (leftEncoderBack.getPosition() + leftEncoderFront.getPosition()),
-          -(rightEncoderBack.getPosition() + rightEncoderFront.getPosition()));
+          leftEncoderFront.getVelocity() * 2, 
+          -rightEncoderFront.getVelocity() * 2),
+          ((leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) - (leftFrontLastPosition + leftBackLastPosition)),
+          -((rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) - (rightFrontLastPosition + rightBackLastPosition)));
+
+          leftFrontLastPosition = leftEncoderFront.getPosition();
+          leftBackLastPosition = leftEncoderBack.getPosition();
+          rightFrontLastPosition = rightEncoderFront.getPosition();
+          rightBackLastPosition = rightEncoderBack.getPosition();
+
 
     //This latency value(0.3) is a place holder for now and should be measured properly for our robot
     // m_poseEstimator.addVisionMeasurement(
@@ -277,7 +285,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getAverageLeftEncoderVelocity(), getAverageRightEncoderVelocity());
+    return new DifferentialDriveWheelSpeeds(leftEncoderFront.getVelocity(), -rightEncoderFront.getVelocity());
   }
 
   
