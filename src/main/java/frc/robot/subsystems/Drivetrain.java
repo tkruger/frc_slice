@@ -48,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
 
   public static final Field2d field2d = new Field2d();
 
-  private double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
+  public double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
 
   // The current target position of every motor
   public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
@@ -125,6 +125,7 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     updateOdometry();
 
     // This method will be called once per scheduler run

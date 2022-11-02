@@ -11,23 +11,23 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class Paths {
 
-    static Trajectory blue1Trajectory1;
-    static Path blue1TrajectoryPath1;
-    static String blue1Path1JSON;
+    static Trajectory blueLeftTrajectory1;
+    static Path blueLeftTrajectoryPath1;
+    static String blueLeftPath1JSON;
 
-    static Trajectory blue1Trajectory2;
-    static Path blue1TrajectoryPath2;
-    static String blue1Path2JSON;
+    static Trajectory blueLeftTrajectory2;
+    static Path blueLeftTrajectoryPath2;
+    static String blueLeftPath2JSON;
 
-    static Trajectory blue1Trajectory3;
-    static Path blue1TrajectoryPath3;
-    static String blue1Path3JSON;
+    static Trajectory blueLeftTrajectory3;
+    static Path blueLeftTrajectoryPath3;
+    static String blueLeftPath3JSON;
 
     static Trajectory returnTrajectory;
 
     private static ShuffleboardTab smartDashboardTab;
     static Double autoPathSelection;
-    private static SimpleWidget autoPathWidget;
+    private static SimpleWidget autoPathWidget; 
 
     public static void createAutoPathWidget() {
 
@@ -39,76 +39,79 @@ public class Paths {
 
     public static Trajectory getAutoPath(int trajectoryNumber) {
         //Path string variable declarations
-        //blue1Path1JSON = "output/Blue 1 Path 1.wpilib.json";
-        blue1Path1JSON = "pathplanner/generatedJSON/Blue 1 Path 1.wpilib.json";
+        /*blue1Path1JSON = "output/Blue 1 Path 1.wpilib.json";
         blue1Path2JSON = "output/Blue 1 Path 2.wpilib.json";
-        blue1Path3JSON = "output/Blue 1 Path 3.wpilib.json";
+        blue1Path3JSON = "output/Blue 1 Path 3.wpilib.json";*/
+        blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
+        blueLeftPath2JSON = "pathplanner/generatedJSON/Blue Left Path 2.wpilib.json";
+        blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";
 
-        //Trajectory object declarations
-        blue1Trajectory1 = new Trajectory();
-        blue1TrajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(blue1Path1JSON);
-        blue1Trajectory2 = new Trajectory();
-        blue1TrajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(blue1Path2JSON);
-        blue1Trajectory3 = new Trajectory();
-        blue1TrajectoryPath3 = Filesystem.getDeployDirectory().toPath().resolve(blue1Path3JSON);
+        //Trajectory and path object declarations
+        blueLeftTrajectory1 = new Trajectory();
+        blueLeftTrajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath1JSON);
+        blueLeftTrajectory2 = new Trajectory();
+        blueLeftTrajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath2JSON);
+        blueLeftTrajectory3 = new Trajectory();
+        blueLeftTrajectoryPath3 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath3JSON);
 
+        //Path to trajecectory conversions
         try {
-            blue1Trajectory1 = TrajectoryUtil.fromPathweaverJson(blue1TrajectoryPath1);
+            blueLeftTrajectory1 = TrajectoryUtil.fromPathweaverJson(blueLeftTrajectoryPath1);
         } 
         catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + blue1Path1JSON, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + blueLeftPath1JSON, ex.getStackTrace());
         }
         try {
-            blue1Trajectory2 = TrajectoryUtil.fromPathweaverJson(blue1TrajectoryPath2);
+            blueLeftTrajectory2 = TrajectoryUtil.fromPathweaverJson(blueLeftTrajectoryPath2);
         }
         catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + blue1Path2JSON, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + blueLeftPath2JSON, ex.getStackTrace());
         }
         try {
-            blue1Trajectory3 = TrajectoryUtil.fromPathweaverJson(blue1TrajectoryPath3);
+            blueLeftTrajectory3 = TrajectoryUtil.fromPathweaverJson(blueLeftTrajectoryPath3);
         }
         catch(IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + blue1Path3JSON, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + blueLeftPath3JSON, ex.getStackTrace());
         }
 
         /*Trajectory selection for autonomous
-        (Many of these return statements use blue1Trajectory1 as a placeholder for now until more trajectory objects are created)*/
+        (Many of these return statements use blueLeftTrajectory1 as a placeholder for now until more trajectory and path objects are created)*/
         if(autoPathSelection == 1.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
-                returnTrajectory = blue1Trajectory2;
+                returnTrajectory = blueLeftTrajectory2;
             }
             else if(trajectoryNumber == 3) {
-                returnTrajectory = blue1Trajectory3;
+                returnTrajectory = blueLeftTrajectory3;
             }
         }
 
         else if(autoPathSelection == 2.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 3)
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
 
         }
 
         else if(autoPathSelection == 3.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 3) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
 
         }
@@ -116,39 +119,39 @@ public class Paths {
         else if(autoPathSelection == 4.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 3) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
         }
 
         else if(autoPathSelection == 5.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 3) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
         }
 
         else if(autoPathSelection == 6.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 3) {
-                returnTrajectory = blue1Trajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
         }
 
