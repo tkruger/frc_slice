@@ -39,12 +39,12 @@ public class Paths {
 
     public static Trajectory getAutoPath(int trajectoryNumber) {
         //Path string variable declarations
-        /*blue1Path1JSON = "output/Blue 1 Path 1.wpilib.json";
-        blue1Path2JSON = "output/Blue 1 Path 2.wpilib.json";
-        blue1Path3JSON = "output/Blue 1 Path 3.wpilib.json";*/
-        blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
+        blueLeftPath1JSON = "output/Blue Left Path 1.wpilib.json";
+        blueLeftPath2JSON = "output/Blue Left Path 2.wpilib.json";
+        blueLeftPath3JSON = "output/Blue Left Path 3.wpilib.json";
+        /*blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
         blueLeftPath2JSON = "pathplanner/generatedJSON/Blue Left Path 2.wpilib.json";
-        blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";
+        blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";*/
 
         //Trajectory and path object declarations
         blueLeftTrajectory1 = new Trajectory();
