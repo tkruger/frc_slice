@@ -23,6 +23,10 @@ public class Paths {
     static Path blueLeftTrajectoryPath3;
     static String blueLeftPath3JSON;
 
+    static Trajectory redLeftTrajectory1;
+    static Path redLeftTrajectoryPath1;
+    static String redLeftPath1JSON;
+
     static Trajectory returnTrajectory;
 
     private static ShuffleboardTab smartDashboardTab;
@@ -39,12 +43,13 @@ public class Paths {
 
     public static Trajectory getAutoPath(int trajectoryNumber) {
         //Path string variable declarations
-        blueLeftPath1JSON = "output/Blue Left Path 1.wpilib.json";
+        /*blueLeftPath1JSON = "output/Blue Left Path 1.wpilib.json";
         blueLeftPath2JSON = "output/Blue Left Path 2.wpilib.json";
-        blueLeftPath3JSON = "output/Blue Left Path 3.wpilib.json";
-        /*blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
+        blueLeftPath3JSON = "output/Blue Left Path 3.wpilib.json";*/
+        blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
         blueLeftPath2JSON = "pathplanner/generatedJSON/Blue Left Path 2.wpilib.json";
-        blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";*/
+        blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";
+        redLeftPath1JSON = "pathplanner/generatedJSON/Red Left Path 1.wpilib.json";
 
         //Trajectory and path object declarations
         blueLeftTrajectory1 = new Trajectory();
@@ -53,6 +58,8 @@ public class Paths {
         blueLeftTrajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath2JSON);
         blueLeftTrajectory3 = new Trajectory();
         blueLeftTrajectoryPath3 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath3JSON);
+        redLeftTrajectory1 = new Trajectory();
+        redLeftTrajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(redLeftPath1JSON);
 
         //Path to trajecectory conversions
         try {
@@ -73,9 +80,16 @@ public class Paths {
         catch(IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + blueLeftPath3JSON, ex.getStackTrace());
         }
+        try {
+            redLeftTrajectory1 = TrajectoryUtil.fromPathweaverJson(redLeftTrajectoryPath1);
+        }
+        catch(IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + redLeftPath1JSON, ex.getStackTrace());
+        }
 
         /*Trajectory selection for autonomous
         (Many of these return statements use blueLeftTrajectory1 as a placeholder for now until more trajectory and path objects are created)*/
+        autoPathSelection = 2.0;
         if(autoPathSelection == 1.0) {
 
             if(trajectoryNumber == 1) {
@@ -92,7 +106,7 @@ public class Paths {
         else if(autoPathSelection == 2.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
+                returnTrajectory = redLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
                 returnTrajectory = blueLeftTrajectory1;
