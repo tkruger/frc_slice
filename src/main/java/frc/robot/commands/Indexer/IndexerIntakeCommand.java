@@ -7,7 +7,7 @@ package frc.robot.commands.Indexer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An Indexer command that uses an indexer subsystem. */
+/** An Indexer Intake command that uses an indexer and intake subsystem. */
 public class IndexerIntakeCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Indexer m_indexer;
