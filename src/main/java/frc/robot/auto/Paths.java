@@ -11,26 +11,26 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class Paths {
 
-    static Trajectory blueLeftTrajectory1;
-    static Path blueLeftTrajectoryPath1;
-    static String blueLeftPath1JSON;
+    private static Trajectory blueLeftTrajectory1;
+    private static Path blueLeftTrajectoryPath1;
+    private static String blueLeftPath1JSON;
 
-    static Trajectory blueLeftTrajectory2;
-    static Path blueLeftTrajectoryPath2;
-    static String blueLeftPath2JSON;
+    private static Trajectory blueLeftTrajectory2;
+    private static Path blueLeftTrajectoryPath2;
+    private static String blueLeftPath2JSON;
 
-    static Trajectory blueLeftTrajectory3;
-    static Path blueLeftTrajectoryPath3;
-    static String blueLeftPath3JSON;
+    private static Trajectory blueLeftTrajectory3;
+    private static Path blueLeftTrajectoryPath3;
+    private static String blueLeftPath3JSON;
 
-    static Trajectory redLeftTrajectory1;
-    static Path redLeftTrajectoryPath1;
-    static String redLeftPath1JSON;
+    /*private static Trajectory redLeftTrajectory1;
+    private static Path redLeftTrajectoryPath1;
+    private static String redLeftPath1JSON;*/
 
     static Trajectory returnTrajectory;
 
     private static ShuffleboardTab smartDashboardTab;
-    static Double autoPathSelection;
+    private static Double autoPathSelection;
     private static SimpleWidget autoPathWidget; 
 
     public static void createAutoPathWidget() {
@@ -49,7 +49,7 @@ public class Paths {
         blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
         blueLeftPath2JSON = "pathplanner/generatedJSON/Blue Left Path 2.wpilib.json";
         blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";
-        redLeftPath1JSON = "pathplanner/generatedJSON/Red Left Path 1.wpilib.json";
+        //redLeftPath1JSON = "pathplanner/generatedJSON/Red Left Path 1.wpilib.json";
 
         //Trajectory and path object declarations
         blueLeftTrajectory1 = new Trajectory();
@@ -58,8 +58,8 @@ public class Paths {
         blueLeftTrajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath2JSON);
         blueLeftTrajectory3 = new Trajectory();
         blueLeftTrajectoryPath3 = Filesystem.getDeployDirectory().toPath().resolve(blueLeftPath3JSON);
-        redLeftTrajectory1 = new Trajectory();
-        redLeftTrajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(redLeftPath1JSON);
+        //redLeftTrajectory1 = new Trajectory();
+        //redLeftTrajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(redLeftPath1JSON);
 
         //Path to trajecectory conversions
         try {
@@ -80,12 +80,12 @@ public class Paths {
         catch(IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + blueLeftPath3JSON, ex.getStackTrace());
         }
-        try {
+        /*try {
             redLeftTrajectory1 = TrajectoryUtil.fromPathweaverJson(redLeftTrajectoryPath1);
         }
         catch(IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + redLeftPath1JSON, ex.getStackTrace());
-        }
+        }*/
 
         /*Trajectory selection for autonomous
         (Many of these return statements use blueLeftTrajectory1 as a placeholder for now until more trajectory and path objects are created)*/
@@ -106,7 +106,7 @@ public class Paths {
         else if(autoPathSelection == 2.0) {
 
             if(trajectoryNumber == 1) {
-                returnTrajectory = redLeftTrajectory1;
+                returnTrajectory = blueLeftTrajectory1;
             }
             else if(trajectoryNumber == 2) {
                 returnTrajectory = blueLeftTrajectory1;
