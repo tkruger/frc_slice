@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,21 +19,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.*;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.util.Units;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+import com.swervedrivespecialties.swervelib.SwerveModule;
 public class Drivetrain extends SubsystemBase {
   
   //Creates drivetrain motor objects and groups
   private final CANSparkMax leftMotorFront, leftMotorBack, rightMotorFront, rightMotorBack;
   private final MotorControllerGroup leftMotors, rightMotors;
   private final DifferentialDrive robotDrive;
+
+  private final SwerveModule leftModuleFront, leftModuleBack, rightModuleFront, rightModuleBack;
+  private final SwerveDriveKinematics m_swerveKinematics;
 
   private final AHRS navXGyro;
 
@@ -61,6 +72,51 @@ public class Drivetrain extends SubsystemBase {
     leftMotorBack = new CANSparkMax(Constants.drivetrain_LEFT_BACK_PORT, MotorType.kBrushless);
     rightMotorFront = new CANSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT, MotorType.kBrushless);
     rightMotorBack = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT, MotorType.kBrushless);
+
+    //The gear ratios for these object declarations are placholders for now
+    leftModuleFront = Mk4iSwerveModuleHelper.createNeo(
+      Shuffleboard.getTab("SmartDashboard").getLayout("Left Front Module", BuiltInLayouts.kList), 
+      Mk4iSwerveModuleHelper.GearRatio.L1, 
+      0, 
+      0, 
+      0, 
+      0);
+
+    leftModuleBack = Mk4iSwerveModuleHelper.createNeo(
+      Shuffleboard.getTab("SmartDashboard").getLayout("Left Back Module", BuiltInLayouts.kList), 
+      Mk4iSwerveModuleHelper.GearRatio.L1, 
+      0, 
+      0, 
+      0, 
+      0);
+
+    rightModuleFront = Mk4iSwerveModuleHelper.createNeo(
+      Shuffleboard.getTab("SmartDashboard").getLayout("Right Front Module", BuiltInLayouts.kList), 
+      Mk4iSwerveModuleHelper.GearRatio.L1, 
+      0, 
+      0, 
+      0, 
+      0);
+
+    rightModuleBack = Mk4iSwerveModuleHelper.createNeo(
+      Shuffleboard.getTab("SmartDashboard").getLayout("Right Back Module", BuiltInLayouts.kList), 
+      Mk4iSwerveModuleHelper.GearRatio.L1, 
+      0, 
+      0, 
+      0, 
+      0);
+
+      //This kinematics object uses the total length of the robot(0.8128 meters) for now as a placholder for the wheelbase length
+      m_swerveKinematics = new SwerveDriveKinematics(
+          // Front left
+          new Translation2d(Constants.kTrackWidthMeters / 2.0, 0.8128 / 2.0),
+          // Front right
+          new Translation2d(Constants.kTrackWidthMeters / 2.0, -0.8128 / 2.0),
+          // Back left
+          new Translation2d(-Constants.kTrackWidthMeters  / 2.0, 0.8128 / 2.0),
+          // Back right
+          new Translation2d(-Constants.kTrackWidthMeters  / 2.0, -0.8128 / 2.0)
+      );
 
     //rightMotorBack.setInverted(true);
     //rightMotorFront.setInverted(true);
@@ -221,6 +277,41 @@ public class Drivetrain extends SubsystemBase {
     rightPIDBack.setReference(-speeds.right, ControlType.kVelocity);
 
     robotDrive.feed();
+  }
+
+  public void swerveDrive(ChassisSpeeds chassisSpeeds) {
+
+    SwerveModuleState[] states = m_swerveKinematics.toSwerveModuleStates(chassisSpeeds);
+    //SwerveDriveKinematics.normalizeWheelSpeeds(states, Constants.kMaxSpeedMetersPerSeconds);
+
+    //The maximum voltage value of 10 is taken from Trajectories
+    leftModuleFront.set(states[0].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
+    leftModuleBack.set(states[1].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
+    rightModuleFront.set(states[2].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
+    rightModuleBack.set(states[2].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
+
+  }
+
+  public static double deadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
+    } else {
+      return 0.0;
+    }
+  }
+
+  public double modifyAxis(double value) {
+    // Deadband
+    value = deadband(value, 0.05);
+
+    // Square the axis
+    value = Math.copySign(value * value, value);
+
+    return value;
   }
 
   public void resetOdometry(Pose2d position) {

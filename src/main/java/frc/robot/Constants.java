@@ -89,8 +89,12 @@ public final class Constants {
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackWidthMeters);
 
-        public static final double kMaxSpeedMetersPerSeconds = 0.1;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
+        public static final double kMaxSpeedMetersPerSeconds = 0.5;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 0.2;
+        //This constant uses the total length of the robot(0.8128 meters) for now as a placeholder for wheelbase length
+        public static final double kMaxAngularVelocityRadiansPerSecond = kMaxSpeedMetersPerSeconds /
+          Math.hypot(kTrackWidthMeters / 2.0, 0.8128 / 2.0);
+
 
         // Ramsete controller parameters. There are maethematically determined to be the best parameters for almost every robot
         public static final double kRamseteB = 2;
