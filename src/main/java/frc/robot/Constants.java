@@ -12,4 +12,12 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    public static final int RobotContainer_LEFT_JOYSTICK_PORT = 0, RobotContainer_RIGHT_JOYSTICK_PORT = 1;
+    
+    public static final double kTrackWidthMeters = 0.5842, kMaxSpeedMetersPerSeconds = 0.5;
+
+    //This constant uses the total length of the robot(0.8128 meters) for now as a placeholder for wheelbase length
+    public static final double kMaxAngularVelocityRadiansPerSecond = kMaxSpeedMetersPerSeconds /
+    Math.hypot(kTrackWidthMeters / 2.0, 0.8128 / 2.0);
+}
