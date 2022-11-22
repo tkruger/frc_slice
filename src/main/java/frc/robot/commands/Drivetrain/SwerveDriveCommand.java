@@ -15,14 +15,17 @@ import frc.robot.subsystems.SwerveDrivetrain;
 
 public class SwerveDriveCommand extends CommandBase {
   /** Creates a new SwerveDriveCommand. */
-  SwerveDrivetrain m_drivetrain;
+  SwerveDrivetrain m_swerveDrivetrain;
   Joystick m_leftJoystick, m_rightJoystick;
 
-  public SwerveDriveCommand(SwerveDrivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
+  public SwerveDriveCommand(SwerveDrivetrain swerveDrivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_drivetrain = drivetrain;
+    addRequirements(swerveDrivetrain);
+
+    m_swerveDrivetrain = swerveDrivetrain;
     m_leftJoystick = leftJoystick;
     m_rightJoystick = rightJoystick;
+    
   }
 
   // Called when the command is initially scheduled.
@@ -33,16 +36,15 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void execute() {
     
-    double translationX = -m_drivetrain.modifyAxis(m_leftJoystick.getY() * Constants.kMaxSpeedMetersPerSeconds);
-    double translationY = -m_drivetrain.modifyAxis(m_leftJoystick.getX() * Constants.kMaxSpeedMetersPerSeconds);
-    double rotation = -m_drivetrain.modifyAxis(m_rightJoystick.getX() * Constants.kMaxAngularVelocityRadiansPerSecond);
+    double translationX = -m_swerveDrivetrain.modifyAxis(m_leftJoystick.getY() * Constants.kMaxSpeedMetersPerSeconds);
+    double translationY = -m_swerveDrivetrain.modifyAxis(m_leftJoystick.getX() * Constants.kMaxSpeedMetersPerSeconds);
+    double rotation = -m_swerveDrivetrain.modifyAxis(m_rightJoystick.getX() * Constants.kMaxAngularVelocityRadiansPerSecond);
 
-    m_drivetrain.swerveDrive(ChassisSpeeds.fromFieldRelativeSpeeds(
+    m_swerveDrivetrain.swerveDrive(ChassisSpeeds.fromFieldRelativeSpeeds(
       translationX,
       translationY,
       rotation,
-      new Rotation2d(Units.degreesToRadians(m_drivetrain.getHeading()))
-    ));
+      new Rotation2d(Units.degreesToRadians(m_swerveDrivetrain.getHeading()))));
 
   }
 

@@ -4,9 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.auto.Paths;
+import frc.robot.auto.trajectoryFollowerAutoRoutine;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -21,14 +23,18 @@ public class RobotContainer {
   private static Joystick rightJoystick = Button.rightJoystick;
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveDrivetrain m_Swerve = new SwerveDrivetrain();
-
-  private final SwerveDriveCommand m_autoCommand = new SwerveDriveCommand(m_Swerve, leftJoystick, rightJoystick);
+  private final SwerveDrivetrain m_swerveDrivetrain = new SwerveDrivetrain();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    Paths.createAutoPaths();
+
     // Configure the button bindings
     configureButtonBindings();
+
+    m_swerveDrivetrain.setDefaultCommand(new SwerveDriveCommand(m_swerveDrivetrain, leftJoystick, rightJoystick));
+
   }
 
   /**
@@ -46,6 +52,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return new trajectoryFollowerAutoRoutine(m_swerveDrivetrain, leftJoystick, rightJoystick);
   }
 }
