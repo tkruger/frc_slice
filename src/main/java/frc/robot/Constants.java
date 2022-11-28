@@ -22,4 +22,8 @@ public final class Constants {
     public static final int drivetrain_LEFT_BACK_PORT = 1;
     public static final int drivetrain_RIGHT_FRONT_PORT = 4;
     public static final int drivetrain_RIGHT_BACK_PORT = 2;
+
+    //Defining Motor Variables
+    public static final double yawMotor_percentOut = 0.5; //0.5 is just a placeholder for now, can be changed.
+    public static final double pitchMotor_outPutVolts = 0; //the 0 is just a placeholder value for now until I figure out what the value should be
 }

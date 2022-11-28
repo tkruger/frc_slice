@@ -31,11 +31,15 @@ public class Motors extends SubsystemBase {
   }
 
   //This command will run both the yaw and pitch motors
-  public void runMotors(){
-    
-    
+  public void runMotors(double yawMotorPercentOut, double pitchMotorOutVolts){
+    //Programming the Yaw Motor
+    yawMotor.configAllSettings(yawMotor_Config); //configuring the yaw motor
 
-    
+    yawMotor.set(TalonFXControlMode.PercentOutput, yawMotorPercentOut); //Turns the yaw motor 360 degrees
+
+    //Programming the Pitch Motor
+    pitchMotor.setVoltage(pitchMotorOutVolts); //Need to determine the voltage needed to lift the cannon from 15 degree angle to 75 degree angle
+
   }
 
   @Override
