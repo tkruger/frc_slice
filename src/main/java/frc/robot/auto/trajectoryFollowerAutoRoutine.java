@@ -16,7 +16,7 @@ public class trajectoryFollowerAutoRoutine extends SequentialCommandGroup {
   /** Creates a new pathWeaverAutoRoutine. */
   public trajectoryFollowerAutoRoutine(SwerveDrivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
 
-    Trajectories m_trajectories = new Trajectories();
+    //Trajectories m_trajectories = new Trajectories();
 
     TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath().get(0), Paths.getAutoPath().get(0).getInitialPose());
     UpdateField2dCommand path1Field2d = new UpdateField2dCommand(1);
@@ -36,8 +36,7 @@ public class trajectoryFollowerAutoRoutine extends SequentialCommandGroup {
     addCommands(
       path1ForwardGroup,
       path2ForwardGroup,
-      path3ForwardGroup
-    );
+      path3ForwardGroup);
 
   }
   

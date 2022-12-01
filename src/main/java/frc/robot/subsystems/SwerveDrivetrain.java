@@ -281,6 +281,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   public void autoOutputModuleStates(SwerveModuleState[] states) {
 
+    //The maximum voltage value of 10 is taken from Trajectories
     leftModuleFront.set(states[0].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
     leftModuleBack.set(states[1].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
     rightModuleFront.set(states[2].speedMetersPerSecond / Constants.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
@@ -290,7 +291,12 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   public void stopDrive() {
 
-    SwerveModuleState[] stopStates = {new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState()};
+    SwerveModuleState[] stopStates = {
+      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(leftEncoderFrontSteer.getPosition()))),
+      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(leftEncoderBackSteer.getPosition()))),
+      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(rightEncoderFrontSteer.getPosition()))),
+      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(rightEncoderBackSteer.getPosition())))};
+
     autoOutputModuleStates(stopStates);
     
   }

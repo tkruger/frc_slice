@@ -8,8 +8,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Paths {
 
@@ -95,7 +95,7 @@ public class Paths {
         pathChooser.addOption("Red Middle", blueLeftPath);
         pathChooser.addOption("Red Right", blueLeftPath);
 
-        Shuffleboard.getTab("SmartDashboard").add("Auto Selector", pathChooser);
+        SmartDashboard.putData("Auto Selector", pathChooser);
 
     }
 

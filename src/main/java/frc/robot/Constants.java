@@ -40,7 +40,6 @@ public final class Constants {
     //This constant uses the total length of the robot(0.8128 meters) for now as a placeholder for wheelbase length
     public static final double kMaxAngularVelocityRadiansPerSecond = 
         kMaxSpeedMetersPerSeconds / Math.hypot(kTrackWidthMeters / 2.0, 0.8128 / 2.0);
-   
 
     // ===============================
     // Autonomous
