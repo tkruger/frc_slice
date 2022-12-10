@@ -72,41 +72,18 @@ public class SwerveDrivetrain extends SubsystemBase {
     rightMotorBackDrive = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT_DRIVE, MotorType.kBrushless);
     rightMotorBackSteer = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT_STEER, MotorType.kBrushless);
 
-    leftEncoderFrontDrive = leftMotorFrontDrive.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
-    leftEncoderFrontSteer = leftMotorFrontSteer.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    leftEncoderFrontDrive = createEncoder(leftMotorFrontDrive);
+    leftEncoderFrontSteer = createEncoder(leftMotorFrontSteer);
 
-    leftEncoderBackDrive = leftMotorBackDrive.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
-    leftEncoderBackSteer = leftMotorBackSteer.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    leftEncoderBackDrive = createEncoder(leftMotorBackDrive);
+    leftEncoderBackSteer = createEncoder(leftMotorBackSteer);
 
-    rightEncoderFrontDrive = rightMotorFrontDrive.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
-    rightEncoderFrontSteer = rightMotorFrontSteer.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    rightEncoderFrontDrive = createEncoder(rightMotorFrontDrive);
+    rightEncoderFrontSteer = createEncoder(rightMotorFrontSteer);
 
-    rightEncoderBackDrive = rightMotorBackDrive.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
-    rightEncoderBackSteer = rightMotorBackSteer.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    rightEncoderBackDrive = createEncoder(rightMotorBackDrive);
+    rightEncoderBackSteer = createEncoder(rightMotorBackSteer);
 
-    leftEncoderFrontDrive.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    leftEncoderFrontSteer.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-
-    leftEncoderBackDrive.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    leftEncoderBackSteer.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-
-    rightEncoderFrontDrive.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    rightEncoderFrontSteer.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-
-    rightEncoderBackDrive.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    rightEncoderBackSteer.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-
-    leftEncoderFrontDrive.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-    leftEncoderFrontSteer.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-
-    leftEncoderBackDrive.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-    leftEncoderBackSteer.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-
-    rightEncoderFrontDrive.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-    rightEncoderFrontSteer.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-
-    rightEncoderBackDrive.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-    rightEncoderBackSteer.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
 
     //The gear ratios, motor ports, and steer offsets for these object declarations are placholders for now
     leftModuleFront = Mk4iSwerveModuleHelper.createNeo(
@@ -170,6 +147,17 @@ public class SwerveDrivetrain extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public RelativeEncoder createEncoder(CANSparkMax motor) {
+
+    RelativeEncoder encoder = motor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+
+    encoder.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
+    encoder.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
+
+    return encoder;
+
   }
 
   public static void updateField2d(int trajectoryNumber) {
@@ -239,7 +227,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  public static double deadband(double value, double deadband) {
+  /*public static double deadband(double value, double deadband) {
 
     if (Math.abs(value) > deadband) {
       if (value > 0.0) {
@@ -265,7 +253,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     return value;
 
-  }
+  }*/
   
   public double getHeading() {
 

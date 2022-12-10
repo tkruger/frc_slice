@@ -36,9 +36,9 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void execute() {
     
-    double translationX = -m_swerveDrivetrain.modifyAxis(m_leftJoystick.getY() * Constants.kMaxSpeedMetersPerSeconds);
-    double translationY = m_swerveDrivetrain.modifyAxis(m_leftJoystick.getX() * Constants.kMaxSpeedMetersPerSeconds);
-    double rotation = m_swerveDrivetrain.modifyAxis(m_rightJoystick.getX() * Constants.kMaxAngularVelocityRadiansPerSecond);
+    double translationX = -m_leftJoystick.getY() * Constants.kMaxSpeedMetersPerSeconds;
+    double translationY = m_leftJoystick.getX() * Constants.kMaxSpeedMetersPerSeconds;
+    double rotation = m_rightJoystick.getX() * Constants.kMaxAngularVelocityRadiansPerSecond;
 
     m_swerveDrivetrain.swerveDrive(ChassisSpeeds.fromFieldRelativeSpeeds(
       translationX,
