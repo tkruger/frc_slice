@@ -148,7 +148,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Pushes the trajectory to Field2d.
     try {
-      field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath(trajectoryNumber));
+      field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(trajectoryNumber - 1));
     } catch (Exception exception) {
       field2d.getObject("Trajectory").setTrajectory(Paths.returnPlaceholderTrajectory());
     }

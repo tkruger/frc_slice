@@ -2,12 +2,14 @@ package frc.robot.auto;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Paths {
 
@@ -27,22 +29,13 @@ public class Paths {
     private static Path redLeftTrajectoryPath1;
     private static String redLeftPath1JSON;*/
 
-    static Trajectory returnTrajectory;
+    private static ArrayList<Trajectory> blueLeftPath;
 
-    private static ShuffleboardTab smartDashboardTab;
-    private static Double autoPathSelection;
-    private static SimpleWidget autoPathWidget; 
+    private static SendableChooser<ArrayList<Trajectory>> pathChooser;
 
-    public static void createAutoPathWidget() {
+    public static void createAutoPaths() {
 
-        smartDashboardTab = Shuffleboard.getTab("SmartDashboard");
-        autoPathWidget = smartDashboardTab.add("Auto Selector", 1).withWidget(BuiltInWidgets.kNumberSlider);
-        autoPathSelection = autoPathWidget.getEntry().getDouble(1.0);
-
-    }
-
-    public static Trajectory getAutoPath(int trajectoryNumber) {
-        //Path string variable declarations
+         //Path string variable declarations
         blueLeftPath1JSON = "output/Blue Left Path 1.wpilib.json";
         blueLeftPath2JSON = "output/Blue Left Path 2.wpilib.json";
         blueLeftPath3JSON = "output/Blue Left Path 3.wpilib.json";
@@ -87,95 +80,30 @@ public class Paths {
             DriverStation.reportError("Unable to open trajectory: " + redLeftPath1JSON, ex.getStackTrace());
         }*/
 
-        /*Trajectory selection for autonomous
-        (Many of these return statements use blueLeftTrajectory1 as a placeholder for now until more trajectory and path objects are created)*/
-        autoPathSelection = 1.0;
-        if(autoPathSelection == 1.0) {
+        blueLeftPath = new ArrayList<Trajectory>();
 
-            if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 2) {
-                returnTrajectory = blueLeftTrajectory2;
-            }
-            else if(trajectoryNumber == 3) {
-                returnTrajectory = blueLeftTrajectory3;
-            }
-        }
+        blueLeftPath.add(blueLeftTrajectory1);
+        blueLeftPath.add(blueLeftTrajectory2);
+        blueLeftPath.add(blueLeftTrajectory3);
 
-        else if(autoPathSelection == 2.0) {
+        pathChooser = new SendableChooser<>();
 
-            if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 2) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 3)
-                returnTrajectory = blueLeftTrajectory1;
+        pathChooser.addOption("Blue Left", blueLeftPath);
+        pathChooser.addOption("Blue Middle", blueLeftPath);
+        pathChooser.addOption("Blue Right", blueLeftPath);
+        pathChooser.addOption("Red Left", blueLeftPath);
+        pathChooser.addOption("Red Middle", blueLeftPath);
+        pathChooser.addOption("Red Right", blueLeftPath);
 
-        }
+        pathChooser.setDefaultOption("Blue Left", blueLeftPath);
 
-        else if(autoPathSelection == 3.0) {
-
-            if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 2) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 3) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-
-        }
-
-        else if(autoPathSelection == 4.0) {
-
-            if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 2) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 3) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-        }
-
-        else if(autoPathSelection == 5.0) {
-
-            if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 2) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 3) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-        }
-
-        else if(autoPathSelection == 6.0) {
-
-            if(trajectoryNumber == 1) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 2) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-            else if(trajectoryNumber == 3) {
-                returnTrajectory = blueLeftTrajectory1;
-            }
-        }
-
-        return returnTrajectory;
+        SmartDashboard.putData("Auto Selector", pathChooser);
 
     }
 
-    public static Trajectory returnAutoTrajectory() {
+    public static ArrayList<Trajectory> getAutoPath() {
 
-        return returnTrajectory;
+       return pathChooser.getSelected();
 
     }
 
