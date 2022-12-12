@@ -26,13 +26,13 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
 
     Trajectories m_trajectories = new Trajectories();
 
-    TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Trajectories.testTrajectory, Paths.returnAutoTrajectory().getInitialPose());
+    TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(1), Paths.returnAutoTrajectory().getInitialPose());
     UpdateField2dCommand path1Field2d = new UpdateField2dCommand(1);
-    ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, new IntakeSchedulableCommand(intake, true), path1Field2d);
+    ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, /*new IntakeSchedulableCommand(intake, true), path1Field2d*/ path1Field2d);
 
     TrajectoryFollowerSequence path2TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(2));
     UpdateField2dCommand path2Field2d = new UpdateField2dCommand(2);
-    ParallelDeadlineGroup path2ForwardGroup = new ParallelDeadlineGroup(path2TrajectoryForward, new IntakeSchedulableCommand(intake, true), path2Field2d);
+    ParallelDeadlineGroup path2ForwardGroup = new ParallelDeadlineGroup(path2TrajectoryForward, /*new IntakeSchedulableCommand(intake, true),*/ path2Field2d);
 
     TrajectoryFollowerSequence path3TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath(3));
     UpdateField2dCommand path3Field2d = new UpdateField2dCommand(3);
@@ -42,13 +42,13 @@ public class pathWeaver3BallAutoRoutine extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());S
     addCommands(
-      new IndexerUpCommand(indexer),
-      path1ForwardGroup/*,
-      new smart2BallShootSequence(indexer, intake, shooter, drivetrain, limelight, leftJoystick, rightJoystick),
+      //new IndexerUpCommand(indexer),
+      path1ForwardGroup,
+      //new smart2BallShootSequence(indexer, intake, shooter, drivetrain, limelight, leftJoystick, rightJoystick),
       path2ForwardGroup,
-      new IndexerUpCommand(indexer),
-      path3ForwardGroup,
-      new SmartAutoShoot(limelight, shooter)*/
+      //new IndexerUpCommand(indexer),
+      path3ForwardGroup
+      //new SmartAutoShoot(limelight, shooter)
     );
 
   }
