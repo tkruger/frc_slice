@@ -282,7 +282,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAverageRightEncoderVelocity() {
-  return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()) / 2.0; 
+    return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()) / 2.0; 
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
