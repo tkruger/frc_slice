@@ -9,7 +9,7 @@ import frc.robot.subsystems.SwerveDrivetrain;
 
 public class UpdateField2dCommand extends CommandBase {
   /** Creates a new field2dCommand. */
-  int m_trajectoryNumber;
+  private final int m_trajectoryNumber;
 
   public UpdateField2dCommand(int trajectoryNumber) {
     // Use addRequirements() here to declare subsystem dependencies.
