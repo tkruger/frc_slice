@@ -5,9 +5,9 @@
 package frc.robot.auto;
 
 import frc.robot.commands.Drivetrain.TrajectoryFollowerSequence;
-import frc.robot.commands.Indexer.AutoShoot.IndexerUpCommand;
-import frc.robot.commands.Intake.IntakeSchedulableCommand;
-import frc.robot.commands.Shooter.AutoShoot.SmartAutoShoot;
+//import frc.robot.commands.Indexer.AutoShoot.IndexerUpCommand;
+//import frc.robot.commands.Intake.IntakeSchedulableCommand;
+//import frc.robot.commands.Shooter.AutoShoot.SmartAutoShoot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -24,7 +24,7 @@ public class trajectoryFollowerAutoRoutine extends SequentialCommandGroup {
   /** Creates a new pathWeaverAutoRoutine. */
   public trajectoryFollowerAutoRoutine(Drivetrain drivetrain, Intake intake, Indexer indexer, Shooter shooter, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
 
-    Trajectories m_trajectories = new Trajectories();
+    //Trajectories m_trajectories = new Trajectories();
 
     TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath().get(0), Paths.getAutoPath().get(0).getInitialPose());
     UpdateField2dCommand path1Field2d = new UpdateField2dCommand(1);
