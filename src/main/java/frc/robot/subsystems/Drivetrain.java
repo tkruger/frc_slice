@@ -120,6 +120,8 @@ public class Drivetrain extends SubsystemBase {
     Shuffleboard.getTab("SmartDashboard").add(navXGyro);
     // Display how the robot is moving on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(robotDrive);
+
+    Shuffleboard.getTab("SmartDashboard").add("Field2d", field2d);
     
   }
 
