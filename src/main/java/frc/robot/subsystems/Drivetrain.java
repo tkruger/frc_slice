@@ -48,10 +48,13 @@ public class Drivetrain extends SubsystemBase {
 
   public static final Field2d field2d = new Field2d();
 
+  public double leftFrontCurrentPosition, leftBackCurrentPosition, rightFrontCurrentPosition, rightBackCurrentPosition;
   public double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
 
   // The current target position of every motor
   public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
+
+  public static double m_leftVolts, m_rightVolts;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -125,10 +128,10 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
-    updateOdometry();
-
     // This method will be called once per scheduler run
+
+    updateOdometry();
+    
     field2d.setRobotPose(getEstimatedPosition());
 
     SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
@@ -170,18 +173,23 @@ public class Drivetrain extends SubsystemBase {
 
   public Pose2d updateOdometry() {
 
+    leftFrontCurrentPosition = leftEncoderFront.getPosition();
+    leftBackCurrentPosition = leftEncoderBack.getPosition();
+    rightFrontCurrentPosition = rightEncoderFront.getPosition();
+    rightBackCurrentPosition = rightEncoderBack.getPosition();
+
     m_poseEstimator.update(
       new Rotation2d(Units.degreesToRadians(getHeading())), 
         new DifferentialDriveWheelSpeeds(
           leftEncoderFront.getVelocity() * 2, 
           -rightEncoderFront.getVelocity() * 2),
-          ((leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) - (leftFrontLastPosition + leftBackLastPosition)),
-          -((rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) - (rightFrontLastPosition + rightBackLastPosition)));
+          ((leftFrontCurrentPosition + leftBackCurrentPosition) - (leftFrontLastPosition + leftBackLastPosition)),
+          -((rightFrontCurrentPosition + rightBackCurrentPosition) - (rightFrontLastPosition + rightBackLastPosition)));
 
-          leftFrontLastPosition = leftEncoderFront.getPosition();
-          leftBackLastPosition = leftEncoderBack.getPosition();
-          rightFrontLastPosition = rightEncoderFront.getPosition();
-          rightBackLastPosition = rightEncoderBack.getPosition();
+          leftFrontLastPosition = leftFrontCurrentPosition;
+          leftBackLastPosition = leftBackCurrentPosition;
+          rightFrontLastPosition = rightFrontCurrentPosition;
+          rightBackLastPosition = rightBackCurrentPosition;
 
 
     //This latency value(0.3) is a place holder for now and should be measured properly for our robot
@@ -328,6 +336,9 @@ public class Drivetrain extends SubsystemBase {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
     robotDrive.feed();
+
+    m_leftVolts = leftVolts;
+    m_rightVolts = rightVolts;
   }
 
   /**

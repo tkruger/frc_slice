@@ -6,8 +6,6 @@ package frc.robot.auto;
 
 import java.util.List;
 
-//import java.util.List;
-
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
