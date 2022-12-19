@@ -112,9 +112,11 @@ public class Drivetrain extends SubsystemBase {
 
     //m_drivetrainOdometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
 
+    Rotation2d rotation = new Rotation2d(Units.degreesToRadians(getHeading()));
+
     //These standard deviation values should be measured proplerly for our robot
-    m_poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(Units.degreesToRadians(getHeading())),
-      new Pose2d(),
+    m_poseEstimator = new DifferentialDrivePoseEstimator(rotation,
+      new Pose2d(.686/2, .821/2, rotation),
       new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), // State measurement standard deviations. X, Y, theta.
       new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
       new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global measurement standard deviations. X, Y, and theta.*/
