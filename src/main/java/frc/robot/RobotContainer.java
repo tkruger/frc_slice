@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
+import frc.robot.commands.Pneumatics.PneumaticsIdleCommand;
 import frc.robot.commands.Pneumatics.PneumaticsInCommand;
 import frc.robot.commands.Pneumatics.PneumaticsOutCommand;
 import frc.robot.subsystems.*;
@@ -29,6 +30,7 @@ public class RobotContainer {
   //Create any commands here
   private final DriveCommand m_drive = new DriveCommand(m_drivetrain);
 
+  private final PneumaticsIdleCommand m_pneumaticsIdleCmd = new PneumaticsIdleCommand(m_pneumatics);
   private final PneumaticsInCommand m_pneumaticsInCmd = new PneumaticsInCommand(m_pneumatics);
   private final PneumaticsOutCommand m_pneumaticsOutCmd = new PneumaticsOutCommand(m_pneumatics);
 
@@ -37,7 +39,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    //Setting default commands
     m_drivetrain.setDefaultCommand(m_drive);
+    m_pneumatics.setDefaultCommand(m_pneumaticsIdleCmd);
   }
 
   /**
@@ -48,6 +52,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Call any buttons here along with the commands you want to run when they are pressed
+
+    //pneumatics in and pneumatics out commands
+    Button.rightButton1.whenPressed(m_pneumaticsInCmd);
+    Button.rightButton2.whenPressed(m_pneumaticsOutCmd);
+
   }
 
   /**

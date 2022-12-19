@@ -4,30 +4,43 @@
 
 package frc.robot.commands.Pneumatics;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Button;
 import frc.robot.subsystems.Pneumatics;
 
-public class PneumaticsOutCommand extends CommandBase {
-  //Declaring Variables
-  private final Pneumatics m_Pneumatics;
+
+/** Creates a new PneumaticsIdleCommand. */
+public class PneumaticsIdleCommand extends CommandBase {
   
-  /** Creates a new PneumaticsOutCommand. */
-  public PneumaticsOutCommand(Pneumatics m_pneumatics) {
+  private final Pneumatics m_Pneumatics;
+
+  /* 
+   * don't know if these variables will be used
+  private static Joystick leftJoystick = Button.leftJoystick;
+  private static Joystick rightJoystick = Button.rightJoystick;
+  private static JoystickButton onButton = Button.leftButton1;
+  private static JoystickButton OffButton = Button.leftButton2;
+  */
+
+
+  public PneumaticsIdleCommand(Pneumatics m_pneumatics) {
     m_Pneumatics = m_pneumatics;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Pneumatics);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_Pneumatics.setSolenoid(Value.kForward);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -36,6 +49,6 @@ public class PneumaticsOutCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

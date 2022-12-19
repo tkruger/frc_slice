@@ -7,7 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+
 
 public class Pneumatics extends SubsystemBase {
 
@@ -16,10 +19,9 @@ public class Pneumatics extends SubsystemBase {
   private final Compressor compressor;
 
 
-  /* unused variables 
   private boolean compressorEnabled;
   private double compressorPressure;
-  */
+
 
   /** Creates a new Pnuematics. */
   public Pneumatics() {
@@ -28,19 +30,28 @@ public class Pneumatics extends SubsystemBase {
     compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     dSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
-    /*Unused variables (for now)
     compressorEnabled = compressor.enabled();
     compressorPressure = compressor.getPressure();
-    */
     
   }
 
+  /* This method sets the Double Solenoid to whichever mode it needs to be */
   public void setSolenoid(DoubleSolenoid.Value pneumaticMode){
     dSolenoid.set(pneumaticMode); //sets pneumatics mode to either forward or reverse
   }
 
+  /* These methods toggle the compressor on and off */
+  public void toggleCompressorOn(){
+    compressor.enableDigital();
+  }
+  public void toggleCompressorOff(){
+    compressor.disable();
+  }
+
   @Override
+  // This method will be called once per scheduler run
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Compressor Enabled:", compressorEnabled);
+    SmartDashboard.putNumber("Compressor Pressure (PSI)", compressorPressure);
   }
 }
