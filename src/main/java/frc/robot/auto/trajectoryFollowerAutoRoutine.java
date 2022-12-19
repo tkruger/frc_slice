@@ -28,7 +28,7 @@ public class trajectoryFollowerAutoRoutine extends SequentialCommandGroup {
 
     TrajectoryFollowerSequence path1TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath().get(0), Paths.getAutoPath().get(0).getInitialPose());
     UpdateField2dCommand path1Field2d = new UpdateField2dCommand(1);
-    ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, /*new IntakeSchedulableCommand(intake, true), path1Field2d*/ path1Field2d);
+    ParallelDeadlineGroup path1ForwardGroup = new ParallelDeadlineGroup(path1TrajectoryForward, /*new IntakeSchedulableCommand(intake, true),*/ path1Field2d);
 
     TrajectoryFollowerSequence path2TrajectoryForward = new TrajectoryFollowerSequence(drivetrain, Paths.getAutoPath().get(1));
     UpdateField2dCommand path2Field2d = new UpdateField2dCommand(2);

@@ -35,7 +35,9 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
       "/LiveWindow/Ungrouped/navX-Sensor[3]": "Gyro",
+      "/Shuffleboard/SmartDashboard/Auto Selector": "String Chooser",
       "/Shuffleboard/SmartDashboard/DifferentialDrive[1]": "DifferentialDrive",
+      "/Shuffleboard/SmartDashboard/Field2d": "Field2d",
       "/Shuffleboard/SmartDashboard/navX-Sensor[2]": "Gyro",
       "/Shuffleboard/SmartDashboard/navX-Sensor[3]": "Gyro",
       "/SmartDashboard/Field": "Field2d"
@@ -46,7 +48,7 @@
           "arrows": false,
           "style": "Track"
         },
-        "image": "C:\\Users\\olivi\\.vscode\\vs projects\\2022 Off-Season Team Code(Current code)\\PathWeaverField Branch Local\\frc_slice\\.Glass\\2022-field.png",
+        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\PathPlannerField Branch Local\\frc_slice\\.Glass\\2022-field.png",
         "window": {
           "visible": true
         }

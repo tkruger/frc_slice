@@ -153,13 +153,9 @@ public class Drivetrain extends SubsystemBase {
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(field2d);
 
-    // Pushes the trajectory to Field2d.
-    try {
-      field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(trajectoryNumber - 1));
-    } catch (Exception exception) {
-      field2d.getObject("Trajectory").setTrajectory(Paths.returnPlaceholderTrajectory());
-    }
-
+    // Pushes the trajectory to Field2d
+    field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(trajectoryNumber - 1));
+    
   }
 
   public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {

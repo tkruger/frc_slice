@@ -4,13 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,8 +18,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  private DoubleLogEntry voltageLog;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -69,23 +63,11 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
-    // Starts recording to data log
-    DataLogManager.start();
-
-    // Set up custom log entries
-    DataLog log = DataLogManager.getLog();
-    voltageLog = new DoubleLogEntry(log, "Auto Volts");
-
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-
-    voltageLog.append(Drivetrain.m_leftVolts);
-    voltageLog.append(Drivetrain.m_rightVolts);
-
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
