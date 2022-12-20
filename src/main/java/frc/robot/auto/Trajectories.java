@@ -75,7 +75,7 @@ public class Trajectories extends SequentialCommandGroup{
     public static RamseteCommand generateRamseteCommand(Drivetrain drive, Trajectory trajectory) {
         RamseteCommand trajectoryFollower = new RamseteCommand(
             trajectory,
-            drive::getEstimatedPosition,
+            drive::getPose,
             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
             new SimpleMotorFeedforward(
                 Constants.ksVolts,
@@ -90,14 +90,5 @@ public class Trajectories extends SequentialCommandGroup{
             drive);
         return trajectoryFollower;
     }
-
-
-
-
-
-
-
-
-
 
 }

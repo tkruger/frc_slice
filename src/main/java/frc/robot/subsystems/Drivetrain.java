@@ -24,7 +24,7 @@ import edu.wpi.first.math.*;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+//import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.util.Units;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -49,8 +49,8 @@ public class Drivetrain extends SubsystemBase {
 
   public static final Field2d field2d = new Field2d();
 
-  public double leftFrontCurrentPosition, leftBackCurrentPosition, rightFrontCurrentPosition, rightBackCurrentPosition;
-  public double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
+  //public double leftFrontCurrentPosition, leftBackCurrentPosition, rightFrontCurrentPosition, rightBackCurrentPosition;
+  //public double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
 
   // The current target position of every motor
   public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
@@ -86,15 +86,11 @@ public class Drivetrain extends SubsystemBase {
 
     robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
-    leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
-    leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
+    leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
 
-    rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
-    rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
+    rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
+    rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.drivetrain_ENCODER_CPR);
 
     leftEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
     leftEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
@@ -122,23 +118,13 @@ public class Drivetrain extends SubsystemBase {
 
     m_drivetrainOdometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(getHeading())));
 
-    resetOdometry(new Pose2d());
-
-    Rotation2d rotation = new Rotation2d(Units.degreesToRadians(getHeading()));
-
     /*
      * // These standard deviation values should be measured proplerly for our robot
      * m_poseEstimator = new DifferentialDrivePoseEstimator(rotation,
      * new Pose2d(.686 / 2, .821 / 2, rotation),
-     * new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), //
-     * State measurement standard
-     * // deviations. X, Y, theta.
-     * new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local
-     * measurement standard deviations. Left
-     * // encoder, right encoder, gyro.
-     * new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global
-     * measurement standard deviations. X, Y, and
-     * // theta.
+     * new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), // State measurement standard deviations. X, Y, theta.
+     * new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
+     * new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global measurement standard deviations. X, Y, and theta.
      */
 
     // Display current gyro heading on Shuffleboard
@@ -156,7 +142,7 @@ public class Drivetrain extends SubsystemBase {
 
     updateOdometry();
 
-    field2d.setRobotPose(getEstimatedPosition());
+    field2d.setRobotPose(getPose());
 
     SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
     SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
@@ -230,7 +216,7 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public Pose2d getEstimatedPosition() {
+  public Pose2d getPose() {
     return m_drivetrainOdometry.getPoseMeters();
   }
 
@@ -272,8 +258,8 @@ public class Drivetrain extends SubsystemBase {
 
     m_drivetrainOdometry.resetPosition(position, new Rotation2d(Units.degreesToRadians(getHeading())));
 
-    // navXGyro.reset();
-    // navXGyro.zeroYaw();
+    //navXGyro.reset();
+    //navXGyro.zeroYaw();
 
   }
 
