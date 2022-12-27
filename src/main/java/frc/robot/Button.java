@@ -15,6 +15,7 @@ public final class Button {
 
     //Define Drivetrain Buttons
     public static JoystickButton driveMethod = new JoystickButton(leftJoystick, 10); //Left Bottom 10
+    public static JoystickButton turnInPlace = new JoystickButton(leftJoystick, 6); //Left Top 6
 
     //Define Indexer Buttons
     public static JoystickButton indexerUpFast = new JoystickButton(rightJoystick, 5); //Right Top 5
@@ -53,7 +54,6 @@ public final class Button {
     //Unassigned Right Joystick Buttons
 
     //Unassigned Left Joystick Buttons
-    public static JoystickButton leftButton6 = new JoystickButton(leftJoystick, 6); //Left Top 6
     public static JoystickButton leftButton11 = new JoystickButton(leftJoystick, 11); //Left Bottom 11
     public static JoystickButton leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12
     

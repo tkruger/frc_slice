@@ -249,6 +249,12 @@ public class Drivetrain extends SubsystemBase {
     robotDrive.feed();
   }
 
+  public void curvatureDrive(double forwardSpeed, double turnSpeed, boolean turnInPlace) {
+
+    robotDrive.curvatureDrive(-forwardSpeed, turnSpeed, turnInPlace);
+
+  }
+
   public void resetOdometry(Pose2d position) {
 
     leftEncoderFront.setPosition(0);

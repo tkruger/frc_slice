@@ -73,6 +73,8 @@ public class RobotContainer {
   static final PneumaticsOutCommand m_outPneumatics = new PneumaticsOutCommand(m_pneumatics);
 
   static final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
+  static final PIDDriveCommand m_PIDDrive = new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
+  static final CurvatureDriveCommand m_curvatureDriveInPlace = new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick, true);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -82,7 +84,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
+    m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick, false));
     m_indexer.setDefaultCommand(new IndexerSchedulableCommand(m_indexer, 0));
     m_shooter.setDefaultCommand(new ShooterIdleCommand(m_shooter));
     m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));
@@ -143,7 +145,9 @@ public class RobotContainer {
     Button.climberPneumaticsBack.whenHeld(m_backClimbers);
     Button.zeroClimber.whenPressed(m_zeroClimbers);
 
-    Button.driveMethod.toggleWhenPressed(m_oldDrivetrain);
+    Button.driveMethod.toggleWhenPressed(m_PIDDrive);
+    Button.turnInPlace.whenHeld(m_curvatureDriveInPlace);
+
   }
 
   /**
