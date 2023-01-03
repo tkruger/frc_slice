@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 /** An example command that uses an example subsystem. */
 public class DrivetrainCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Drivetrain m_drivetrain;
 
   private final Joystick leftJoystick;
@@ -37,8 +37,8 @@ public class DrivetrainCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoystickFilter(0.05, 0.3);
-    turnFilter = new JoystickFilter(0.05, 0.3);
+    forwardFilter = new JoystickFilter(0.1, 0.3);
+    turnFilter = new JoystickFilter(0.1, 0.3);
 
   }
 
@@ -46,7 +46,7 @@ public class DrivetrainCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    //Resets gyro heading, encoder positions, and pose reading
+    // Resets gyro heading, encoder positions, and pose reading
     m_drivetrain.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
   }
@@ -54,31 +54,31 @@ public class DrivetrainCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    //Sets robot speed and turn speed
+
+    // Sets robot speed and turn speed
     double forwardSpeed = forwardFilter.filter(leftJoystick.getY());
     double turnSpeed = turnFilter.filter(rightJoystick.getX());
 
     m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 
-    //Updates the odometry with a new estimated robot pose
+    // Updates the odometry with a new estimated robot pose
     m_drivetrain.updateOdometry();
 
-    //Prints out the estimated robot pose
+    // Prints out the estimated robot pose
     System.out.println(m_drivetrain.updateOdometry());
 
-    //Prints out the rotation 2d heading
+    // Prints out the rotation 2d heading
     SmartDashboard.putNumber("Drivetrain Heading:", m_drivetrain.getHeading());
 
-    //Prints out gyro turn rate
+    // Prints out gyro turn rate
     SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());
 
-    //Prints out left side velocity
+    // Prints out left side velocity
     SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());
 
-    //Prints out right side velocity
+    // Prints out right side velocity
     SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
-    
+
     SmartDashboard.putNumber("Left Side Position: ", m_drivetrain.getAverageLeftEncoderDistance());
     SmartDashboard.putNumber("Right Side Position: ", m_drivetrain.getAverageRightEncoderDistance());
 
@@ -97,6 +97,6 @@ public class DrivetrainCommand extends CommandBase {
   public boolean isFinished() {
 
     return false;
-    
+
   }
 }

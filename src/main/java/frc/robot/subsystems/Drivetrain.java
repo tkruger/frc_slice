@@ -309,19 +309,19 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAverageLeftEncoderDistance() {
-    return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) / 2.0;
+    return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition());
   }
 
   public double getAverageRightEncoderDistance() {
-    return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) / 2.0;
+    return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
   }
 
   public double getAverageLeftEncoderVelocity() {
-    return (leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity()) / 2.0;
+    return (leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity());
   }
 
   public double getAverageRightEncoderVelocity() {
-    return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()) / 2.0;
+    return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
