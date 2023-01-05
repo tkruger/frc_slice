@@ -22,8 +22,6 @@ public class CurvatureDriveCommand extends CommandBase {
   private final Joystick leftJoystick;
   private final Joystick rightJoystick;
 
-  private final boolean turnInPlace;
-
   private final JoystickFilter forwardFilter, turnFilter;
 
   /**
@@ -31,8 +29,7 @@ public class CurvatureDriveCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public CurvatureDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick,
-      boolean turnInPlace) {
+  public CurvatureDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     this.m_drivetrain = drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -40,10 +37,8 @@ public class CurvatureDriveCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    this.turnInPlace = turnInPlace;
-
-    forwardFilter = new JoystickFilter(0.05, 0.3);
-    turnFilter = new JoystickFilter(0.05, 0.3);
+    forwardFilter = new JoystickFilter(0.1, 0.3);
+    turnFilter = new JoystickFilter(0.1, 0.3);
 
   }
 
@@ -64,7 +59,7 @@ public class CurvatureDriveCommand extends CommandBase {
     double forwardSpeed = forwardFilter.filter(leftJoystick.getY());
     double turnSpeed = turnFilter.filter(rightJoystick.getX());
 
-    m_drivetrain.curvatureDrive(forwardSpeed, turnSpeed, turnInPlace);
+    m_drivetrain.curvatureDrive(forwardSpeed, turnSpeed);
 
     // Updates the odometry with a new estimated robot pose
     m_drivetrain.updateOdometry();
@@ -93,7 +88,7 @@ public class CurvatureDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.curvatureDrive(0, 0, false);
+    m_drivetrain.curvatureDrive(0, 0);
 
   }
 

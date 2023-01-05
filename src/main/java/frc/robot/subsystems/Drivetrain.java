@@ -122,9 +122,10 @@ public class Drivetrain extends SubsystemBase {
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
-    m_drivetrainOdometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(getHeading())));
-
-    resetOdometry(new Pose2d());
+    m_drivetrainOdometry = new DifferentialDriveOdometry(
+      new Rotation2d(Units.degreesToRadians(getHeading())),
+      leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
+      rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
 
     /*
      * // These standard deviation values should be measured proplerly for our robot
@@ -260,9 +261,9 @@ public class Drivetrain extends SubsystemBase {
     robotDrive.feed();
   }
 
-  public void curvatureDrive(double forwardSpeed, double turnSpeed, boolean turnInPlace) {
+  public void curvatureDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.curvatureDrive(-forwardSpeed, turnSpeed, turnInPlace);
+    robotDrive.curvatureDrive(-forwardSpeed, turnSpeed, (forwardSpeed < .05));
 
   }
 
@@ -273,7 +274,11 @@ public class Drivetrain extends SubsystemBase {
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
-    m_drivetrainOdometry.resetPosition(position, new Rotation2d(Units.degreesToRadians(getHeading())));
+    m_drivetrainOdometry.resetPosition(
+      new Rotation2d(Units.degreesToRadians(getHeading())),
+      leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
+      rightEncoderFront.getPosition() + rightEncoderBack.getPosition(),
+      position);
 
     // navXGyro.reset();
     // navXGyro.zeroYaw();

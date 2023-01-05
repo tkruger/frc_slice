@@ -37,8 +37,8 @@ public class DrivetrainCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoystickFilter(0.1, 0.3);
-    turnFilter = new JoystickFilter(0.1, 0.3);
+    forwardFilter = new JoystickFilter(0.07, 0.3);
+    turnFilter = new JoystickFilter(0.07, 0.3);
 
   }
 

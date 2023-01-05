@@ -36,7 +36,7 @@ public class RobotContainer {
   static final Pneumatics m_pneumatics = new Pneumatics();
 
   private static Joystick leftJoystick = Button.leftJoystick;
-  private static Joystick rightJoystick = Button.rightJoystick;
+  public static Joystick rightJoystick = Button.rightJoystick;
 
   static final alignlessShootSequence m_alignlessShootAuto = 
         new alignlessShootSequence(m_indexer, m_shooter, leftJoystick, rightJoystick);
@@ -74,7 +74,6 @@ public class RobotContainer {
 
   static final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
   static final PIDDriveCommand m_PIDDrive = new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
-  static final CurvatureDriveCommand m_curvatureDriveInPlace = new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick, true);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -84,7 +83,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick, false));
+    m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
     m_indexer.setDefaultCommand(new IndexerSchedulableCommand(m_indexer, 0));
     m_shooter.setDefaultCommand(new ShooterIdleCommand(m_shooter));
     m_intake.setDefaultCommand(new IntakeIdleCommand(m_intake));
@@ -102,51 +101,50 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //Shoot without aligning
-    Button.rightTrigger.whenHeld(m_alignlessShootAuto);
+    Button.rightTrigger.whileTrue(m_alignlessShootAuto);
 
     //Any* distance shooting
-    Button.leftTrigger.whenHeld(m_smartShootAuto);
+    Button.leftTrigger.whileTrue(m_smartShootAuto);
 
     //Run indexer up
-    Button.indexerUpFast.whenHeld(m_runIndexerUp);
+    Button.indexerUpFast.whileTrue(m_runIndexerUp);
     
     //Run indexer down
-    Button.indexerDownFast.whenHeld(m_runIndexerDown);
+    Button.indexerDownFast.whileTrue(m_runIndexerDown);
 
     //Toggle intake
-    Button.intakeToggle.toggleWhenPressed(m_forwardIntake);
+    Button.intakeToggle.toggleOnTrue(m_forwardIntake);
 
     //Reverse intake
-    Button.intakeReverse.whenHeld(m_reverseIntake);
+    Button.intakeReverse.whileTrue(m_reverseIntake);
 
     //Run indexer and intake simultaneously
-    Button.indexerIntakeIn.whenHeld(m_inIntakeIndexer);
-    Button.indexerIntakeOut.whenHeld(m_outIntakeIndexer);
+    Button.indexerIntakeIn.whileTrue(m_inIntakeIndexer);
+    Button.indexerIntakeOut.whileTrue(m_outIntakeIndexer);
 
     //Run both climbers
-    Button.climberArmsUp.whenHeld(m_extendClimbers);
-    Button.climberArmsDown.whenHeld(m_retractClimbers);
+    Button.climberArmsUp.whileTrue(m_extendClimbers);
+    Button.climberArmsDown.whileTrue(m_retractClimbers);
 
     //Run left climbers
-    Button.leftClimberUp.whenHeld(m_extendLeftClimbers);
-    Button.leftClimberDown.whenHeld(m_retractLeftClimbers);
+    Button.leftClimberUp.whileTrue(m_extendLeftClimbers);
+    Button.leftClimberDown.whileTrue(m_retractLeftClimbers);
 
     //Run right climbers
-    Button.rightClimberUp.whenHeld(m_extendRightClimbers);
-    Button.rightClimberDown.whenHeld(m_retractRightClimbers);
+    Button.rightClimberUp.whileTrue(m_extendRightClimbers);
+    Button.rightClimberDown.whileTrue(m_retractRightClimbers);
 
     //Toggle Pneumatics
-    Button.pneumaticsIn.whenHeld(m_inPneumatics);
-    Button.pneumaticsOut.whenHeld(m_outPneumatics);
+    Button.pneumaticsIn.whileTrue(m_inPneumatics);
+    Button.pneumaticsOut.whileTrue(m_outPneumatics);
 
     //Set position of climbers and pneumatics
-    Button.climberPneumaticsMin.whenHeld(m_minClimbers);
-    Button.climberPneumaticsUp.whenHeld(m_verticalClimbers);
-    Button.climberPneumaticsBack.whenHeld(m_backClimbers);
-    Button.zeroClimber.whenPressed(m_zeroClimbers);
+    Button.climberPneumaticsMin.whileTrue(m_minClimbers);
+    Button.climberPneumaticsUp.whileTrue(m_verticalClimbers);
+    Button.climberPneumaticsBack.whileTrue(m_backClimbers);
+    Button.zeroClimber.onTrue(m_zeroClimbers);
 
-    Button.driveMethod.toggleWhenPressed(m_PIDDrive);
-    Button.turnInPlace.whenHeld(m_curvatureDriveInPlace);
+    Button.driveMethod.toggleOnTrue(m_PIDDrive);
 
   }
 
