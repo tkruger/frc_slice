@@ -1,12 +1,10 @@
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
 import edu.wpi.first.hal.HAL;
-//import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj.simulation.PWMSim;
 import frc.robot.Constants;
-
-import org.junit.*;
 
 public class DrivetrainTest {
     PWMSim simMotor;
@@ -16,7 +14,7 @@ public class DrivetrainTest {
     public static JoystickSim leftJoystick = new JoystickSim(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
     public static JoystickSim rightJoystick = new JoystickSim(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
 
-    @Before // this method will run before each test
+    @BeforeEach
     public void setup() {
         assert HAL.initialize(500, 0); // initialize the HAL, crash if failed
         
@@ -24,7 +22,7 @@ public class DrivetrainTest {
 
     }
 
-    @After // this method will run after each test
+    @AfterEach
     public void shutdown() throws Exception {
     }
   

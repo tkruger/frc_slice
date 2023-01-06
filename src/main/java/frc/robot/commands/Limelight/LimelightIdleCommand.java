@@ -37,7 +37,7 @@ public class LimelightIdleCommand extends CommandBase {
     
     // Tell the driver if the robot sees the target and if the distance to the target is between tested values.
     if (m_limelight.getTargetDetected() == 1) {
-      boolean goodShotDistance = Shooter.goodShotDistance(m_limelight.getYOffset());
+      boolean goodShotDistance = false;
       SmartDashboard.putBoolean("Good Shot Distance", goodShotDistance);
       SmartDashboard.putBoolean("Sees Target", true);
     } else {

@@ -8,11 +8,7 @@ import frc.robot.commands.Drivetrain.TrajectoryFollowerSequence;
 //import frc.robot.commands.Indexer.AutoShoot.IndexerUpCommand;
 //import frc.robot.commands.Intake.IntakeSchedulableCommand;
 //import frc.robot.commands.Shooter.AutoShoot.SmartAutoShoot;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 
 //import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class trajectoryFollowerAutoRoutine extends SequentialCommandGroup {
 
   /** Creates a new pathWeaverAutoRoutine. */
-  public trajectoryFollowerAutoRoutine(Drivetrain drivetrain, Intake intake, Indexer indexer, Shooter shooter, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
+  public trajectoryFollowerAutoRoutine(Drivetrain drivetrain, Limelight limelight, Joystick leftJoystick, Joystick rightJoystick) {
 
     //Trajectories m_trajectories = new Trajectories();
 
