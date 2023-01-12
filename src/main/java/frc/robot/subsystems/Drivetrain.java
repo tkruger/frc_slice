@@ -57,8 +57,6 @@ public class Drivetrain extends SubsystemBase {
   // The current target position of every motor
   public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
 
-  public static double m_leftVolts, m_rightVolts;
-
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
@@ -123,7 +121,7 @@ public class Drivetrain extends SubsystemBase {
     rightEncoderBack.setPosition(0);
 
     m_drivetrainOdometry = new DifferentialDriveOdometry(
-      new Rotation2d(Units.degreesToRadians(getHeading())),
+      Rotation2d.fromDegrees(getHeading()),
       leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
       rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
 
@@ -192,7 +190,7 @@ public class Drivetrain extends SubsystemBase {
   public Pose2d updateOdometry() {
 
     return m_drivetrainOdometry.update(
-        new Rotation2d(Units.degreesToRadians(getHeading())),
+        Rotation2d.fromDegrees(getHeading()),
         leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
         rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
 
@@ -275,7 +273,7 @@ public class Drivetrain extends SubsystemBase {
     rightEncoderBack.setPosition(0);
 
     m_drivetrainOdometry.resetPosition(
-      new Rotation2d(Units.degreesToRadians(getHeading())),
+      Rotation2d.fromDegrees(getHeading()),
       leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
       rightEncoderFront.getPosition() + rightEncoderBack.getPosition(),
       position);
@@ -372,8 +370,6 @@ public class Drivetrain extends SubsystemBase {
     rightMotors.setVoltage(rightVolts);
     robotDrive.feed();
 
-    m_leftVolts = leftVolts;
-    m_rightVolts = rightVolts;
   }
 
   /**

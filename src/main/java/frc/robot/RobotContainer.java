@@ -65,7 +65,8 @@ public class RobotContainer {
     Button.pneumaticsIn.whileTrue(m_inPneumatics);
     Button.pneumaticsOut.whileTrue(m_outPneumatics);
 
-    //Button.driveMethod.toggleOnTrue(m_PIDDrive);
+    Button.driveMethod.toggleOnTrue(m_PIDDrive);
+    
   }
 
   /**
