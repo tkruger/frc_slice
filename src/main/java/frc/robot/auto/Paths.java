@@ -1,19 +1,23 @@
 package frc.robot.auto;
 
-import java.io.IOException;
-import java.nio.file.Path;
+//import java.io.IOException;
+//import java.nio.file.Path;
 import java.util.ArrayList;
 
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
+//import edu.wpi.first.math.trajectory.Trajectory;
+//import edu.wpi.first.math.trajectory.TrajectoryUtil;
+//import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Paths {
 
-    private static Trajectory blueLeftTrajectory1;
+    /*private static Trajectory blueLeftTrajectory1;
     private static Path blueLeftTrajectoryPath1;
     private static String blueLeftPath1JSON;
 
@@ -23,7 +27,7 @@ public class Paths {
 
     private static Trajectory blueLeftTrajectory3;
     private static Path blueLeftTrajectoryPath3;
-    private static String blueLeftPath3JSON;
+    private static String blueLeftPath3JSON;*/
 
     /*
      * private static Trajectory redLeftTrajectory1;
@@ -31,9 +35,13 @@ public class Paths {
      * private static String redLeftPath1JSON;
      */
 
-    private static ArrayList<Trajectory> blueLeftPath;
+    private static PathPlannerTrajectory blueLeftTrajectory1;
+    private static PathPlannerTrajectory blueLeftTrajectory2;
+    private static PathPlannerTrajectory blueLeftTrajectory3;
 
-    private static SendableChooser<ArrayList<Trajectory>> pathChooser;
+    private static ArrayList<PathPlannerTrajectory> blueLeftPath;
+
+    private static SendableChooser<ArrayList<PathPlannerTrajectory>> pathChooser;
 
     public static void createAutoPaths() {
 
@@ -43,7 +51,7 @@ public class Paths {
          * blueLeftPath2JSON = "output/Blue Left Path 2.wpilib.json";
          * blueLeftPath3JSON = "output/Blue Left Path 3.wpilib.json";
          */
-        blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
+        /*blueLeftPath1JSON = "pathplanner/generatedJSON/Blue Left Path 1.wpilib.json";
         blueLeftPath2JSON = "pathplanner/generatedJSON/Blue Left Path 2.wpilib.json";
         blueLeftPath3JSON = "pathplanner/generatedJSON/Blue Left Path 3.wpilib.json";
         // redLeftPath1JSON = "pathplanner/generatedJSON/Red Left Path 1.wpilib.json";
@@ -74,19 +82,13 @@ public class Paths {
             blueLeftTrajectory3 = TrajectoryUtil.fromPathweaverJson(blueLeftTrajectoryPath3);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + blueLeftPath3JSON, ex.getStackTrace());
-        }
-        /*
-         * try {
-         * redLeftTrajectory1 =
-         * TrajectoryUtil.fromPathweaverJson(redLeftTrajectoryPath1);
-         * }
-         * catch(IOException ex) {
-         * DriverStation.reportError("Unable to open trajectory: " + redLeftPath1JSON,
-         * ex.getStackTrace());
-         * }
-         */
+        }*/
 
-        blueLeftPath = new ArrayList<Trajectory>();
+        blueLeftTrajectory1 = PathPlanner.loadPath("Blue Left Path 1", new PathConstraints(0.5, 0.2));
+        blueLeftTrajectory2 = PathPlanner.loadPath("Blue Left Path 2", new PathConstraints(0.5, 0.2));
+        blueLeftTrajectory3 = PathPlanner.loadPath("Blue Left Path 3", new PathConstraints(0.5, 0.2));
+
+        blueLeftPath = new ArrayList<PathPlannerTrajectory>();
 
         blueLeftPath.add(blueLeftTrajectory1);
         blueLeftPath.add(blueLeftTrajectory2);
@@ -108,7 +110,7 @@ public class Paths {
 
     }
 
-    public static ArrayList<Trajectory> getAutoPath() {
+    public static ArrayList<PathPlannerTrajectory> getAutoPath() {
 
         return pathChooser.getSelected();
 
