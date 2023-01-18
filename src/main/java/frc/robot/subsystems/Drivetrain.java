@@ -47,7 +47,7 @@ public class Drivetrain extends SubsystemBase {
 
   // public static DifferentialDrivePoseEstimator m_poseEstimator;
 
-  public static final Field2d field2d = new Field2d();
+  public static Field2d field2d;
 
   // public double leftFrontCurrentPosition, leftBackCurrentPosition,
   // rightFrontCurrentPosition, rightBackCurrentPosition;
@@ -137,12 +137,17 @@ public class Drivetrain extends SubsystemBase {
      * measurement standard deviations. X, Y, and theta.
      */
 
+    field2d = new Field2d();
+
     // Display current gyro heading on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(navXGyro);
     // Display how the robot is moving on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(robotDrive);
 
     Shuffleboard.getTab("SmartDashboard").add("Field2d", field2d);
+
+    // Creates and pushes Field2d to SmartDashboard.
+    SmartDashboard.putData(field2d);
 
   }
 
@@ -157,6 +162,14 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
     SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
 
+    SmartDashboard.putNumber("Gyro Heading", getHeading());
+
+    double[] pose = {getPose().getX(), getPose().getY(), getPose().getRotation().getDegrees()};
+    SmartDashboard.putNumberArray("Pose", pose);
+
+    // Pushes the trajectory to Field2d
+    field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(0));
+
   }
 
   @Override
@@ -165,9 +178,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public static void updateField2d(int trajectoryNumber) {
-
-    // Creates and pushes Field2d to SmartDashboard.
-    SmartDashboard.putData(field2d);
 
     // Pushes the trajectory to Field2d
     field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(trajectoryNumber - 1));
@@ -244,7 +254,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.arcadeDrive(-forwardSpeed, turnSpeed);
+    robotDrive.arcadeDrive(-forwardSpeed, -turnSpeed);
 
   }
 

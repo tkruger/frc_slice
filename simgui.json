@@ -1,22 +1,10 @@
 {
   "NTProvider": {
-    "types": {
-      "/FMSInfo": "FMSInfo",
-      "/Shuffleboard/SmartDashboard/Auto Selector": "String Chooser",
-      "/Shuffleboard/SmartDashboard/DifferentialDrive[1]": "DifferentialDrive",
-      "/Shuffleboard/SmartDashboard/Field2d": "Field2d",
-      "/Shuffleboard/SmartDashboard/navX-Sensor[2]": "Gyro",
-      "/SmartDashboard/Field": "Field2d"
-    },
     "windows": {
       "/SmartDashboard/Field": {
         "Trajectory": {
           "arrows": false,
-          "style": "Track"
-        },
-        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2022 Off-Season Code\\PathPlannerField Branch Local 2\\frc_slice\\.Glass\\2022-field.png",
-        "window": {
-          "visible": true
+          "style": ""
         }
       }
     }
