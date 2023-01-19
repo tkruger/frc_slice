@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -144,8 +148,6 @@ public class Drivetrain extends SubsystemBase {
     // Display how the robot is moving on Shuffleboard
     Shuffleboard.getTab("SmartDashboard").add(robotDrive);
 
-    Shuffleboard.getTab("SmartDashboard").add("Field2d", field2d);
-
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(field2d);
 
@@ -163,12 +165,6 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
 
     SmartDashboard.putNumber("Gyro Heading", getHeading());
-
-    double[] pose = {getPose().getX(), getPose().getY(), getPose().getRotation().getDegrees()};
-    SmartDashboard.putNumberArray("Pose", pose);
-
-    // Pushes the trajectory to Field2d
-    field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(0));
 
   }
 
@@ -254,7 +250,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.arcadeDrive(-forwardSpeed, -turnSpeed);
+    robotDrive.arcadeDrive(-forwardSpeed, turnSpeed);
 
   }
 
@@ -271,7 +267,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void curvatureDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.curvatureDrive(-forwardSpeed, turnSpeed, (forwardSpeed < .05));
+    robotDrive.curvatureDrive(-forwardSpeed, -turnSpeed, (forwardSpeed < .05));
 
   }
 
@@ -379,6 +375,9 @@ public class Drivetrain extends SubsystemBase {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
     robotDrive.feed();
+
+    SmartDashboard.putNumber("Left Volts", leftVolts);
+    SmartDashboard.putNumber("Right Volts", rightVolts);
 
   }
 

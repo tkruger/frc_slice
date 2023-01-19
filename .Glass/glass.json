@@ -1,5 +1,13 @@
 {
   "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "Field": {
+          "open": true
+        },
+        "open": true
+      }
+    },
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/SmartDashboard/Auto Selector": "String Chooser",
@@ -12,15 +20,14 @@
       "/Shuffleboard/SmartDashboard/Field2d": {
         "Robot": {
           "style": "Box/Image"
-        },
-        "image": "C:\\Users\\Slice Robotics Club\\Documents\\SLICE 2023 Code\\Slice Git\\Slice_23\\.Glass\\2022-field.png"
+        }
       },
       "/SmartDashboard/Field": {
         "Trajectory": {
           "arrows": false,
           "style": "Track"
         },
-        "image": "C:\\Users\\Slice Robotics Club\\Documents\\SLICE 2023 Code\\Slice Git\\Slice_23\\.Glass\\2022-field.png",
+        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2022 Off-Season Code\\PathPlannerField Branch Local 2\\frc_slice\\.Glass\\2022-field.png",
         "window": {
           "visible": true
         }
@@ -28,7 +35,7 @@
     }
   },
   "NetworkTables Settings": {
-    "mode": "Client (NT3)",
+    "mode": "Client (NT4)",
     "serverTeam": "8738"
   }
 }
