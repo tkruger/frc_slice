@@ -5,25 +5,27 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.revrobotics.*;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.networktables.GenericEntry;
+
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -46,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
 
   private final ShuffleboardTab driveTab;
 
-  private final SimpleWidget driveHeadingWidget;
+  //private final GenericEntry driveHeadingWidget;
 
   private final Field2d m_field2d;
 
@@ -58,9 +60,6 @@ public class Drivetrain extends SubsystemBase {
     leftMotorBack = new CANSparkMax(Constants.drivetrain_LEFT_BACK_PORT, MotorType.kBrushless);
     rightMotorFront = new CANSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT, MotorType.kBrushless);
     rightMotorBack = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT, MotorType.kBrushless);
-
-    // rightMotorBack.setInverted(true);
-    // rightMotorFront.setInverted(true);
 
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
@@ -85,7 +84,6 @@ public class Drivetrain extends SubsystemBase {
     leftEncoderBack = leftMotorBack.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
       Constants.drivetrain_ENCODER_CPR);
-
     rightEncoderFront = rightMotorFront.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
       Constants.drivetrain_ENCODER_CPR);
@@ -116,15 +114,15 @@ public class Drivetrain extends SubsystemBase {
 
     m_odometry = new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getHeading()), 
-      getAverageEncoderDistance(), 
-      getAverageEncoderDistance());
+      getLeftSideDistance(), 
+      getRightSideDistance());
 
 
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
 
     //Creates a gyro widget for showing the gyro heading
-    driveHeadingWidget = driveTab.add("Drive Heading", 0.0).withPosition(2, 2).withSize(2, 2).withWidget("Gyro");
+    //driveHeadingWidget = driveTab.add("Drive Heading", 0.0).withWidget(BuiltInWidgets.kGyro).getEntry();
 
     //Displays how the robot is moving on Shuffleboard
     driveTab.add(robotDrive);
@@ -142,13 +140,14 @@ public class Drivetrain extends SubsystemBase {
 
     m_field2d.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Left Side Position", getAverageEncoderDistance());
-    SmartDashboard.putNumber("Right Side Position", getAverageEncoderDistance());
+    SmartDashboard.putNumber("Left Side Position", getLeftSideDistance());
+    SmartDashboard.putNumber("Right Side Position", getRightSideDistance());
 
     SmartDashboard.putNumber("Left Side Velocity", getLeftSideVelocity());
     SmartDashboard.putNumber("Right Side Velocity", getRightSideVelocity());
 
-    driveHeadingWidget.getEntry().setDouble(getHeading());
+    //driveHeadingWidget.setDouble(getHeading());
+    SmartDashboard.putNumber("Drive Heading", getHeading());
 
   }
 
@@ -165,8 +164,6 @@ public class Drivetrain extends SubsystemBase {
    * @param forwardSpeed  Speed of the robot moving in the x and y directions
    *                      direction (left/right/forwards/bacwards).
    * @param turnSpeed     Speed of the robot rotating.
-   * @param fieldRelative Whether the provided move and rotate speeds are relative
-   *                      to the field.
    */
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) {

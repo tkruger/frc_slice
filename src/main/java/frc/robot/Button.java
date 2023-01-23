@@ -17,10 +17,10 @@ public final class Button {
     //Define Drivetrain Buttons
     public static Trigger driveMethod = new JoystickButton(leftJoystick, 10); //Left Bottom 10
     public static Trigger chargeStationBalance = new JoystickButton(leftJoystick, 6); //Left Top 6
+    public static Trigger quickTurn = new JoystickButton(rightJoystick, 2); //Right Top 2
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton1 = new JoystickButton(rightJoystick, 1); //Right Top 1
-    public static Trigger rightButton2 = new JoystickButton(rightJoystick, 2); //Right Top 2
     public static Trigger rightButton3 = new JoystickButton(rightJoystick, 3); //Right Top 3
     public static Trigger rightButton4 = new JoystickButton(rightJoystick, 4); //Right Top 4
     public static Trigger rightButton5 = new JoystickButton(rightJoystick, 5); //Right Top 5
