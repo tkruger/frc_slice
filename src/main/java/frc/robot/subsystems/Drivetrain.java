@@ -5,14 +5,14 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
-import frc.robot.auto.Paths;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,14 +20,13 @@ import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.*;
-import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-//import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.util.Units;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -38,26 +37,18 @@ public class Drivetrain extends SubsystemBase {
 
   private final AHRS navXGyro;
 
-  private final DifferentialDriveOdometry m_drivetrainOdometry;
-
   public final RelativeEncoder leftEncoderFront, leftEncoderBack, rightEncoderFront, rightEncoderBack;
 
   // PID Controllers
   public final SparkMaxPIDController leftPIDFront, leftPIDBack, rightPIDFront, rightPIDBack;
 
-  // public static DifferentialDrivePoseEstimator m_poseEstimator;
+  private final DifferentialDriveOdometry m_odometry;
 
-  public static final Field2d field2d = new Field2d();
+  private final ShuffleboardTab driveTab;
 
-  // public double leftFrontCurrentPosition, leftBackCurrentPosition,
-  // rightFrontCurrentPosition, rightBackCurrentPosition;
-  // public double leftFrontLastPosition, leftBackLastPosition,
-  // rightFrontLastPosition, rightBackLastPosition;
+  private final SimpleWidget driveHeadingWidget;
 
-  // The current target position of every motor
-  public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
-
-  public static double m_leftVolts, m_rightVolts;
+  private final Field2d m_field2d;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -88,63 +79,58 @@ public class Drivetrain extends SubsystemBase {
 
     robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
-    leftEncoderFront = leftMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
-    leftEncoderBack = leftMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
+    leftEncoderFront = leftMotorFront.getEncoder(
+      SparkMaxRelativeEncoder.Type.kHallSensor,
+      Constants.drivetrain_ENCODER_CPR);
+    leftEncoderBack = leftMotorBack.getEncoder(
+      SparkMaxRelativeEncoder.Type.kHallSensor,
+      Constants.drivetrain_ENCODER_CPR);
 
-    rightEncoderFront = rightMotorFront.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
-    rightEncoderBack = rightMotorBack.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
-        Constants.drivetrain_ENCODER_CPR);
+    rightEncoderFront = rightMotorFront.getEncoder(
+      SparkMaxRelativeEncoder.Type.kHallSensor,
+      Constants.drivetrain_ENCODER_CPR);
+    rightEncoderBack = rightMotorBack.getEncoder(
+      SparkMaxRelativeEncoder.Type.kHallSensor,
+      Constants.drivetrain_ENCODER_CPR);
 
     leftEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
     leftEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-
     rightEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
     rightEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
 
-    leftEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-    leftEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-
-    rightEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
-    rightEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_RATIO);
+    leftEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
+    leftEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
+    rightEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
+    rightEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
 
     leftPIDFront = leftMotorFront.getPIDController();
     leftPIDBack = leftMotorBack.getPIDController();
     rightPIDFront = rightMotorFront.getPIDController();
     rightPIDBack = rightMotorBack.getPIDController();
-
+    
     navXGyro = new AHRS(SerialPort.Port.kUSB1);
 
-    leftEncoderFront.setPosition(0);
-    leftEncoderBack.setPosition(0);
-    rightEncoderFront.setPosition(0);
-    rightEncoderBack.setPosition(0);
+    m_field2d = new Field2d();
 
-    m_drivetrainOdometry = new DifferentialDriveOdometry(
-      new Rotation2d(Units.degreesToRadians(getHeading())),
-      leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
-      rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
+    resetEncoders();
 
-    /*
-     * // These standard deviation values should be measured proplerly for our robot
-     * m_poseEstimator = new DifferentialDrivePoseEstimator(rotation,
-     * new Pose2d(.686 / 2, .821 / 2, rotation),
-     * new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), //
-     * State measurement standard deviations. X, Y, theta.
-     * new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local
-     * measurement standard deviations. Left encoder, right encoder, gyro.
-     * new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global
-     * measurement standard deviations. X, Y, and theta.
-     */
+    m_odometry = new DifferentialDriveOdometry(
+      Rotation2d.fromDegrees(getHeading()), 
+      getAverageEncoderDistance(), 
+      getAverageEncoderDistance());
 
-    // Display current gyro heading on Shuffleboard
-    Shuffleboard.getTab("SmartDashboard").add(navXGyro);
-    // Display how the robot is moving on Shuffleboard
-    Shuffleboard.getTab("SmartDashboard").add(robotDrive);
 
-    Shuffleboard.getTab("SmartDashboard").add("Field2d", field2d);
+    //Creates the "Driver Tab" on Shuffleboard
+    driveTab = Shuffleboard.getTab("Driver Tab");
+
+    //Creates a gyro widget for showing the gyro heading
+    driveHeadingWidget = driveTab.add("Drive Heading", 0.0).withPosition(2, 2).withSize(2, 2).withWidget("Gyro");
+
+    //Displays how the robot is moving on Shuffleboard
+    driveTab.add(robotDrive);
+
+    //Sends the Fiel2d object to NetworkTables
+    SmartDashboard.putData(m_field2d);
 
   }
 
@@ -154,82 +140,21 @@ public class Drivetrain extends SubsystemBase {
 
     updateOdometry();
 
-    field2d.setRobotPose(getPose());
+    m_field2d.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Left Side Position: ", getAverageLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Side Position: ", getAverageRightEncoderDistance());
+    SmartDashboard.putNumber("Left Side Position", getAverageEncoderDistance());
+    SmartDashboard.putNumber("Right Side Position", getAverageEncoderDistance());
+
+    SmartDashboard.putNumber("Left Side Velocity", getLeftSideVelocity());
+    SmartDashboard.putNumber("Right Side Velocity", getRightSideVelocity());
+
+    driveHeadingWidget.getEntry().setDouble(getHeading());
 
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
-  }
-
-  public static void updateField2d(int trajectoryNumber) {
-
-    // Creates and pushes Field2d to SmartDashboard.
-    SmartDashboard.putData(field2d);
-
-    // Pushes the trajectory to Field2d
-    field2d.getObject("Trajectory").setTrajectory(Paths.getAutoPath().get(trajectoryNumber - 1));
-
-  }
-
-  public Pose2d getEstimatedGlobalPose(Pose2d estimatedRobotPose) {
-
-    // These white noise element intensity values should be proplery measured for
-    // our robot
-    var rand = StateSpaceUtil.makeWhiteNoiseVector(VecBuilder.fill(0, 0, Units.degreesToRadians(0)));
-
-    return new Pose2d(
-        estimatedRobotPose.getX() + rand.get(0, 0),
-        estimatedRobotPose.getY() + rand.get(1, 0),
-        estimatedRobotPose.getRotation().plus(new Rotation2d(rand.get(2, 0))));
-
-  }
-
-  public Pose2d updateOdometry() {
-
-    return m_drivetrainOdometry.update(
-        new Rotation2d(Units.degreesToRadians(getHeading())),
-        leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
-        rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
-
-    /*
-     * leftFrontCurrentPosition = leftEncoderFront.getPosition();
-     * leftBackCurrentPosition = leftEncoderBack.getPosition();
-     * rightFrontCurrentPosition = rightEncoderFront.getPosition();
-     * rightBackCurrentPosition = rightEncoderBack.getPosition();
-     * 
-     * m_poseEstimator.update(
-     * new Rotation2d(Units.degreesToRadians(getHeading())),
-     * new DifferentialDriveWheelSpeeds(
-     * leftEncoderFront.getVelocity() * 2,
-     * -rightEncoderFront.getVelocity() * 2),
-     * ((leftFrontCurrentPosition + leftBackCurrentPosition) -
-     * (leftFrontLastPosition + leftBackLastPosition)),
-     * -((rightFrontCurrentPosition + rightBackCurrentPosition) -
-     * (rightFrontLastPosition + rightBackLastPosition)));
-     * 
-     * leftFrontLastPosition = leftFrontCurrentPosition;
-     * leftBackLastPosition = leftBackCurrentPosition;
-     * rightFrontLastPosition = rightFrontCurrentPosition;
-     * rightBackLastPosition = rightBackCurrentPosition;
-     * 
-     * // This latency value(0.3) is a place holder for now and should be measured
-     * // properly for our robot
-     * // m_poseEstimator.addVisionMeasurement(
-     * // getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition()),
-     * // Timer.getFPGATimestamp() - 0.3);
-     * 
-     * return m_poseEstimator.getEstimatedPosition();
-     */
-
-  }
-
-  public Pose2d getPose() {
-    return m_drivetrainOdometry.getPoseMeters();
   }
 
   /**
@@ -246,12 +171,12 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.arcadeDrive(-forwardSpeed, turnSpeed);
+    robotDrive.arcadeDrive(-forwardSpeed, -turnSpeed);
 
   }
 
   public void PIDArcadeDrive(double forwardSpeed, double turnSpeed) {
-    WheelSpeeds speeds = DifferentialDrive.arcadeDriveIK(-forwardSpeed, turnSpeed, true);
+    WheelSpeeds speeds = DifferentialDrive.arcadeDriveIK(-forwardSpeed, -turnSpeed, true);
 
     leftPIDFront.setReference(speeds.left, ControlType.kVelocity);
     leftPIDBack.setReference(speeds.left, ControlType.kVelocity);
@@ -263,79 +188,87 @@ public class Drivetrain extends SubsystemBase {
 
   public void curvatureDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.curvatureDrive(-forwardSpeed, turnSpeed, (forwardSpeed < .05));
+    robotDrive.curvatureDrive(-forwardSpeed, -turnSpeed, (Math.abs(forwardSpeed)) < .05);
+
+  }
+
+  public Pose2d updateOdometry() {
+
+    return m_odometry.update(
+      Rotation2d.fromDegrees(getHeading()), 
+      getLeftSideDistance(), 
+      getRightSideDistance());
+
+  }
+
+  public Pose2d getPose() {
+
+    return m_odometry.getPoseMeters();
 
   }
 
   public void resetOdometry(Pose2d position) {
+
+    resetEncoders();
+
+    m_odometry.resetPosition(
+      Rotation2d.fromDegrees(getHeading()), 
+      getLeftSideDistance(), 
+      getRightSideDistance(), 
+      position);
+
+  }
+
+  public void setField2d(PathPlannerTrajectory trajectory) {
+
+    m_field2d.getObject("Trajectory").setTrajectory(trajectory);
+
+  }
+
+  public void resetEncoders() {
 
     leftEncoderFront.setPosition(0);
     leftEncoderBack.setPosition(0);
     rightEncoderFront.setPosition(0);
     rightEncoderBack.setPosition(0);
 
-    m_drivetrainOdometry.resetPosition(
-      new Rotation2d(Units.degreesToRadians(getHeading())),
-      leftEncoderFront.getPosition() + leftEncoderBack.getPosition(),
-      rightEncoderFront.getPosition() + rightEncoderBack.getPosition(),
-      position);
-
-    // navXGyro.reset();
-    // navXGyro.zeroYaw();
-
-  }
-
-  public double getLeftFrontVelocity() {
-
-    return leftEncoderFront.getVelocity();
-
-  }
-
-  public double getLeftBackVelocity() {
-
-    return leftEncoderBack.getVelocity();
-
-  }
-
-  public double getRightFrontVelocity() {
-
-    return rightEncoderFront.getVelocity();
-
-  }
-
-  public double getRightBackVelocity() {
-
-    return rightEncoderBack.getVelocity();
-
   }
 
   public double getAverageEncoderDistance() {
-    return (getAverageLeftEncoderDistance() + getAverageRightEncoderDistance()) / 2.0;
+    return (getLeftSideDistance() + getRightSideDistance()) / 2.0;
   }
 
-  public double getAverageLeftEncoderDistance() {
+  public double getLeftSideDistance() {
     return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition());
   }
 
-  public double getAverageRightEncoderDistance() {
+  public double getRightSideDistance() {
     return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
   }
 
-  public double getAverageLeftEncoderVelocity() {
+  public double getLeftSideVelocity() {
     return (leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity());
   }
 
-  public double getAverageRightEncoderVelocity() {
-    return (rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity());
+  public double getRightSideVelocity() {
+    return -(rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoderFront.getVelocity(), -rightEncoderFront.getVelocity());
+    return new DifferentialDriveWheelSpeeds(
+      leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity(), 
+      -rightEncoderFront.getVelocity() + -rightEncoderBack.getVelocity());
   }
 
   public double getHeading() {
 
     return -navXGyro.getYaw() + 180;
+
+  }
+
+  public double getPitch() {
+
+    return navXGyro.getPitch();
 
   }
 
@@ -367,51 +300,6 @@ public class Drivetrain extends SubsystemBase {
     rightPIDBack.setFF(kF);
   }
 
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(leftVolts);
-    rightMotors.setVoltage(rightVolts);
-    robotDrive.feed();
-
-    m_leftVolts = leftVolts;
-    m_rightVolts = rightVolts;
-  }
-
-  /**
-   * Drives forwards a given distance
-   * 
-   * @param distance in meters
-   */
-  public void driveDistance(double distance) {
-
-    leftTargetPositionFront = leftEncoderFront.getPosition() + distance;
-    leftTargetPositionBack = leftEncoderBack.getPosition() + distance;
-    rightTargetPositionFront = rightEncoderFront.getPosition() - distance;
-    rightTargetPositionBack = rightEncoderBack.getPosition() - distance;
-
-    leftPIDFront.setReference(leftTargetPositionFront, ControlType.kPosition);
-    leftPIDBack.setReference(leftTargetPositionBack, ControlType.kPosition);
-    rightPIDFront.setReference(rightTargetPositionFront, ControlType.kPosition);
-    rightPIDBack.setReference(rightTargetPositionBack, ControlType.kPosition);
-
-  }
-
-  /**
-   * Checks to see if the robot is at the it's target position set from
-   * driveDistance()
-   * 
-   * @param threshold the maximum distance any wheel can be from it's target
-   *                  position, in meters
-   * @return Whether or not the robot is at the target position
-   */
-  public boolean atTargetPosition(double threshold) {
-    double lf = Math.abs(leftTargetPositionFront - leftEncoderFront.getPosition());
-    double lb = Math.abs(leftTargetPositionBack - leftEncoderBack.getPosition());
-    double rf = Math.abs(rightTargetPositionFront - rightEncoderBack.getPosition());
-    double rb = Math.abs(rightTargetPositionBack - rightEncoderBack.getPosition());
-
-    return (lf <= threshold && lb <= threshold && rf <= threshold && rb <= threshold);
-  }
-
   public void setMaxSpeed(double max) {
     leftPIDFront.setOutputRange(-max, max);
     leftPIDBack.setOutputRange(-max, max);
@@ -419,12 +307,19 @@ public class Drivetrain extends SubsystemBase {
     rightPIDBack.setOutputRange(-max, max);
   }
 
-  public void stopDrive() {
-    tankDriveVolts(0, 0);
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(rightVolts);
+
+    robotDrive.feed();
+
   }
 
-  public void feedDrive() {
-    robotDrive.feed();
+  public void stopDrive() {
+
+    tankDriveVolts(0, 0);
+
   }
 
 }

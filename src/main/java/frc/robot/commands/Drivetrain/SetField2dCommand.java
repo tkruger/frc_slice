@@ -1,38 +1,39 @@
-
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Pneumatics;
+package frc.robot.commands.Drivetrain;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.Drivetrain;
 
-// A Pneumatics command that uses an pneumatics subsystem.
-public class PneumaticsOutCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Pneumatics m_pneumatics;
+public class SetField2dCommand extends CommandBase {
+  /** Creates a new SetField2dCommand. */
+  private final PathPlannerTrajectory m_trajectory;
+  private final Drivetrain m_drivetrain;
 
-  // constructor
-  public PneumaticsOutCommand(Pneumatics pneumatics) {
+  public SetField2dCommand(PathPlannerTrajectory trajectory, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(pneumatics);
+    m_trajectory = trajectory;
+    m_drivetrain = drivetrain;
 
-    this.m_pneumatics = pneumatics;
+    addRequirements(drivetrain);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_pneumatics.setSolenoid(DoubleSolenoid.Value.kForward);
+
+    m_drivetrain.setField2d(m_trajectory);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -41,7 +42,6 @@ public class PneumaticsOutCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
-

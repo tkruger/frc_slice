@@ -10,19 +10,24 @@ import frc.robot.subsystems.Drivetrain;
 
 public class ResetOdometryCommand extends CommandBase {
   /** Creates a new ResetOdometryCommand. */
-  private final Drivetrain m_driveSubsystem;
+  private final Drivetrain m_drivetrain;
   private final Pose2d m_position;
-  public ResetOdometryCommand(Drivetrain driveSubsystem, Pose2d position) {
-    m_driveSubsystem = driveSubsystem;
-    m_position = position;
+
+  public ResetOdometryCommand(Drivetrain drivetrain, Pose2d position) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveSubsystem);
+    m_drivetrain = drivetrain;
+    m_position = position;
+
+    addRequirements(drivetrain);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_driveSubsystem.resetOdometry(m_position);
+
+    m_drivetrain.resetOdometry(m_position);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +41,8 @@ public class ResetOdometryCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+
+    return false;
+    
   }
 }

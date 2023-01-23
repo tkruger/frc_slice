@@ -7,42 +7,70 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class SimpleAutoDrive extends CommandBase {
-  /** Creates a new SimpleAutoDrive. */
-  private final Drivetrain m_drivetrain;
-  private final double m_distance;
+public class ChargeStationBalanceCommand extends CommandBase {
+  /** Creates a new ChargeStationBalanceCommand. */
+private final Drivetrain m_drivetrain;
 
-  public SimpleAutoDrive(Drivetrain drivetrain, Double distance) {
-    m_drivetrain = drivetrain;
-    m_distance = distance;
+private boolean docked;
+private double pitch;
+
+  public ChargeStationBalanceCommand(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_drivetrain);
+    m_drivetrain = drivetrain;
+
+    addRequirements(drivetrain);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drivetrain.setPIDF(0.8, 0.01, 0, 0);
-    m_drivetrain.setMaxSpeed(0.3);
-    m_drivetrain.driveDistance(m_distance);
+
+    docked = false;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.ArcadeDrive(-0.7, 0);
+
+    pitch = m_drivetrain.getPitch();
+
+    if(pitch > 2) {
+
+      docked = true;
+
+      m_drivetrain.curvatureDrive(0.3, 0);
+
+    }
+
+    if(docked == false) {
+
+      m_drivetrain.curvatureDrive(0.3, 0);
+
+    }
+
+    if(pitch < -2) {
+
+      m_drivetrain.curvatureDrive(-0.3, 0);
+
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.stopDrive();
-    m_drivetrain.setMaxSpeed(10);
+
+    m_drivetrain.curvatureDrive(0, 0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_drivetrain.atTargetPosition(0.1);
+
+    return (docked == true && Math.abs(pitch) < 2);
+    
   }
 }

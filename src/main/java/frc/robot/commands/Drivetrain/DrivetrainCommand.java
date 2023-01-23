@@ -7,9 +7,7 @@ package frc.robot.commands.Drivetrain;
 import frc.robot.JoystickFilter;
 import frc.robot.subsystems.*;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.Joystick;
 
 //import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -46,9 +44,6 @@ public class DrivetrainCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    // Resets gyro heading, encoder positions, and pose reading
-    m_drivetrain.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,27 +55,6 @@ public class DrivetrainCommand extends CommandBase {
     double turnSpeed = turnFilter.filter(rightJoystick.getX());
 
     m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
-
-    // Updates the odometry with a new estimated robot pose
-    m_drivetrain.updateOdometry();
-
-    // Prints out the estimated robot pose
-    System.out.println(m_drivetrain.updateOdometry());
-
-    // Prints out the rotation 2d heading
-    SmartDashboard.putNumber("Drivetrain Heading:", m_drivetrain.getHeading());
-
-    // Prints out gyro turn rate
-    SmartDashboard.putNumber("Drivetrain Turn Rate:", m_drivetrain.getTurnRate());
-
-    // Prints out left side velocity
-    SmartDashboard.putNumber("Left Side Velocity:", m_drivetrain.getAverageLeftEncoderVelocity());
-
-    // Prints out right side velocity
-    SmartDashboard.putNumber("Right Side Velocity:", m_drivetrain.getAverageRightEncoderVelocity());
-
-    SmartDashboard.putNumber("Left Side Position: ", m_drivetrain.getAverageLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Side Position: ", m_drivetrain.getAverageRightEncoderDistance());
 
   }
 
