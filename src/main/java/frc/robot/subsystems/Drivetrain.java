@@ -263,6 +263,12 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public Rotation2d getRotation2d() {
+
+    return navXGyro.getRotation2d();
+    
+  }
+
   public double getPitch() {
 
     return navXGyro.getPitch();

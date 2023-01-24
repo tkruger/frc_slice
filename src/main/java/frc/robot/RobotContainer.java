@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.auto.sequences.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,8 +29,8 @@ public class RobotContainer {
   public final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
   public final PIDDriveCommand m_PIDDrive = new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final ChargeStationBalanceCommand m_chargeStationBalance = new ChargeStationBalanceCommand(m_drivetrain);
-  public final QuickTurnCommand m_quickTurn = new QuickTurnCommand(m_drivetrain);
-
+  public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
+  public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -58,6 +59,8 @@ public class RobotContainer {
 
     //Toggle Drive Mode
     Button.driveMethod.toggleOnTrue(m_PIDDrive);
+
+    Button.rightButton3.onTrue(m_quickTurnPID);
 
   }
 
