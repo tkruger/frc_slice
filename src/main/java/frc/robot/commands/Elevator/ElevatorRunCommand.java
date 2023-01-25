@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorRunCommand extends CommandBase {
+
   private final Elevator m_elevator;
   private final boolean m_runUpwards;
 
@@ -30,7 +31,7 @@ public class ElevatorRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_elevator.runElevator(m_runUpwards, 0.5);
+    //m_elevator.runElevator(m_runUpwards, 0.5);
 
   }
 
@@ -43,4 +44,5 @@ public class ElevatorRunCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+  
 }

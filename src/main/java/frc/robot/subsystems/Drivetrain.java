@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
-
+import frc.robot.drivers.SparkMaxFactory;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -26,6 +26,8 @@ import edu.wpi.first.networktables.GenericEntry;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import java.util.Map;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -48,7 +50,12 @@ public class Drivetrain extends SubsystemBase {
 
   private final ShuffleboardTab driveTab;
 
-  //private final GenericEntry driveHeadingWidget;
+  private final GenericEntry leftSidePositionWidget;
+  private final GenericEntry rightSidePositionWidget;
+  private final GenericEntry leftSideVelocityWidget;
+  private final GenericEntry rightSideVelocityWidget;
+  private final GenericEntry driveHeadingWidget;
+  private final GenericEntry drivePitchWidget;
 
   private final Field2d m_field2d;
 
@@ -56,25 +63,15 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
 
     // Instantiates motors and motor groups
-    leftMotorFront = new CANSparkMax(Constants.drivetrain_LEFT_FRONT_PORT, MotorType.kBrushless);
-    leftMotorBack = new CANSparkMax(Constants.drivetrain_LEFT_BACK_PORT, MotorType.kBrushless);
-    rightMotorFront = new CANSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT, MotorType.kBrushless);
-    rightMotorBack = new CANSparkMax(Constants.drivetrain_RIGHT_BACK_PORT, MotorType.kBrushless);
+    leftMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_LEFT_FRONT_PORT);
+    leftMotorBack = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_LEFT_BACK_PORT);
+    rightMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT);
+    rightMotorBack = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_RIGHT_BACK_PORT);
 
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
 
     rightMotors.setInverted(true);
-
-    leftMotorFront.restoreFactoryDefaults();
-    leftMotorBack.restoreFactoryDefaults();
-    rightMotorFront.restoreFactoryDefaults();
-    rightMotorBack.restoreFactoryDefaults();
-
-    leftMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    leftMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    rightMotorFront.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    rightMotorBack.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
@@ -117,15 +114,41 @@ public class Drivetrain extends SubsystemBase {
       getLeftSideDistance(), 
       getRightSideDistance());
 
-
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
 
-    //Creates a gyro widget for showing the gyro heading
-    //driveHeadingWidget = driveTab.add("Drive Heading", 0.0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    //Creates a widget for showing the gyro heading
+    driveHeadingWidget = 
+    driveTab.add("Drive Heading", 0.0).
+    withWidget(BuiltInWidgets.kDial).
+    withProperties(Map.of("Min", 0, "Max", 360)).
+    withPosition(2, 0).
+    withSize(2, 2).
+    getEntry();
+
+    //Creates a widget for showing the gyro pitch
+    drivePitchWidget = 
+    driveTab.add("Drive Pitch", 0.0).
+    withWidget(BuiltInWidgets.kDial).
+    withProperties(Map.of("Min", -180, "Max", 180)).
+    withPosition(5, 0).
+    withSize(2, 2).
+    getEntry();
+
+    //Creates a widget for showing the drivetrain left side position
+    leftSidePositionWidget = driveTab.add("Left Side Position", 0.0).withPosition(0, 0).withSize(2, 1).getEntry();
+
+    //Creates a widget for showing the drivetrain right side position
+    rightSidePositionWidget = driveTab.add("Right Side Position", 0.0).withPosition(7, 0).withSize(2, 1).getEntry();
+
+    //Creates a widget for showing the drivetrain left side position
+    leftSideVelocityWidget = driveTab.add("Left Side Velocity", 0.0).withPosition(0, 1).withSize(2, 1).getEntry();
+
+    //Creates a widget for showing the drivetrain left side position
+    rightSideVelocityWidget = driveTab.add("Right Side Velocity", 0.0).withPosition(7, 1).withSize(2, 1).getEntry();
 
     //Displays how the robot is moving on Shuffleboard
-    driveTab.add(robotDrive);
+    driveTab.add(robotDrive).withPosition(3, 2);
 
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);
@@ -140,15 +163,16 @@ public class Drivetrain extends SubsystemBase {
 
     m_field2d.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Left Side Position", getLeftSideDistance());
-    SmartDashboard.putNumber("Right Side Position", getRightSideDistance());
+    leftSidePositionWidget.setDouble(getLeftSideDistance());
+    rightSidePositionWidget.setDouble(getRightSideDistance());
 
-    SmartDashboard.putNumber("Left Side Velocity", getLeftSideVelocity());
-    SmartDashboard.putNumber("Right Side Velocity", getRightSideVelocity());
+    leftSideVelocityWidget.setDouble(getLeftSideVelocity());
+    rightSideVelocityWidget.setDouble(getRightSideVelocity());
+
+    driveHeadingWidget.setDouble(getHeading());
+    drivePitchWidget.setDouble(getPitch());
 
     //driveHeadingWidget.setDouble(getHeading());
-    SmartDashboard.putNumber("Drive Heading", getHeading());
-    SmartDashboard.putNumber("Drive Pitch", getPitch());
 
   }
 
@@ -258,16 +282,16 @@ public class Drivetrain extends SubsystemBase {
       -rightEncoderFront.getVelocity() + -rightEncoderBack.getVelocity());
   }
 
-  public double getHeading() {
-
-    return -navXGyro.getYaw() + 180;
-
-  }
-
   public Rotation2d getRotation2d() {
 
     return navXGyro.getRotation2d();
     
+  }
+
+  public double getHeading() {
+
+    return -navXGyro.getYaw() + 180;
+
   }
 
   public double getPitch() {

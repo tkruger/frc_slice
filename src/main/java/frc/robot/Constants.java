@@ -38,16 +38,21 @@ public final class Constants {
         public static final double drivetrain_VELOCITY_CONVERSION_FACTOR = Math.PI * drivetrain_WHEEL_DIAMETER_METERS /(60 * 10.75);
         public static final double drivetrain_POSITION_CONVERSION_FACTOR = Math.PI * drivetrain_WHEEL_DIAMETER_METERS / 10.75;
 
+        //Define Charge Station Balance Constants
+        public static final double drivetrain_CHARGE_STATION_BALANCE_SPEED = 0.3;
+
     //Define Elevator Constants
 
         //Define Motor Ports(these are placeholders for now)
-        public static final int elevator_LEFT_PORT = 0;
-        public static final int elevator_RIGHT_PORT = 0;
+        public static final int elevator_LEFT_PORT = 5;
+        public static final int elevator_RIGHT_PORT = 6;
 
     //Define Autonmous Constants
 
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
+
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(0.5842);
 
         /*All of these constants are placeholders for now as they need to
         be determined from robot characterization*/
@@ -56,7 +61,5 @@ public final class Constants {
         public static final double kaVoltsSecondsSquaredPerMeter = 0.0;
 
         public static final double kPDriveVel = 0.0;
-
-        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(0.5842);
 
 }

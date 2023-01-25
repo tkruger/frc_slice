@@ -39,7 +39,7 @@ public class ElevatorSetCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_targetPosition < m_elevator.getLeftEncoderPosition() - 1) {
+    /*if(m_targetPosition < m_elevator.getLeftEncoderPosition() - 1) {
 
       m_elevator.runLeftMotor(true, 0.5);
 
@@ -69,7 +69,7 @@ public class ElevatorSetCommand extends CommandBase {
 
       rightTargetPositionReached = true;
 
-    }
+    }*/
 
   }
 
@@ -84,4 +84,5 @@ public class ElevatorSetCommand extends CommandBase {
     return (leftTargetPositionReached && rightTargetPositionReached);
     
   }
+  
 }

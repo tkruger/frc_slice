@@ -11,8 +11,9 @@ import frc.robot.subsystems.Drivetrain;
 
 public class SetField2dCommand extends CommandBase {
 
-  private final PathPlannerTrajectory m_trajectory;
   private final Drivetrain m_drivetrain;
+
+  private final PathPlannerTrajectory m_trajectory;
 
  /** Creates a new SetField2dCommand. */
   public SetField2dCommand(PathPlannerTrajectory trajectory, Drivetrain drivetrain) {

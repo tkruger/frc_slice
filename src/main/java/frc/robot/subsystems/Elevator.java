@@ -16,23 +16,17 @@ import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
  
-  private final CANSparkMax leftMotor;
+  /*private final CANSparkMax leftMotor;
   private final CANSparkMax rightMotor;
 
   private final RelativeEncoder leftEncoder;
-  private final RelativeEncoder rightEncoder;
+  private final RelativeEncoder rightEncoder;*/
 
   /** Creates a new Elevator. */
-  public Elevator() {
+  /*public Elevator() {
 
-    leftMotor = new CANSparkMax(Constants.elevator_LEFT_PORT, MotorType.kBrushless);
-    rightMotor = new CANSparkMax(Constants.elevator_RIGHT_PORT, MotorType.kBrushless);
-
-    leftMotor.restoreFactoryDefaults();
-    rightMotor.restoreFactoryDefaults();
-
-    leftMotor.setIdleMode(IdleMode.kBrake);
-    rightMotor.setIdleMode(IdleMode.kBrake);
+    leftMotor = new SparkMaxFactory.createDefaultSparkMax(Constants.elevator_LEFT_PORT);
+    rightMotor = new SparkMaxFactory.createDefaultSparkMax(Constants.elevator_RIGHT_PORT);
 
     leftEncoder = leftMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
     rightEncoder = rightMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
@@ -101,5 +95,6 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+  }*/
+
 }

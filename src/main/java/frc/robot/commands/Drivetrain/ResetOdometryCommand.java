@@ -11,6 +11,7 @@ import frc.robot.subsystems.Drivetrain;
 public class ResetOdometryCommand extends CommandBase {
   /** Creates a new ResetOdometryCommand. */
   private final Drivetrain m_drivetrain;
+  
   private final Pose2d m_position;
 
   public ResetOdometryCommand(Drivetrain drivetrain, Pose2d position) {
