@@ -6,7 +6,7 @@ package frc.robot.auto.modes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.AutoSelector;
+import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridToChargeStationPath;
 import frc.robot.auto.paths.PickUpOneGamePiecePath;
 import frc.robot.auto.paths.PlaceOneGamePiecePath;

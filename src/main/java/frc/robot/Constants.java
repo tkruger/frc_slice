@@ -20,6 +20,10 @@ public final class Constants {
         public static final int RobotContainer_LEFT_JOYSTICK_PORT = 0;
         public static final int RobotContainer_RIGHT_JOYSTICK_PORT = 1;
 
+    //Define Encoder Constants
+        public static final int ENCODER_CPR = 42;
+
+
     //Define Drivetrain Constants
 
         //Define Motor Ports
@@ -28,12 +32,17 @@ public final class Constants {
         public static final int drivetrain_RIGHT_FRONT_PORT = 4;
         public static final int drivetrain_RIGHT_BACK_PORT = 2;
 
-        //Define Encoder Wheel Information
-        public static final int drivetrain_ENCODER_CPR = 42;
+        //Define Drivetrain Encoder Constants
         public static final double drivetrain_WHEEL_DIAMETER_METERS = 0.15;
 
         public static final double drivetrain_VELOCITY_CONVERSION_FACTOR = Math.PI * drivetrain_WHEEL_DIAMETER_METERS /(60 * 10.75);
         public static final double drivetrain_POSITION_CONVERSION_FACTOR = Math.PI * drivetrain_WHEEL_DIAMETER_METERS / 10.75;
+
+    //Define Elevator Constants
+
+        //Define Motor Ports(these are placeholders for now)
+        public static final int elevator_LEFT_PORT = 0;
+        public static final int elevator_RIGHT_PORT = 0;
 
     //Define Autonmous Constants
 

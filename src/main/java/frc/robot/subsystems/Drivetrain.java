@@ -80,16 +80,16 @@ public class Drivetrain extends SubsystemBase {
 
     leftEncoderFront = leftMotorFront.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.drivetrain_ENCODER_CPR);
+      Constants.ENCODER_CPR);
     leftEncoderBack = leftMotorBack.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.drivetrain_ENCODER_CPR);
+      Constants.ENCODER_CPR);
     rightEncoderFront = rightMotorFront.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.drivetrain_ENCODER_CPR);
+      Constants.ENCODER_CPR);
     rightEncoderBack = rightMotorBack.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.drivetrain_ENCODER_CPR);
+      Constants.ENCODER_CPR);
 
     leftEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
     leftEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
@@ -148,6 +148,7 @@ public class Drivetrain extends SubsystemBase {
 
     //driveHeadingWidget.setDouble(getHeading());
     SmartDashboard.putNumber("Drive Heading", getHeading());
+    SmartDashboard.putNumber("Drive Pitch", getPitch());
 
   }
 

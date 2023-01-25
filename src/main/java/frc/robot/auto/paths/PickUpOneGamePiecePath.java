@@ -3,8 +3,8 @@ package frc.robot.auto.paths;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
-import frc.robot.AutoSelector;
 import frc.robot.auto.AutoPaths;
+import frc.robot.auto.AutoSelector;
 import frc.robot.subsystems.Drivetrain;
 
 public class PickUpOneGamePiecePath extends AutoPaths{

@@ -6,8 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.auto.AutoSelector;
 import frc.robot.auto.sequences.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.*;
+import frc.robot.commands.Elevator.ElevatorIdleCommand;
+import frc.robot.commands.Elevator.ElevatorRunCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -22,6 +25,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final Drivetrain m_drivetrain = new Drivetrain();
+  public final Elevator m_elevator = new Elevator();
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -31,6 +35,10 @@ public class RobotContainer {
   public final ChargeStationBalanceCommand m_chargeStationBalance = new ChargeStationBalanceCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
+
+  public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
+  public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
+
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -40,6 +48,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
+    m_elevator.setDefaultCommand(new ElevatorIdleCommand());
 
   }
 
@@ -57,10 +66,17 @@ public class RobotContainer {
     //Execute Drivetrain Quick Turn
     Button.quickTurn.onTrue(m_quickTurn);
 
+    //Execute PID Drivetrain Quick Turn
+    Button.quickTurnPID.onTrue(m_quickTurnPID);
+
     //Toggle Drive Mode
     Button.driveMethod.toggleOnTrue(m_PIDDrive);
 
-    Button.rightButton3.onTrue(m_quickTurnPID);
+    //Enable Elevator Moving Upwards
+    Button.elevatorUp.whileTrue(m_elevatorRunUpwards);
+
+    //Enable Elevator Moving Downwards
+    Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
 
   }
 
@@ -70,6 +86,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
     return m_autoSelector.getAutoMode();
+    
   }
 }

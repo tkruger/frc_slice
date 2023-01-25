@@ -15,10 +15,10 @@ public class ResetOdometryCommand extends CommandBase {
 
   public ResetOdometryCommand(Drivetrain drivetrain, Pose2d position) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drivetrain);
+
     m_drivetrain = drivetrain;
     m_position = position;
-
-    addRequirements(drivetrain);
 
   }
 
@@ -42,7 +42,7 @@ public class ResetOdometryCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    return false;
+    return true;
     
   }
 }

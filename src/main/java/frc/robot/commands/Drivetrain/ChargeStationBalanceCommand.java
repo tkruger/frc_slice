@@ -5,20 +5,22 @@
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.Drivetrain;
 
 public class ChargeStationBalanceCommand extends CommandBase {
-  /** Creates a new ChargeStationBalanceCommand. */
+  
 private final Drivetrain m_drivetrain;
 
 private boolean docked;
 private double pitch;
 
+/** Creates a new ChargeStationBalanceCommand. */
   public ChargeStationBalanceCommand(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_drivetrain = drivetrain;
-
     addRequirements(drivetrain);
+
+    m_drivetrain = drivetrain;
 
   }
 
@@ -40,19 +42,19 @@ private double pitch;
 
       docked = true;
 
-      m_drivetrain.curvatureDrive(0.3, 0);
+      m_drivetrain.PIDArcadeDrive(0.3, 0);
 
     }
 
     if(docked == false) {
 
-      m_drivetrain.curvatureDrive(0.3, 0);
+      m_drivetrain.PIDArcadeDrive(0.3, 0);
 
     }
 
     if(pitch < -2) {
 
-      m_drivetrain.curvatureDrive(-0.3, 0);
+      m_drivetrain.PIDArcadeDrive(-0.3, 0);
 
     }
     
@@ -62,7 +64,7 @@ private double pitch;
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.curvatureDrive(0, 0);
+    m_drivetrain.PIDArcadeDrive(0, 0);
 
   }
 

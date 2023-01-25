@@ -2,40 +2,37 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Drivetrain;
-
-import com.pathplanner.lib.PathPlannerTrajectory;
+package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
 
-public class SetField2dCommand extends CommandBase {
+import frc.robot.subsystems.Elevator;
 
-  private final PathPlannerTrajectory m_trajectory;
-  private final Drivetrain m_drivetrain;
+public class ElevatorRunCommand extends CommandBase {
+  private final Elevator m_elevator;
+  private final boolean m_runUpwards;
 
- /** Creates a new SetField2dCommand. */
-  public SetField2dCommand(PathPlannerTrajectory trajectory, Drivetrain drivetrain) {
+/** Creates a new ElevatorRunCommand. */
+  public ElevatorRunCommand(Elevator elevator, boolean runUpwards) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
+    addRequirements(elevator);
 
-    m_trajectory = trajectory;
-    m_drivetrain = drivetrain;
+    m_elevator = elevator;
+    m_runUpwards = runUpwards;
 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-    m_drivetrain.setField2d(m_trajectory);
-    
-  }
-
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    m_elevator.runElevator(m_runUpwards, 0.5);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -44,8 +41,6 @@ public class SetField2dCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    return true;
-
+    return false;
   }
 }

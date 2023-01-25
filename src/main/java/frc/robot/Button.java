@@ -18,11 +18,14 @@ public final class Button {
     public static Trigger driveMethod = new JoystickButton(leftJoystick, 10); //Left Bottom 10
     public static Trigger chargeStationBalance = new JoystickButton(leftJoystick, 6); //Left Top 6
     public static Trigger quickTurn = new JoystickButton(rightJoystick, 2); //Right Top 2
+    public static Trigger quickTurnPID = new JoystickButton(rightJoystick, 3); //Right Top 3
+
+    //Define Elevator Buttons
+    public static Trigger elevatorUp = new JoystickButton(leftJoystick, 4); //Left Top 4
+    public static Trigger elevatorDown = new JoystickButton(rightJoystick, 4); //Right Top 4
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton1 = new JoystickButton(rightJoystick, 1); //Right Top 1
-    public static Trigger rightButton3 = new JoystickButton(rightJoystick, 3); //Right Top 3
-    public static Trigger rightButton4 = new JoystickButton(rightJoystick, 4); //Right Top 4
     public static Trigger rightButton5 = new JoystickButton(rightJoystick, 5); //Right Top 5
     public static Trigger rightButton6 = new JoystickButton(rightJoystick, 6); //Right Top 6
     public static Trigger rightButton7 = new JoystickButton(rightJoystick, 7); //Right Bottom 7
@@ -36,7 +39,6 @@ public final class Button {
     public static Trigger leftButton1 = new JoystickButton(leftJoystick, 1); //Left Top 1
     public static Trigger leftButton2 = new JoystickButton(leftJoystick, 2); //Left Top 2
     public static Trigger leftButton3 = new JoystickButton(leftJoystick, 3); //Left Top 3
-    public static Trigger leftButton4 = new JoystickButton(leftJoystick, 4); //Left Top 4
     public static Trigger leftButton5 = new JoystickButton(leftJoystick, 5); //Left Top 5
     public static Trigger leftButton7 = new JoystickButton(leftJoystick, 7); //Left Bottom 7
     public static Trigger leftButton8 = new JoystickButton(leftJoystick, 8); //Left Bottom 8
