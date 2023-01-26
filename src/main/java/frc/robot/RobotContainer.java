@@ -11,6 +11,7 @@ import frc.robot.auto.sequences.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.ElevatorIdleCommand;
 import frc.robot.commands.Elevator.ElevatorRunCommand;
+import frc.robot.commands.Limelight.LimelightIdleCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -26,6 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final Drivetrain m_drivetrain = new Drivetrain();
   //public final Elevator m_elevator = new Elevator();
+  public final Limelight m_limelight = new Limelight();
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -50,6 +52,7 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
     //m_elevator.setDefaultCommand(new ElevatorIdleCommand());
+    m_limelight.setDefaultCommand(new LimelightIdleCommand());
 
   }
 

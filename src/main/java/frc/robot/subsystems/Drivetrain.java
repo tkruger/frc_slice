@@ -8,15 +8,18 @@ import frc.robot.*;
 import frc.robot.drivers.SparkMaxFactory;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -25,7 +28,6 @@ import edu.wpi.first.networktables.GenericEntry;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import java.util.Map;
 
@@ -46,7 +48,8 @@ public class Drivetrain extends SubsystemBase {
   // PID Controllers
   public final SparkMaxPIDController leftPIDFront, leftPIDBack, rightPIDFront, rightPIDBack;
 
-  private final DifferentialDriveOdometry m_odometry;
+  //private final DifferentialDriveOdometry m_odometry;
+  private final DifferentialDrivePoseEstimator m_odometry;
 
   private final ShuffleboardTab driveTab;
 
@@ -59,8 +62,15 @@ public class Drivetrain extends SubsystemBase {
 
   private final Field2d m_field2d;
 
+  private final Timer m_timer;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
+
+    m_timer = new Timer();
+
+    m_timer.reset();
+    m_timer.start();
 
     // Instantiates motors and motor groups
     leftMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_LEFT_FRONT_PORT);
@@ -109,10 +119,17 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders();
 
-    m_odometry = new DifferentialDriveOdometry(
+    /*m_odometry = new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
-      getRightSideDistance());
+      getRightSideDistance());*/
+
+    m_odometry = new DifferentialDrivePoseEstimator(
+      Constants.kDriveKinematics,
+      Rotation2d.fromDegrees(getHeading()), 
+      getLeftSideDistance(),
+      getRightSideDistance(),
+      getPose());
 
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
@@ -214,18 +231,41 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public Pose2d updateOdometry() {
+  /*public Pose2d updateOdometry() {
 
     return m_odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
+  }*/
+
+  public Pose2d updateOdometry() {
+
+    m_odometry.update(
+      Rotation2d.fromDegrees(getHeading()), 
+      getLeftSideDistance(), 
+      getRightSideDistance());
+
+    if(Limelight.getTargetDetected() == 1) {
+
+      m_odometry.addVisionMeasurement(Limelight.getBotPose(), Timer.getFPGATimestamp());
+
+    }
+
+    return m_odometry.getEstimatedPosition();
+
   }
+
+  /*public Pose2d getPose() {
+
+    return m_odometry.getPoseMeters();
+
+  }*/
 
   public Pose2d getPose() {
 
-    return m_odometry.getPoseMeters();
+    return m_odometry.getEstimatedPosition();
 
   }
 
