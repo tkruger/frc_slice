@@ -51,8 +51,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
-    //m_elevator.setDefaultCommand(new ElevatorIdleCommand());
-    m_limelight.setDefaultCommand(new LimelightIdleCommand());
+    //m_elevator.setDefaultCommand(new ElevatorIdleCommand(m_elevator));
+    m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
 
   }
 

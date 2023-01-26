@@ -48,8 +48,8 @@ public class Drivetrain extends SubsystemBase {
   // PID Controllers
   public final SparkMaxPIDController leftPIDFront, leftPIDBack, rightPIDFront, rightPIDBack;
 
-  //private final DifferentialDriveOdometry m_odometry;
-  private final DifferentialDrivePoseEstimator m_odometry;
+  private final DifferentialDriveOdometry m_odometry;
+  //private final DifferentialDrivePoseEstimator m_odometry;
 
   private final ShuffleboardTab driveTab;
 
@@ -119,17 +119,17 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders();
 
-    /*m_odometry = new DifferentialDriveOdometry(
+    m_odometry = new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
-      getRightSideDistance());*/
+      getRightSideDistance());
 
-    m_odometry = new DifferentialDrivePoseEstimator(
+    /*m_odometry = new DifferentialDrivePoseEstimator(
       Constants.kDriveKinematics,
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(),
       getRightSideDistance(),
-      getPose());
+      new Pose2d());*/
 
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
@@ -231,23 +231,23 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  /*public Pose2d updateOdometry() {
+  public Pose2d updateOdometry() {
 
     return m_odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
-  }*/
+  }
 
-  public Pose2d updateOdometry() {
+  /*public Pose2d updateOdometry() {
 
     m_odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
-    if(Limelight.getTargetDetected() == 1) {
+    if(Limelight.botPoseEmpty() == false) {
 
       m_odometry.addVisionMeasurement(Limelight.getBotPose(), Timer.getFPGATimestamp());
 
@@ -255,19 +255,19 @@ public class Drivetrain extends SubsystemBase {
 
     return m_odometry.getEstimatedPosition();
 
-  }
-
-  /*public Pose2d getPose() {
-
-    return m_odometry.getPoseMeters();
-
   }*/
 
   public Pose2d getPose() {
 
-    return m_odometry.getEstimatedPosition();
+    return m_odometry.getPoseMeters();
 
   }
+
+  /*public Pose2d getPose() {
+
+    return m_odometry.getEstimatedPosition();
+
+  }*/
 
   public void resetOdometry(Pose2d position) {
 

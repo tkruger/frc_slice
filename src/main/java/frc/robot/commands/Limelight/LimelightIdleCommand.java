@@ -5,11 +5,14 @@
 package frc.robot.commands.Limelight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Limelight;
 
 public class LimelightIdleCommand extends CommandBase {
   /** Creates a new LimelightIdleCommand. */
-  public LimelightIdleCommand() {
+  public LimelightIdleCommand(Limelight limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(limelight);
+
   }
 
   // Called when the command is initially scheduled.

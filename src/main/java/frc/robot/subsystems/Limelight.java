@@ -76,6 +76,12 @@ public class Limelight extends SubsystemBase {
 
   }
 
+  public static boolean botPoseEmpty() {
+
+    return botPose == null;
+
+  }
+
   public void setLedMode(Number mode) {
 
     ledMode.setNumber(mode);
