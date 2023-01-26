@@ -4,29 +4,35 @@
 
 package frc.robot.commands.Drivetrain;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class ChargeStationBalanceCommand extends CommandBase {
+public class ChargeStationBalancePIDCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
 
   private double pitch;
 
+  private final PIDController pidController;
+
   /** Creates a new ChargeStationBalanceCommand. */
-  public ChargeStationBalanceCommand(Drivetrain drivetrain) {
+  public ChargeStationBalancePIDCommand(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
     m_drivetrain = drivetrain;
+
+    pidController = new PIDController(0.028, 0.0001, 0.000);
+    pidController.setSetpoint(0);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drivetrain.setPIDF(.17, .000002, .12, .62);
+    m_drivetrain.setPIDF(.17, .000001, .12, .62);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,16 +41,11 @@ public class ChargeStationBalanceCommand extends CommandBase {
 
     pitch = m_drivetrain.getPitch();
 
-    if(pitch > 10) {
-
-      m_drivetrain.PIDArcadeDrive(-Constants.drivetrain_CHARGE_STATION_BALANCE_SPEED, 0);
-
-    }
-
-    if(pitch < -10) {
-
-      m_drivetrain.PIDArcadeDrive(Constants.drivetrain_CHARGE_STATION_BALANCE_SPEED, 0);
-
+    if (Math.abs(pitch) > 2.5) {
+      m_drivetrain.PIDArcadeDrive(pidController.calculate(pitch), 0);
+    } else {
+      m_drivetrain.PIDArcadeDrive(0, 0);
+      pidController.reset();;
     }
 
   }

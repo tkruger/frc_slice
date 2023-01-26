@@ -33,6 +33,7 @@ public class RobotContainer {
   public final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
   public final PIDDriveCommand m_PIDDrive = new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final ChargeStationBalanceCommand m_chargeStationBalance = new ChargeStationBalanceCommand(m_drivetrain);
+  public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
 
@@ -62,6 +63,9 @@ public class RobotContainer {
 
     //Enable Charge Station Balance
     Button.chargeStationBalance.whileTrue(m_chargeStationBalance);
+
+    //Enable PID Charge Station Balance
+    Button.chargeStationBalancePID.whileTrue(m_ChargeStationBalancePID);
 
     //Execute Drivetrain Quick Turn
     Button.quickTurn.onTrue(m_quickTurn);
