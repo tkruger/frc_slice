@@ -52,7 +52,7 @@ public class Elevator extends SubsystemBase {
 
   public void runLeftMotor(boolean runUpwards, double speed) {
 
-    if(runUpwards == true) {
+    if(runUpwards) {
 
       leftMotor.set(speed);
 
@@ -67,7 +67,7 @@ public class Elevator extends SubsystemBase {
 
   public void runRightMotor(boolean runUpwards, double speed) {
 
-    if(runUpwards == true) {
+    if(runUpwards) {
 
       rightMotor.set(speed);
 

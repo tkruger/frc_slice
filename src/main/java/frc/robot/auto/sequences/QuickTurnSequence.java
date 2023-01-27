@@ -13,7 +13,7 @@ public class QuickTurnSequence extends SequentialCommandGroup {
     
         addCommands(
           new QuickTurnCommand(drive),
-          new WaitCommand(0.1)
+          new WaitCommand(0.25)
         );
           
     }

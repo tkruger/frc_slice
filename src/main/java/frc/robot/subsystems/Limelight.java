@@ -21,7 +21,8 @@ public class Limelight extends SubsystemBase {
   private double targetXOffset;
   private double targetYOffset;
 
-  private static double[] botPose;
+  private static double[] currentBotPose;
+  private static double[] staticBotPose;
 
   private final NetworkTableEntry ledMode;
 
@@ -48,7 +49,7 @@ public class Limelight extends SubsystemBase {
     targetYOffset = table.getEntry("ty").getDouble(0);
 
     double[] defaultBotPose = {0, 0, 0, 0, 0, 0};
-    botPose = table.getEntry("botpose").getDoubleArray(defaultBotPose);
+    currentBotPose = table.getEntry("botpose").getDoubleArray(defaultBotPose);
 
   }
 
@@ -72,13 +73,18 @@ public class Limelight extends SubsystemBase {
 
   public static Pose2d getBotPose() {
 
-    return new Pose2d(botPose[0], botPose[1], Rotation2d.fromDegrees(targetDetected));
+    staticBotPose = currentBotPose;
 
-  }
+    if(staticBotPose != null) {
 
-  public static boolean botPoseEmpty() {
+      return new Pose2d(staticBotPose[0], staticBotPose[1], Rotation2d.fromDegrees(staticBotPose[5]));
 
-    return botPose == null;
+    }
+    else {
+
+      return null;
+
+    }
 
   }
 

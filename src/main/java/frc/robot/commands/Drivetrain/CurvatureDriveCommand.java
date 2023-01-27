@@ -35,14 +35,18 @@ public class CurvatureDriveCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoystickFilter(0.1, 0.3);
+    forwardFilter = new JoystickFilter(0.1, 0.6);
     turnFilter = new JoystickFilter(0.1, 0.3);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    m_drivetrain.resetHeading();
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

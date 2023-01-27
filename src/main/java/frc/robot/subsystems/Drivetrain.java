@@ -17,12 +17,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+//import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 
@@ -48,8 +46,8 @@ public class Drivetrain extends SubsystemBase {
   // PID Controllers
   public final SparkMaxPIDController leftPIDFront, leftPIDBack, rightPIDFront, rightPIDBack;
 
-  private final DifferentialDriveOdometry m_odometry;
-  //private final DifferentialDrivePoseEstimator m_odometry;
+  //private final DifferentialDriveOdometry m_odometry;
+  private final DifferentialDrivePoseEstimator m_odometry;
 
   private final ShuffleboardTab driveTab;
 
@@ -63,6 +61,8 @@ public class Drivetrain extends SubsystemBase {
   private final Field2d m_field2d;
 
   private final Timer m_timer;
+
+  private Pose2d botPose;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -119,17 +119,18 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders();
 
-    m_odometry = new DifferentialDriveOdometry(
+    /*m_odometry = new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
-      getRightSideDistance());
+      getRightSideDistance(),
+      new Pose2d(8, 4, Rotation2d.fromDegrees(getHeading())));*/
 
-    /*m_odometry = new DifferentialDrivePoseEstimator(
+    m_odometry = new DifferentialDrivePoseEstimator(
       Constants.kDriveKinematics,
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(),
       getRightSideDistance(),
-      new Pose2d());*/
+      new Pose2d());
 
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
@@ -153,16 +154,32 @@ public class Drivetrain extends SubsystemBase {
     getEntry();
 
     //Creates a widget for showing the drivetrain left side position
-    leftSidePositionWidget = driveTab.add("Left Side Position", 0.0).withPosition(0, 0).withSize(2, 1).getEntry();
+    leftSidePositionWidget = 
+    driveTab.add("Left Side Position", 0.0).
+    withPosition(0, 0).
+    withSize(2, 1).
+    getEntry();
 
     //Creates a widget for showing the drivetrain right side position
-    rightSidePositionWidget = driveTab.add("Right Side Position", 0.0).withPosition(7, 0).withSize(2, 1).getEntry();
+    rightSidePositionWidget = 
+    driveTab.add("Right Side Position", 0.0).
+    withPosition(7, 0).
+    withSize(2, 1).
+    getEntry();
 
     //Creates a widget for showing the drivetrain left side position
-    leftSideVelocityWidget = driveTab.add("Left Side Velocity", 0.0).withPosition(0, 1).withSize(2, 1).getEntry();
+    leftSideVelocityWidget = 
+    driveTab.add("Left Side Velocity", 0.0).
+    withPosition(0, 1).
+    withSize(2, 1).
+    getEntry();
 
     //Creates a widget for showing the drivetrain left side position
-    rightSideVelocityWidget = driveTab.add("Right Side Velocity", 0.0).withPosition(7, 1).withSize(2, 1).getEntry();
+    rightSideVelocityWidget = 
+    driveTab.add("Right Side Velocity", 0.0).
+    withPosition(7, 1).
+    withSize(2, 1).
+    getEntry();
 
     //Displays how the robot is moving on Shuffleboard
     driveTab.add(robotDrive).withPosition(3, 2);
@@ -231,43 +248,45 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public Pose2d updateOdometry() {
+  /*public Pose2d updateOdometry() {
 
     return m_odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
-  }
+  }*/
 
-  /*public Pose2d updateOdometry() {
+  public Pose2d updateOdometry() {
 
     m_odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
-    if(Limelight.botPoseEmpty() == false) {
+      botPose = Limelight.getBotPose();
 
-      m_odometry.addVisionMeasurement(Limelight.getBotPose(), Timer.getFPGATimestamp());
+      if(botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1)) {
 
-    }
+        m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
+  
+      }  
 
     return m_odometry.getEstimatedPosition();
-
-  }*/
-
-  public Pose2d getPose() {
-
-    return m_odometry.getPoseMeters();
 
   }
 
   /*public Pose2d getPose() {
 
-    return m_odometry.getEstimatedPosition();
+    return m_odometry.getPoseMeters();
 
   }*/
+
+  public Pose2d getPose() {
+
+    return m_odometry.getEstimatedPosition();
+
+  }
 
   public void resetOdometry(Pose2d position) {
 
@@ -319,13 +338,19 @@ public class Drivetrain extends SubsystemBase {
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
       leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity(), 
-      -rightEncoderFront.getVelocity() + -rightEncoderBack.getVelocity());
+      -(rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()));
   }
 
   public Rotation2d getRotation2d() {
 
     return navXGyro.getRotation2d();
     
+  }
+
+  public void resetHeading() {
+
+    navXGyro.reset();
+
   }
 
   public double getHeading() {
@@ -336,7 +361,7 @@ public class Drivetrain extends SubsystemBase {
 
   public double getPitch() {
 
-    return navXGyro.getPitch();
+    return navXGyro.getPitch() + 1;
 
   }
 
