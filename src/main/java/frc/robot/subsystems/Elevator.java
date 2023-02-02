@@ -13,20 +13,19 @@ import com.revrobotics.SparkMaxRelativeEncoder.Type;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+import frc.robot.drivers.SparkMaxFactory;
 
 public class Elevator extends SubsystemBase {
  
-  /*private final CANSparkMax leftMotor;
-  private final CANSparkMax rightMotor;
+  private final CANSparkMax leftMotor, rightMotor;
 
-  private final RelativeEncoder leftEncoder;
-  private final RelativeEncoder rightEncoder;*/
+  private final RelativeEncoder leftEncoder, rightEncoder;
 
   /** Creates a new Elevator. */
-  /*public Elevator() {
+  public Elevator() {
 
-    leftMotor = new SparkMaxFactory.createDefaultSparkMax(Constants.elevator_LEFT_PORT);
-    rightMotor = new SparkMaxFactory.createDefaultSparkMax(Constants.elevator_RIGHT_PORT);
+    leftMotor = SparkMaxFactory.createDefaultSparkMax(Constants.elevator_LEFT_PORT);
+    rightMotor = SparkMaxFactory.createDefaultSparkMax(Constants.elevator_RIGHT_PORT);
 
     leftEncoder = leftMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
     rightEncoder = rightMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
@@ -95,6 +94,6 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }*/
+  }
 
 }
