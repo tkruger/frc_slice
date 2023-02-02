@@ -47,6 +47,11 @@ public final class Constants {
         public static final int elevator_LEFT_PORT = 5;
         public static final int elevator_RIGHT_PORT = 6;
 
+    //Define Limelight Constants
+
+        public static final double limelight_X_ALIGNMENT_SPEED = 0.5;
+        public static final double limelight_Y_ALIGNMENT_SPEED = 0.4;
+
     //Define Autonmous Constants
 
         public static final double kRamseteB = 2;

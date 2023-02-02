@@ -41,7 +41,13 @@ public class SparkMaxFactory {
 
     }
 
-    private static final Configuration kDefaultConfiguration = new Configuration(IdleMode.kBrake, false, false, 12, 0.0, 0.0);
+    private static final Configuration kDefaultConfiguration = new Configuration(
+        IdleMode.kBrake,
+        false,
+        false,
+        12,
+        0.0,
+        0.0);
 
     /** Creates a CANSparkMax object with the default configuration.*/
     public static CANSparkMax createDefaultSparkMax(int id) {

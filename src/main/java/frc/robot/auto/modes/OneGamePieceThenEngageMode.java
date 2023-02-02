@@ -11,7 +11,7 @@ import frc.robot.auto.paths.GridToChargeStationPath;
 import frc.robot.auto.paths.PickUpOneGamePiecePath;
 import frc.robot.auto.paths.PlaceOneGamePiecePath;
 import frc.robot.auto.sequences.TrajectoryFollowerSequence;
-import frc.robot.commands.Drivetrain.ChargeStationBalanceCommand;
+import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -26,7 +26,7 @@ public class OneGamePieceThenEngageMode extends SequentialCommandGroup {
     PickUpOneGamePiecePath pickUpOneGamePiece = new PickUpOneGamePiecePath(startPosition, drive);
     PlaceOneGamePiecePath placeOneGamePiece = new PlaceOneGamePiecePath(startPosition, drive);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition, drive);
-    ChargeStationBalanceCommand chargeStationBalance = new ChargeStationBalanceCommand(drive);
+    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     TrajectoryFollowerSequence trajectory1 = new TrajectoryFollowerSequence(drive, pickUpOneGamePiece, pickUpOneGamePiece.trajectory.getInitialPose());
     TrajectoryFollowerSequence trajectory2 = new TrajectoryFollowerSequence(drive, placeOneGamePiece);
