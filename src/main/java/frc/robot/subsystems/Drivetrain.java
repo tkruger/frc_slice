@@ -51,12 +51,8 @@ public class Drivetrain extends SubsystemBase {
 
   private final ShuffleboardTab driveTab;
 
-  private final GenericEntry leftSidePositionWidget;
-  private final GenericEntry rightSidePositionWidget;
-  private final GenericEntry leftSideVelocityWidget;
-  private final GenericEntry rightSideVelocityWidget;
-  private final GenericEntry driveHeadingWidget;
-  private final GenericEntry drivePitchWidget;
+  private final GenericEntry leftSidePositionWidget, rightSidePositionWidget, leftSideVelocityWidget, 
+      rightSideVelocityWidget, driveHeadingWidget, drivePitchWidget;
 
   private final Field2d m_field2d;
 
