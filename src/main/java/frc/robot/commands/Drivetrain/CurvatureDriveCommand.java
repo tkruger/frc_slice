@@ -36,7 +36,7 @@ public class CurvatureDriveCommand extends CommandBase {
     this.rightJoystick = rightJoystick;
 
     forwardFilter = new JoystickFilter(0.1, 0.6);
-    turnFilter = new JoystickFilter(0.1, 0.3);
+    turnFilter = new JoystickFilter(0.1, 0.5);
 
   }
 
