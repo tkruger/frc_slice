@@ -15,16 +15,22 @@ public class PickUpOneGamePiecePath extends AutoPaths{
 
             case BLUE_COMMUNITY_LEFT:
                 trajectory = PathPlanner.loadPath("Blue Left Pick Up One Game Piece", new PathConstraints(0.5, 0.2));
+                break;
             case BLUE_COMMUNITY_MIDDLE:
                 trajectory = PathPlanner.loadPath("Blue Middle Pick Up One Game Piece", new PathConstraints(0.5, 0.2));
+                break;
             case BLUE_COMMUNITY_RIGHT:
                 trajectory = PathPlanner.loadPath("Blue Right Pick Up One Game Piece", new PathConstraints(0.5, 0.2));
+                break;
             case RED_COMMUNITY_LEFT:
                 trajectory = PathPlanner.loadPath("Red Left Pick Up One Game Piece", new PathConstraints(0.5, 0.2));
+                break;
             case RED_COMMUNITY_MIDDLE:
                 trajectory = PathPlanner.loadPath("Red Middle Pick Up One Game Piece", new PathConstraints(0.5, 0.2));
+                break;
             case RED_COMMUNITY_RIGHT:
                 trajectory = PathPlanner.loadPath("Red Right Pick Up One Game Piece", new PathConstraints(0.5, 0.2));
+                break;
             default:
                 break;
 

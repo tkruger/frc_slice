@@ -10,7 +10,7 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridToChargeStationPath;
 import frc.robot.auto.paths.PickUpOneGamePiecePath;
 import frc.robot.auto.paths.PlaceOneGamePiecePath;
-import frc.robot.auto.sequences.TrajectoryFollowerSequence;
+import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.subsystems.Drivetrain;
 
@@ -28,9 +28,9 @@ public class OneGamePieceThenEngageMode extends SequentialCommandGroup {
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition, drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
-    TrajectoryFollowerSequence trajectory1 = new TrajectoryFollowerSequence(drive, pickUpOneGamePiece, pickUpOneGamePiece.trajectory.getInitialPose());
-    TrajectoryFollowerSequence trajectory2 = new TrajectoryFollowerSequence(drive, placeOneGamePiece);
-    TrajectoryFollowerSequence trajectory3 = new TrajectoryFollowerSequence(drive, gridToChargeStation);
+    Field2dTrajectoryFollowerSequence trajectory1 = new Field2dTrajectoryFollowerSequence(drive, pickUpOneGamePiece, pickUpOneGamePiece.trajectory.getInitialPose());
+    Field2dTrajectoryFollowerSequence trajectory2 = new Field2dTrajectoryFollowerSequence(drive, placeOneGamePiece);
+    Field2dTrajectoryFollowerSequence trajectory3 = new Field2dTrajectoryFollowerSequence(drive, gridToChargeStation);
 
     addCommands(
       trajectory1,

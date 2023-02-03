@@ -31,7 +31,7 @@ public class ElevatorRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    //m_elevator.runElevator(m_runUpwards, 0.5);
+    m_elevator.runElevator(m_runUpwards, 0.5);
 
   }
 

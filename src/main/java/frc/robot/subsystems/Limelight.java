@@ -9,8 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
@@ -26,7 +24,7 @@ public class Limelight extends SubsystemBase {
   private static double[] currentBotPose;
   private static double[] staticBotPose;
 
-  private double aprilTagID;
+  private static double aprilTagID;
 
   private final NetworkTableEntry ledMode;
 
@@ -58,7 +56,7 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public double getTargetDetected() {
+  public static double getTargetDetected() {
 
     return targetDetected;
 
@@ -93,7 +91,7 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public double getAprilTagID() {
+  public static double getAprilTagID() {
 
     return aprilTagID;
 

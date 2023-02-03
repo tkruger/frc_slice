@@ -38,8 +38,8 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
   public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath, Pose2d position) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
     ResetOdometryCommand resetOdometryCommand = new ResetOdometryCommand(drive, position);
+    SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
     RamseteCommand ramseteCommand = autoPath.generateRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
 

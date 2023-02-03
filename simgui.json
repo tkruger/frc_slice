@@ -2,6 +2,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Driver Tab/DifferentialDrive[1]": "DifferentialDrive",
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Starting Position": "String Chooser"
@@ -11,6 +12,18 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/Starting Position": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
       }
     }
   }

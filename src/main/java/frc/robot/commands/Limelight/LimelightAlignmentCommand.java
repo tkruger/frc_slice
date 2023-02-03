@@ -13,7 +13,6 @@ import frc.robot.subsystems.Limelight;
 
 public class LimelightAlignmentCommand extends CommandBase {
 
-  private final Limelight m_limelight;
   private final Drivetrain m_drivetrain;
 
   private Pose2d botPose;
@@ -26,7 +25,6 @@ public class LimelightAlignmentCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight, drivetrain);
 
-    m_limelight = limelight;
     m_drivetrain = drivetrain;
 
   }
@@ -39,22 +37,29 @@ public class LimelightAlignmentCommand extends CommandBase {
   @Override
   public void execute() {
 
-    botPose = m_limelight.getBotPose();
+    botPose = Limelight.getBotPose();
     rotation = botPose.getRotation().getDegrees();
-    targetDetected = m_limelight.getTargetDetected();
+    targetDetected = Limelight.getTargetDetected();
+    aprilTagID = Limelight.getAprilTagID();
 
     if(botPose != null && targetDetected == 1) {
 
-      if(rotation >= 0 && rotation < 178) {
+      if(rotation > 0 && rotation < 88) {
 
         m_drivetrain.curvatureDrive(0, Constants.limelight_X_ALIGNMENT_SPEED);
 
       }
-      else if(rotation <= 0 && rotation > -178) {
+      else if(rotation < 0 && rotation > -88) {
 
         m_drivetrain.curvatureDrive(0, -Constants.limelight_X_ALIGNMENT_SPEED);
 
       }
+      else if(aprilTagID == 1) {}
+      else if(aprilTagID == 2) {}
+      else if(aprilTagID == 3) {}
+      else if(aprilTagID == 4) {}
+      else if(aprilTagID == 5) {}
+      else if(aprilTagID == 6) {}
 
     }
 
