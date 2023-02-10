@@ -59,12 +59,11 @@ public final class Constants {
 
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(0.5842);
 
-        /*All of these constants are placeholders for now as they need to
-        be determined from robot characterization*/
-        public static final double ksVolts = 0.0;
-        public static final double kvVoltsSecondsPerMeter = 0.0;
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.0;
-
-        public static final double kPDriveVel = 0.0;
-
+        public static final double ksVolts = 0.19712;
+        public static final double kvVoltsSecondsPerMeter = 2.7996;
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.38673;
+    
+        //public static final double kPDriveVel = 3.6372;
+        public static final double kPDriveVel = 3.0;
+        
 }

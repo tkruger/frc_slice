@@ -1,6 +1,12 @@
 {
   "NetworkTables": {
     "transitory": {
+      "Shuffleboard": {
+        "Driver Tab": {
+          "open": true
+        },
+        "open": true
+      },
       "SmartDashboard": {
         "Field": {
           "open": true
@@ -16,8 +22,22 @@
       "/SmartDashboard/Starting Position": "String Chooser"
     },
     "windows": {
+      "/SmartDashboard/Auto Mode": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
-        "image": "C:\\Users\\Slice Robotics Club\\Documents\\SLICE 2023 Code\\Slice Git\\Slice_23\\.Glass\\2023-field.png",
+        "Trajectory": {
+          "arrows": false,
+          "style": "Track"
+        },
+        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2023 Main Season Code\\2023 Personal Code\\frc_slice\\.Glass\\2023-field.png",
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Starting Position": {
         "window": {
           "visible": true
         }

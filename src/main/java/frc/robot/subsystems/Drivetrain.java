@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import frc.robot.*;
 import frc.robot.drivers.SparkMaxFactory;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,9 +30,9 @@ import edu.wpi.first.networktables.GenericEntry;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 
-import java.util.Map;
-
 import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS.SerialDataType;
+
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 public class Drivetrain extends SubsystemBase {
@@ -109,7 +112,11 @@ public class Drivetrain extends SubsystemBase {
     rightPIDFront = rightMotorFront.getPIDController();
     rightPIDBack = rightMotorBack.getPIDController();
     
-    navXGyro = new AHRS(SerialPort.Port.kUSB1);
+    navXGyro = new AHRS(SerialPort.Port.kUSB1, SerialDataType.kProcessedData, (byte) 60);
+
+    Timer.delay(1.0);
+
+    navXGyro.enableLogging(true);
 
     m_field2d = new Field2d();
 
@@ -126,7 +133,7 @@ public class Drivetrain extends SubsystemBase {
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(),
       getRightSideDistance(),
-      new Pose2d());
+      new Pose2d(8, 4, Rotation2d.fromDegrees(345)));
 
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
@@ -203,6 +210,8 @@ public class Drivetrain extends SubsystemBase {
     drivePitchWidget.setDouble(getPitch());
 
     //driveHeadingWidget.setDouble(getHeading());
+
+    //SmartDashboard.putBoolean("Gyro Connected", navXGyro.isConnected());
 
   }
 

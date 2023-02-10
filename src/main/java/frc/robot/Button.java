@@ -15,7 +15,9 @@ public final class Button {
     public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
 
     //Define Drivetrain Buttons
-    public static Trigger driveMethod = new JoystickButton(leftJoystick, 10); //Left Bottom 10
+    public static Trigger oldDrive = new JoystickButton(leftJoystick, 8); //Left Bottom 8
+    public static Trigger PIDDrive = new JoystickButton(leftJoystick, 9); //Left Bottom 9
+    public static Trigger curvatureDrive = new JoystickButton(leftJoystick, 10); //Left Bottom 10
     public static Trigger chargeStationBalance = new JoystickButton(leftJoystick, 6); //Left Top 6
     public static Trigger chargeStationBalancePID = new JoystickButton(leftJoystick, 5); //Left Top 5
     public static Trigger quickTurn = new JoystickButton(rightJoystick, 2); //Right Top 2
@@ -41,8 +43,6 @@ public final class Button {
     public static Trigger leftButton2 = new JoystickButton(leftJoystick, 2); //Left Top 2
     public static Trigger leftButton3 = new JoystickButton(leftJoystick, 3); //Left Top 3
     public static Trigger leftButton7 = new JoystickButton(leftJoystick, 7); //Left Bottom 7
-    public static Trigger leftButton8 = new JoystickButton(leftJoystick, 8); //Left Bottom 8
-    public static Trigger leftButton9 = new JoystickButton(leftJoystick, 9); //Left Bottom 9
     public static Trigger leftButton11 = new JoystickButton(leftJoystick, 11); //Left Bottom 11
     public static Trigger leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12
 

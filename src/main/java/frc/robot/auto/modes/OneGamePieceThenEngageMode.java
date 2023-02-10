@@ -12,6 +12,8 @@ import frc.robot.auto.paths.PickUpOneGamePiecePath;
 import frc.robot.auto.paths.PlaceOneGamePiecePath;
 import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
+import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
+import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,7 +26,9 @@ public class OneGamePieceThenEngageMode extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     PickUpOneGamePiecePath pickUpOneGamePiece = new PickUpOneGamePiecePath(startPosition, drive);
+    QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PlaceOneGamePiecePath placeOneGamePiece = new PlaceOneGamePiecePath(startPosition, drive);
+    QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition, drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
@@ -34,7 +38,9 @@ public class OneGamePieceThenEngageMode extends SequentialCommandGroup {
 
     addCommands(
       trajectory1,
+      quickTurn1,
       trajectory2,
+      quickTurn2,
       trajectory3,
       chargeStationBalance
     );

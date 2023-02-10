@@ -42,26 +42,38 @@ public class LimelightAlignmentCommand extends CommandBase {
     targetDetected = Limelight.getTargetDetected();
     aprilTagID = Limelight.getAprilTagID();
 
-    if(botPose != null && targetDetected == 1) {
+   if(aprilTagID == 6) {
 
-      if(rotation > 0 && rotation < 88) {
+    if(botPose.getY() > 4.55){
 
-        m_drivetrain.curvatureDrive(0, Constants.limelight_X_ALIGNMENT_SPEED);
+      if(botPose.getRotation().getDegrees() > -85 && botPose.getRotation().getDegrees() < -5) {
 
-      }
-      else if(rotation < 0 && rotation > -88) {
-
-        m_drivetrain.curvatureDrive(0, -Constants.limelight_X_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, Constants.limelight_X_ALIGNMENT_SPEED);
 
       }
-      else if(aprilTagID == 1) {}
-      else if(aprilTagID == 2) {}
-      else if(aprilTagID == 3) {}
-      else if(aprilTagID == 4) {}
-      else if(aprilTagID == 5) {}
-      else if(aprilTagID == 6) {}
+      else if(botPose.getRotation().getDegrees() > 95 && botPose.getRotation().getDegrees() < -95) {
+
+        m_drivetrain.ArcadeDrive(0, -Constants.limelight_X_ALIGNMENT_SPEED);
+
+      }
 
     }
+    else if(botPose.getY() < 4.29) {
+
+      if(botPose.getRotation().getDegrees() > -85 && botPose.getRotation().getDegrees() < -5) {
+
+        m_drivetrain.ArcadeDrive(0, -Constants.limelight_X_ALIGNMENT_SPEED);
+
+      }
+      else if(botPose.getRotation().getDegrees() > 95 && botPose.getRotation().getDegrees() < -95) {
+
+        m_drivetrain.ArcadeDrive(0, Constants.limelight_X_ALIGNMENT_SPEED);
+
+      }
+
+    }
+
+   }
 
   }
 

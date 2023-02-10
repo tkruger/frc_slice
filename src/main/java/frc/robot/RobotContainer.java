@@ -7,14 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.auto.AutoSelector;
-import frc.robot.auto.sequences.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.*;
-//import frc.robot.commands.Elevator.ElevatorIdleCommand;
-//import frc.robot.commands.Elevator.ElevatorRunCommand;
+import frc.robot.commands.Elevator.ElevatorIdleCommand;
+import frc.robot.commands.Elevator.ElevatorRunCommand;
 import frc.robot.commands.Limelight.LimelightIdleCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -26,21 +24,22 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final Drivetrain m_drivetrain = new Drivetrain();
-  //public final Elevator m_elevator = new Elevator();
+  public final Elevator m_elevator = new Elevator();
   public final Limelight m_limelight = new Limelight();
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
 
-  public final DrivetrainCommand m_oldDrivetrain = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick); 
+  public final DrivetrainCommand m_oldDrive = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick);
+  public final CurvatureDriveCommand m_curvatureDrive = new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final PIDDriveCommand m_PIDDrive = new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final ChargeStationBalanceCommand m_chargeStationBalance = new ChargeStationBalanceCommand(m_drivetrain);
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
 
-  //public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
-  //public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
+  public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
+  public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
 
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain);
 
@@ -50,8 +49,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick));
-    //m_elevator.setDefaultCommand(new ElevatorIdleCommand(m_elevator));
+    m_drivetrain.setDefaultCommand(m_oldDrive);
+    m_elevator.setDefaultCommand(new ElevatorIdleCommand(m_elevator));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
 
   }
@@ -76,14 +75,20 @@ public class RobotContainer {
     //Execute PID Drivetrain Quick Turn
     Button.quickTurnPID.onTrue(m_quickTurnPID);
 
-    //Toggle Drive Mode
-    Button.driveMethod.toggleOnTrue(m_PIDDrive);
+    //Toggle Old Drive
+    Button.oldDrive.toggleOnTrue(m_oldDrive);
+
+    //Toggle PID Drive
+    Button.PIDDrive.toggleOnTrue(m_PIDDrive);
+
+    //Toggle Curvature Drive
+    Button.curvatureDrive.toggleOnTrue(m_curvatureDrive);
 
     //Enable Elevator Moving Upwards
-    //Button.elevatorUp.whileTrue(m_elevatorRunUpwards);
+    Button.elevatorUp.whileTrue(m_elevatorRunUpwards);
 
     //Enable Elevator Moving Downwards
-    //Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
+    Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
 
   }
 
