@@ -43,16 +43,22 @@ public final class Constants {
 
     //Define Elevator Constants
 
-        //Define Motor Ports(these are placeholders for now)
-        public static final int elevator_LEFT_PORT = 5;
-        public static final int elevator_RIGHT_PORT = 6;
+        //Define Motor Ports (these are placeholders for now)
+        public static final int elevator_LEFT_PORT = -314159;
+        public static final int elevator_RIGHT_PORT = -100000000;
+
+    //Define Intake Constants (currently placeholders)
+
+        //Define Motor Ports
+        public static final int intake_PIVOT_PORT = -1;
+        public static final int intake_ROTATE_PORT = -2;
 
     //Define Limelight Constants
 
         public static final double limelight_X_ALIGNMENT_SPEED = 0.5;
         public static final double limelight_Y_ALIGNMENT_SPEED = 0.4;
 
-    //Define Autonmous Constants
+    //Define Autonomous Constants
 
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
