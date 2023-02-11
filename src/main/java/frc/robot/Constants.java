@@ -47,6 +47,20 @@ public final class Constants {
         public static final int elevator_LEFT_PORT = -314159;
         public static final int elevator_RIGHT_PORT = -100000000;
 
+    //Define Wrist Constants
+
+        //Define Motor Ports (this is a placeholder for now)
+        public static final int wrist_MOTOR_PORT = -13;
+
+        //Define Limit Switch Channels (this is a placeholder for now)
+        public static final int wrist_LIMIT_SWITCH_CHANNEL = -13;
+
+        //Define angle the intake is at from horizontal (this is a placeholder for now)
+        public static final double wrist_STOWED_ANGLE_DEGREES = 120;
+
+        //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
+        public static final double wrist_RESET_SPEED = 0.1;
+
     //Define Intake Constants (currently placeholders)
 
         //Define Motor Ports
