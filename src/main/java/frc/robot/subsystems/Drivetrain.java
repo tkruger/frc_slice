@@ -7,8 +7,7 @@ package frc.robot.subsystems;
 import java.util.Map;
 
 import frc.robot.*;
-
-import frc.robot.drivers.SparkMaxFactory;
+import frc.robot.factories.SparkMaxFactory;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -133,14 +132,14 @@ public class Drivetrain extends SubsystemBase {
       Rotation2d.fromDegrees(getHeading()), 
       getLeftSideDistance(), 
       getRightSideDistance(),
-      new Pose2d(8, 4, Rotation2d.fromDegrees(getHeading())));*/
+      new Pose2d(8, 4, getRotation2d()));*/
 
     m_odometry = new DifferentialDrivePoseEstimator(
       Constants.kDriveKinematics,
-      Rotation2d.fromDegrees(getHeading()), 
+      getRotation2d(), 
       getLeftSideDistance(),
       getRightSideDistance(),
-      new Pose2d(8, 4, Rotation2d.fromDegrees(345)));
+      new Pose2d(8, 4, Rotation2d.fromDegrees(0)));
 
     //Creates the "Driver Tab" on Shuffleboard
     driveTab = Shuffleboard.getTab("Driver Tab");
@@ -279,7 +278,7 @@ public class Drivetrain extends SubsystemBase {
   /*public Pose2d updateOdometry() {
 
     return m_odometry.update(
-      Rotation2d.fromDegrees(getHeading()), 
+      getRotation2d(), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
@@ -295,7 +294,7 @@ public class Drivetrain extends SubsystemBase {
   public Pose2d updateOdometry() {
 
     m_odometry.update(
-      Rotation2d.fromDegrees(getHeading()), 
+      getRotation2d(), 
       getLeftSideDistance(), 
       getRightSideDistance());
 
@@ -339,7 +338,7 @@ public class Drivetrain extends SubsystemBase {
     resetEncoders();
 
     m_odometry.resetPosition(
-      Rotation2d.fromDegrees(getHeading()), 
+      getRotation2d(), 
       getLeftSideDistance(), 
       getRightSideDistance(), 
       position);

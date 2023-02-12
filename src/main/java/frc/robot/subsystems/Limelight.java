@@ -22,7 +22,10 @@ public class Limelight extends SubsystemBase {
   private double targetYOffset;
 
   private static double[] currentBotPose;
-  private static double[] staticBotPose;
+  private static double[] lastBotPose;
+
+  private double[] lastRobotTargetSpacePose;
+  private double[] currentRobotTargetSpacePose;
 
   private static double aprilTagID;
 
@@ -50,13 +53,20 @@ public class Limelight extends SubsystemBase {
     targetXOffset = table.getEntry("tx").getDouble(0);
     targetYOffset = table.getEntry("ty").getDouble(0);
 
-    currentBotPose = table.getEntry("botpose").getDoubleArray(new double[6]);
+    currentBotPose = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    currentRobotTargetSpacePose = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+
+    if(currentRobotTargetSpacePose != null) {
+
+      lastRobotTargetSpacePose = currentRobotTargetSpacePose;
+
+    }
 
     aprilTagID = table.getEntry("tid").getDouble(0);
 
   }
 
-  public static double getTargetDetected() {
+  public double getTargetDetected() {
 
     return targetDetected;
 
@@ -76,11 +86,11 @@ public class Limelight extends SubsystemBase {
 
   public static Pose2d getBotPose() {
 
-    staticBotPose = currentBotPose;
+    lastBotPose = currentBotPose;
 
-    if(staticBotPose != null) {
+    if(lastBotPose != null) {
 
-      return new Pose2d(staticBotPose[0], staticBotPose[1], Rotation2d.fromDegrees(staticBotPose[5]));
+      return new Pose2d(lastBotPose[0], lastBotPose[1], Rotation2d.fromDegrees(lastBotPose[5]));
 
     }
     else {
@@ -91,7 +101,13 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public static double getAprilTagID() {
+  public Pose2d getRobotTargetSpacePose() {
+
+    return new Pose2d(lastRobotTargetSpacePose[0], lastRobotTargetSpacePose[1], Rotation2d.fromDegrees(lastRobotTargetSpacePose[5]));
+
+  }
+
+  public double getAprilTagID() {
 
     return aprilTagID;
 

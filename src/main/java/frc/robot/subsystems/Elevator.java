@@ -11,7 +11,7 @@ import com.revrobotics.SparkMaxRelativeEncoder.Type;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
-import frc.robot.drivers.SparkMaxFactory;
+import frc.robot.factories.SparkMaxFactory;
 
 public class Elevator extends SubsystemBase {
  
@@ -30,6 +30,12 @@ public class Elevator extends SubsystemBase {
 
   }
 
+  /**
+   * Runs both elevator motors at the same desired speed and direction.
+   * 
+   * @param runUpwards Whether both elevator motors should run upwards or not.
+   * @param speed The desired speed for both elevators motors to run at.
+   */
   public void runElevator(boolean runUpwards, double speed) {
 
     if(runUpwards == true) {
@@ -47,6 +53,12 @@ public class Elevator extends SubsystemBase {
 
   }
 
+  /**
+   * Runs only the left elevator motor at a desired speed and direction.
+   * 
+   * @param runUpwards Whether the left elevator motor should run upwards or not.
+   * @param speed The desired speed for the left elevator motor to run at.
+   */
   public void runLeftMotor(boolean runUpwards, double speed) {
 
     if(runUpwards) {
@@ -62,6 +74,12 @@ public class Elevator extends SubsystemBase {
 
   }
 
+   /**
+   * Runs only the right elevator motor at a desired speed and direction.
+   * 
+   * @param runUpwards Whether the right elevator motor should run upwards or not.
+   * @param speed The desired speed for the right elevator motor to run at.
+   */
   public void runRightMotor(boolean runUpwards, double speed) {
 
     if(runUpwards) {
@@ -77,12 +95,22 @@ public class Elevator extends SubsystemBase {
 
   }
 
+  /**
+   * Obtains and returns the current position of the left elevator encoder.
+   * 
+   * @return The current position of the left elevator encoder.
+   */
   public double getLeftEncoderPosition() {
 
     return leftEncoder.getPosition();
 
   }
 
+  /**
+   * Obtains and returns the current position of the right elevator encoder.
+   * 
+   * @return The current position of the right elevator encoder.
+   */
   public double getRightEncoderPosition() {
 
     return rightEncoder.getPosition();
