@@ -5,15 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.auto.AutoSelector;
-import frc.robot.commands.Drivetrain.*;
-import frc.robot.commands.Elevator.ElevatorIdleCommand;
-import frc.robot.commands.Elevator.ElevatorRunCommand;
-import frc.robot.commands.Limelight.LimelightIdleCommand;
-import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+
+import frc.robot.auto.AutoSelector;
+
+import frc.robot.commands.*;
+import frc.robot.commands.Drivetrain.*;
+import frc.robot.commands.Elevator.*;
+import frc.robot.commands.Limelight.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,6 +29,7 @@ public class RobotContainer {
   public final Drivetrain m_drivetrain = new Drivetrain();
   public final Elevator m_elevator = new Elevator();
   public final Limelight m_limelight = new Limelight();
+  public final ColorSensor m_colorSensor = new ColorSensor();
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -52,6 +56,7 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(m_oldDrive);
     m_elevator.setDefaultCommand(new ElevatorIdleCommand(m_elevator));
     m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
+    m_colorSensor.setDefaultCommand(new idleCommand());
 
   }
 
