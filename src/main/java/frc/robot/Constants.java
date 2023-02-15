@@ -61,6 +61,11 @@ public final class Constants {
         //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
         public static final double wrist_RESET_SPEED = 0.1;
 
+        //P, I, and D gains for the wrist when going to a set position
+        public static final double wrist_KP = 0.1;
+        public static final double wrist_KI = 0;
+        public static final double wrist_KD = 0;
+
     //Define Intake Constants (currently placeholders)
 
         //Define Motor Ports
