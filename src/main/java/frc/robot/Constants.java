@@ -55,8 +55,9 @@ public final class Constants {
         //Define Limit Switch Channels (this is a placeholder for now)
         public static final int wrist_LIMIT_SWITCH_CHANNEL = -13;
 
-        //Define angle the intake is at from horizontal (this is a placeholder for now)
-        public static final double wrist_STOWED_ANGLE_DEGREES = 120;
+        //Define angles the intake is at from horizontal at maximum and minimum points (this is a placeholder for now)
+        public static final double wrist_MAX_ANGLE = 120;
+        public static final double wrist_MIN_ANGLE = -30;
 
         //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
         public static final double wrist_RESET_SPEED = 0.1;

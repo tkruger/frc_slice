@@ -4,18 +4,17 @@
 
 package frc.robot.commands.Wrist;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Wrist;
 
-public class SetWristPosition extends CommandBase {
+public class ManualWristCommand extends CommandBase {
   private final Wrist m_wrist;
-  private final double m_angle;
-  /** Creates a new SetWristPosition. */
-  public SetWristPosition(Wrist wrist, double angle) {
+  private final double m_speed;
+  /** Creates a new ManualWristCommand. */
+  public ManualWristCommand(Wrist wrist, double speed) {
     m_wrist = wrist;
-    m_angle = MathUtil.clamp(angle, Constants.wrist_MIN_ANGLE, Constants.wrist_MAX_ANGLE);
+    m_speed = speed;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_wrist);
@@ -23,22 +22,28 @@ public class SetWristPosition extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_wrist.setPID(Constants.wrist_KP, Constants.wrist_KI, Constants.wrist_KD);
-    m_wrist.setWristPosition(m_angle);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if ((m_wrist.completelyStowed() && m_speed > 0) || (m_wrist.getAngle() < Constants.wrist_MIN_ANGLE && m_speed < 0)) {
+      m_wrist.spinWrist(0); 
+    }else {
+      m_wrist.spinWrist(m_speed);
+    }
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_wrist.spinWrist(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

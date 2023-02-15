@@ -33,7 +33,6 @@ public class ResetAngleCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
-    m_wrist.setWristPosition(Constants.wrist_STOWED_ANGLE_DEGREES);
   }
 
   // Returns true when the command should end.
