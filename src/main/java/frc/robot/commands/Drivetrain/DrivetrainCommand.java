@@ -8,8 +8,6 @@ import frc.robot.JoystickFilter;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 
 //import edu.wpi.first.wpilibj.smartdashboard.*;

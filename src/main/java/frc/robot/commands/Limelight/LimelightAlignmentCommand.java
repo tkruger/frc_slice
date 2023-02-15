@@ -14,11 +14,21 @@ import frc.robot.subsystems.Limelight;
 public class LimelightAlignmentCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
+  private final Limelight m_limelight;
 
-  private Pose2d botPose;
+  /*private Pose2d lastBotPose;
+  private Pose2d currentBotPose;
   private double rotation;
-  private double targetDetected;
-  private double aprilTagID;
+  private double lastAprilTagID;
+  private double currentAprilTagID;*/
+
+  private Pose2d robotTargetSpacePose;
+  private double targetSpaceRotation;
+
+  private Pose2d lastBotPose;
+  private Pose2d currentBotPose;
+
+  private double botPoseRotation;
 
   /** Creates a new LimelightAlignmentCommand. */
   public LimelightAlignmentCommand(Limelight limelight, Drivetrain drivetrain) {
@@ -26,6 +36,7 @@ public class LimelightAlignmentCommand extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     m_drivetrain = drivetrain;
+    m_limelight = limelight;
 
   }
 
@@ -37,45 +48,154 @@ public class LimelightAlignmentCommand extends CommandBase {
   @Override
   public void execute() {
 
-    botPose = Limelight.getBotPose();
-    rotation = botPose.getRotation().getDegrees();
-    targetDetected = Limelight.getTargetDetected();
-    aprilTagID = Limelight.getAprilTagID();
+    /*currentBotPose = Limelight.getBotPose();
 
-   if(aprilTagID == 6) {
+    if(currentBotPose != null) {
 
-    if(botPose.getY() > 4.55){
+      lastBotPose = currentBotPose;
 
-      if(botPose.getRotation().getDegrees() > -85 && botPose.getRotation().getDegrees() < -5) {
+    }
 
-        m_drivetrain.ArcadeDrive(0, Constants.limelight_X_ALIGNMENT_SPEED);
+    rotation = lastBotPose.getRotation().getDegrees();
+
+    currentAprilTagID = m_limelight.getAprilTagID();
+    
+    if(currentAprilTagID != 0) {
+
+      lastAprilTagID = currentAprilTagID;
+
+    }
+
+    if(lastAprilTagID == 6) {
+
+      if(lastBotPose.getY() > 4.51621) {
+
+        if(rotation > -85 && rotation < 85) {
+
+          m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+        }
+        else if(rotation > 95 && rotation < -95) {
+
+          m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+        }
+        else {
+
+          m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+
+        }
 
       }
-      else if(botPose.getRotation().getDegrees() > 95 && botPose.getRotation().getDegrees() < -95) {
 
-        m_drivetrain.ArcadeDrive(0, -Constants.limelight_X_ALIGNMENT_SPEED);
+      else if(lastBotPose.getY() < 4.31621) {
+
+        if(rotation > -85 && rotation < 85) {
+
+          m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+        }
+        else if(rotation > 95 && rotation < -95) {
+
+          m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+        }
+        else {
+
+          m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+
+        }
+
+      }
+
+      else if(rotation > 5 && rotation < 90) {
+
+        m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+      }
+      else if(rotation < -5 && rotation > -90) {
+
+        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+      }
+      else {
+
+        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+
+      }
+
+    }*/
+
+    robotTargetSpacePose = m_limelight.getRobotTargetSpacePose();
+    targetSpaceRotation = m_limelight.getRobotTargetSpacePose().getRotation().getDegrees();
+
+    currentBotPose = Limelight.getBotPose();
+
+    if(currentBotPose != null) {
+
+      lastBotPose = currentBotPose;
+
+    }
+
+    botPoseRotation = lastBotPose.getRotation().getDegrees();
+
+    if(robotTargetSpacePose.getY() > 0.1) {
+
+      if(targetSpaceRotation > -85 && targetSpaceRotation <= 90) {
+
+        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+  
+      }
+      else if(targetSpaceRotation > 90 && targetSpaceRotation < -95) {
+  
+        m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+  
+      }
+      else {
+
+        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
 
       }
 
     }
-    else if(botPose.getY() < 4.29) {
 
-      if(botPose.getRotation().getDegrees() > -85 && botPose.getRotation().getDegrees() < -5) {
+    else if(robotTargetSpacePose.getY() < -0.1) {
 
-        m_drivetrain.ArcadeDrive(0, -Constants.limelight_X_ALIGNMENT_SPEED);
+      if(targetSpaceRotation >= -90 && targetSpaceRotation < 85) {
+
+        m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+  
+      }
+      else if(targetSpaceRotation > 95 && targetSpaceRotation < -90) {
+  
+        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+  
+      }
+      else {
+
+        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
 
       }
-      else if(botPose.getRotation().getDegrees() > 95 && botPose.getRotation().getDegrees() < -95) {
 
-        m_drivetrain.ArcadeDrive(0, Constants.limelight_X_ALIGNMENT_SPEED);
+    }
 
-      }
+    else if(targetSpaceRotation <= 0 && targetSpaceRotation > -175) {
+
+      m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+    }
+    else if(targetSpaceRotation < 175 && targetSpaceRotation > 0) {
+
+      m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+
+    }
+    else {
+
+      m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
 
     }
 
    }
-
-  }
 
   // Called once the command ends or is interrupted.
   @Override

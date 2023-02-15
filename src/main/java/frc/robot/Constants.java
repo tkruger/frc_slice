@@ -74,8 +74,8 @@ public final class Constants {
 
     //Define Limelight Constants
 
-        public static final double limelight_X_ALIGNMENT_SPEED = 0.5;
-        public static final double limelight_Y_ALIGNMENT_SPEED = 0.4;
+        public static final double limelight_TURN_ALIGNMENT_SPEED = 0.5;
+        public static final double limelight_FORWARD_ALIGNMENT_SPEED = 0.4;
 
     //Define Autonomous Constants
 

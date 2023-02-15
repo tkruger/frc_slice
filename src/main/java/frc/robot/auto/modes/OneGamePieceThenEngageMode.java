@@ -13,7 +13,6 @@ import frc.robot.auto.paths.PlaceOneGamePiecePath;
 import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
-import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

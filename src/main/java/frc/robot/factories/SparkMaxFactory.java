@@ -1,4 +1,4 @@
-package frc.robot.drivers;
+package frc.robot.factories;
 
 import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkMax.IdleMode;
