@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,58 +17,68 @@ import frc.robot.factories.SparkMaxFactory;
 
 public class Intake extends SubsystemBase {
  
-  private final CANSparkMax pivotMotor, rotateMotor;
+  private final CANSparkMax mandibleMotor, rotateMotor;
 
-  private final RelativeEncoder pivotEncoder, rotateEncoder;
+  private final RelativeEncoder mandibleEncoder, rotateEncoder;
+
+  private final SparkMaxPIDController mandiblePID, rotatePID;
 
   /** Creates a new Elevator. */
   public Intake() {
 
-    pivotMotor = SparkMaxFactory.createDefaultSparkMax(Constants.intake_PIVOT_PORT);
-    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.intake_ROTATE_PORT);
+    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.intake_PIVOT_PORT);
+    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.intake_MANDIBLE_PORT);
 
-    pivotEncoder = pivotMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
+    mandibleEncoder = mandibleMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
     rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
 
-  }
-
-  public void runModeSwitcher(boolean close, double speed) {
-
-    if(close) {
-
-      pivotMotor.set(speed);
-
-    }
-    else {
-
-      pivotMotor.set(-speed);
-
-    }
+    mandiblePID = mandibleMotor.getPIDController();
+    rotatePID = rotateMotor.getPIDController();
 
   }
 
-  public void runIntake(boolean eject, double speed) {
+  public void setMandiblePID(double kP, double kI, double kD) {
+    mandiblePID.setP(kP);
+    mandiblePID.setI(kI);
+    mandiblePID.setD(kD);
+  } 
 
-    if(eject) {
+  /**
+   * Opens the mandibles
+   */
+  public void openMandibles() {
+    mandiblePID.setReference(Constants.intake_MANDIBLE_OPEN_POSITION, ControlType.kPosition);
+  }
 
-      rotateMotor.set(speed);
+  /**
+   * Close the mandibles
+   */
+  public void closeMandibles() {
+    mandiblePID.setReference(Constants.intake_MANDIBLE_CLOSED_POSITION, ControlType.kPosition);
+  }
 
-    }
-    else {
+  /**
+   * Spins the wheels along the intake
+   * @param speed the speed the wheels spin at, from 1 to -1. If positive, intake. if negative, eject.
+   */
+  public void runIntake(double speed) {
+    // SKELETON CODE NOTE: might need to reverse speed so positive is intake and negative is eject
+    rotateMotor.set(speed);
+  }
 
-      rotateMotor.set(-speed);
+  /**
+   * @return the angular position of the mandibles, in [UNITS GO HERE]
+   */
+  public double getMandibleEncoderPosition() {
 
-    }
+    return mandibleEncoder.getPosition();
 
   }
 
-  public double getLeftEncoderPosition() {
-
-    return pivotEncoder.getPosition();
-
-  }
-
-  public double getRightEncoderPosition() {
+  /**
+   * @return the angular position of the intake wheels, in [UNITS GO HERE]
+   */
+  public double getRotateEncoderPosition() {
 
     return rotateEncoder.getPosition();
 

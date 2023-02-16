@@ -71,7 +71,16 @@ public final class Constants {
 
         //Define Motor Ports
         public static final int intake_PIVOT_PORT = -1;
-        public static final int intake_ROTATE_PORT = -2;
+        public static final int intake_MANDIBLE_PORT = -2;
+
+        //Define open and closed positions
+        public static final double intake_MANDIBLE_CLOSED_POSITION = 0;
+        public static final double intake_MANDIBLE_OPEN_POSITION = 0;
+
+        //P, I, and D gains for the mandibles when going to a set position
+        public static final double intake_MANDIBLE_KP = 0.1;
+        public static final double intake_MANDIBLE_KI = 0;
+        public static final double intake_MANDIBLE_KD = 0;
 
     //Define Limelight Constants
 
