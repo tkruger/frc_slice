@@ -7,9 +7,9 @@ import frc.robot.auto.AutoPaths;
 import frc.robot.auto.AutoSelector;
 import frc.robot.subsystems.Drivetrain;
 
-public class PickUpOneGamePiecePath extends AutoPaths{
+public class GridToGamePiecePath extends AutoPaths{
     
-    public PickUpOneGamePiecePath(AutoSelector.StartingPosition startPosition, Drivetrain drive) {
+    public GridToGamePiecePath(AutoSelector.StartingPosition startPosition, Drivetrain drive) {
 
         switch(startPosition) {
 

@@ -5,7 +5,7 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorSetCommand extends CommandBase {
@@ -39,14 +39,14 @@ public class ElevatorSetCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_targetPosition < m_elevator.getLeftEncoderPosition() - 1) {
+    if(m_targetPosition < m_elevator.getLeftMotorPosition() - 1) {
 
-      m_elevator.runLeftMotor(true, 0.5);
+      m_elevator.runLeftMotor(true, Constants.elevator_SET_SPEED);
 
     }
-    else if(m_targetPosition > m_elevator.getLeftEncoderPosition() + 1){
+    else if(m_targetPosition > m_elevator.getLeftMotorPosition() + 1){
 
-      m_elevator.runLeftMotor(false, 0.5);
+      m_elevator.runLeftMotor(false, Constants.elevator_SET_SPEED);
 
     }
     else {
@@ -55,14 +55,14 @@ public class ElevatorSetCommand extends CommandBase {
 
     }
 
-    if(m_targetPosition < m_elevator.getRightEncoderPosition() - 1) {
+    if(m_targetPosition < m_elevator.getRightMotorPosition() - 1) {
 
-      m_elevator.runRightMotor(true, 0.5);
+      m_elevator.runRightMotor(true, Constants.elevator_SET_SPEED);
 
     }
-    else if(m_targetPosition > m_elevator.getRightEncoderPosition() + 1) {
+    else if(m_targetPosition > m_elevator.getRightMotorPosition() + 1) {
 
-      m_elevator.runRightMotor(false, 0.5);
+      m_elevator.runRightMotor(false, Constants.elevator_SET_SPEED);
 
     }
     else {

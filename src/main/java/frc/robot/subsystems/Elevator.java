@@ -31,10 +31,10 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-   * Runs both elevator motors at the same desired speed and direction.
+   * Runs both elevator motors at the same desired speed(-1, 1) and direction.
    * 
    * @param runUpwards Whether both elevator motors should run upwards or not.
-   * @param speed The desired speed for both elevators motors to run at.
+   * @param speed The desired speed for both elevators motors to run at(-1, 1).
    */
   public void runElevator(boolean runUpwards, double speed) {
 
@@ -54,10 +54,10 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-   * Runs only the left elevator motor at a desired speed and direction.
+   * Runs only the left elevator motor at a desired speed and direction(-1, 1).
    * 
    * @param runUpwards Whether the left elevator motor should run upwards or not.
-   * @param speed The desired speed for the left elevator motor to run at.
+   * @param speed The desired speed for the left elevator motor to run at(-1, 1).
    */
   public void runLeftMotor(boolean runUpwards, double speed) {
 
@@ -75,10 +75,10 @@ public class Elevator extends SubsystemBase {
   }
 
    /**
-   * Runs only the right elevator motor at a desired speed and direction.
+   * Runs only the right elevator motor at a desired speed and direction(-1, 1).
    * 
    * @param runUpwards Whether the right elevator motor should run upwards or not.
-   * @param speed The desired speed for the right elevator motor to run at.
+   * @param speed The desired speed for the right elevator motor to run at(-1, 1).
    */
   public void runRightMotor(boolean runUpwards, double speed) {
 
@@ -96,24 +96,68 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-   * Obtains and returns the current position of the left elevator encoder.
+   * Obtains and returns the current position of the left elevator motor(rotations).
    * 
-   * @return The current position of the left elevator encoder.
+   * @return The current position of the left elevator motor(rotations).
    */
-  public double getLeftEncoderPosition() {
+  public double getLeftMotorPosition() {
 
     return leftEncoder.getPosition();
 
   }
 
   /**
-   * Obtains and returns the current position of the right elevator encoder.
+   * Obtains and returns the current position of the right elevator motor(rotations).
    * 
-   * @return The current position of the right elevator encoder.
+   * @return The current position of the right elevator motor(rotations).
    */
-  public double getRightEncoderPosition() {
+  public double getRightMotorPosition() {
 
     return rightEncoder.getPosition();
+
+  }
+
+  /**
+   * Resets the left elevator motor to a desired position(rotations).
+   * 
+   * @param position The desired position to set the left elevator motor to(rotations).
+   */
+  public void setLeftMotorPosition(double position) {
+
+    leftEncoder.setPosition(position);
+
+  }
+
+  /**
+   * Resets the right elevator motor to a desired position(rotations).
+   * 
+   * @param position The desired position to set the right elevator motor to(rotations).
+   */
+  public void setRightMotorPosition(double position) {
+
+    leftEncoder.setPosition(position);
+
+  }
+
+  /**
+   * Obtains and returns the current velocity of the left elevator motor(rpm).
+   * 
+   * @return The current velocity of the left elevator motor(rpm).
+   */
+  public double getLeftMotorVelocity() {
+
+    return leftEncoder.getVelocity();
+
+  }
+
+   /**
+   * Obtains and returns the current velocity of the right elevator motor(rpm).
+   * 
+   * @return The current velocity of the right elevator motor(rpm).
+   */
+  public double getRightMotorVelocity() {
+
+    return rightEncoder.getVelocity();
 
   }
 

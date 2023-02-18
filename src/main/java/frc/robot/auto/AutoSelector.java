@@ -3,8 +3,11 @@ package frc.robot.auto;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.auto.modes.OneGamePieceThenEngageMode;
+import frc.robot.auto.modes.TwoGamePiecesThenEngageMode;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Wrist;
 
 import java.util.Optional;
 
@@ -23,7 +26,7 @@ public class AutoSelector {
 
     public enum DesiredMode {
 
-        ONE_GAME_PIECE_THEN_ENGAGE
+        TWO_GAME_PIECES_THEN_ENGAGE
 
     }
 
@@ -35,11 +38,17 @@ public class AutoSelector {
 
     private Optional<SequentialCommandGroup> autoMode = Optional.empty();
 
-    private Drivetrain m_drivetrain;
+    private final Drivetrain m_drivetrain;
+    private final Elevator m_elevator;
+    private final Wrist m_wrist;
+    private final Intake m_intake;
 
-    public AutoSelector(Drivetrain drivetrain) {
+    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake) {
 
         m_drivetrain = drivetrain;
+        m_elevator = elevator;
+        m_wrist = wrist;
+        m_intake = intake;
 
         startingPositionChooser = new SendableChooser<>();
 
@@ -55,7 +64,7 @@ public class AutoSelector {
 
         modeChooser = new SendableChooser<>();
 
-        modeChooser.setDefaultOption("One Game Piece Then Engage", DesiredMode.ONE_GAME_PIECE_THEN_ENGAGE);
+        modeChooser.setDefaultOption("Two Game Pieces Then Engage", DesiredMode.TWO_GAME_PIECES_THEN_ENGAGE);
 
         SmartDashboard.putData("Auto Mode", modeChooser);
 
@@ -84,8 +93,8 @@ public class AutoSelector {
 
         switch(mode) {
 
-            case ONE_GAME_PIECE_THEN_ENGAGE:
-                return Optional.of(new OneGamePieceThenEngageMode(position, m_drivetrain));
+            case TWO_GAME_PIECES_THEN_ENGAGE:
+                return Optional.of(new TwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
 

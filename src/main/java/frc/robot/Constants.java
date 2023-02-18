@@ -19,10 +19,12 @@ public final class Constants {
     //Define Joystick Ports
         public static final int RobotContainer_LEFT_JOYSTICK_PORT = 0;
         public static final int RobotContainer_RIGHT_JOYSTICK_PORT = 1;
+        //(This is a placeholder for now)
+        public static final int RobotContainer_MANIPULATOR_JOYSTICK_PORT = 2;
 
     //Define Encoder Constants
-        public static final int ENCODER_CPR = 42;
 
+        public static final int ENCODER_CPR = 42;
 
     //Define Drivetrain Constants
 
@@ -47,6 +49,14 @@ public final class Constants {
         public static final int elevator_LEFT_PORT = -314159;
         public static final int elevator_RIGHT_PORT = -100000000;
 
+        //Define Motor Speeds (these are placholders for now)
+        public static final double elevator_RUN_SPEED = 0.5;
+        public static final double elevator_SET_SPEED = 0.7;
+
+        //Define Set Positions (these are placeholders for now)
+        public static final double elevator_ROW_TWO_POSITION = 0;
+        public static final double elevator_ROW_THREE_POSITION = 0;
+
     //Define Wrist Constants
 
         //Define Motor Ports (this is a placeholder for now)
@@ -58,6 +68,10 @@ public final class Constants {
         //Define angles the intake is at from horizontal at maximum and minimum points (this is a placeholder for now)
         public static final double wrist_MAX_ANGLE = 120;
         public static final double wrist_MIN_ANGLE = -30;
+
+        //Define angles for placing and picking up game pieces (these are placeholders for now)
+        public static final double wrist_GAME_PIECE_PLACE_ANGLE = 0;
+        public static final double wrist_GAME_PIECE_PICK_UP_ANGLE = 0;
 
         //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
         public static final double wrist_RESET_SPEED = 0.1;

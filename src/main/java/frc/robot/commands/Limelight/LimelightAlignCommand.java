@@ -11,7 +11,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
-public class LimelightAlignmentCommand extends CommandBase {
+public class LimelightAlignCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
   private final Limelight m_limelight;
@@ -31,7 +31,7 @@ public class LimelightAlignmentCommand extends CommandBase {
   private double botPoseRotation;
 
   /** Creates a new LimelightAlignmentCommand. */
-  public LimelightAlignmentCommand(Limelight limelight, Drivetrain drivetrain) {
+  public LimelightAlignCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight, drivetrain);
 
@@ -139,6 +139,7 @@ public class LimelightAlignmentCommand extends CommandBase {
 
     botPoseRotation = lastBotPose.getRotation().getDegrees();
 
+    //The turn speeds used below may need to be reversed to have intended functionality
     if(robotTargetSpacePose.getY() > 0.1) {
 
       if(targetSpaceRotation > -85 && targetSpaceRotation <= 90) {

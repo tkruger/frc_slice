@@ -5,7 +5,7 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorRunCommand extends CommandBase {
@@ -31,7 +31,7 @@ public class ElevatorRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_elevator.runElevator(m_runUpwards, 0.5);
+    m_elevator.runElevator(m_runUpwards, Constants.elevator_RUN_SPEED);
 
   }
 
@@ -42,7 +42,9 @@ public class ElevatorRunCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     return false;
+    
   }
   
 }
