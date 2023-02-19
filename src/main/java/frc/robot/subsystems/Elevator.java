@@ -31,67 +31,36 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-   * Runs both elevator motors at the same desired speed(-1, 1) and direction.
+   * Runs both elevator motors at the same desired speed(-1, 1).
    * 
-   * @param runUpwards Whether both elevator motors should run upwards or not.
    * @param speed The desired speed for both elevators motors to run at(-1, 1).
    */
-  public void runElevator(boolean runUpwards, double speed) {
-
-    if(runUpwards == true) {
+  public void runElevator(double speed) {
 
       leftMotor.set(speed);
       rightMotor.set(speed);
-
-    }
-    else {
-
-      leftMotor.set(-speed);
-      rightMotor.set(-speed);
-
-    }
 
   }
 
   /**
-   * Runs only the left elevator motor at a desired speed and direction(-1, 1).
+   * Runs only the left elevator motor at a desired speed(-1, 1).
    * 
-   * @param runUpwards Whether the left elevator motor should run upwards or not.
    * @param speed The desired speed for the left elevator motor to run at(-1, 1).
    */
-  public void runLeftMotor(boolean runUpwards, double speed) {
-
-    if(runUpwards) {
+  public void runLeftMotor( double speed) {
 
       leftMotor.set(speed);
-
-    }
-    else {
-
-      leftMotor.set(-speed);
-
-    }
 
   }
 
    /**
-   * Runs only the right elevator motor at a desired speed and direction(-1, 1).
+   * Runs only the right elevator motor at a desired speed(-1, 1).
    * 
-   * @param runUpwards Whether the right elevator motor should run upwards or not.
    * @param speed The desired speed for the right elevator motor to run at(-1, 1).
    */
-  public void runRightMotor(boolean runUpwards, double speed) {
-
-    if(runUpwards) {
+  public void runRightMotor(double speed) {
 
       rightMotor.set(speed);
-
-    }
-    else {
-
-      rightMotor.set(-speed);
-
-    }
 
   }
 

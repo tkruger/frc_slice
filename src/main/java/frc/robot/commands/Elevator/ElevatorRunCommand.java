@@ -31,7 +31,16 @@ public class ElevatorRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_elevator.runElevator(m_runUpwards, Constants.elevator_RUN_SPEED);
+    if(m_runUpwards == true) {
+
+      m_elevator.runElevator(Constants.elevator_RUN_SPEED);
+
+    }
+    else if(m_runUpwards == false) {
+
+      m_elevator.runElevator(-Constants.elevator_RUN_SPEED);
+
+    }
 
   }
 

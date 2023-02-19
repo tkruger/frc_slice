@@ -98,6 +98,7 @@ public final class Constants {
 
     //Define Limelight Constants
 
+        //Define Alignment Speeds (these are placeholders for now)
         public static final double limelight_TURN_ALIGNMENT_SPEED = 0.5;
         public static final double limelight_FORWARD_ALIGNMENT_SPEED = 0.4;
 

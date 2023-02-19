@@ -298,7 +298,7 @@ public class Drivetrain extends SubsystemBase {
       getLeftSideDistance(), 
       getRightSideDistance());
 
-      botPose = Limelight.getBotPose();
+      botPose = Limelight.getBotPoseBlue();
 
       if(botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1)) {
 

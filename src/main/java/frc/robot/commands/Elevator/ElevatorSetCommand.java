@@ -16,6 +16,11 @@ public class ElevatorSetCommand extends CommandBase {
   private boolean leftTargetPositionReached;
   private boolean rightTargetPositionReached;
 
+  private double elevatorSpeed;
+
+  private double leftSpeed;
+  private double rightSpeed;
+
   /** Creates a new ElevatorSetCommand. */
   public ElevatorSetCommand(Elevator elevator, double targetPosition) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,43 +38,53 @@ public class ElevatorSetCommand extends CommandBase {
     leftTargetPositionReached = false;
     rightTargetPositionReached = false;
 
+    elevatorSpeed = Constants.elevator_SET_SPEED;
+
+    leftSpeed = 0;
+    rightSpeed = 0;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if(m_targetPosition < m_elevator.getLeftMotorPosition() - 1) {
+    if(m_targetPosition + 1 < m_elevator.getLeftMotorPosition()) {
 
-      m_elevator.runLeftMotor(true, Constants.elevator_SET_SPEED);
+      leftSpeed = -elevatorSpeed;
 
     }
-    else if(m_targetPosition > m_elevator.getLeftMotorPosition() + 1){
+    else if(m_targetPosition - 1 > m_elevator.getLeftMotorPosition()){
 
-      m_elevator.runLeftMotor(false, Constants.elevator_SET_SPEED);
+      leftSpeed = elevatorSpeed;
 
     }
     else {
 
       leftTargetPositionReached = true;
+      leftSpeed = 0;
 
     }
 
-    if(m_targetPosition < m_elevator.getRightMotorPosition() - 1) {
+    if(m_targetPosition + 1 < m_elevator.getRightMotorPosition()) {
 
-      m_elevator.runRightMotor(true, Constants.elevator_SET_SPEED);
+      rightSpeed = -elevatorSpeed;
 
     }
-    else if(m_targetPosition > m_elevator.getRightMotorPosition() + 1) {
+    else if(m_targetPosition - 1 > m_elevator.getRightMotorPosition()) {
 
-      m_elevator.runRightMotor(false, Constants.elevator_SET_SPEED);
+      rightSpeed = elevatorSpeed;
 
     }
     else {
 
       rightTargetPositionReached = true;
+      rightSpeed = 0;
 
     }
+
+    m_elevator.runLeftMotor(leftSpeed);
+    m_elevator.runRightMotor(rightSpeed);
 
   }
 

@@ -107,6 +107,9 @@ public class RobotContainer {
     //Execute Elevator Position Reset
     Button.zeroElevatorPosition.onTrue(m_zeroElevatorPosition);
 
+    //Enable Limelight Alignment
+    Button.limelightAlign.whileTrue(m_limelightAlign);
+
   }
 
   /**
