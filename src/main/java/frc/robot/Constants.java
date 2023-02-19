@@ -47,6 +47,11 @@ public final class Constants {
         public static final int elevator_LEFT_PORT = -314159;
         public static final int elevator_RIGHT_PORT = -100000000;
 
+        //P, I, and D gains for the elevator when going to a set position
+        public static final double elevator_KP = 0.1;
+        public static final double elevator_KI = 0;
+        public static final double elevator_KD = 0;
+
     //Define Wrist Constants
 
         //Define Motor Ports (this is a placeholder for now)

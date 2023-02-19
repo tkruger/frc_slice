@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,6 +21,8 @@ public class Elevator extends SubsystemBase {
 
   private final RelativeEncoder leftEncoder, rightEncoder;
 
+  private final SparkMaxPIDController leftPID, rightPID;
+
   /** Creates a new Elevator. */
   public Elevator() {
 
@@ -27,6 +31,9 @@ public class Elevator extends SubsystemBase {
 
     leftEncoder = leftMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
     rightEncoder = rightMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
+
+    leftPID = leftMotor.getPIDController();
+    rightPID = rightMotor.getPIDController();
 
   }
 
@@ -93,6 +100,25 @@ public class Elevator extends SubsystemBase {
 
     }
 
+  }
+
+  public void setPID(double kP, double kI, double kD) {
+    leftPID.setP(kP);
+    leftPID.setI(kI);
+    leftPID.setD(kD);
+    rightPID.setP(kP);
+    rightPID.setI(kI);
+    rightPID.setD(kD);
+  }
+
+  public void setPosition(double position) {
+    leftPID.setReference(position, ControlType.kPosition);
+    rightPID.setReference(position, ControlType.kPosition);
+  }
+
+  public void setEncoders(double position) {
+    leftEncoder.setPosition(position);
+    rightEncoder.setPosition(position);
   }
 
   /**
