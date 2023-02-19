@@ -12,22 +12,20 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
-  /** Creates a new Limelight. */
 
   private final NetworkTable table;
   
-  private static double targetDetected;
+  private double targetDetected;
 
   private double targetXOffset;
   private double targetYOffset;
 
-  private static double[] currentBotPose;
-  private static double[] lastBotPose;
-
+  private static double[] currentBotPoseBlue;
+  private static double[] lastBotPoseBlue;
   private double[] lastRobotTargetSpacePose;
   private double[] currentRobotTargetSpacePose;
 
-  private static double aprilTagID;
+  private double aprilTagID;
 
   private final NetworkTableEntry ledMode;
 
@@ -35,6 +33,7 @@ public class Limelight extends SubsystemBase {
 
   private final NetworkTableEntry pipeline;
 
+  /** Creates a new Limelight. */
   public Limelight() {
 
     table = NetworkTableInstance.getDefault().getTable("limelight-slice");
@@ -50,10 +49,11 @@ public class Limelight extends SubsystemBase {
     // This method will be called once per scheduler run
 
     targetDetected = table.getEntry("tv").getDouble(0);
+
     targetXOffset = table.getEntry("tx").getDouble(0);
     targetYOffset = table.getEntry("ty").getDouble(0);
 
-    currentBotPose = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    currentBotPoseBlue = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
     currentRobotTargetSpacePose = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     if(currentRobotTargetSpacePose != null) {
@@ -84,13 +84,13 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public static Pose2d getBotPose() {
+  public static Pose2d getBotPoseBlue() {
 
-    lastBotPose = currentBotPose;
+    lastBotPoseBlue = currentBotPoseBlue;
 
-    if(lastBotPose != null) {
+    if(lastBotPoseBlue != null) {
 
-      return new Pose2d(lastBotPose[0], lastBotPose[1], Rotation2d.fromDegrees(lastBotPose[5]));
+      return new Pose2d(lastBotPoseBlue[0], lastBotPoseBlue[1], Rotation2d.fromDegrees(lastBotPoseBlue[5]));
 
     }
     else {

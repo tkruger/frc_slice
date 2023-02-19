@@ -28,6 +28,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final Drivetrain m_drivetrain = new Drivetrain();
   public final Elevator m_elevator = new Elevator();
+  public final Wrist m_wrist = new Wrist();
+  public final Intake m_intake = new Intake();
   public final Limelight m_limelight = new Limelight();
   public final ColorSensor m_colorSensor = new ColorSensor();
 
@@ -44,8 +46,13 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
+  public final ElevatorSetCommand m_elevatorSetRowTwo = new ElevatorSetCommand(m_elevator, Constants.elevator_ROW_TWO_POSITION);
+  public final ElevatorSetCommand m_elevatorSetRowThree = new ElevatorSetCommand(m_elevator, Constants.elevator_ROW_THREE_POSITION);
+  public final ZeroElevatorPositionCommand m_zeroElevatorPosition = new ZeroElevatorPositionCommand(m_elevator);
 
-  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain);
+  public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
+
+  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -54,9 +61,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(m_oldDrive);
-    m_elevator.setDefaultCommand(new ElevatorIdleCommand(m_elevator));
-    m_limelight.setDefaultCommand(new LimelightIdleCommand(m_limelight));
-    m_colorSensor.setDefaultCommand(new idleCommand());
+    m_elevator.setDefaultCommand(new IdleCommand(m_elevator));
+    m_wrist.setDefaultCommand(new IdleCommand(m_wrist));
+    m_intake.setDefaultCommand(new IdleCommand(m_intake));
+    m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
+    m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
 
   }
 
@@ -94,6 +103,12 @@ public class RobotContainer {
 
     //Enable Elevator Moving Downwards
     Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
+
+    //Execute Elevator Position Reset
+    Button.zeroElevatorPosition.onTrue(m_zeroElevatorPosition);
+
+    //Enable Limelight Alignment
+    Button.limelightAlign.whileTrue(m_limelightAlign);
 
   }
 

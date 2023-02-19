@@ -7,7 +7,7 @@ import frc.robot.auto.AutoPaths;
 import frc.robot.auto.AutoSelector;
 import frc.robot.subsystems.Drivetrain;
 
-public class GridToChargeStationPath extends AutoPaths{
+public class GridToChargeStationPath extends AutoPaths {
     
     public GridToChargeStationPath(AutoSelector.StartingPosition startPosition, Drivetrain drive) {
 

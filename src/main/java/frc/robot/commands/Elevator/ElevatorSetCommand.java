@@ -5,7 +5,7 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorSetCommand extends CommandBase {
@@ -15,6 +15,11 @@ public class ElevatorSetCommand extends CommandBase {
 
   private boolean leftTargetPositionReached;
   private boolean rightTargetPositionReached;
+
+  private double elevatorSpeed;
+
+  private double leftSpeed;
+  private double rightSpeed;
 
   /** Creates a new ElevatorSetCommand. */
   public ElevatorSetCommand(Elevator elevator, double targetPosition) {
@@ -33,43 +38,53 @@ public class ElevatorSetCommand extends CommandBase {
     leftTargetPositionReached = false;
     rightTargetPositionReached = false;
 
+    elevatorSpeed = Constants.elevator_SET_SPEED;
+
+    leftSpeed = 0;
+    rightSpeed = 0;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if(m_targetPosition < m_elevator.getLeftEncoderPosition() - 1) {
+    if(m_targetPosition + 1 < m_elevator.getLeftMotorPosition()) {
 
-      m_elevator.runLeftMotor(true, 0.5);
+      leftSpeed = -elevatorSpeed;
 
     }
-    else if(m_targetPosition > m_elevator.getLeftEncoderPosition() + 1){
+    else if(m_targetPosition - 1 > m_elevator.getLeftMotorPosition()){
 
-      m_elevator.runLeftMotor(false, 0.5);
+      leftSpeed = elevatorSpeed;
 
     }
     else {
 
       leftTargetPositionReached = true;
+      leftSpeed = 0;
 
     }
 
-    if(m_targetPosition < m_elevator.getRightEncoderPosition() - 1) {
+    if(m_targetPosition + 1 < m_elevator.getRightMotorPosition()) {
 
-      m_elevator.runRightMotor(true, 0.5);
+      rightSpeed = -elevatorSpeed;
 
     }
-    else if(m_targetPosition > m_elevator.getRightEncoderPosition() + 1) {
+    else if(m_targetPosition - 1 > m_elevator.getRightMotorPosition()) {
 
-      m_elevator.runRightMotor(false, 0.5);
+      rightSpeed = elevatorSpeed;
 
     }
     else {
 
       rightTargetPositionReached = true;
+      rightSpeed = 0;
 
     }
+
+    m_elevator.runLeftMotor(leftSpeed);
+    m_elevator.runRightMotor(rightSpeed);
 
   }
 

@@ -7,9 +7,15 @@ package frc.robot.commands.Elevator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorIdleCommand extends CommandBase {
-  /** Creates a new ElevatorIdleCommand. */
-  public ElevatorIdleCommand(Elevator elevator) {
+public class ZeroElevatorPositionCommand extends CommandBase {
+
+  private final Elevator m_elevator;
+
+  /** Creates a new ZeroElevatorPositionCommand. */
+  public ZeroElevatorPositionCommand(Elevator elevator) {
+
+    m_elevator = elevator;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
 
@@ -17,7 +23,12 @@ public class ElevatorIdleCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    m_elevator.setLeftMotorPosition(0);
+    m_elevator.setRightMotorPosition(0);
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -30,6 +41,9 @@ public class ElevatorIdleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+    return true;
+    
   }
+
 }
