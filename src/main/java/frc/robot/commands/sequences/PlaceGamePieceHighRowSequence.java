@@ -5,10 +5,9 @@
 package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
-import frc.robot.commands.Intake.CloseMandibles;
+import frc.robot.commands.Intake.OpenMandibles;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -16,19 +15,19 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PickUpGamePieceSequence extends SequentialCommandGroup {
-  /** Creates a new PickUpGamePieceSequence. */
-  public PickUpGamePieceSequence(Elevator elevator, Wrist wrist, Intake intake) {
+public class PlaceGamePieceHighRowSequence extends SequentialCommandGroup {
+  /** Creates a new PlaceGamePieceHighRowSequence. */
+  public PlaceGamePieceHighRowSequence(Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setGroundPickUpState = new GoToStateCommand(elevator, wrist, Constants.GROUND_PICK_UP_STATE);
-    CloseMandibles closeMandibles = new CloseMandibles(intake);
+    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.HIGH_ROW_STATE);
+    OpenMandibles openMandibles = new OpenMandibles(intake);
     GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.TRAVEL_STATE);
 
     addCommands(
-      setGroundPickUpState,
-      closeMandibles,
+      setHighRowState,
+      openMandibles,
       setTravelState
     );
 

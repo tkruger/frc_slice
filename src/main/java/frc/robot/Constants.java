@@ -58,10 +58,6 @@ public final class Constants {
         public static final double elevator_RUN_SPEED = 0.5;
         public static final double elevator_SET_SPEED = 0.7;
 
-        //Define Set Positions (these are placeholders for now)
-        public static final double elevator_ROW_TWO_POSITION = 0;
-        public static final double elevator_ROW_THREE_POSITION = 0;
-
     //Define Wrist Constants
 
         //Define Motor Ports (this is a placeholder for now)
@@ -73,10 +69,6 @@ public final class Constants {
         //Define angles the intake is at from horizontal at maximum and minimum points (this is a placeholder for now)
         public static final double wrist_MAX_ANGLE = 120;
         public static final double wrist_MIN_ANGLE = -30;
-
-        //Define angles for placing and picking up game pieces (these are placeholders for now)
-        public static final double wrist_GAME_PIECE_PLACE_ANGLE = 0;
-        public static final double wrist_GAME_PIECE_PICK_UP_ANGLE = 0;
 
         //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
         public static final double wrist_RESET_SPEED = 0.1;
@@ -107,6 +99,15 @@ public final class Constants {
         public static final double limelight_TURN_ALIGNMENT_SPEED = 0.5;
         public static final double limelight_FORWARD_ALIGNMENT_SPEED = 0.4;
 
+    //Define Robot State Constants (these all use placholder values as parameters for now)
+
+        public static final RobotState GROUND_PICK_UP_STATE = new RobotState(0, 0);
+        public static final RobotState LOW_ROW_STATE = new RobotState(0, 0);
+        public static final RobotState MID_ROW_STATE = new RobotState(0, 0);
+        public static final RobotState HIGH_ROW_STATE = new RobotState(0, 0);
+        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(0, 0);
+        public static final RobotState TRAVEL_STATE = new RobotState(0, 0);
+
     //Define Autonomous Constants
 
         public static final double kRamseteB = 2;
@@ -120,5 +121,5 @@ public final class Constants {
     
         //public static final double kPDriveVel = 3.6372;
         public static final double kPDriveVel = 3.0;
-        
+
 }

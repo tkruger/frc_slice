@@ -14,7 +14,7 @@ import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
 import frc.robot.commands.sequences.PickUpGamePieceSequence;
-import frc.robot.commands.sequences.PlaceGamePieceRowTwoSequence;
+import frc.robot.commands.sequences.PlaceGamePieceMidRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -29,13 +29,13 @@ public class TwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    PlaceGamePieceRowTwoSequence placeGamePiece1 = new PlaceGamePieceRowTwoSequence(elevator, wrist, intake);
+    PlaceGamePieceMidRowSequence placeGamePiece1 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition, drive);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PickUpGamePieceSequence pickUpGamePiece = new PickUpGamePieceSequence(elevator, wrist, intake);
     QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
     GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition, drive);
-    PlaceGamePieceRowTwoSequence placeGamePiece2 = new PlaceGamePieceRowTwoSequence(elevator, wrist, intake);
+    PlaceGamePieceMidRowSequence placeGamePiece2 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition, drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 

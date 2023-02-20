@@ -46,8 +46,9 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
-  public final ElevatorSetCommand m_elevatorSetRowTwo = new ElevatorSetCommand(m_elevator, Constants.elevator_ROW_TWO_POSITION);
-  public final ElevatorSetCommand m_elevatorSetRowThree = new ElevatorSetCommand(m_elevator, Constants.elevator_ROW_THREE_POSITION);
+  public final ElevatorSetCommand m_elevatorSetLowRow = new ElevatorSetCommand(m_elevator, Constants.LOW_ROW_STATE.elevatorHeight);
+  public final ElevatorSetCommand m_elevatorSetMidRow = new ElevatorSetCommand(m_elevator, Constants.MID_ROW_STATE.elevatorHeight);
+  public final ElevatorSetCommand m_elevatorSetHighRow = new ElevatorSetCommand(m_elevator, Constants.HIGH_ROW_STATE.elevatorHeight);
   public final ZeroElevatorPositionCommand m_zeroElevatorPosition = new ZeroElevatorPositionCommand(m_elevator);
 
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);

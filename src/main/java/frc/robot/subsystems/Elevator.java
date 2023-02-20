@@ -54,7 +54,7 @@ public class Elevator extends SubsystemBase {
    * 
    * @param speed The desired speed for the left elevator motor to run at(-1, 1).
    */
-  public void runLeftMotor( double speed) {
+  public void runLeftMotor(double speed) {
 
       leftMotor.set(speed);
 
