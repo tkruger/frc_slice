@@ -49,14 +49,18 @@ public final class Constants {
         public static final int elevator_LEFT_PORT = -314159;
         public static final int elevator_RIGHT_PORT = -100000000;
 
-        //P, I, and D gains for the elevator when going to a set position
+        //P, I, and D gains for the elevator when going to a set position (these are placeholders)
         public static final double elevator_KP = 0.1;
         public static final double elevator_KI = 0;
         public static final double elevator_KD = 0;
         
         //Define Motor Speeds (these are placholders for now)
         public static final double elevator_RUN_SPEED = 0.5;
-        public static final double elevator_SET_SPEED = 0.7;
+        public static final double elevator_SET_SPEED = 0.7; // May be deprecated with PID
+
+        //Define Elevator Limit Switch Channels (this is a placeholder for now) 
+        public static final int elevator_LOW_LIMIT_SWITCH_CHANNEL = -13;
+        public static final int elevator_HIGH_LIMIT_SWITCH_CHANNEL = -13;
 
     //Define Wrist Constants
 
@@ -92,6 +96,12 @@ public final class Constants {
         public static final double intake_MANDIBLE_KP = 0.1;
         public static final double intake_MANDIBLE_KI = 0;
         public static final double intake_MANDIBLE_KD = 0;
+
+        //Define threshold current (in amps) we must exceed so we know the intake is open/closed (this is a placeholder)
+        public static final double intake_CALIBRATION_CURRENT_THRESHOLD = 7.0;
+
+        //Define the speed the mandibles run at when calibrating (this is a placeholder)
+        public static final double intake_CALIBRATION_SPEED = -0.1;
 
     //Define Limelight Constants
 

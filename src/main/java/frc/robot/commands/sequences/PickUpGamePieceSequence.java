@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
-import frc.robot.commands.Intake.CloseMandibles;
+import frc.robot.commands.Intake.CloseMandiblesCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -23,7 +23,7 @@ public class PickUpGamePieceSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     GoToStateCommand setGroundPickUpState = new GoToStateCommand(elevator, wrist, Constants.GROUND_PICK_UP_STATE);
-    CloseMandibles closeMandibles = new CloseMandibles(intake);
+    CloseMandiblesCommand closeMandibles = new CloseMandiblesCommand(intake);
     GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.TRAVEL_STATE);
 
     addCommands(

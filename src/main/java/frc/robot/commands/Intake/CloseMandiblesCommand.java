@@ -6,40 +6,35 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Intake;
 
-public class AutoMandibles extends CommandBase {
-  
-  private final Intake m_intake;
-  private final ColorSensor m_colorSensor;
+/**
+ * A simple command that tells the mandibles on the intake to close, then immediately ends
+ */
+public class CloseMandiblesCommand extends CommandBase {
 
-  /** Creates a new AutoMandibles. */
-  public AutoMandibles(Intake intake, ColorSensor colorSensor) {
+  private final Intake m_intake;
+
+  /** Creates a new OpenMandibles.
+   * @param intake the intake subsystem it controls
+   */
+  public CloseMandiblesCommand(Intake intake) {
     m_intake = intake;
-    m_colorSensor = colorSensor;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
-    // I don't think the color sensor needs a dependency here because multiple things can access the color sensor at the same time
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_intake.setMandiblePID(Constants.intake_MANDIBLE_KP, Constants.intake_MANDIBLE_KI, Constants.intake_MANDIBLE_KD);
+    m_intake.closeMandibles();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // Check if game piece is a cone
-    if (m_colorSensor.getGamePiece() == 2) {
-      m_intake.closeMandibles();
-    }else {
-      m_intake.openMandibles();
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -48,6 +43,6 @@ public class AutoMandibles extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -49,28 +49,6 @@ public class Elevator extends SubsystemBase {
 
   }
 
-  /**
-   * Runs only the left elevator motor at a desired speed(-1, 1).
-   * 
-   * @param speed The desired speed for the left elevator motor to run at(-1, 1).
-   */
-  public void runLeftMotor(double speed) {
-
-      leftMotor.set(speed);
-
-  }
-
-   /**
-   * Runs only the right elevator motor at a desired speed(-1, 1).
-   * 
-   * @param speed The desired speed for the right elevator motor to run at(-1, 1).
-   */
-  public void runRightMotor(double speed) {
-
-      rightMotor.set(speed);
-
-  }
-
   public void setPID(double kP, double kI, double kD) {
     leftPID.setP(kP);
     leftPID.setI(kI);
@@ -114,25 +92,15 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-   * Resets the left elevator motor to a desired position(rotations).
+   * Resets the encoder to a desired positon (rotations)
    * 
-   * @param position The desired position to set the left elevator motor to(rotations).
+   * @param position The desired position to set the motors to(rotations).
    */
-  public void setLeftMotorPosition(double position) {
+  public void setEncoderPosition(double position) {
 
     leftEncoder.setPosition(position);
-
-  }
-
-  /**
-   * Resets the right elevator motor to a desired position(rotations).
-   * 
-   * @param position The desired position to set the right elevator motor to(rotations).
-   */
-  public void setRightMotorPosition(double position) {
-
-    leftEncoder.setPosition(position);
-
+    rightEncoder.setPosition(position);
+    
   }
 
   /**

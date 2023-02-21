@@ -11,14 +11,14 @@ import frc.robot.subsystems.Intake;
 /**
  * A simple command that tells the mandibles on the intake to open, then immediately ends
  */
-public class OpenMandibles extends CommandBase {
+public class OpenMandiblesCommand extends CommandBase {
 
   private final Intake m_intake;
 
   /** Creates a new OpenMandibles.
    * @param intake the intake subsystem it controls
    */
-  public OpenMandibles(Intake intake) {
+  public OpenMandiblesCommand(Intake intake) {
     m_intake = intake;
 
     // Use addRequirements() here to declare subsystem dependencies.

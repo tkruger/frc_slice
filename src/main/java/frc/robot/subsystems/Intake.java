@@ -58,6 +58,14 @@ public class Intake extends SubsystemBase {
   }
 
   /**
+   * Manually spin the mandible motor at a given speed
+   * @param speed the speed the mandible motor spins at, from 1 to -1
+   */
+  public void runMandibles(double speed) {
+    mandibleMotor.set(speed);
+  }
+
+  /**
    * Spins the wheels along the intake
    * @param speed the speed the wheels spin at, from 1 to -1. If positive, intake. if negative, eject.
    */
@@ -76,12 +84,24 @@ public class Intake extends SubsystemBase {
   }
 
   /**
+   * Resets the position reported by the encoder of the mandibles to the desired position
+   * @param position the position the encoder will be set to, in rotations
+   */
+  public void setMandibleEncoderPosition(double position) {
+    mandibleEncoder.setPosition(position);
+  }
+
+  /**
    * @return the angular position of the intake wheels, in [UNITS GO HERE]
    */
   public double getRotateEncoderPosition() {
 
     return rotateEncoder.getPosition();
 
+  }
+
+  public boolean mandibleVoltageSpike() {
+    return mandibleMotor.getOutputCurrent() > Constants.intake_CALIBRATION_CURRENT_THRESHOLD;
   }
 
   @Override
