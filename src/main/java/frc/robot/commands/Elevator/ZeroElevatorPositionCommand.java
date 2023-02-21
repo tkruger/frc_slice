@@ -25,9 +25,7 @@ public class ZeroElevatorPositionCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_elevator.setLeftMotorPosition(0);
-    m_elevator.setRightMotorPosition(0);
-
+    m_elevator.setEncoderPosition(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

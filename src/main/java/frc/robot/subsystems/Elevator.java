@@ -65,7 +65,7 @@ public class Elevator extends SubsystemBase {
    */
   public void setPosition(double position) {
     leftPID.setReference(position, ControlType.kPosition);
-    rightPID.setReference(position, ControlType.kPosition);
+    rightPID.setReference(-position, ControlType.kPosition);
   }
 
 
@@ -100,7 +100,7 @@ public class Elevator extends SubsystemBase {
 
     leftEncoder.setPosition(position);
     rightEncoder.setPosition(position);
-    
+
   }
 
   /**
