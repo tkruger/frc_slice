@@ -82,6 +82,11 @@ public final class Constants {
         public static final double wrist_KI = 0;
         public static final double wrist_KD = 0;
 
+        //Define position conversion ratio to convert motor rotations to forearm angle in degrees 
+        private static final double wrist_GEARBOX_RATIO = 1/25;
+        private static final double wrist_SPROCKET_RATIO = 18/60;
+        public static final double wrist_POSITION_CONVERSION_RATIO = wrist_GEARBOX_RATIO * wrist_SPROCKET_RATIO * 360;
+
     //Define Intake Constants (currently placeholders)
 
         //Define Motor Ports

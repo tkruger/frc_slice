@@ -29,6 +29,7 @@ public class Wrist extends SubsystemBase {
   public Wrist() {
     motor = SparkMaxFactory.createDefaultSparkMax(Constants.wrist_MOTOR_PORT);
     encoder = motor.getEncoder();
+    encoder.setPositionConversionFactor(Constants.wrist_POSITION_CONVERSION_RATIO);
     pidController = motor.getPIDController();
 
     stowLimitSwitch = new DigitalInput(Constants.wrist_LIMIT_SWITCH_CHANNEL);
