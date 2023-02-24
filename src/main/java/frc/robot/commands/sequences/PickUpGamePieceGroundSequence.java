@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
+import frc.robot.commands.Intake.AutoMandiblesCommand;
 import frc.robot.commands.Intake.CloseMandiblesCommand;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -18,12 +20,12 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PickUpGamePieceGroundSequence extends SequentialCommandGroup {
   /** Creates a new PickUpGamePieceSequence. */
-  public PickUpGamePieceGroundSequence(Elevator elevator, Wrist wrist, Intake intake) {
+  public PickUpGamePieceGroundSequence(Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     GoToStateCommand setGroundPickUpState = new GoToStateCommand(elevator, wrist, Constants.GROUND_PICK_UP_STATE);
-    CloseMandiblesCommand closeMandibles = new CloseMandiblesCommand(intake);
+    AutoMandiblesCommand closeMandibles = new AutoMandiblesCommand(intake, colorSensor);
     GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.TRAVEL_STATE);
 
     addCommands(
