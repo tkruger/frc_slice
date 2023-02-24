@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
 import frc.robot.commands.Intake.AutoMandiblesCommand;
-import frc.robot.commands.Intake.CloseMandiblesCommand;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;

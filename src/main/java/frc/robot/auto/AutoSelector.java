@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.modes.OneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.TwoCubesThenEngageMode;
 import frc.robot.commands.sequences.PlaceGamePieceHighRowSequence;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -46,13 +47,15 @@ public class AutoSelector {
     private final Elevator m_elevator;
     private final Wrist m_wrist;
     private final Intake m_intake;
+    private final ColorSensor m_colorSensor;
 
-    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake) {
+    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
 
         m_drivetrain = drivetrain;
         m_elevator = elevator;
         m_wrist = wrist;
         m_intake = intake;
+        m_colorSensor = colorSensor;
 
         startingPositionChooser = new SendableChooser<>();
 
@@ -101,7 +104,7 @@ public class AutoSelector {
         switch(mode) {
 
             case TWO_CUBES_THEN_ENGAGE:
-                return Optional.of(new TwoCubesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new TwoCubesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
             case ONE_CUBE_GO_OUT_THEN_ENGAGE:
                 return Optional.of(new OneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_CONE_HIGH_ROW:
