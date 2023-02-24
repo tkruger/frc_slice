@@ -3,7 +3,8 @@ package frc.robot.auto;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.auto.modes.TwoGamePiecesThenEngageMode;
+import frc.robot.auto.modes.OneCubeGoOutThenEngageMode;
+import frc.robot.auto.modes.TwoCubesThenEngageMode;
 import frc.robot.commands.sequences.PlaceGamePieceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
@@ -27,8 +28,9 @@ public class AutoSelector {
 
     public enum DesiredMode {
 
-        TWO_GAME_PIECES_THEN_ENGAGE,
-        SCORE_CONE_HIGH_ROW
+        TWO_CUBES_THEN_ENGAGE,
+        ONE_CUBE_GO_OUT_THEN_ENGAGE,
+        SCORE_CONE_HIGH_ROW,
 
     }
 
@@ -66,8 +68,9 @@ public class AutoSelector {
 
         modeChooser = new SendableChooser<>();
 
-        modeChooser.setDefaultOption("Two Game Pieces Then Engage", DesiredMode.TWO_GAME_PIECES_THEN_ENGAGE);
+        modeChooser.setDefaultOption("Two Cubes Then Engage", DesiredMode.TWO_CUBES_THEN_ENGAGE);
 
+        modeChooser.addOption("One Cube Go Out Then Engage", DesiredMode.ONE_CUBE_GO_OUT_THEN_ENGAGE);
         modeChooser.addOption("Score Cone High Row", DesiredMode.SCORE_CONE_HIGH_ROW);
 
         SmartDashboard.putData("Auto Mode", modeChooser);
@@ -97,8 +100,10 @@ public class AutoSelector {
 
         switch(mode) {
 
-            case TWO_GAME_PIECES_THEN_ENGAGE:
-                return Optional.of(new TwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case TWO_CUBES_THEN_ENGAGE:
+                return Optional.of(new TwoCubesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case ONE_CUBE_GO_OUT_THEN_ENGAGE:
+                return Optional.of(new OneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_CONE_HIGH_ROW:
                 return Optional.of(new PlaceGamePieceHighRowSequence(m_elevator, m_wrist, m_intake));
             default:
