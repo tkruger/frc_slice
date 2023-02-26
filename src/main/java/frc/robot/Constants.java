@@ -19,7 +19,7 @@ public final class Constants {
 
     //Define Drivetrain Motor Ports
     public static final int drivetrain_LEFT_FRONT_PORT = 3;
-    public static final int drivetrain_LEFT_BACK_PORT = 1;
-    public static final int drivetrain_RIGHT_FRONT_PORT = 4;
-    public static final int drivetrain_RIGHT_BACK_PORT = 2;
+    public static final int drivetrain_LEFT_BACK_PORT = 4;
+    public static final int drivetrain_RIGHT_FRONT_PORT = 7;
+    public static final int drivetrain_RIGHT_BACK_PORT = 8;
 }
