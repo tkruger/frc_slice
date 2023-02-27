@@ -30,9 +30,9 @@ public final class Constants {
 
         //Define Motor Ports
         public static final int drivetrain_LEFT_FRONT_PORT = 3;
-        public static final int drivetrain_LEFT_BACK_PORT = 1;
-        public static final int drivetrain_RIGHT_FRONT_PORT = 4;
-        public static final int drivetrain_RIGHT_BACK_PORT = 2;
+        public static final int drivetrain_LEFT_BACK_PORT = 4;
+        public static final int drivetrain_RIGHT_FRONT_PORT = 7;
+        public static final int drivetrain_RIGHT_BACK_PORT = 8;
 
         //Define Drivetrain Encoder Constants
         public static final double drivetrain_WHEEL_DIAMETER_METERS = 0.15;
@@ -46,8 +46,8 @@ public final class Constants {
     //Define Elevator Constants
 
         //Define Motor Ports (these are placeholders for now)
-        public static final int elevator_LEFT_PORT = -314159;
-        public static final int elevator_RIGHT_PORT = -100000000;
+        public static final int elevator_LEFT_PORT = 1;
+        public static final int elevator_RIGHT_PORT = 2;
 
         //P, I, and D gains for the elevator when going to a set position (these are placeholders)
         public static final double elevator_KP = 0.1;
@@ -59,16 +59,16 @@ public final class Constants {
         public static final double elevator_SET_SPEED = 0.7; // May be deprecated with PID
 
         //Define Elevator Limit Switch Channels (this is a placeholder for now) 
-        public static final int elevator_LOW_LIMIT_SWITCH_CHANNEL = -13;
-        public static final int elevator_HIGH_LIMIT_SWITCH_CHANNEL = -13;
+        public static final int elevator_LOW_LIMIT_SWITCH_CHANNEL = 31;
+        public static final int elevator_HIGH_LIMIT_SWITCH_CHANNEL = 31;
 
     //Define Wrist Constants
 
         //Define Motor Ports (this is a placeholder for now)
-        public static final int wrist_MOTOR_PORT = -13;
+        public static final int wrist_MOTOR_PORT = 31;
 
         //Define Limit Switch Channels (this is a placeholder for now)
-        public static final int wrist_LIMIT_SWITCH_CHANNEL = -13;
+        public static final int wrist_LIMIT_SWITCH_CHANNEL = 30;
 
         //Define angles the intake is at from horizontal at maximum and minimum points (this is a placeholder for now)
         public static final double wrist_MAX_ANGLE = 120;
@@ -85,8 +85,8 @@ public final class Constants {
     //Define Intake Constants (currently placeholders)
 
         //Define Motor Ports
-        public static final int intake_PIVOT_PORT = -1;
-        public static final int intake_MANDIBLE_PORT = -2;
+        public static final int intake_PIVOT_PORT = 29;
+        public static final int intake_MANDIBLE_PORT = 28;
 
         //Define open and closed positions
         public static final double intake_MANDIBLE_CLOSED_POSITION = 0;
