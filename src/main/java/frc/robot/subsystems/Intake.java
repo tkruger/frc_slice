@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
 
   private final RelativeEncoder mandibleEncoder, rotateEncoder;
 
-  private final SparkMaxPIDController mandiblePID, rotatePID;
+  private final SparkMaxPIDController mandiblePID/*, rotatePID*/;
 
   /** Creates a new Elevator. */
   public Intake() {
@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
     rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
 
     mandiblePID = mandibleMotor.getPIDController();
-    rotatePID = rotateMotor.getPIDController();
+    //rotatePID = rotateMotor.getPIDController();
 
   }
 

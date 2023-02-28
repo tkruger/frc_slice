@@ -57,7 +57,7 @@ public class QuickTurnPIDCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        double currentRot = m_drivetrain.getHeading();
+        //double currentRot = m_drivetrain.getHeading();
 
         if(Math.abs(m_drivetrain.getRotation2d().getDegrees() - endRot.getDegrees()) < 7) {
             return true;
