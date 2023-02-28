@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     m_robotContainer.m_autoSelector.updateModeCreator();
+    m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
 
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.m_autoSelector.reset();
     m_robotContainer.m_autoSelector.updateModeCreator();
+    m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
 
@@ -65,6 +67,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
 
     m_robotContainer.m_autoSelector.updateModeCreator();
+    m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
 

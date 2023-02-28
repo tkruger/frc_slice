@@ -1,15 +1,19 @@
 package frc.robot.auto;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.modes.OneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.TwoCubesThenEngageMode;
+import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
+import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.commands.sequences.PlaceGamePieceHighRowSequence;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 import java.util.Optional;
@@ -42,6 +46,12 @@ public class AutoSelector {
     private SendableChooser<DesiredMode> modeChooser;
 
     private Optional<SequentialCommandGroup> autoMode = Optional.empty();
+
+    private Optional<Pose2d> initialAutoPose;
+
+    private double initialAutoPoseXOffset;
+    private double initialAutoPoseYOffset;
+    private double initialAutoPoseRotationOffset;
 
     private final Drivetrain m_drivetrain;
     private final Elevator m_elevator;
@@ -111,11 +121,37 @@ public class AutoSelector {
                 return Optional.of(new PlaceGamePieceHighRowSequence(m_elevator, m_wrist, m_intake));
             default:
                 break;
-
+    
         }
 
         System.err.println("No valid auto mode found for " + mode);
         return Optional.empty();
+
+    }
+
+    public void updateInitialAutoPoseOffset() {
+
+        switch(storedDesiredMode) {
+
+            case TWO_CUBES_THEN_ENGAGE:
+                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition, m_drivetrain).trajectory.getInitialPose());
+                break;
+            case ONE_CUBE_GO_OUT_THEN_ENGAGE:
+                initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition, m_drivetrain).trajectory.getInitialPose());
+                break;
+            case SCORE_CONE_HIGH_ROW:
+                System.out.println("No initial pose is available for this mode");
+                initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+            default:
+                System.err.println("No valid initial auto pose found for " + storedDesiredMode);
+                initialAutoPose = Optional.empty();
+                break;
+
+        }
+
+        initialAutoPoseXOffset = initialAutoPose.get().getX() - Limelight.getBotPoseBlue().getX();
+        initialAutoPoseYOffset = initialAutoPose.get().getY() - Limelight.getBotPoseBlue().getY();
+        initialAutoPoseRotationOffset = initialAutoPose.get().getRotation().getDegrees() - Limelight.getBotPoseBlue().getRotation().getDegrees();
 
     }
 
@@ -124,13 +160,19 @@ public class AutoSelector {
         autoMode = Optional.empty();
         storedDesiredMode = null;
 
+        initialAutoPose = Optional.empty();
+
     }
 
     public void outputToSmartDashboard() {
 
         SmartDashboard.putString("Selected Auto Mode", storedDesiredMode.name());
         SmartDashboard.putString("Selected Starting Position", storedStartingPosition.name());
-        
+
+        SmartDashboard.putNumber("Initial Auto Pose X Offset", initialAutoPoseXOffset);
+        SmartDashboard.putNumber("Initial Auto Pose Y Offset", initialAutoPoseYOffset);
+        SmartDashboard.putNumber("Initial Auto Pose Rotation Offset", initialAutoPoseRotationOffset);
+
     }
 
     public SequentialCommandGroup getAutoMode() {
