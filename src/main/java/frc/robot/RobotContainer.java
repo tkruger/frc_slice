@@ -67,11 +67,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(m_oldDrive);
-    m_elevator.setDefaultCommand(new Idle(m_elevator));
-    m_wrist.setDefaultCommand(new Idle(m_wrist));
-    m_intake.setDefaultCommand(new Idle(m_intake));
-    m_limelight.setDefaultCommand(new Idle(m_limelight));
-    m_colorSensor.setDefaultCommand(new Idle(m_colorSensor));
+    m_elevator.setDefaultCommand(new IdleCommand(m_elevator));
+    m_wrist.setDefaultCommand(new IdleCommand(m_wrist));
+    m_intake.setDefaultCommand(new IdleCommand(m_intake));
+    m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
+    m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
 
   }
 

@@ -33,7 +33,7 @@ import edu.wpi.first.networktables.GenericEntry;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
-
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
@@ -60,8 +60,13 @@ public class Drivetrain extends SubsystemBase {
 
   private final ShuffleboardTab driveTab;
 
-  private final GenericEntry leftSidePositionWidget, rightSidePositionWidget, leftSideVelocityWidget, 
-      rightSideVelocityWidget, driveHeadingWidget, drivePitchWidget;
+  private final GenericEntry 
+  leftSidePositionWidget, 
+  rightSidePositionWidget, 
+  leftSideVelocityWidget, 
+  rightSideVelocityWidget, 
+  driveHeadingWidget, 
+  drivePitchWidget;
 
   private final Field2d m_field2d;
 
@@ -224,6 +229,27 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public void setIdleMode(boolean enableBrakeMode) {
+
+    if(enableBrakeMode) {
+
+      leftMotorFront.setIdleMode(IdleMode.kBrake);
+      leftMotorBack.setIdleMode(IdleMode.kBrake);
+      rightMotorFront.setIdleMode(IdleMode.kBrake);
+      rightMotorBack.setIdleMode(IdleMode.kBrake);
+
+    }
+    else {
+      
+      leftMotorFront.setIdleMode(IdleMode.kCoast);
+      leftMotorBack.setIdleMode(IdleMode.kCoast);
+      rightMotorFront.setIdleMode(IdleMode.kCoast);
+      rightMotorBack.setIdleMode(IdleMode.kCoast);
+
+    }
+
   }
 
   /**

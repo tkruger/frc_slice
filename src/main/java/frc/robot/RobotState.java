@@ -10,6 +10,15 @@ public class RobotState {
     public double elevatorHeight;
     public double wristAngle;
 
+    /**
+     * Creates a new instance of the RobotState data class. Use this 
+     * class to store the elevator heights(rotations for now) and the
+     * wrist angles(rotations for now) for the various elevator and 
+     * wrist configuration states.
+     * 
+     * @param elevatorHeight The elevator height(rotations for now) of the state.
+     * @param wristAngle The wrist angle(rotations for now) of the state.
+     */
     public RobotState(double elevatorHeight, double wristAngle) {
 
         this.elevatorHeight = elevatorHeight;

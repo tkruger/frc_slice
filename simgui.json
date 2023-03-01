@@ -148,6 +148,8 @@
       "/LiveWindow/Ungrouped/PIDController[99]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
+      "/Shuffleboard/Auto Tab/Auto Mode": "String Chooser",
+      "/Shuffleboard/Auto Tab/Starting Position": "String Chooser",
       "/Shuffleboard/Driver Tab/DifferentialDrive[1]": "DifferentialDrive",
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
@@ -159,7 +161,6 @@
           "arrows": false,
           "style": "Track"
         },
-        "image": "C:\\Code\\FRC 8738\\2023 Season\\frc_slice\\.Glass\\2023-field.png",
         "window": {
           "visible": true
         }

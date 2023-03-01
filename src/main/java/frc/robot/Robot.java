@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    m_robotContainer.m_autoSelector.outputToSmartDashboard();
+    m_robotContainer.m_autoSelector.outputToShuffleboard();
 
   }
 
@@ -81,6 +81,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
+    m_robotContainer.m_drivetrain.setIdleMode(true);
+
   }
 
   /** This function is called periodically during autonomous. */
@@ -96,6 +98,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.m_drivetrain.setIdleMode(false);
+
   }
 
   /** This function is called periodically during operator control. */

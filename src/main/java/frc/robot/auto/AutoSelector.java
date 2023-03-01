@@ -1,9 +1,12 @@
 package frc.robot.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.auto.modes.OneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.TwoCubesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
@@ -59,6 +62,15 @@ public class AutoSelector {
     private final Intake m_intake;
     private final ColorSensor m_colorSensor;
 
+    private final ShuffleboardTab autoTab;
+
+    private final SimpleWidget selectedAutoModeWidget;
+    private final SimpleWidget selectedStartingPositionWidget;
+
+    private final SimpleWidget autoPoseXOffsetWidget;
+    private final SimpleWidget autoPoseYOffsetWidget;
+    private final SimpleWidget autoPoseRotationOffsetWidget;
+
     public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
 
         m_drivetrain = drivetrain;
@@ -77,8 +89,6 @@ public class AutoSelector {
         startingPositionChooser.addOption("Red Middle", StartingPosition.RED_COMMUNITY_MIDDLE);
         startingPositionChooser.addOption("Red Right", StartingPosition.RED_COMMUNITY_RIGHT);
 
-        SmartDashboard.putData("Starting Position", startingPositionChooser);
-
         modeChooser = new SendableChooser<>();
 
         modeChooser.setDefaultOption("Two Cubes Then Engage", DesiredMode.TWO_CUBES_THEN_ENGAGE);
@@ -86,7 +96,34 @@ public class AutoSelector {
         modeChooser.addOption("One Cube Go Out Then Engage", DesiredMode.ONE_CUBE_GO_OUT_THEN_ENGAGE);
         modeChooser.addOption("Score Cone High Row", DesiredMode.SCORE_CONE_HIGH_ROW);
 
-        SmartDashboard.putData("Auto Mode", modeChooser);
+        autoTab = Shuffleboard.getTab("Auto Tab");
+
+        autoTab.add("Auto Mode", modeChooser).withPosition(2, 0).withSize(2, 1);
+        autoTab.add("Starting Position", startingPositionChooser).withPosition(4, 0).withSize(2, 1);
+
+        selectedAutoModeWidget = 
+        autoTab.add("Selected Auto Mode", "Two Cubes Then Engage").
+        withPosition(2, 1).
+        withSize(2, 1);
+        selectedStartingPositionWidget = 
+        autoTab.add("Selected Starting Position", "Blue Left").
+        withPosition(4, 1).
+        withSize(2, 1);
+
+        autoPoseXOffsetWidget = 
+        autoTab.add("Initial Auto Pose X Offset", initialAutoPoseXOffset).
+        withPosition(1, 2).
+        withSize(2, 1);
+
+        autoPoseYOffsetWidget = 
+        autoTab.add("Initial Auto Pose Y Offset", initialAutoPoseYOffset).
+        withPosition(5, 2).
+        withSize(2, 1);
+
+        autoPoseRotationOffsetWidget = 
+        autoTab.add("Initial Auto Pose Rotation Offset", initialAutoPoseRotationOffset).
+        withPosition(3, 2).
+        withSize(2, 1);
 
     }
 
@@ -131,6 +168,8 @@ public class AutoSelector {
 
     public void updateInitialAutoPoseOffset() {
 
+        Pose2d botPoseBlue = Limelight.getBotPoseBlue();
+
         switch(storedDesiredMode) {
 
             case TWO_CUBES_THEN_ENGAGE:
@@ -140,8 +179,9 @@ public class AutoSelector {
                 initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition, m_drivetrain).trajectory.getInitialPose());
                 break;
             case SCORE_CONE_HIGH_ROW:
-                System.out.println("No initial pose is available for this mode");
+                System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
                 initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                break;
             default:
                 System.err.println("No valid initial auto pose found for " + storedDesiredMode);
                 initialAutoPose = Optional.empty();
@@ -149,9 +189,13 @@ public class AutoSelector {
 
         }
 
-        initialAutoPoseXOffset = initialAutoPose.get().getX() - Limelight.getBotPoseBlue().getX();
-        initialAutoPoseYOffset = initialAutoPose.get().getY() - Limelight.getBotPoseBlue().getY();
-        initialAutoPoseRotationOffset = initialAutoPose.get().getRotation().getDegrees() - Limelight.getBotPoseBlue().getRotation().getDegrees();
+        if(botPoseBlue != null) {
+
+            initialAutoPoseXOffset = initialAutoPose.get().getX() - botPoseBlue.getX();
+            initialAutoPoseYOffset = initialAutoPose.get().getY() - botPoseBlue.getY();
+            initialAutoPoseRotationOffset = initialAutoPose.get().getRotation().getDegrees() - botPoseBlue.getRotation().getDegrees();
+
+        }
 
     }
 
@@ -164,14 +208,14 @@ public class AutoSelector {
 
     }
 
-    public void outputToSmartDashboard() {
+    public void outputToShuffleboard() {
 
-        SmartDashboard.putString("Selected Auto Mode", storedDesiredMode.name());
-        SmartDashboard.putString("Selected Starting Position", storedStartingPosition.name());
+        selectedAutoModeWidget.getEntry().setString(storedDesiredMode.name());
+        selectedStartingPositionWidget.getEntry().setString(storedStartingPosition.name());
 
-        SmartDashboard.putNumber("Initial Auto Pose X Offset", initialAutoPoseXOffset);
-        SmartDashboard.putNumber("Initial Auto Pose Y Offset", initialAutoPoseYOffset);
-        SmartDashboard.putNumber("Initial Auto Pose Rotation Offset", initialAutoPoseRotationOffset);
+        autoPoseXOffsetWidget.getEntry().setDouble(initialAutoPoseXOffset);
+        autoPoseYOffsetWidget.getEntry().setDouble(initialAutoPoseYOffset);
+        autoPoseRotationOffsetWidget.getEntry().setDouble(initialAutoPoseRotationOffset);
 
     }
 
