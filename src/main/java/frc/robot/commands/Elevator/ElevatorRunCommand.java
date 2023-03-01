@@ -31,14 +31,14 @@ public class ElevatorRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_runUpwards == true) {
-
-      m_elevator.runElevator(Constants.elevator_RUN_SPEED);
-
-    }
-    else if(m_runUpwards == false) {
+    if(m_runUpwards) {
 
       m_elevator.runElevator(-Constants.elevator_RUN_SPEED);
+
+    }
+    else {
+
+      m_elevator.runElevator(Constants.elevator_RUN_SPEED);
 
     }
 
@@ -46,7 +46,11 @@ public class ElevatorRunCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+    m_elevator.runElevator(0);
+
+  }
 
   // Returns true when the command should end.
   @Override

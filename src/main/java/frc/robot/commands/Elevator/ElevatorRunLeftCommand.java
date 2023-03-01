@@ -8,47 +8,55 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorSetPIDCommand extends CommandBase {
+public class ElevatorRunLeftCommand extends CommandBase {
 
   private final Elevator m_elevator;
-  private final double m_targetPosition;
+  private final boolean m_runUpwards;
 
-  /** Creates a new ElevatorSetCommand. */
-  public ElevatorSetPIDCommand(Elevator elevator, double targetPosition) {
+/** Creates a new ElevatorRunCommand. */
+  public ElevatorRunLeftCommand(Elevator elevator, boolean runUpwards) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
 
     m_elevator = elevator;
-    m_targetPosition = targetPosition;
+    m_runUpwards = runUpwards;
 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-    m_elevator.setPID(Constants.elevator_KP, Constants.elevator_KI, Constants.elevator_KD);
-    m_elevator.setPosition(m_targetPosition);
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    if(m_runUpwards) {
+
+      m_elevator.runLeftMotor(Constants.elevator_RUN_SPEED);
+
+    }
+    else {
+
+      m_elevator.runLeftMotor(-Constants.elevator_RUN_SPEED);
+
+    }
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_elevator.runElevator(0);
+
+    m_elevator.runLeftMotor(0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
 
-    double position = (m_elevator.getLeftMotorPosition() + m_elevator.getRightMotorPosition()) / 2;
-    double error = m_targetPosition - position;
-    return Math.abs(error) < 2.5;
+    return false;
     
   }
   

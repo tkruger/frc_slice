@@ -28,13 +28,13 @@ public final class Button {
     public static Trigger elevatorUp = new JoystickButton(leftJoystick, 4); //Left Top 4
     public static Trigger elevatorDown = new JoystickButton(rightJoystick, 4); //Right Top 4
     public static Trigger zeroElevatorPosition = new JoystickButton(rightJoystick, 7); //Right Bottom 7
+    public static Trigger calibrateElevator = new JoystickButton(rightJoystick, 6); //Right Top 6
 
     //Define Limelight Buttons
     public static Trigger limelightAlign = new JoystickButton(rightJoystick, 5); //Right Top 5
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton1 = new JoystickButton(rightJoystick, 1); //Right Top 1
-    public static Trigger rightButton6 = new JoystickButton(rightJoystick, 6); //Right Top 6
     public static Trigger rightButton8 = new JoystickButton(rightJoystick, 8); //Right Bottom 8
     public static Trigger rightButton9 = new JoystickButton(rightJoystick, 9); //Right Bottom 9
     public static Trigger rightButton10 = new JoystickButton(rightJoystick, 10); //Right Bottom 10

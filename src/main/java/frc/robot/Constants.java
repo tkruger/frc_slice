@@ -56,7 +56,7 @@ public final class Constants {
         
         //Define Motor Speeds (these are placholders for now)
         public static final double elevator_RUN_SPEED = 0.5;
-        public static final double elevator_SET_SPEED = 0.7; // May be deprecated with PID
+        public static final double elevator_CALIBRATION_SPEEED = 0.5;
 
         //Define Elevator Limit Switch Channels (this is a placeholder for now) 
         public static final int elevator_LOW_LIMIT_SWITCH_CHANNEL = 31;
@@ -64,8 +64,8 @@ public final class Constants {
 
     //Define Wrist Constants
 
-        //Define Motor Ports (this is a placeholder for now)
-        public static final int wrist_MOTOR_PORT = 31;
+        //Define Motor Ports
+        public static final int wrist_MOTOR_PORT = 9;
 
         //Define Limit Switch Channels (this is a placeholder for now)
         public static final int wrist_LIMIT_SWITCH_CHANNEL = 30;
@@ -85,8 +85,8 @@ public final class Constants {
     //Define Intake Constants (currently placeholders)
 
         //Define Motor Ports
-        public static final int intake_PIVOT_PORT = 29;
-        public static final int intake_MANDIBLE_PORT = 28;
+        public static final int intake_PIVOT_PORT = 5;
+        public static final int intake_MANDIBLE_PORT = 6;
 
         //Define open and closed positions
         public static final double intake_MANDIBLE_CLOSED_POSITION = 0;
@@ -113,7 +113,7 @@ public final class Constants {
 
         public static final RobotState GROUND_PICK_UP_STATE = new RobotState(0, 0);
         public static final RobotState LOW_ROW_STATE = new RobotState(0, 0);
-        public static final RobotState MID_ROW_STATE = new RobotState(0, 0);
+        public static final RobotState MID_ROW_STATE = new RobotState(50, 0);
         public static final RobotState HIGH_ROW_STATE = new RobotState(0, 0);
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(0, 0);
         public static final RobotState TRAVEL_STATE = new RobotState(0, 0);

@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -46,15 +46,20 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
+  public final ElevatorRunLeftCommand m_elevatorRunLeft = new ElevatorRunLeftCommand(m_elevator, true);
+  public final ElevatorRunRightCommand m_elevatorRunRight = new ElevatorRunRightCommand(m_elevator, true);
   public final ElevatorSetPIDCommand m_elevatorSetLowRow = new ElevatorSetPIDCommand(m_elevator, Constants.LOW_ROW_STATE.elevatorHeight);
   public final ElevatorSetPIDCommand m_elevatorSetMidRow = new ElevatorSetPIDCommand(m_elevator, Constants.MID_ROW_STATE.elevatorHeight);
   public final ElevatorSetPIDCommand m_elevatorSetHighRow = new ElevatorSetPIDCommand(m_elevator, Constants.HIGH_ROW_STATE.elevatorHeight);
   public final ZeroElevatorPositionCommand m_zeroElevatorPosition = new ZeroElevatorPositionCommand(m_elevator);
+  public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
+  public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
 
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor);
 
+  public final SequentialCommandGroup m_elevatorGroup = new SequentialCommandGroup(m_calibrateElevator, m_ElevatorSetPIDCommand);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -62,11 +67,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(m_oldDrive);
-    m_elevator.setDefaultCommand(new IdleCommand(m_elevator));
-    m_wrist.setDefaultCommand(new IdleCommand(m_wrist));
-    m_intake.setDefaultCommand(new IdleCommand(m_intake));
-    m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
-    m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
+    m_elevator.setDefaultCommand(new Idle(m_elevator));
+    m_wrist.setDefaultCommand(new Idle(m_wrist));
+    m_intake.setDefaultCommand(new Idle(m_intake));
+    m_limelight.setDefaultCommand(new Idle(m_limelight));
+    m_colorSensor.setDefaultCommand(new Idle(m_colorSensor));
 
   }
 
@@ -110,6 +115,8 @@ public class RobotContainer {
 
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
+
+    Button.calibrateElevator.onTrue(m_elevatorGroup);
 
   }
 

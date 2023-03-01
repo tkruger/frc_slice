@@ -8,8 +8,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -40,14 +43,37 @@ public class Elevator extends SubsystemBase {
   /**
    * Runs both elevator motors at the same desired speed(-1, 1).
    * 
-   * @param speed The desired speed for both elevators motors to run at(-1, 1).
+   * @param speed The desired speed for both elevator motors to run at(-1, 1).
    */
   public void runElevator(double speed) {
 
-      leftMotor.set(speed);
+      leftMotor.set(-speed);
       rightMotor.set(speed);
 
   }
+
+   /**
+   * Runs the left elevator motor at a desired speed(-1, 1).
+   * 
+   * @param speed The desired speed for the left elevator motor to run at(-1, 1).
+   */
+  public void runLeftMotor(double speed) {
+
+    leftMotor.set(speed);
+
+  } 
+
+  /**
+   * Runs the right elevator motor at a desired speed(-1, 1).
+   * 
+   * @param speed The desired speed for the right elevator motor to run at(-1, 1).
+   */
+  public void runRightMotor(double speed) {
+
+    rightMotor.set(speed);
+
+  }
+
 
   public void setPID(double kP, double kI, double kD) {
     leftPID.setP(kP);
@@ -125,9 +151,25 @@ public class Elevator extends SubsystemBase {
 
   }
 
+  /**
+   * 
+   * @return the average output velocity of the two motors, in amps
+   */
+  public double getAverageOutputCurrent() {
+    return (leftMotor.getOutputCurrent() + rightMotor.getOutputCurrent()) / 2;
+  }
+
+  public boolean atBottom() {
+    return getAverageOutputCurrent() > 50;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Left Elevator Motor Position", getLeftMotorPosition());
+    SmartDashboard.putNumber("Right Elevator Motor Position", getRightMotorPosition());
+    SmartDashboard.putNumber("Elevator Motor Current", (leftMotor.getOutputCurrent() + rightMotor.getOutputCurrent()) / 2);
   }
 
 }
