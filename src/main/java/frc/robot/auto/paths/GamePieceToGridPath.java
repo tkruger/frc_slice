@@ -5,11 +5,10 @@ import com.pathplanner.lib.PathPlanner;
 
 import frc.robot.auto.AutoPaths;
 import frc.robot.auto.AutoSelector;
-import frc.robot.subsystems.Drivetrain;
 
 public class GamePieceToGridPath extends AutoPaths {
     
-    public GamePieceToGridPath(AutoSelector.StartingPosition startPosition, Drivetrain drive) {
+    public GamePieceToGridPath(AutoSelector.StartingPosition startPosition) {
 
         switch(startPosition) {
 

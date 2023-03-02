@@ -27,7 +27,7 @@ public class ManualWristCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_wrist.completelyStowed() && m_speed > 0) || (m_wrist.getAngle() < Constants.wrist_MIN_ANGLE && m_speed < 0)) {
+    if ((m_wrist.completelyStowed() && m_speed > 0) || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE && m_speed < 0)) {
       m_wrist.spinWrist(0); 
     }else {
       m_wrist.spinWrist(m_speed);

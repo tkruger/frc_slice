@@ -23,9 +23,9 @@ public class PickUpGamePieceGroundSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setGroundPickUpState = new GoToStateCommand(elevator, wrist, Constants.GROUND_PICK_UP_STATE);
+    GoToStateCommand setGroundPickUpState = new GoToStateCommand(elevator, wrist, Constants.State.GROUND_PICK_UP_STATE);
     AutoMandiblesCommand closeMandibles = new AutoMandiblesCommand(intake, colorSensor);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.TRAVEL_STATE);
+    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.State.TRAVEL_STATE);
 
     addCommands(
       setGroundPickUpState,

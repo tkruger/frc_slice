@@ -28,7 +28,7 @@ public class OpenMandiblesCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setMandiblePID(Constants.intake_MANDIBLE_KP, Constants.intake_MANDIBLE_KI, Constants.intake_MANDIBLE_KD);
+    m_intake.setMandiblePID(Constants.Intake.MANDIBLE_KP, Constants.Intake.MANDIBLE_KI, Constants.Intake.MANDIBLE_KD);
     m_intake.openMandibles();
   }
 

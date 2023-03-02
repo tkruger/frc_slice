@@ -26,14 +26,14 @@ public class CalibrateMandiblesCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.runMandibles(Constants.intake_CALIBRATION_SPEED);
+    m_intake.runMandibles(Constants.Intake.CALIBRATION_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_intake.runMandibles(0);
-    m_intake.setMandibleEncoderPosition(Constants.intake_MANDIBLE_CLOSED_POSITION);
+    m_intake.setMandibleEncoderPosition(Constants.Intake.MANDIBLE_CLOSED_POSITION);
   }
 
   // Returns true when the command should end.

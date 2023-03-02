@@ -41,13 +41,13 @@ public class ChargeStationBalanceCommand extends CommandBase {
 
     if(pitch > 10) {
 
-      m_drivetrain.PIDArcadeDrive(-Constants.drivetrain_CHARGE_STATION_BALANCE_SPEED, 0);
+      m_drivetrain.PIDArcadeDrive(-Constants.Drivetrain.CHARGE_STATION_BALANCE_SPEED, 0);
 
     }
 
     if(pitch < -10) {
 
-      m_drivetrain.PIDArcadeDrive(Constants.drivetrain_CHARGE_STATION_BALANCE_SPEED, 0);
+      m_drivetrain.PIDArcadeDrive(Constants.Drivetrain.CHARGE_STATION_BALANCE_SPEED, 0);
 
     }
 

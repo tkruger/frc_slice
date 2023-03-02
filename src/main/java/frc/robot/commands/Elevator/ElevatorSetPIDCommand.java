@@ -27,7 +27,7 @@ public class ElevatorSetPIDCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_elevator.setPID(Constants.elevator_KP, Constants.elevator_KI, Constants.elevator_KD);
+    m_elevator.setPID(Constants.Elevator.KP, Constants.Elevator.KI, Constants.Elevator.KD);
     m_elevator.setPosition(m_targetPosition);
 
   }

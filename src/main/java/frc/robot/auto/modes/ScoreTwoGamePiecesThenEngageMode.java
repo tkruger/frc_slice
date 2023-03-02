@@ -24,20 +24,20 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoCubesThenEngageMode extends SequentialCommandGroup {
+public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
   /** Creates a new OneGamePieceThenEngageMode. */
-  public TwoCubesThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
+  public ScoreTwoGamePiecesThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     PlaceGamePieceMidRowSequence placeCube1 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
-    GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition, drive);
+    GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake, colorSensor);
     QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
-    GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition, drive);
+    GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition);
     PlaceGamePieceMidRowSequence placeCube2 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
-    GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition, drive);
+    GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     Field2dTrajectoryFollowerSequence trajectory1 = new Field2dTrajectoryFollowerSequence(drive, gridToGamePiece, gridToGamePiece.trajectory.getInitialPose());

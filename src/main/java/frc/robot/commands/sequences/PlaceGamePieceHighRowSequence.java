@@ -21,9 +21,9 @@ public class PlaceGamePieceHighRowSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.HIGH_ROW_STATE);
+    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.State.HIGH_ROW_STATE);
     OpenMandiblesCommand openMandibles = new OpenMandiblesCommand(intake);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.TRAVEL_STATE);
+    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.State.TRAVEL_STATE);
 
     addCommands(
       setHighRowState,

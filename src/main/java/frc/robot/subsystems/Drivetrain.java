@@ -83,10 +83,10 @@ public class Drivetrain extends SubsystemBase {
     m_timer.start();
 
     // Instantiates motors and motor groups
-    leftMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_LEFT_FRONT_PORT);
-    leftMotorBack = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_LEFT_BACK_PORT);
-    rightMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_RIGHT_FRONT_PORT);
-    rightMotorBack = SparkMaxFactory.createDefaultSparkMax(Constants.drivetrain_RIGHT_BACK_PORT);
+    leftMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.Drivetrain.LEFT_FRONT_PORT);
+    leftMotorBack = SparkMaxFactory.createDefaultSparkMax(Constants.Drivetrain.LEFT_BACK_PORT);
+    rightMotorFront = SparkMaxFactory.createDefaultSparkMax(Constants.Drivetrain.RIGHT_FRONT_PORT);
+    rightMotorBack = SparkMaxFactory.createDefaultSparkMax(Constants.Drivetrain.RIGHT_BACK_PORT);
 
     leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
     rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
@@ -97,26 +97,26 @@ public class Drivetrain extends SubsystemBase {
 
     leftEncoderFront = leftMotorFront.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.ENCODER_CPR);
+      Constants.Encoder.CPR);
     leftEncoderBack = leftMotorBack.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.ENCODER_CPR);
+      Constants.Encoder.CPR);
     rightEncoderFront = rightMotorFront.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.ENCODER_CPR);
+      Constants.Encoder.CPR);
     rightEncoderBack = rightMotorBack.getEncoder(
       SparkMaxRelativeEncoder.Type.kHallSensor,
-      Constants.ENCODER_CPR);
+      Constants.Encoder.CPR);
 
-    leftEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    leftEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    rightEncoderFront.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
-    rightEncoderBack.setVelocityConversionFactor(Constants.drivetrain_VELOCITY_CONVERSION_FACTOR);
+    leftEncoderFront.setVelocityConversionFactor(Constants.Drivetrain.VELOCITY_CONVERSION_FACTOR);
+    leftEncoderBack.setVelocityConversionFactor(Constants.Drivetrain.VELOCITY_CONVERSION_FACTOR);
+    rightEncoderFront.setVelocityConversionFactor(Constants.Drivetrain.VELOCITY_CONVERSION_FACTOR);
+    rightEncoderBack.setVelocityConversionFactor(Constants.Drivetrain.VELOCITY_CONVERSION_FACTOR);
 
-    leftEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
-    leftEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
-    rightEncoderFront.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
-    rightEncoderBack.setPositionConversionFactor(Constants.drivetrain_POSITION_CONVERSION_FACTOR);
+    leftEncoderFront.setPositionConversionFactor(Constants.Drivetrain.POSITION_CONVERSION_FACTOR);
+    leftEncoderBack.setPositionConversionFactor(Constants.Drivetrain.POSITION_CONVERSION_FACTOR);
+    rightEncoderFront.setPositionConversionFactor(Constants.Drivetrain.POSITION_CONVERSION_FACTOR);
+    rightEncoderBack.setPositionConversionFactor(Constants.Drivetrain.POSITION_CONVERSION_FACTOR);
 
     leftPIDFront = leftMotorFront.getPIDController();
     leftPIDBack = leftMotorBack.getPIDController();
@@ -140,7 +140,7 @@ public class Drivetrain extends SubsystemBase {
       new Pose2d(8, 4, getRotation2d()));*/
 
     m_odometry = new DifferentialDrivePoseEstimator(
-      Constants.kDriveKinematics,
+      Constants.Autonomous.kDriveKinematics,
       getRotation2d(), 
       getLeftSideDistance(),
       getRightSideDistance(),

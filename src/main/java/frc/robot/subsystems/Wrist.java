@@ -27,11 +27,11 @@ public class Wrist extends SubsystemBase {
 
   /** Creates a new Wrist. */
   public Wrist() {
-    motor = SparkMaxFactory.createDefaultSparkMax(Constants.wrist_MOTOR_PORT);
+    motor = SparkMaxFactory.createDefaultSparkMax(Constants.Wrist.MOTOR_PORT);
     encoder = motor.getEncoder();
     pidController = motor.getPIDController();
 
-    stowLimitSwitch = new DigitalInput(Constants.wrist_LIMIT_SWITCH_CHANNEL);
+    stowLimitSwitch = new DigitalInput(Constants.Wrist.LIMIT_SWITCH_CHANNEL);
   }
 
   public void spinWrist(double speed) {
@@ -90,7 +90,7 @@ public class Wrist extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     if (completelyStowed()) {
-      setEncoder(Constants.wrist_MAX_ANGLE);
+      setEncoder(Constants.Wrist.MAX_ANGLE);
     }
   }
 }

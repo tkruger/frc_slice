@@ -9,12 +9,11 @@ import com.pathplanner.lib.PathPlanner;
 
 import frc.robot.auto.AutoPaths;
 import frc.robot.auto.AutoSelector;
-import frc.robot.subsystems.Drivetrain;
 
 /** Add your docs here. */
 public class GridOutOfCommunityToChargeStationPath extends AutoPaths{
 
-    public GridOutOfCommunityToChargeStationPath(AutoSelector.StartingPosition startPosition, Drivetrain drive) {
+    public GridOutOfCommunityToChargeStationPath(AutoSelector.StartingPosition startPosition) {
 
         switch(startPosition) {
 

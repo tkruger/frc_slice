@@ -27,11 +27,11 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
 
-    leftMotor = SparkMaxFactory.createDefaultSparkMax(Constants.elevator_LEFT_PORT);
-    rightMotor = SparkMaxFactory.createDefaultSparkMax(Constants.elevator_RIGHT_PORT);
+    leftMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Elevator.LEFT_PORT);
+    rightMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Elevator.RIGHT_PORT);
 
-    leftEncoder = leftMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
-    rightEncoder = rightMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
+    leftEncoder = leftMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
+    rightEncoder = rightMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
 
     leftPID = leftMotor.getPIDController();
     rightPID = rightMotor.getPIDController();

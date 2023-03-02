@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public final class Button {
 
     //Define Joysticks
-    public static Joystick leftJoystick = new Joystick(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
-    public static Joystick rightJoystick = new Joystick(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
-    public static Joystick manipulatorJoystick = new Joystick(Constants.RobotContainer_MANIPULATOR_JOYSTICK_PORT);
+    public static Joystick leftJoystick = new Joystick(Constants.RobotContainer.LEFT_JOYSTICK_PORT);
+    public static Joystick rightJoystick = new Joystick(Constants.RobotContainer.RIGHT_JOYSTICK_PORT);
+    public static Joystick manipulatorJoystick = new Joystick(Constants.RobotContainer.MANIPULATOR_JOYSTICK_PORT);
 
     //Define Drivetrain Buttons
     public static Trigger oldDrive = new JoystickButton(leftJoystick, 7); //Left Bottom 7

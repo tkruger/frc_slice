@@ -33,12 +33,12 @@ public class ElevatorRunLeftCommand extends CommandBase {
 
     if(m_runUpwards) {
 
-      m_elevator.runLeftMotor(Constants.elevator_RUN_SPEED);
+      m_elevator.runLeftMotor(Constants.Elevator.RUN_SPEED);
 
     }
     else {
 
-      m_elevator.runLeftMotor(-Constants.elevator_RUN_SPEED);
+      m_elevator.runLeftMotor(-Constants.Elevator.RUN_SPEED);
 
     }
 

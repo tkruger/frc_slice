@@ -26,7 +26,7 @@ public class ResetAngleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_wrist.spinWrist(Constants.wrist_RESET_SPEED);
+    m_wrist.spinWrist(Constants.Wrist.RESET_SPEED);
   }
 
   // Called once the command ends or is interrupted.

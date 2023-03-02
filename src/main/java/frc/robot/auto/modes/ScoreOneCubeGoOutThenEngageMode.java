@@ -19,14 +19,14 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OneCubeGoOutThenEngageMode extends SequentialCommandGroup {
+public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
   /** Creates a new OneGamePieceGoOutThenEngageMode. */
-  public OneCubeGoOutThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneCubeGoOutThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     PlaceGamePieceMidRowSequence placeCube = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
-    GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition, drive);
+    GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     Field2dTrajectoryFollowerSequence trajectory = new Field2dTrajectoryFollowerSequence(drive, gridOutOfCommunityToChargeStation, gridOutOfCommunityToChargeStation.trajectory.getInitialPose());

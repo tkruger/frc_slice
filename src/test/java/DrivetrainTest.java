@@ -11,8 +11,8 @@ public class DrivetrainTest {
     public static final double DELTA = 1e-2; // acceptable deviation range
 
     //Define Joysticks
-    public static JoystickSim leftJoystick = new JoystickSim(Constants.RobotContainer_LEFT_JOYSTICK_PORT);
-    public static JoystickSim rightJoystick = new JoystickSim(Constants.RobotContainer_RIGHT_JOYSTICK_PORT);
+    public static JoystickSim leftJoystick = new JoystickSim(Constants.RobotContainer.LEFT_JOYSTICK_PORT);
+    public static JoystickSim rightJoystick = new JoystickSim(Constants.RobotContainer.RIGHT_JOYSTICK_PORT);
 
     @BeforeEach
     public void setup() {

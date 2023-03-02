@@ -33,12 +33,12 @@ public class ElevatorRunCommand extends CommandBase {
 
     if(m_runUpwards) {
 
-      m_elevator.runElevator(-Constants.elevator_RUN_SPEED);
+      m_elevator.runElevator(-Constants.Elevator.RUN_SPEED);
 
     }
     else {
 
-      m_elevator.runElevator(Constants.elevator_RUN_SPEED);
+      m_elevator.runElevator(Constants.Elevator.RUN_SPEED);
 
     }
 

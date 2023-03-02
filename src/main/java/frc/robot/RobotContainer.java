@@ -48,9 +48,9 @@ public class RobotContainer {
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
   public final ElevatorRunLeftCommand m_elevatorRunLeft = new ElevatorRunLeftCommand(m_elevator, true);
   public final ElevatorRunRightCommand m_elevatorRunRight = new ElevatorRunRightCommand(m_elevator, true);
-  public final ElevatorSetPIDCommand m_elevatorSetLowRow = new ElevatorSetPIDCommand(m_elevator, Constants.LOW_ROW_STATE.elevatorHeight);
-  public final ElevatorSetPIDCommand m_elevatorSetMidRow = new ElevatorSetPIDCommand(m_elevator, Constants.MID_ROW_STATE.elevatorHeight);
-  public final ElevatorSetPIDCommand m_elevatorSetHighRow = new ElevatorSetPIDCommand(m_elevator, Constants.HIGH_ROW_STATE.elevatorHeight);
+  public final ElevatorSetPIDCommand m_elevatorSetLowRow = new ElevatorSetPIDCommand(m_elevator, Constants.State.LOW_ROW_STATE.elevatorHeight);
+  public final ElevatorSetPIDCommand m_elevatorSetMidRow = new ElevatorSetPIDCommand(m_elevator, Constants.State.MID_ROW_STATE.elevatorHeight);
+  public final ElevatorSetPIDCommand m_elevatorSetHighRow = new ElevatorSetPIDCommand(m_elevator, Constants.State.HIGH_ROW_STATE.elevatorHeight);
   public final ZeroElevatorPositionCommand m_zeroElevatorPosition = new ZeroElevatorPositionCommand(m_elevator);
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);

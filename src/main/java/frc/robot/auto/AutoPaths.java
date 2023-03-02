@@ -21,15 +21,15 @@ public class AutoPaths {
         return new RamseteCommand(
             trajectory,
             drive::getPose,
-            new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+            new RamseteController(Constants.Autonomous.kRamseteB, Constants.Autonomous.kRamseteZeta),
             new SimpleMotorFeedforward(
-                Constants.ksVolts,
-                Constants.kvVoltsSecondsPerMeter,
-                Constants.kaVoltsSecondsSquaredPerMeter),
-            Constants.kDriveKinematics,
+                Constants.Autonomous.ksVolts,
+                Constants.Autonomous.kvVoltsSecondsPerMeter,
+                Constants.Autonomous.kaVoltsSecondsSquaredPerMeter),
+            Constants.Autonomous.kDriveKinematics,
             drive::getWheelSpeeds,
-            new PIDController(Constants.kPDriveVel, 0, 0),
-            new PIDController(Constants.kPDriveVel, 0, 0),
+            new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
+            new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
             // RamseteCommand passes volts to the callback
             drive::tankDriveVolts,
             drive);

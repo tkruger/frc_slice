@@ -5,11 +5,10 @@ import com.pathplanner.lib.PathPlanner;
 
 import frc.robot.auto.AutoPaths;
 import frc.robot.auto.AutoSelector;
-import frc.robot.subsystems.Drivetrain;
 
 public class GridToChargeStationPath extends AutoPaths {
     
-    public GridToChargeStationPath(AutoSelector.StartingPosition startPosition, Drivetrain drive) {
+    public GridToChargeStationPath(AutoSelector.StartingPosition startPosition) {
 
         switch(startPosition) {
 

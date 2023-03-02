@@ -26,11 +26,11 @@ public class Intake extends SubsystemBase {
   /** Creates a new Elevator. */
   public Intake() {
 
-    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.intake_PIVOT_PORT);
-    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.intake_MANDIBLE_PORT);
+    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.SPIN_PORT);
+    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.MANDIBLE_PORT);
 
-    mandibleEncoder = mandibleMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
-    rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.ENCODER_CPR);
+    mandibleEncoder = mandibleMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
+    rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
 
     mandiblePID = mandibleMotor.getPIDController();
     //rotatePID = rotateMotor.getPIDController();
@@ -47,14 +47,14 @@ public class Intake extends SubsystemBase {
    * Opens the mandibles
    */
   public void openMandibles() {
-    mandiblePID.setReference(Constants.intake_MANDIBLE_OPEN_POSITION, ControlType.kPosition);
+    mandiblePID.setReference(Constants.Intake.MANDIBLE_OPEN_POSITION, ControlType.kPosition);
   }
 
   /**
    * Close the mandibles
    */
   public void closeMandibles() {
-    mandiblePID.setReference(Constants.intake_MANDIBLE_CLOSED_POSITION, ControlType.kPosition);
+    mandiblePID.setReference(Constants.Intake.MANDIBLE_CLOSED_POSITION, ControlType.kPosition);
   }
 
   /**
@@ -101,7 +101,7 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean mandibleVoltageSpike() {
-    return mandibleMotor.getOutputCurrent() > Constants.intake_CALIBRATION_CURRENT_THRESHOLD;
+    return mandibleMotor.getOutputCurrent() > Constants.Intake.CALIBRATION_CURRENT_THRESHOLD;
   }
 
   @Override

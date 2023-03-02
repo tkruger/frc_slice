@@ -15,7 +15,7 @@ public class SetWristPosition extends CommandBase {
   /** Creates a new SetWristPosition. */
   public SetWristPosition(Wrist wrist, double angle) {
     m_wrist = wrist;
-    m_angle = MathUtil.clamp(angle, Constants.wrist_MIN_ANGLE, Constants.wrist_MAX_ANGLE);
+    m_angle = MathUtil.clamp(angle, Constants.Wrist.MIN_ANGLE, Constants.Wrist.MAX_ANGLE);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_wrist);
@@ -24,7 +24,7 @@ public class SetWristPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_wrist.setPID(Constants.wrist_KP, Constants.wrist_KI, Constants.wrist_KD);
+    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
     m_wrist.setWristPosition(m_angle);
   }
 

@@ -174,17 +174,17 @@ public class LimelightAlignCommand extends CommandBase {
 
       if(heading > -85 && heading <= 90) {
 
-        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, Constants.Limelight.TURN_ALIGNMENT_SPEED);
   
       }
       else if(heading > 90 && heading < -95) {
   
-          m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+          m_drivetrain.ArcadeDrive(0, -Constants.Limelight.TURN_ALIGNMENT_SPEED);
   
       }
       else {
 
-        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+        m_drivetrain.ArcadeDrive(Constants.Limelight.FORWARD_ALIGNMENT_SPEED, 0);
 
       }
 
@@ -194,17 +194,17 @@ public class LimelightAlignCommand extends CommandBase {
 
       if(heading >= -90 && heading < 85) {
 
-        m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, -Constants.Limelight.TURN_ALIGNMENT_SPEED);
   
       }
       else if(heading > 95 && heading < -90) {
   
-        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, Constants.Limelight.TURN_ALIGNMENT_SPEED);
   
       }
       else {
 
-        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+        m_drivetrain.ArcadeDrive(Constants.Limelight.FORWARD_ALIGNMENT_SPEED, 0);
 
       }
 
@@ -214,17 +214,17 @@ public class LimelightAlignCommand extends CommandBase {
 
       if(heading <= 0 && heading > -175) {
 
-        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, Constants.Limelight.TURN_ALIGNMENT_SPEED);
 
       }
       else if(heading < 175 && heading > 0) {
 
-        m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, -Constants.Limelight.TURN_ALIGNMENT_SPEED);
 
       }
       else {
 
-        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+        m_drivetrain.ArcadeDrive(Constants.Limelight.FORWARD_ALIGNMENT_SPEED, 0);
   
       }
 
@@ -233,17 +233,17 @@ public class LimelightAlignCommand extends CommandBase {
 
       if(heading < -5 && heading >= -180) {
 
-        m_drivetrain.ArcadeDrive(0, -Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, -Constants.Limelight.TURN_ALIGNMENT_SPEED);
 
       }
       else if(heading <= 180 && heading > 5) {
 
-        m_drivetrain.ArcadeDrive(0, Constants.limelight_TURN_ALIGNMENT_SPEED);
+        m_drivetrain.ArcadeDrive(0, Constants.Limelight.TURN_ALIGNMENT_SPEED);
 
       }
       else {
 
-        m_drivetrain.ArcadeDrive(Constants.limelight_FORWARD_ALIGNMENT_SPEED, 0);
+        m_drivetrain.ArcadeDrive(Constants.Limelight.FORWARD_ALIGNMENT_SPEED, 0);
   
       }
 
