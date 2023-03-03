@@ -1,12 +1,18 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
+
+import java.util.Map;
+
 import com.revrobotics.ColorMatch;
 
 public class ColorSensor extends SubsystemBase {
@@ -22,6 +28,8 @@ public class ColorSensor extends SubsystemBase {
 
     private ColorMatchResult match;
 
+    private SimpleWidget colorWidget;
+
     public ColorSensor() {
         m_colorSensor = new ColorSensorV3(i2cPort);
         m_colorMatcher = new ColorMatch();
@@ -31,6 +39,9 @@ public class ColorSensor extends SubsystemBase {
 
         m_colorMatcher.addColorMatch(kCube);
         m_colorMatcher.addColorMatch(kCone);
+
+        colorWidget = Shuffleboard.getTab("Driver Tab").add("Game Piece Color", false);
+        colorWidget.withProperties(Map.of("colorWhenFalse", "black"));
     }
 
     @Override
@@ -46,6 +57,16 @@ public class ColorSensor extends SubsystemBase {
         SmartDashboard.putNumber("Proximity", proximity);
 
         match = m_colorMatcher.matchClosestColor(detectedColor);
+
+        if(getGamePiece() == 1) {
+            colorWidget.withProperties(Map.of("colorWhenTrue", kCube));
+            colorWidget.getEntry().setBoolean(true);
+        }else if(getGamePiece() == 2) {
+            colorWidget.withProperties(Map.of("colorWhenTrue", kCone));
+            colorWidget.getEntry().setBoolean(true);
+        }else {
+            colorWidget.getEntry().setBoolean(false);
+        }
     }
 
     public Color getColor() {
