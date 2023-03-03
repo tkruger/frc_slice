@@ -11,7 +11,7 @@ import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
-import frc.robot.commands.sequences.PlaceGamePieceHighRowSequence;
+import frc.robot.commands.sequences.PlaceConeHighRowSequence;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
@@ -155,7 +155,7 @@ public class AutoSelector {
             case ONE_CUBE_GO_OUT_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_CONE_HIGH_ROW:
-                return Optional.of(new PlaceGamePieceHighRowSequence(m_elevator, m_wrist, m_intake));
+                return Optional.of(new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake));
             default:
                 break;
     

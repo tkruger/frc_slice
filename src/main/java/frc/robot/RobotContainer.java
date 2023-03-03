@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,6 +17,13 @@ import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
 import frc.robot.commands.Limelight.*;
+import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
+import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
+import frc.robot.commands.sequences.PlaceConeHighRowSequence;
+import frc.robot.commands.sequences.PlaceConeMidRowSequence;
+import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
+import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
+import frc.robot.commands.sequences.PlaceGamePieceLowRowSequence;
 import frc.robot.subsystems.*;
 
 /**
@@ -32,9 +40,11 @@ public class RobotContainer {
   public final Intake m_intake = new Intake();
   public final Limelight m_limelight = new Limelight();
   public final ColorSensor m_colorSensor = new ColorSensor();
+  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor);
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
+  public final Joystick manipulatorJoystick = Button.manipulatorJoystick;
 
   public final DrivetrainCommand m_oldDrive = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final CurvatureDriveCommand m_curvatureDrive = new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
@@ -48,18 +58,22 @@ public class RobotContainer {
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
   public final ElevatorRunLeftCommand m_elevatorRunLeft = new ElevatorRunLeftCommand(m_elevator, true);
   public final ElevatorRunRightCommand m_elevatorRunRight = new ElevatorRunRightCommand(m_elevator, true);
-  public final ElevatorSetPIDCommand m_elevatorSetLowRow = new ElevatorSetPIDCommand(m_elevator, Constants.State.LOW_ROW_STATE.elevatorHeight);
-  public final ElevatorSetPIDCommand m_elevatorSetMidRow = new ElevatorSetPIDCommand(m_elevator, Constants.State.MID_ROW_STATE.elevatorHeight);
-  public final ElevatorSetPIDCommand m_elevatorSetHighRow = new ElevatorSetPIDCommand(m_elevator, Constants.State.HIGH_ROW_STATE.elevatorHeight);
-  public final ZeroElevatorPositionCommand m_zeroElevatorPosition = new ZeroElevatorPositionCommand(m_elevator);
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
 
-  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor);
+  public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
+  public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
+  public final PlaceGamePieceLowRowSequence m_placeGamePieceLowRow = new PlaceGamePieceLowRowSequence(m_elevator, m_wrist, m_intake);
+  public final PlaceCubeMidRowSequence m_placeCubeMidRow = new PlaceCubeMidRowSequence(m_elevator, m_wrist, m_intake);
+  public final PlaceConeMidRowSequence m_placeConeMidRow = new PlaceConeMidRowSequence(m_elevator, m_wrist, m_intake);
+  public final PlaceCubeHighRowSequence m_placeCubeHighRow = new PlaceCubeHighRowSequence(m_elevator, m_wrist, m_intake);
+  public final PlaceConeHighRowSequence m_placeConeHighRow = new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake);
 
-  public final SequentialCommandGroup m_elevatorGroup = new SequentialCommandGroup(m_calibrateElevator, m_ElevatorSetPIDCommand);
+  public final ConditionalCommand m_placeGamePieceMidRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
+  public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -111,12 +125,10 @@ public class RobotContainer {
     Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
 
     //Execute Elevator Position Reset
-    Button.zeroElevatorPosition.onTrue(m_zeroElevatorPosition);
+    Button.calibrateElevator.onTrue(m_calibrateElevator);
 
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
-
-    Button.calibrateElevator.onTrue(m_elevatorGroup);
 
   }
 
