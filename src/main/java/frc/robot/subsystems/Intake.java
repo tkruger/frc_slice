@@ -23,6 +23,8 @@ public class Intake extends SubsystemBase {
 
   private final SparkMaxPIDController mandiblePID/*, rotatePID*/;
 
+  private boolean mandibleClosed;
+
   /** Creates a new Elevator. */
   public Intake() {
 
@@ -34,6 +36,8 @@ public class Intake extends SubsystemBase {
 
     mandiblePID = mandibleMotor.getPIDController();
     //rotatePID = rotateMotor.getPIDController();
+
+    mandibleClosed = false;
 
   }
 
@@ -48,6 +52,7 @@ public class Intake extends SubsystemBase {
    */
   public void openMandibles() {
     mandiblePID.setReference(Constants.Intake.MANDIBLE_OPEN_POSITION, ControlType.kPosition);
+    mandibleClosed = false;
   }
 
   /**
@@ -55,6 +60,7 @@ public class Intake extends SubsystemBase {
    */
   public void closeMandibles() {
     mandiblePID.setReference(Constants.Intake.MANDIBLE_CLOSED_POSITION, ControlType.kPosition);
+    mandibleClosed = true;
   }
 
   /**
@@ -102,6 +108,18 @@ public class Intake extends SubsystemBase {
 
   public boolean mandibleVoltageSpike() {
     return mandibleMotor.getOutputCurrent() > Constants.Intake.CALIBRATION_CURRENT_THRESHOLD;
+  }
+
+  /**
+   * 
+   * @return true if the mandibles are closed, and false if the mandibles are open
+   */
+  public boolean getMandibleClosed() {
+    return mandibleClosed;
+  }
+
+  public void callibratePreparation() {
+    mandibleClosed = false;
   }
 
   @Override
