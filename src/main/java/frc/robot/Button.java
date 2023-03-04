@@ -38,7 +38,7 @@ public final class Button {
 
     //Define RobotState Buttons
     public static Trigger placeCone = new JoystickButton(manipulatorJoystick, 7); //Manipulator Bottom 7
-    public static Trigger placeGamePieceMidRow = new JoystickButton(manipulatorJoystick, 8); //Manipulator Bottom 7
+    public static Trigger placeGamePieceMidRow = new JoystickButton(manipulatorJoystick, 8); //Manipulator Bottom 8
     public static Trigger placeGamePieceHighRow = new JoystickButton(manipulatorJoystick, 9); //Manipulator Bottom 9
 
     //Unassigned Right Joystick Buttons

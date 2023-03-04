@@ -196,7 +196,10 @@ public class Drivetrain extends SubsystemBase {
     getEntry();
 
     //Displays how the robot is moving on Shuffleboard
-    driveTab.add(robotDrive).withPosition(3, 2);
+    driveTab.add(robotDrive).withPosition(5, 2).withSize(3, 2);
+
+    //Displays the current position of the robot on the field on Shuffleboard
+    driveTab.add(m_field2d).withPosition(1, 2).withSize(3, 2);
 
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);

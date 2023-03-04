@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -16,9 +15,8 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
-import frc.robot.commands.Limelight.*;
 import frc.robot.commands.Wrist.*;
-
+import frc.robot.commands.Limelight.*;
 import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
 import frc.robot.commands.sequences.PlaceConeHighRowSequence;
@@ -127,16 +125,20 @@ public class RobotContainer {
     //Enable Elevator Moving Downwards
     Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
 
-    //Execute Elevator Position Reset
-    Button.calibrateElevator.onTrue(m_calibrateElevator);
-
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
 
-    //Button.calibrateElevator.onTrue(m_elevatorGroup);
+    //Execute Elevator Position Reset
+    Button.calibrateElevator.onTrue(m_calibrateElevator);
 
     Button.wristUp.whileTrue(m_wristRunUpwards);
     Button.wristDown.whileTrue(m_wristRunDownwards);
+
+    //Execute Mid Row Game Piece Placement
+    Button.placeGamePieceMidRow.onTrue(m_placeGamePieceMidRow);
+
+    //Execute High Row Game Piece Placement
+    Button.placeGamePieceHighRow.onTrue(m_placeGamePieceHighRow);
 
   }
 
