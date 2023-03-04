@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -72,7 +71,7 @@ public class RobotContainer {
   public final PlaceConeHighRowSequence m_placeConeHighRow = new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake);
 
   public final ConditionalCommand m_placeGamePieceMidRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
-  public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
+  public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeHighRow, m_placeCubeHighRow, Button.placeCone);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -129,6 +128,12 @@ public class RobotContainer {
 
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
+
+    //Execute Mid Row Game Piece Placement
+    Button.placeGamePieceMidRow.onTrue(m_placeGamePieceMidRow);
+
+    //Execute High Row Game Piece Placement
+    Button.placeGamePieceHighRow.onTrue(m_placeGamePieceHighRow);
 
   }
 
