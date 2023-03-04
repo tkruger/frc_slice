@@ -16,6 +16,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
 import frc.robot.commands.Limelight.*;
+import frc.robot.commands.Wrist.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -55,6 +56,9 @@ public class RobotContainer {
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
+  public final WristRunCommand m_wristRunUpwards = new WristRunCommand(m_wrist, true);
+  public final WristRunCommand m_wristRunDownwards = new WristRunCommand(m_wrist, false);
+
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
 
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor);
@@ -90,10 +94,10 @@ public class RobotContainer {
     Button.chargeStationBalancePID.whileTrue(m_ChargeStationBalancePID);
 
     //Execute Drivetrain Quick Turn
-    Button.quickTurn.onTrue(m_quickTurn);
+    //Button.quickTurn.onTrue(m_quickTurn);
 
     //Execute PID Drivetrain Quick Turn
-    Button.quickTurnPID.onTrue(m_quickTurnPID);
+    //Button.quickTurnPID.onTrue(m_quickTurnPID);
 
     //Toggle Old Drive
     Button.oldDrive.toggleOnTrue(m_oldDrive);
@@ -117,6 +121,9 @@ public class RobotContainer {
     Button.limelightAlign.whileTrue(m_limelightAlign);
 
     Button.calibrateElevator.onTrue(m_elevatorGroup);
+
+    Button.wristUp.whileTrue(m_wristRunUpwards);
+    Button.wristDown.whileTrue(m_wristRunDownwards);
 
   }
 

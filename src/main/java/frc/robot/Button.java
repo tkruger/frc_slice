@@ -22,13 +22,17 @@ public final class Button {
     public static Trigger chargeStationBalance = new JoystickButton(leftJoystick, 6); //Left Top 6
     public static Trigger chargeStationBalancePID = new JoystickButton(leftJoystick, 5); //Left Top 5
     public static Trigger quickTurn = new JoystickButton(rightJoystick, 2); //Right Top 2
-    public static Trigger quickTurnPID = new JoystickButton(rightJoystick, 3); //Right Top 3
+    public static Trigger quickTurnPID = new JoystickButton(leftJoystick, 2); //Right Top 3
 
     //Define Elevator Buttons
     public static Trigger elevatorUp = new JoystickButton(leftJoystick, 4); //Left Top 4
     public static Trigger elevatorDown = new JoystickButton(rightJoystick, 4); //Right Top 4
     public static Trigger zeroElevatorPosition = new JoystickButton(rightJoystick, 7); //Right Bottom 7
     public static Trigger calibrateElevator = new JoystickButton(rightJoystick, 6); //Right Top 6
+
+    //Define Wrist Buttons
+    public static Trigger wristUp = new JoystickButton(leftJoystick, 3); //Left Top 3
+    public static Trigger wristDown = new JoystickButton(rightJoystick, 3); //Right Top 3
 
     //Define Limelight Buttons
     public static Trigger limelightAlign = new JoystickButton(rightJoystick, 5); //Right Top 5
