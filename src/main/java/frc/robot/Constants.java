@@ -16,8 +16,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
 
-    //Define RobotContainer Constants
-    public final class RobotContainer {
+    //Define Joystick Constants
+    public final class Joysticks {
 
         //Define Joystick Ports
         public static final int LEFT_JOYSTICK_PORT = 0;
@@ -136,12 +136,13 @@ public final class Constants {
     }
 
     //Define RobotState Constants
-    public static final class State {
+    public static final class States {
 
-        public static final RobotState GROUND_PICK_UP_STATE = new RobotState(0, 0);
-        public static final RobotState LOW_ROW_STATE = new RobotState(0, 0);
-        public static final RobotState MID_ROW_STATE = new RobotState(50, 0);
-        public static final RobotState HIGH_ROW_STATE = new RobotState(0, 0);
+        public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(0, 0);
+        public static final RobotState MID_ROW_CUBE_STATE = new RobotState(50, 0);
+        public static final RobotState MID_ROW_CONE_STATE = new RobotState(50, 0);
+        public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(0, 0);
+        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(0, 0);
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(0, 0);
         public static final RobotState TRAVEL_STATE = new RobotState(0, 0);
 

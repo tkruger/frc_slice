@@ -13,8 +13,10 @@ import frc.robot.auto.paths.GamePieceToGridPath;
 import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
+import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
-import frc.robot.commands.sequences.PlaceGamePieceMidRowSequence;
+import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
+import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
@@ -30,13 +32,14 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    PlaceGamePieceMidRowSequence placeCube1 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
+    CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    PlaceCubeHighRowSequence placeCube1 = new PlaceCubeHighRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake, colorSensor);
     QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
     GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition);
-    PlaceGamePieceMidRowSequence placeCube2 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
+    PlaceCubeMidRowSequence placeCube2 = new PlaceCubeMidRowSequence(elevator, wrist, intake);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
@@ -45,6 +48,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     Field2dTrajectoryFollowerSequence trajectory3 = new Field2dTrajectoryFollowerSequence(drive, gridToChargeStation);
 
     addCommands(
+      calibrateElevator,
       placeCube1,
       trajectory1,
       quickTurn1,

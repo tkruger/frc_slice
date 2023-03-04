@@ -22,9 +22,9 @@ public class PlaceGamePieceLowRowSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setLowRowState = new GoToStateCommand(elevator, wrist, Constants.State.LOW_ROW_STATE);
+    GoToStateCommand setLowRowState = new GoToStateCommand(elevator, wrist, Constants.States.LOW_ROW_GROUND_STATE);
     OpenMandiblesCommand openMandibles = new OpenMandiblesCommand(intake);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.State.TRAVEL_STATE);
+    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
 
     addCommands(
       setLowRowState,
