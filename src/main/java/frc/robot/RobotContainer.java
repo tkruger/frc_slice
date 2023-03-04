@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -17,9 +17,8 @@ import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
 import frc.robot.commands.Limelight.*;
-<<<<<<< HEAD
 import frc.robot.commands.Wrist.*;
-=======
+
 import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
 import frc.robot.commands.sequences.PlaceConeHighRowSequence;
@@ -27,7 +26,6 @@ import frc.robot.commands.sequences.PlaceConeMidRowSequence;
 import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 import frc.robot.commands.sequences.PlaceGamePieceLowRowSequence;
->>>>>>> b96c1796824fe20b0ff81a7520c8132ad5ded933
 import frc.robot.subsystems.*;
 
 /**
@@ -60,8 +58,6 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
-  public final ElevatorRunLeftCommand m_elevatorRunLeft = new ElevatorRunLeftCommand(m_elevator, true);
-  public final ElevatorRunRightCommand m_elevatorRunRight = new ElevatorRunRightCommand(m_elevator, true);
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
@@ -79,7 +75,7 @@ public class RobotContainer {
   public final PlaceConeHighRowSequence m_placeConeHighRow = new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake);
 
   public final ConditionalCommand m_placeGamePieceMidRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
-  public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
+  public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeHighRow, m_placeCubeHighRow, Button.placeCone);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -137,14 +133,11 @@ public class RobotContainer {
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
 
-<<<<<<< HEAD
-    Button.calibrateElevator.onTrue(m_elevatorGroup);
+    //Button.calibrateElevator.onTrue(m_elevatorGroup);
 
     Button.wristUp.whileTrue(m_wristRunUpwards);
     Button.wristDown.whileTrue(m_wristRunDownwards);
 
-=======
->>>>>>> b96c1796824fe20b0ff81a7520c8132ad5ded933
   }
 
   /**

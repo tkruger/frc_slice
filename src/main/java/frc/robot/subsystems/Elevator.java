@@ -50,29 +50,6 @@ public class Elevator extends SubsystemBase {
 
   }
 
-   /**
-   * Runs the left elevator motor at a desired speed(-1, 1).
-   * 
-   * @param speed The desired speed for the left elevator motor to run at(-1, 1).
-   */
-  public void runLeftMotor(double speed) {
-
-    leftMotor.set(speed);
-
-  } 
-
-  /**
-   * Runs the right elevator motor at a desired speed(-1, 1).
-   * 
-   * @param speed The desired speed for the right elevator motor to run at(-1, 1).
-   */
-  public void runRightMotor(double speed) {
-
-    rightMotor.set(speed);
-
-  }
-
-
   public void setPID(double kP, double kI, double kD) {
     leftPID.setP(kP);
     leftPID.setI(kI);
