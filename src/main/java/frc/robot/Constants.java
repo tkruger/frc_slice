@@ -81,7 +81,7 @@ public final class Constants {
     public final class Wrist {
 
         //Define Motor Ports
-        public static final int MOTOR_PORT = 9;
+        public static final int MOTOR_PORT = 6;
 
         //Define Limit Switch Channels (this is a placeholder for now)
         public static final int LIMIT_SWITCH_CHANNEL = 30;
@@ -97,6 +97,8 @@ public final class Constants {
         public static final double KP = 0.1;
         public static final double KI = 0;
         public static final double KD = 0;
+
+        public static final double RUN_SPEED = 0.2;
 
     }
 

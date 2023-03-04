@@ -8,16 +8,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Wrist;
 
-public class ManualWristCommand extends CommandBase {
-  private final Wrist m_wrist;
-  private final double m_speed;
-  /** Creates a new ManualWristCommand. */
-  public ManualWristCommand(Wrist wrist, double speed) {
-    m_wrist = wrist;
-    m_speed = speed;
+public class WristRunCommand extends CommandBase {
 
+  private final Wrist m_wrist;
+  private final boolean m_runUpwards;
+
+/** Creates a new ElevatorRunCommand. */
+  public WristRunCommand(Wrist wrist, boolean runUpwards) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_wrist);
+    addRequirements(wrist);
+
+    m_wrist = wrist;
+    m_runUpwards = runUpwards;
+
   }
 
   // Called when the command is initially scheduled.
@@ -27,10 +30,16 @@ public class ManualWristCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_wrist.completelyStowed() && m_speed > 0) || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE && m_speed < 0)) {
-      m_wrist.spinWrist(0); 
-    } else {
-      m_wrist.spinWrist(m_speed);
+
+    if(m_runUpwards) {
+
+      m_wrist.spinWrist(-Constants.Wrist.RUN_SPEED);
+
+    }
+    else {
+
+      m_wrist.spinWrist(Constants.Wrist.RUN_SPEED);
+
     }
 
   }
@@ -38,12 +47,17 @@ public class ManualWristCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
     m_wrist.spinWrist(0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     return false;
+    
   }
+  
 }
