@@ -98,7 +98,7 @@ public final class Constants {
         public static final double KI = 0;
         public static final double KD = 0;
 
-        public static final double RUN_SPEED = 0.2;
+        public static final double RUN_SPEED = 0.3;
 
     }
 
@@ -107,7 +107,7 @@ public final class Constants {
 
         //Define Motor Ports
         public static final int SPIN_PORT = 5;
-        public static final int MANDIBLE_PORT = 6;
+        public static final int MANDIBLE_PORT = 9;
 
         //Define open and closed positions
         public static final double MANDIBLE_CLOSED_POSITION = 0;
