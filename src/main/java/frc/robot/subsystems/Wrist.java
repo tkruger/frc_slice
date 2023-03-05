@@ -10,7 +10,11 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 import frc.robot.factories.SparkMaxFactory;
 
@@ -24,6 +28,8 @@ public class Wrist extends SubsystemBase {
   private final RelativeEncoder encoder;
   private final SparkMaxPIDController pidController;
   private final DigitalInput stowLimitSwitch;
+  private final ShuffleboardTab manipulatorTab;
+  private final SimpleWidget angleWidget, velocityWidget;
 
   /** Creates a new Wrist. */
   public Wrist() {
@@ -32,6 +38,11 @@ public class Wrist extends SubsystemBase {
     pidController = motor.getPIDController();
 
     stowLimitSwitch = new DigitalInput(Constants.Wrist.LIMIT_SWITCH_CHANNEL);
+
+    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+
+    angleWidget = manipulatorTab.add("Wrist Angle", 0).withPosition(5, 1).withSize(2, 1);
+    velocityWidget = manipulatorTab.add("Wrist Velocity", 0).withPosition(5, 2).withSize(2, 1);
   }
 
   public void spinWrist(double speed) {
@@ -92,5 +103,8 @@ public class Wrist extends SubsystemBase {
     if (completelyStowed()) {
       setEncoder(Constants.Wrist.MAX_ANGLE);
     }
+
+    angleWidget.getEntry().setDouble(getAngle());
+    velocityWidget.getEntry().setDouble(getVelocity());
   }
 }

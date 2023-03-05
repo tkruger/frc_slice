@@ -102,7 +102,7 @@ public class AutoSelector {
         autoTab = Shuffleboard.getTab("Auto Tab");
 
         autoTab.add("Auto Mode", modeChooser).withPosition(2, 0).withSize(2, 1);
-        autoTab.add("Starting Position", startingPositionChooser).withPosition(4, 0).withSize(2, 1);
+        autoTab.add("Starting Position", startingPositionChooser).withPosition(5, 0).withSize(2, 1);
 
         selectedAutoModeWidget = 
         autoTab.add("Selected Auto Mode", "Two Cubes Then Engage").
@@ -110,7 +110,7 @@ public class AutoSelector {
         withSize(2, 1);
         selectedStartingPositionWidget = 
         autoTab.add("Selected Starting Position", "Blue Left").
-        withPosition(4, 1).
+        withPosition(5, 1).
         withSize(2, 1);
 
         autoPoseXOffsetWidget = 
@@ -120,13 +120,13 @@ public class AutoSelector {
 
         autoPoseYOffsetWidget = 
         autoTab.add("Initial Auto Pose Y Offset", initialAutoPoseYOffset).
-        withPosition(5, 2).
+        withPosition(6, 2).
         withSize(2, 1);
 
         autoPoseRotationOffsetWidget = 
         autoTab.add("Initial Auto Pose Rotation Offset", initialAutoPoseRotationOffset).
         withPosition(3, 2).
-        withSize(2, 1);
+        withSize(3, 1);
 
     }
 

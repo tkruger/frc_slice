@@ -10,6 +10,9 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -25,6 +28,10 @@ public class Intake extends SubsystemBase {
 
   private boolean mandibleClosed;
 
+  private final ShuffleboardTab manipulatorTab;
+
+  private final SimpleWidget mandibleClosedWidget;
+
   /** Creates a new Elevator. */
   public Intake() {
 
@@ -38,6 +45,10 @@ public class Intake extends SubsystemBase {
     //rotatePID = rotateMotor.getPIDController();
 
     mandibleClosed = false;
+
+    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+
+    mandibleClosedWidget = manipulatorTab.add("Mandible Closed", false).withPosition(4, 1).withSize(1, 1);
 
   }
 
@@ -125,6 +136,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    mandibleClosedWidget.getEntry().setBoolean(getMandibleClosed());
   }
 
 }

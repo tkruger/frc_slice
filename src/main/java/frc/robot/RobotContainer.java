@@ -56,8 +56,6 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
-  public final ElevatorRunLeftCommand m_elevatorRunLeft = new ElevatorRunLeftCommand(m_elevator, true);
-  public final ElevatorRunRightCommand m_elevatorRunRight = new ElevatorRunRightCommand(m_elevator, true);
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
