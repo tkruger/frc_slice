@@ -15,6 +15,7 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
+import frc.robot.commands.Intake.RunMandiblesCommand;
 import frc.robot.commands.Wrist.*;
 import frc.robot.commands.Limelight.*;
 import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
@@ -62,6 +63,9 @@ public class RobotContainer {
   public final WristRunCommand m_wristRunUpwards = new WristRunCommand(m_wrist, true);
   public final WristRunCommand m_wristRunDownwards = new WristRunCommand(m_wrist, false);
 
+  public final RunMandiblesCommand m_runMandiblesInwards = new RunMandiblesCommand(m_intake, true);
+  public final RunMandiblesCommand m_runMandiblesOutwards = new RunMandiblesCommand(m_intake, false);
+
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
 
   public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
@@ -104,11 +108,8 @@ public class RobotContainer {
     //Enable PID Charge Station Balance
     Button.chargeStationBalancePID.whileTrue(m_ChargeStationBalancePID);
 
-    //Execute Drivetrain Quick Turn
-    //Button.quickTurn.onTrue(m_quickTurn);
-
     //Execute PID Drivetrain Quick Turn
-    //Button.quickTurnPID.onTrue(m_quickTurnPID);
+    Button.quickTurnPID.onTrue(m_quickTurnPID);
 
     //Toggle Old Drive
     Button.oldDrive.toggleOnTrue(m_oldDrive);
@@ -131,14 +132,26 @@ public class RobotContainer {
     //Execute Elevator Position Reset
     Button.calibrateElevator.onTrue(m_calibrateElevator);
 
+    //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);
+
+    //Enable Wrist Moving Downwards
     Button.wristDown.whileTrue(m_wristRunDownwards);
+
+    //Execute Low Row Game Piece Placement
+    Button.placeGamePieceLowRow.onTrue(m_placeGamePieceLowRow);
 
     //Execute Mid Row Game Piece Placement
     Button.placeGamePieceMidRow.onTrue(m_placeGamePieceMidRow);
 
     //Execute High Row Game Piece Placement
     Button.placeGamePieceHighRow.onTrue(m_placeGamePieceHighRow);
+
+    //Enable Mandibles Moving Inwards
+    Button.mandiblesInwards.whileTrue(m_runMandiblesInwards);
+
+    //Enable Mandibles Moving Outwards
+    Button.mandiblesOutwards.whileTrue(m_runMandiblesOutwards);
 
   }
 

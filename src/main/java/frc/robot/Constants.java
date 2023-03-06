@@ -81,7 +81,7 @@ public final class Constants {
     public final class Wrist {
 
         //Define Motor Ports
-        public static final int MOTOR_PORT = 6;
+        public static final int MOTOR_PORT = 12;
 
         //Define Limit Switch Channels (this is a placeholder for now)
         public static final int LIMIT_SWITCH_CHANNEL = 30;
@@ -121,6 +121,8 @@ public final class Constants {
         //Define threshold current (in amps) we must exceed so we know the intake is open/closed (this is a placeholder)
         public static final double CALIBRATION_CURRENT_THRESHOLD = 7.0;
 
+        //Define the speed the madibles run at when manually running
+        public static final double MANDIBLE_RUN_SPEED = 0.3;
         //Define the speed the mandibles run at when calibrating (this is a placeholder)
         public static final double CALIBRATION_SPEED = -0.1;
         

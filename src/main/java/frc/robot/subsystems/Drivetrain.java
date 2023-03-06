@@ -74,6 +74,8 @@ public class Drivetrain extends SubsystemBase {
 
   private Pose2d botPose;
 
+  private boolean drivetrainReversed = false;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
@@ -234,6 +236,13 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
+  /**
+   * Sets the idle mode of all drivetrain motors to either brake mode or coast mode.
+   * 
+   * @param enableBrakeMode Whether or not the idle mode of all 
+   * drivetrain motors should be set to brake mode(false to set to coast mode).
+   * 
+   */
   public void setIdleMode(boolean enableBrakeMode) {
 
     if(enableBrakeMode) {
@@ -256,6 +265,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   /**
+   * Reverses the forward speed outputs for all 3 drive methods.
+   */
+  public void reverseDrivetrain() {
+
+    drivetrainReversed = !drivetrainReversed;
+
+  }
+
+  /**
    * Drives the robot at given x, y and theta speeds. Speeds range from [-1, 1],
    * with the linear speeds having no effect on the angular speed.
    *
@@ -266,7 +284,16 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.arcadeDrive(-forwardSpeed, -turnSpeed);
+    if(drivetrainReversed == false) {
+
+      robotDrive.arcadeDrive(-forwardSpeed, -turnSpeed);
+
+    }
+    else {
+
+      robotDrive.arcadeDrive(forwardSpeed, -turnSpeed);
+
+    }
 
   }
 
@@ -279,7 +306,18 @@ public class Drivetrain extends SubsystemBase {
    * @param turnSpeed     Speed of the robot rotating.
    */
   public void PIDArcadeDrive(double forwardSpeed, double turnSpeed) {
-    WheelSpeeds speeds = DifferentialDrive.arcadeDriveIK(-forwardSpeed, -turnSpeed, true);
+    WheelSpeeds speeds;
+
+    if(drivetrainReversed == false) {
+
+      speeds = DifferentialDrive.arcadeDriveIK(-forwardSpeed, -turnSpeed, true);
+
+    }
+    else {
+
+      speeds = DifferentialDrive.arcadeDriveIK(forwardSpeed, -turnSpeed, true);
+
+    }
 
     leftPIDFront.setReference(speeds.left, ControlType.kVelocity);
     leftPIDBack.setReference(speeds.left, ControlType.kVelocity);
@@ -300,7 +338,16 @@ public class Drivetrain extends SubsystemBase {
    */
   public void curvatureDrive(double forwardSpeed, double turnSpeed) {
 
-    robotDrive.curvatureDrive(-forwardSpeed, -turnSpeed, (Math.abs(forwardSpeed)) < .05);
+    if(drivetrainReversed == false) {
+
+      robotDrive.curvatureDrive(-forwardSpeed, -turnSpeed, (Math.abs(forwardSpeed)) < .05);
+
+    }
+    else {
+
+      robotDrive.curvatureDrive(forwardSpeed, -turnSpeed, (Math.abs(forwardSpeed)) < .05);
+
+    }
 
   }
 

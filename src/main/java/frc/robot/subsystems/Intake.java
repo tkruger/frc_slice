@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase {
 
   private final ShuffleboardTab manipulatorTab;
 
-  private final SimpleWidget mandibleClosedWidget;
+  private final SimpleWidget mandibleClosedWidget, mandiblePositionWidget;
 
   /** Creates a new Elevator. */
   public Intake() {
@@ -48,7 +48,8 @@ public class Intake extends SubsystemBase {
 
     manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
 
-    mandibleClosedWidget = manipulatorTab.add("Mandible Closed", false).withPosition(4, 1).withSize(1, 1);
+    mandibleClosedWidget = manipulatorTab.add("Mandibles Closed", false).withPosition(4, 1).withSize(1, 1);
+    mandiblePositionWidget = manipulatorTab.add("Mandibles Position", 0).withPosition(3, 0).withSize(3, 1);
 
   }
 
@@ -137,6 +138,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     mandibleClosedWidget.getEntry().setBoolean(getMandibleClosed());
+    mandiblePositionWidget.getEntry().setDouble(getMandibleEncoderPosition());
   }
 
 }

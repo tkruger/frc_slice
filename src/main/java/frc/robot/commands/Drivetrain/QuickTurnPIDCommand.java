@@ -32,6 +32,7 @@ public class QuickTurnPIDCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
         startRot = m_drivetrain.getRotation2d();
         
         endRot = startRot.plus(new Rotation2d(Math.PI));
@@ -39,18 +40,19 @@ public class QuickTurnPIDCommand extends CommandBase {
         timeoutTimer.reset();
         timeoutTimer.start();
 
-
     }
 
     public void execute() {
         
         m_drivetrain.PIDArcadeDrive(0, -Math.min(positionalPID.calculate(m_drivetrain.getRotation2d().getDegrees(), endRot.getDegrees()), 3));
+
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         m_drivetrain.ArcadeDrive(0, 0);
+        m_drivetrain.reverseDrivetrain();
         timeoutTimer.stop();
     }
 
