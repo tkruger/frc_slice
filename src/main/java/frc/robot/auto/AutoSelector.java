@@ -93,9 +93,9 @@ public class AutoSelector {
 
         modeChooser = new SendableChooser<>();
 
-        modeChooser.setDefaultOption("Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
+        modeChooser.setDefaultOption("Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
 
-        modeChooser.addOption("One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
+        modeChooser.addOption("Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
         modeChooser.addOption("Score Cone High Row", DesiredMode.SCORE_CONE_HIGH_ROW);
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
 
@@ -105,7 +105,7 @@ public class AutoSelector {
         autoTab.add("Starting Position", startingPositionChooser).withPosition(5, 0).withSize(2, 1);
 
         selectedAutoModeWidget = 
-        autoTab.add("Selected Auto Mode", "Two Cubes Then Engage").
+        autoTab.add("Selected Auto Mode", "Score Two Game Pieces Then Engage").
         withPosition(2, 1).
         withSize(2, 1);
         selectedStartingPositionWidget = 
@@ -173,7 +173,7 @@ public class AutoSelector {
 
     public void updateInitialAutoPoseOffset() {
 
-        Pose2d botPoseBlue = Limelight.getBotPoseBlue();
+        Pose2d botPose = Limelight.getBotPoseBlue();
 
         switch(storedDesiredMode) {
 
@@ -197,11 +197,11 @@ public class AutoSelector {
 
         }
 
-        if(botPoseBlue != null) {
+        if(botPose != null) {
 
-            initialAutoPoseXOffset = initialAutoPose.get().getX() - botPoseBlue.getX();
-            initialAutoPoseYOffset = initialAutoPose.get().getY() - botPoseBlue.getY();
-            initialAutoPoseRotationOffset = initialAutoPose.get().getRotation().getDegrees() - botPoseBlue.getRotation().getDegrees();
+            initialAutoPoseXOffset = initialAutoPose.get().getX() - botPose.getX();
+            initialAutoPoseYOffset = initialAutoPose.get().getY() - botPose.getY();
+            initialAutoPoseRotationOffset = initialAutoPose.get().getRotation().getDegrees() - botPose.getRotation().getDegrees();
 
         }
 

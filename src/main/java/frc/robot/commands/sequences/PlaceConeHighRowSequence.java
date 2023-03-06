@@ -22,7 +22,7 @@ public class PlaceConeHighRowSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.States.HIGH_ROW_CUBE_STATE);
+    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.States.HIGH_ROW_CONE_STATE);
     OpenMandiblesCommand openMandibles = new OpenMandiblesCommand(intake);
     GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
 
