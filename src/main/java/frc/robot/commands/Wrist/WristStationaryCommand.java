@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Elevator;
+package frc.robot.commands.Wrist;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Elevator;
+import frc.robot.Constants;
+import frc.robot.subsystems.Wrist;
 
-public class ZeroElevatorPositionCommand extends CommandBase {
+public class WristStationaryCommand extends CommandBase {
 
-  private final Elevator m_elevator;
+  private final Wrist m_wrist;
 
-  /** Creates a new ZeroElevatorPositionCommand. */
-  public ZeroElevatorPositionCommand(Elevator elevator) {
-
-    m_elevator = elevator;
-
+  /** Creates a new WristStationaryCommand. */
+  public WristStationaryCommand(Wrist wrist) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
+    addRequirements(wrist);
+
+    m_wrist = wrist;
 
   }
 
@@ -25,7 +25,9 @@ public class ZeroElevatorPositionCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_elevator.setEncoderPosition(0);
+    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
+    m_wrist.setWristPosition(m_wrist.getAngle());
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,8 +42,8 @@ public class ZeroElevatorPositionCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    return true;
-    
+    return false;
+
   }
 
 }

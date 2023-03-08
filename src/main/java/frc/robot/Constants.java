@@ -16,8 +16,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
 
-    //Define RobotContainer Constants
-    public final class RobotContainer {
+    //Define Joystick Constants
+    public final class Joysticks {
 
         //Define Joystick Ports
         public static final int LEFT_JOYSTICK_PORT = 0;
@@ -67,13 +67,12 @@ public final class Constants {
         public static final double KD = 0;
 
         //Define Elevator Limit Switch Channels (this is a placeholder for now) 
-        public static final int LOW_LIMIT_SWITCH_CHANNEL = 31;
-        public static final int HIGH_LIMIT_SWITCH_CHANNEL = 31;
+        public static final int LIMIT_SWITCH_CHANNEL = 9;
 
         //Define Motor Speeds (these are placholders for now)
         public static final double RUN_SPEED = 0.5;
         public static final double SET_SPEED = 0.7; // May be deprecated with PID
-        public static final double CALIBRATION_SPEEED = 0.5;
+        public static final double CALIBRATION_SPEEED = 0.3;
 
     }
 
@@ -81,22 +80,29 @@ public final class Constants {
     public final class Wrist {
 
         //Define Motor Ports
-        public static final int MOTOR_PORT = 9;
+        public static final int MOTOR_PORT = 12;
 
         //Define Limit Switch Channels (this is a placeholder for now)
         public static final int LIMIT_SWITCH_CHANNEL = 30;
 
         //Define angles the intake is at from horizontal at maximum and minimum points (this is a placeholder for now)
-        public static final double MAX_ANGLE = 120;
-        public static final double MIN_ANGLE = -30;
+        public static final double MAX_ANGLE = 105;
+        public static final double MIN_ANGLE = -105;
 
         //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
-        public static final double RESET_SPEED = 0.1;
+        public static final double RESET_SPEED = 0.3;
 
         //P, I, and D gains for the wrist when going to a set position
-        public static final double KP = 0.1;
-        public static final double KI = 0;
-        public static final double KD = 0;
+        public static final double KP = 0.018;
+        public static final double KI = 0.000035;
+        public static final double KD = 0.0015;
+
+        public static final double RUN_UP_SPEED = 0.3;
+        public static final double RUN_DOWN_SPEED = 0.2;
+
+        public static final double POSITION_CONVERSION_FACTOR = (18 * 360) / 1500;
+
+        public static final double CALIBRATE_CURRENT_THRESHOLD = 40;
 
     }
 
@@ -105,7 +111,7 @@ public final class Constants {
 
         //Define Motor Ports
         public static final int SPIN_PORT = 5;
-        public static final int MANDIBLE_PORT = 6;
+        public static final int MANDIBLE_PORT = 9;
 
         //Define open and closed positions
         public static final double MANDIBLE_CLOSED_POSITION = 0;
@@ -119,6 +125,8 @@ public final class Constants {
         //Define threshold current (in amps) we must exceed so we know the intake is open/closed (this is a placeholder)
         public static final double CALIBRATION_CURRENT_THRESHOLD = 7.0;
 
+        //Define the speed the madibles run at when manually running
+        public static final double MANDIBLE_RUN_SPEED = 0.2;
         //Define the speed the mandibles run at when calibrating (this is a placeholder)
         public static final double CALIBRATION_SPEED = -0.1;
         
@@ -139,14 +147,15 @@ public final class Constants {
     }
 
     //Define RobotState Constants
-    public static final class State {
+    public static final class States {
 
-        public static final RobotState GROUND_PICK_UP_STATE = new RobotState(0, 0);
-        public static final RobotState LOW_ROW_STATE = new RobotState(0, 0);
-        public static final RobotState MID_ROW_STATE = new RobotState(50, 0);
-        public static final RobotState HIGH_ROW_STATE = new RobotState(0, 0);
+        public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(0, 0);
+        public static final RobotState MID_ROW_CUBE_STATE = new RobotState(50, 0);
+        public static final RobotState MID_ROW_CONE_STATE = new RobotState(50, 0);
+        public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(0, 0);
+        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(0, 0);
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(0, 0);
-        public static final RobotState TRAVEL_STATE = new RobotState(0, 0);
+        public static final RobotState TRAVEL_STATE = new RobotState(5, -105);
 
     }
 

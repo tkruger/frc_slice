@@ -16,15 +16,16 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlaceGamePieceMidRowSequence extends SequentialCommandGroup {
+public class PlaceConeMidRowSequence extends SequentialCommandGroup {
+
   /** Creates a new PlaceGamePieceMidRowSequence. */
-  public PlaceGamePieceMidRowSequence(Elevator elevator, Wrist wrist, Intake intake) {
+  public PlaceConeMidRowSequence(Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setMidRowState = new GoToStateCommand(elevator, wrist, Constants.State.MID_ROW_STATE);
+    GoToStateCommand setMidRowState = new GoToStateCommand(elevator, wrist, Constants.States.MID_ROW_CONE_STATE);
     OpenMandiblesCommand openMandibles = new OpenMandiblesCommand(intake);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.State.TRAVEL_STATE);
+    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
 
     addCommands(
       setMidRowState,

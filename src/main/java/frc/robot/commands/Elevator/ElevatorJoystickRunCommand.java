@@ -4,22 +4,26 @@
 
 package frc.robot.commands.Elevator;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.JoystickFilter;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorRunRightCommand extends CommandBase {
+public class ElevatorJoystickRunCommand extends CommandBase {
 
   private final Elevator m_elevator;
-  private final boolean m_runUpwards;
 
-/** Creates a new ElevatorRunCommand. */
-  public ElevatorRunRightCommand(Elevator elevator, boolean runUpwards) {
+  private final Joystick m_manipulatorJoystick;
+
+  private final JoystickFilter speedFilter = new JoystickFilter(0, 0.3);
+
+  /** Creates a new ElevatorJoystickRunCommand. */
+  public ElevatorJoystickRunCommand(Elevator elevator, Joystick manipulatorJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
 
     m_elevator = elevator;
-    m_runUpwards = runUpwards;
+    m_manipulatorJoystick = manipulatorJoystick;
 
   }
 
@@ -31,16 +35,9 @@ public class ElevatorRunRightCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_runUpwards) {
+    double elevatorSpeed = speedFilter.filter(m_manipulatorJoystick.getY());
 
-      m_elevator.runRightMotor(Constants.Elevator.RUN_SPEED);
-
-    }
-    else {
-
-      m_elevator.runRightMotor(-Constants.Elevator.RUN_SPEED);
-
-    }
+    m_elevator.runElevator(elevatorSpeed);
 
   }
 
@@ -48,7 +45,7 @@ public class ElevatorRunRightCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_elevator.runRightMotor(0);
+    m_elevator.runElevator(0);
 
   }
 
@@ -57,7 +54,7 @@ public class ElevatorRunRightCommand extends CommandBase {
   public boolean isFinished() {
 
     return false;
-    
+
   }
-  
+
 }

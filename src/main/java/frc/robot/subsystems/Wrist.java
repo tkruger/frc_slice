@@ -10,7 +10,11 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 import frc.robot.factories.SparkMaxFactory;
 
@@ -24,6 +28,8 @@ public class Wrist extends SubsystemBase {
   private final RelativeEncoder encoder;
   private final SparkMaxPIDController pidController;
   private final DigitalInput stowLimitSwitch;
+  private final ShuffleboardTab manipulatorTab;
+  private final SimpleWidget angleWidget, velocityWidget, voltageWidget;
 
   /** Creates a new Wrist. */
   public Wrist() {
@@ -31,7 +37,15 @@ public class Wrist extends SubsystemBase {
     encoder = motor.getEncoder();
     pidController = motor.getPIDController();
 
+    encoder.setPositionConversionFactor(Constants.Wrist.POSITION_CONVERSION_FACTOR);
+
     stowLimitSwitch = new DigitalInput(Constants.Wrist.LIMIT_SWITCH_CHANNEL);
+
+    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+
+    angleWidget = manipulatorTab.add("Wrist Angle", 0).withPosition(5, 1).withSize(2, 1);
+    velocityWidget = manipulatorTab.add("Wrist Velocity", 0).withPosition(5, 2).withSize(2, 1);
+    voltageWidget = manipulatorTab.add("Wrist Voltage", 0);
   }
 
   public void spinWrist(double speed) {
@@ -52,6 +66,9 @@ public class Wrist extends SubsystemBase {
     pidController.setP(kP);
     pidController.setI(kI);
     pidController.setD(kD);
+
+    pidController.setIAccum(0);
+    pidController.setOutputRange(-10, 10);
   }
 
   /**
@@ -82,15 +99,15 @@ public class Wrist extends SubsystemBase {
    * @return true if the intake is completely stowed, false otherwise
    */
   public boolean completelyStowed() {
-    boolean stowed = stowLimitSwitch.get();
+    boolean stowed = motor.getOutputCurrent() > Constants.Wrist.CALIBRATE_CURRENT_THRESHOLD;
     return stowed;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (completelyStowed()) {
-      setEncoder(Constants.Wrist.MAX_ANGLE);
-    }
+    angleWidget.getEntry().setDouble(getAngle());
+    velocityWidget.getEntry().setDouble(getVelocity());
+    voltageWidget.getEntry().setDouble(motor.getOutputCurrent());
   }
 }

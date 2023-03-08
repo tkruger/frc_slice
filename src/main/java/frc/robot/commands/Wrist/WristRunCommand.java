@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Elevator;
+package frc.robot.commands.Wrist;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Wrist;
 
-public class ElevatorRunLeftCommand extends CommandBase {
+public class WristRunCommand extends CommandBase {
 
-  private final Elevator m_elevator;
+  private final Wrist m_wrist;
   private final boolean m_runUpwards;
 
 /** Creates a new ElevatorRunCommand. */
-  public ElevatorRunLeftCommand(Elevator elevator, boolean runUpwards) {
+  public WristRunCommand(Wrist wrist, boolean runUpwards) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
+    addRequirements(wrist);
 
-    m_elevator = elevator;
+    m_wrist = wrist;
     m_runUpwards = runUpwards;
 
   }
@@ -33,12 +33,12 @@ public class ElevatorRunLeftCommand extends CommandBase {
 
     if(m_runUpwards) {
 
-      m_elevator.runLeftMotor(Constants.Elevator.RUN_SPEED);
+      m_wrist.spinWrist(-Constants.Wrist.RUN_UP_SPEED);
 
     }
     else {
 
-      m_elevator.runLeftMotor(-Constants.Elevator.RUN_SPEED);
+      m_wrist.spinWrist(Constants.Wrist.RUN_DOWN_SPEED);
 
     }
 
@@ -48,7 +48,7 @@ public class ElevatorRunLeftCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_elevator.runLeftMotor(0);
+    m_wrist.spinWrist(0);
 
   }
 

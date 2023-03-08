@@ -10,6 +10,9 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -25,11 +28,15 @@ public class Intake extends SubsystemBase {
 
   private boolean mandibleClosed;
 
+  private final ShuffleboardTab manipulatorTab;
+
+  private final SimpleWidget mandibleClosedWidget, mandiblePositionWidget;
+
   /** Creates a new Elevator. */
   public Intake() {
 
-    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.SPIN_PORT);
-    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.MANDIBLE_PORT);
+    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.MANDIBLE_PORT);
+    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.SPIN_PORT);
 
     mandibleEncoder = mandibleMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
     rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
@@ -38,6 +45,11 @@ public class Intake extends SubsystemBase {
     //rotatePID = rotateMotor.getPIDController();
 
     mandibleClosed = false;
+
+    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+
+    mandibleClosedWidget = manipulatorTab.add("Mandibles Closed", false).withPosition(4, 1).withSize(1, 1);
+    mandiblePositionWidget = manipulatorTab.add("Mandibles Position", 0).withPosition(3, 0).withSize(3, 1);
 
   }
 
@@ -125,6 +137,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    mandibleClosedWidget.getEntry().setBoolean(getMandibleClosed());
+    mandiblePositionWidget.getEntry().setDouble(getMandibleEncoderPosition());
   }
 
 }

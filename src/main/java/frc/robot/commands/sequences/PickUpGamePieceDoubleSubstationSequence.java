@@ -22,9 +22,9 @@ public class PickUpGamePieceDoubleSubstationSequence extends SequentialCommandGr
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setDoubleSubstationPickUpState = new GoToStateCommand(elevator, wrist, Constants.State.DOUBLE_SUBSTATION_STATE);
+    GoToStateCommand setDoubleSubstationPickUpState = new GoToStateCommand(elevator, wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
     AutoMandiblesCommand closeMandibles = new AutoMandiblesCommand(intake, colorSensor);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.State.TRAVEL_STATE);
+    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
 
     addCommands(
       setDoubleSubstationPickUpState,

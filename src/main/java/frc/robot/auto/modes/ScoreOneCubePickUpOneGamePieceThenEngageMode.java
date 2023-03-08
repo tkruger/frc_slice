@@ -16,8 +16,9 @@ import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
+import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
-import frc.robot.commands.sequences.PlaceGamePieceMidRowSequence;
+import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -28,7 +29,8 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    PlaceGamePieceMidRowSequence placeCube1 = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
+    CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    PlaceCubeMidRowSequence placeCube1 = new PlaceCubeMidRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake, colorSensor);
@@ -40,6 +42,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
     Field2dTrajectoryFollowerSequence trajectory2 = new Field2dTrajectoryFollowerSequence(drive, gamePieceToChargeStation);
 
     addCommands(
+      calibrateElevator,
       placeCube1,
       trajectory1,
       quickTurn1,

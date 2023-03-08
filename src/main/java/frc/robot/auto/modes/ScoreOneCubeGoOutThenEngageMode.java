@@ -10,7 +10,8 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
-import frc.robot.commands.sequences.PlaceGamePieceMidRowSequence;
+import frc.robot.commands.Elevator.CalibrateElevatorCommand;
+import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -25,13 +26,15 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    PlaceGamePieceMidRowSequence placeCube = new PlaceGamePieceMidRowSequence(elevator, wrist, intake);
+    CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    PlaceCubeMidRowSequence placeCube = new PlaceCubeMidRowSequence(elevator, wrist, intake);
     GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     Field2dTrajectoryFollowerSequence trajectory = new Field2dTrajectoryFollowerSequence(drive, gridOutOfCommunityToChargeStation, gridOutOfCommunityToChargeStation.trajectory.getInitialPose());
 
     addCommands(
+      calibrateElevator,
       placeCube,
       trajectory,
       chargeStationBalance

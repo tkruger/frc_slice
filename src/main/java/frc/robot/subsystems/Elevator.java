@@ -10,6 +10,10 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -24,6 +28,12 @@ public class Elevator extends SubsystemBase {
 
   private final SparkMaxPIDController leftPID, rightPID;
 
+  private final DigitalInput lowLimitSwitch;
+
+  private final ShuffleboardTab manipulatorTab;
+
+  private final SimpleWidget positionWidget, velocityWidget;
+
   /** Creates a new Elevator. */
   public Elevator() {
 
@@ -36,6 +46,13 @@ public class Elevator extends SubsystemBase {
     leftPID = leftMotor.getPIDController();
     rightPID = rightMotor.getPIDController();
 
+    lowLimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_CHANNEL);
+
+    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+
+    positionWidget = manipulatorTab.add("Elevator Position", 0).withPosition(2, 1).withSize(2, 1);
+    velocityWidget = manipulatorTab.add("Elevator Velocity", 0).withPosition(2, 2).withSize(2, 1);
+
   }
 
   /**
@@ -47,28 +64,6 @@ public class Elevator extends SubsystemBase {
 
       leftMotor.set(-speed);
       rightMotor.set(speed);
-
-  }
-
-   /**
-   * Runs the left elevator motor at a desired speed(-1, 1).
-   * 
-   * @param speed The desired speed for the left elevator motor to run at(-1, 1).
-   */
-  public void runLeftMotor(double speed) {
-
-    leftMotor.set(speed);
-
-  } 
-
-  /**
-   * Runs the right elevator motor at a desired speed(-1, 1).
-   * 
-   * @param speed The desired speed for the right elevator motor to run at(-1, 1).
-   */
-  public void runRightMotor(double speed) {
-
-    rightMotor.set(speed);
 
   }
 
@@ -90,6 +85,17 @@ public class Elevator extends SubsystemBase {
   public void setPosition(double position) {
     leftPID.setReference(position, ControlType.kPosition);
     rightPID.setReference(-position, ControlType.kPosition);
+  }
+
+  /**
+   * Calculates and returns the average of the left and right elevator motor positions(rotations).
+   * 
+   * @return The average of the left and right elevator motor positions(rotations).
+   */
+  public double getElevatorPosition() {
+
+    return (getLeftMotorPosition() + -getRightMotorPosition()) / 2;
+
   }
 
 
@@ -128,6 +134,17 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
+   * Calculates and returns the average of the left and right elevator motor velocities(rpm).
+   * 
+   * @return The average of the left and right elevator motor velocities.(rpm)
+   */
+  public double getElevatorVelocity() {
+
+    return (getLeftMotorVelocity() + -getRightMotorVelocity()) / 2;
+
+  }
+
+  /**
    * Obtains and returns the current velocity of the left elevator motor(rpm).
    * 
    * @return The current velocity of the left elevator motor(rpm).
@@ -158,16 +175,21 @@ public class Elevator extends SubsystemBase {
   }
 
   public boolean atBottom() {
-    return getAverageOutputCurrent() > 50;
+    return lowLimitSwitch.get();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Left Elevator Motor Position", getLeftMotorPosition());
-    SmartDashboard.putNumber("Right Elevator Motor Position", getRightMotorPosition());
+    positionWidget.getEntry().setDouble(getElevatorPosition());
+    velocityWidget.getEntry().setDouble(getElevatorVelocity());
+
+    SmartDashboard.putNumber("Elevator Left Motor Position", getLeftMotorPosition());
+    SmartDashboard.putNumber("Elevator Right Motor Position", getRightMotorPosition());
+
     SmartDashboard.putNumber("Elevator Motor Current", (leftMotor.getOutputCurrent() + rightMotor.getOutputCurrent()) / 2);
+
   }
 
 }
