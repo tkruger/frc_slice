@@ -46,6 +46,7 @@ public final class Button {
     public static Trigger placeGamePieceLowRow = new JoystickButton(manipulatorJoystick, 8); //Manipulator Bottom 8
     public static Trigger placeGamePieceMidRow = new JoystickButton(manipulatorJoystick, 9); //Manipulator Bottom 9
     public static Trigger placeGamePieceHighRow = new JoystickButton(manipulatorJoystick, 10); //Manipulator Bottom 10
+    public static Trigger manualSetStowState = new JoystickButton(manipulatorJoystick, 1); //Manipulator Top 1
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton2 = new JoystickButton(rightJoystick, 2); //Right Top 2
@@ -66,7 +67,6 @@ public final class Button {
     public static Trigger leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12
 
     //Unassigned Manipulator Joystick Buttons
-    public static Trigger manipulatorButton1 = new JoystickButton(manipulatorJoystick, 1); //Manipulator Top 1
     public static Trigger manipulatorButton11 = new JoystickButton(manipulatorJoystick, 11); //Manipulator Bottom 11
     public static Trigger manipulatorButton12 = new JoystickButton(manipulatorJoystick, 12); //Manipulator Bottom 12
 

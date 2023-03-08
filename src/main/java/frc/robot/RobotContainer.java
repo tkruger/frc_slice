@@ -83,6 +83,7 @@ public class RobotContainer {
   public final PlaceConeMidRowSequence m_placeConeMidRow = new PlaceConeMidRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceCubeHighRowSequence m_placeCubeHighRow = new PlaceCubeHighRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceConeHighRowSequence m_placeConeHighRow = new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake);
+  public final GoToStateCommand m_manualSetStowState = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
 
   public final ConditionalCommand m_placeGamePieceMidRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
   public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeHighRow, m_placeCubeHighRow, Button.placeCone);
@@ -160,6 +161,9 @@ public class RobotContainer {
 
     //Execute Wrist Angle Reset
     Button.resetWrist.onTrue(m_resetWristAngle);
+
+    //Execute Stow State Positioning
+    Button.manualSetStowState.onTrue(m_manualSetStowState);
 
   }
 
