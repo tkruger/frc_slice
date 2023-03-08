@@ -133,6 +133,11 @@ public final class Constants {
 
     }
 
+    public final class LEDs {
+        public static final int port = -100000;
+        public static final int count = 60;
+    }
+
     //Define RobotState Constants
     public static final class State {
 
