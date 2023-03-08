@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Wrist;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Wrist;
@@ -25,6 +26,7 @@ public class WristStationaryCommand extends CommandBase {
   @Override
   public void initialize() {
 
+    Timer.delay(1);
     m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
     m_wrist.setWristPosition(m_wrist.getAngle());
 

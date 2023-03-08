@@ -18,6 +18,7 @@ import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
 import frc.robot.commands.Intake.CalibrateMandiblesCommand;
 import frc.robot.commands.Intake.RunMandiblesCommand;
+import frc.robot.commands.LEDs.FlashColorCommand;
 import frc.robot.commands.Wrist.*;
 import frc.robot.commands.Limelight.*;
 import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
@@ -43,6 +44,7 @@ public class RobotContainer {
   public final Intake m_intake = new Intake();
   public final Limelight m_limelight = new Limelight();
   public final ColorSensor m_colorSensor = new ColorSensor();
+  //public final LEDs m_leds = new LEDs();
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor);
 
   public final Joystick leftJoystick = Button.leftJoystick;
@@ -88,6 +90,7 @@ public class RobotContainer {
   public final ConditionalCommand m_placeGamePieceMidRow = new ConditionalCommand(m_placeConeMidRow, m_placeCubeMidRow, Button.placeCone);
   public final ConditionalCommand m_placeGamePieceHighRow = new ConditionalCommand(m_placeConeHighRow, m_placeCubeHighRow, Button.placeCone);
 
+  //public final FlashColorCommand m_redLEDCommand = new FlashColorCommand(null, null, 0, 0)
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
