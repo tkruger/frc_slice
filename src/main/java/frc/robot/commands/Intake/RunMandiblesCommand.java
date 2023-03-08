@@ -33,12 +33,12 @@ public class RunMandiblesCommand extends CommandBase {
 
     if(m_runInwards) {
 
-      m_intake.runMandibles(Constants.Intake.MANDIBLE_RUN_SPEED);
+      m_intake.runMandibles(-Constants.Intake.MANDIBLE_RUN_SPEED);
 
     }
     else {
 
-      m_intake.runMandibles(-Constants.Intake.MANDIBLE_RUN_SPEED);
+      m_intake.runMandibles(Constants.Intake.MANDIBLE_RUN_SPEED);
 
     }
 
@@ -48,7 +48,16 @@ public class RunMandiblesCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_intake.runMandibles(0);
+    if(m_runInwards) {
+
+      m_intake.runMandibles(-Constants.Intake.MANDIBLE_RUN_SPEED);
+
+    }
+    else {
+
+      m_intake.runMandibles(0);
+
+    }
 
   }
 
@@ -57,7 +66,7 @@ public class RunMandiblesCommand extends CommandBase {
   public boolean isFinished() {
 
     return false;
-    
+
   }
 
 }

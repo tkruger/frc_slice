@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -15,6 +16,7 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
+import frc.robot.commands.Intake.CalibrateMandiblesCommand;
 import frc.robot.commands.Intake.RunMandiblesCommand;
 import frc.robot.commands.Wrist.*;
 import frc.robot.commands.Limelight.*;
@@ -57,14 +59,20 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
+  public final ElevatorJoystickRunCommand m_elevatorJoystickRun = new ElevatorJoystickRunCommand(m_elevator, manipulatorJoystick);
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
+  //public final SequentialCommandGroup m_wristRunUpwards = new WristRunCommand(m_wrist, true).andThen(new WristStationaryCommand(m_wrist));
+  //public final SequentialCommandGroup m_wristRunDownwards = new WristRunCommand(m_wrist, false).andThen(new WristStationaryCommand(m_wrist));
   public final WristRunCommand m_wristRunUpwards = new WristRunCommand(m_wrist, true);
   public final WristRunCommand m_wristRunDownwards = new WristRunCommand(m_wrist, false);
+  public final WristStationaryCommand m_wristStationary = new WristStationaryCommand(m_wrist);
+  public final ResetAngleCommand m_resetWristAngle = new ResetAngleCommand(m_wrist);
 
   public final RunMandiblesCommand m_runMandiblesInwards = new RunMandiblesCommand(m_intake, true);
   public final RunMandiblesCommand m_runMandiblesOutwards = new RunMandiblesCommand(m_intake, false);
+  public final CalibrateMandiblesCommand m_calibrateMandibles = new CalibrateMandiblesCommand(m_intake);
 
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
 
@@ -86,8 +94,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drivetrain.setDefaultCommand(m_oldDrive);
-    m_elevator.setDefaultCommand(new IdleCommand(m_elevator));
-    m_wrist.setDefaultCommand(new IdleCommand(m_wrist));
+    m_elevator.setDefaultCommand(m_elevatorJoystickRun);
+    m_wrist.setDefaultCommand(m_wristStationary);
     m_intake.setDefaultCommand(new IdleCommand(m_intake));
     m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
     m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
@@ -120,16 +128,10 @@ public class RobotContainer {
     //Toggle Curvature Drive
     Button.curvatureDrive.toggleOnTrue(m_curvatureDrive);
 
-    //Enable Elevator Moving Upwards
-    Button.elevatorUp.whileTrue(m_elevatorRunUpwards);
-
-    //Enable Elevator Moving Downwards
-    Button.elevatorDown.whileTrue(m_elevatorRunDownwards);
-
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
 
-    //Execute Elevator Position Reset
+    //Execute Elevator Position Calibration
     Button.calibrateElevator.onTrue(m_calibrateElevator);
 
     //Enable Wrist Moving Upwards
@@ -152,6 +154,12 @@ public class RobotContainer {
 
     //Enable Mandibles Moving Outwards
     Button.mandiblesOutwards.whileTrue(m_runMandiblesOutwards);
+
+    //Execute Mandibles Position Calibration
+    Button.calibrateMandibles.onTrue(m_calibrateMandibles);
+
+    //Execute Wrist Angle Reset
+    Button.resetWrist.onTrue(m_resetWristAngle);
 
   }
 

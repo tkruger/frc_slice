@@ -35,8 +35,8 @@ public class Intake extends SubsystemBase {
   /** Creates a new Elevator. */
   public Intake() {
 
-    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.SPIN_PORT);
-    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.MANDIBLE_PORT);
+    mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.MANDIBLE_PORT);
+    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.SPIN_PORT);
 
     mandibleEncoder = mandibleMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
     rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);

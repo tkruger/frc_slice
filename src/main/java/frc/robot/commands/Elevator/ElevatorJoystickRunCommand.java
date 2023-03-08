@@ -2,24 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Wrist;
+package frc.robot.commands.Elevator;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Wrist;
+import frc.robot.JoystickFilter;
+import frc.robot.subsystems.Elevator;
 
-public class WristRunCommand extends CommandBase {
+public class ElevatorJoystickRunCommand extends CommandBase {
 
-  private final Wrist m_wrist;
-  private final boolean m_runUpwards;
+  private final Elevator m_elevator;
 
-/** Creates a new ElevatorRunCommand. */
-  public WristRunCommand(Wrist wrist, boolean runUpwards) {
+  private final Joystick m_manipulatorJoystick;
+
+  private final JoystickFilter speedFilter = new JoystickFilter(0, 0.3);
+
+  /** Creates a new ElevatorJoystickRunCommand. */
+  public ElevatorJoystickRunCommand(Elevator elevator, Joystick manipulatorJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(wrist);
+    addRequirements(elevator);
 
-    m_wrist = wrist;
-    m_runUpwards = runUpwards;
+    m_elevator = elevator;
+    m_manipulatorJoystick = manipulatorJoystick;
 
   }
 
@@ -31,16 +35,9 @@ public class WristRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_runUpwards) {
+    double elevatorSpeed = speedFilter.filter(m_manipulatorJoystick.getY());
 
-      m_wrist.spinWrist(-Constants.Wrist.RUN_UP_SPEED);
-
-    }
-    else {
-
-      m_wrist.spinWrist(Constants.Wrist.RUN_DOWN_SPEED);
-
-    }
+    m_elevator.runElevator(elevatorSpeed);
 
   }
 
@@ -48,7 +45,7 @@ public class WristRunCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_wrist.spinWrist(0);
+    m_elevator.runElevator(0);
 
   }
 
@@ -57,7 +54,7 @@ public class WristRunCommand extends CommandBase {
   public boolean isFinished() {
 
     return false;
-    
+
   }
-  
+
 }

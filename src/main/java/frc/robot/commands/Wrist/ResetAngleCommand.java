@@ -16,7 +16,7 @@ public class ResetAngleCommand extends CommandBase {
     m_wrist = wrist;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_wrist);
+    addRequirements(wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -26,13 +26,14 @@ public class ResetAngleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_wrist.spinWrist(Constants.Wrist.RESET_SPEED);
+    m_wrist.spinWrist(-Constants.Wrist.RESET_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
+    m_wrist.setEncoder(Constants.Wrist.MIN_ANGLE);
   }
 
   // Returns true when the command should end.

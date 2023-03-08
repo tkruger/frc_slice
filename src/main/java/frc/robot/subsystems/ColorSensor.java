@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;

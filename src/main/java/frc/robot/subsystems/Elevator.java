@@ -10,6 +10,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
@@ -27,6 +28,8 @@ public class Elevator extends SubsystemBase {
 
   private final SparkMaxPIDController leftPID, rightPID;
 
+  private final DigitalInput lowLimitSwitch;
+
   private final ShuffleboardTab manipulatorTab;
 
   private final SimpleWidget positionWidget, velocityWidget;
@@ -42,6 +45,8 @@ public class Elevator extends SubsystemBase {
 
     leftPID = leftMotor.getPIDController();
     rightPID = rightMotor.getPIDController();
+
+    lowLimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_CHANNEL);
 
     manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
 
@@ -89,7 +94,7 @@ public class Elevator extends SubsystemBase {
    */
   public double getElevatorPosition() {
 
-    return (getLeftMotorPosition() + getRightMotorPosition()) / 2;
+    return (getLeftMotorPosition() + -getRightMotorPosition()) / 2;
 
   }
 
@@ -135,7 +140,7 @@ public class Elevator extends SubsystemBase {
    */
   public double getElevatorVelocity() {
 
-    return (getLeftMotorVelocity() + getRightMotorVelocity()) / 2;
+    return (getLeftMotorVelocity() + -getRightMotorVelocity()) / 2;
 
   }
 
@@ -170,7 +175,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public boolean atBottom() {
-    return getAverageOutputCurrent() > 50;
+    return lowLimitSwitch.get();
   }
 
   @Override
@@ -179,6 +184,9 @@ public class Elevator extends SubsystemBase {
 
     positionWidget.getEntry().setDouble(getElevatorPosition());
     velocityWidget.getEntry().setDouble(getElevatorVelocity());
+
+    SmartDashboard.putNumber("Elevator Left Motor Position", getLeftMotorPosition());
+    SmartDashboard.putNumber("Elevator Right Motor Position", getRightMotorPosition());
 
     SmartDashboard.putNumber("Elevator Motor Current", (leftMotor.getOutputCurrent() + rightMotor.getOutputCurrent()) / 2);
 
