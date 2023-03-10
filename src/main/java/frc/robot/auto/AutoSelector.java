@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
-import frc.robot.commands.sequences.PlaceConeHighRowSequence;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
@@ -39,7 +38,7 @@ public class AutoSelector {
 
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE,
         SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE,
-        SCORE_CONE_HIGH_ROW,
+        SCORE_ONE_CONE_HIGH_ROW,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE
 
     }
@@ -96,7 +95,7 @@ public class AutoSelector {
         modeChooser.setDefaultOption("Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
 
         modeChooser.addOption("Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
-        modeChooser.addOption("Score Cone High Row", DesiredMode.SCORE_CONE_HIGH_ROW);
+        modeChooser.addOption("Score One Cone High Row", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
@@ -157,8 +156,8 @@ public class AutoSelector {
                 return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
             case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
-            case SCORE_CONE_HIGH_ROW:
-                return Optional.of(new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake));
+            case SCORE_ONE_CONE_HIGH_ROW:
+                return Optional.of(new ScoreOneConeHighRowMode(m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
             default:
@@ -183,7 +182,7 @@ public class AutoSelector {
             case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
                 initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition).trajectory.getInitialPose());
                 break;
-            case SCORE_CONE_HIGH_ROW:
+            case SCORE_ONE_CONE_HIGH_ROW:
                 System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
                 initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
                 break;

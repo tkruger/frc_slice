@@ -18,6 +18,9 @@ public class LEDs extends SubsystemBase {
   public LEDs() {
     leds = new AddressableLED(Constants.LEDs.port);
     buffer = new AddressableLEDBuffer(Constants.LEDs.count);
+
+    leds.setLength(Constants.LEDs.count);
+    leds.start();
   }
 
   /**
@@ -25,7 +28,11 @@ public class LEDs extends SubsystemBase {
    * @param color the color the leds will display
    */
   public void setAll(Color color) {
-    setAll((int) color.red, (int) color.green, (int) color.blue);
+    Color newColor = new Color(color.red, color.blue, color.green);
+    for (int i = 0; i < Constants.LEDs.count; i++) {
+      buffer.setLED(i, newColor);
+    }
+    leds.setData(buffer);
   }
 
   /**

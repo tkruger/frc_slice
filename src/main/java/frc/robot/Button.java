@@ -40,19 +40,21 @@ public final class Button {
     public static Trigger calibrateMandibles = new JoystickButton(manipulatorJoystick, 2); //Manipulator Top 2
 
     //Define Limelight Buttons
-    public static Trigger limelightAlign = new JoystickButton(rightJoystick, 5); //Right Top 5
+    public static Trigger limelightAlign = new JoystickButton(rightJoystick, 7); //Right Bottom 7
+
+    //Define LED Buttons
+    public static Trigger flashPurpleLEDs = new JoystickButton(rightJoystick, 5); //Right Top 5
+    public static Trigger flashYellowLEDs = new JoystickButton(rightJoystick, 3); //Right Top 3
 
     //Define RobotState Buttons
-    public static Trigger placeCone = new JoystickButton(manipulatorJoystick, 7); //Manipulator Bottom 7
-    public static Trigger placeGamePieceLowRow = new JoystickButton(manipulatorJoystick, 8); //Manipulator Bottom 8
-    public static Trigger placeGamePieceMidRow = new JoystickButton(manipulatorJoystick, 9); //Manipulator Bottom 9
-    public static Trigger placeGamePieceHighRow = new JoystickButton(manipulatorJoystick, 10); //Manipulator Bottom 10
+    public static Trigger setConeState = new JoystickButton(manipulatorJoystick, 7); //Manipulator Bottom 7
+    public static Trigger setLowRowGroundState = new JoystickButton(manipulatorJoystick, 8); //Manipulator Bottom 8
+    public static Trigger setMidRowState = new JoystickButton(manipulatorJoystick, 9); //Manipulator Bottom 9
+    public static Trigger setHighRowState = new JoystickButton(manipulatorJoystick, 10); //Manipulator Bottom 10
     public static Trigger manualSetStowState = new JoystickButton(manipulatorJoystick, 1); //Manipulator Top 1
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton2 = new JoystickButton(rightJoystick, 2); //Right Top 2
-    public static Trigger rightButton3 = new JoystickButton(rightJoystick, 3); //Right Top 3
-    public static Trigger rightButton7 = new JoystickButton(rightJoystick, 7); //Right Bottom 7
     public static Trigger rightButton8 = new JoystickButton(rightJoystick, 8); //Right Bottom 8
     public static Trigger rightButton9 = new JoystickButton(rightJoystick, 9); //Right Bottom 9
     public static Trigger rightButton10 = new JoystickButton(rightJoystick, 10); //Right Bottom 10
@@ -77,7 +79,7 @@ public final class Button {
     public static Trigger leftButton11 = new JoystickButton(leftJoystick, 11); //Left Bottom 11
     public static Trigger leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12
 
-    //Unassigned Right Joystick POV Axes
+    //Unassigned Left Joystick POV Axes
     public static POVButton leftMiniJoystickUp = new POVButton(leftJoystick, 0);
     public static POVButton leftMiniJoystickUpRight = new POVButton(leftJoystick, 45);
     public static POVButton leftMiniJoystickRight = new POVButton(leftJoystick, 90);
@@ -88,10 +90,10 @@ public final class Button {
     public static POVButton leftMiniJoystickUpLeft = new POVButton(leftJoystick, 315);
 
     //Unassigned Manipulator Joystick Buttons
-    public static Trigger manipulatorButton11 = new JoystickButton(manipulatorJoystick, 11); //Manipulator Bottom 11
+    public static Trigger setGroundState = new JoystickButton(manipulatorJoystick, 11); //Manipulator Bottom 11
     public static Trigger manipulatorButton12 = new JoystickButton(manipulatorJoystick, 12); //Manipulator Bottom 12
 
-    //Unassigned Right Joystick POV Axes
+    //Unassigned Manipulator Joystick POV Axes
     public static POVButton manipulatorMiniJoystickUp = new POVButton(manipulatorJoystick, 0);
     public static POVButton manipulatorMiniJoystickUpRight = new POVButton(manipulatorJoystick, 45);
     public static POVButton manipulatorMiniJoystickRight = new POVButton(manipulatorJoystick, 90);

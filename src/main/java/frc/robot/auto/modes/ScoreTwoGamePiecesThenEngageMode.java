@@ -4,6 +4,7 @@
 
 package frc.robot.auto.modes;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.AutoSelector;
@@ -14,6 +15,7 @@ import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
+import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
 import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
@@ -33,6 +35,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceCubeHighRowSequence placeCube1 = new PlaceCubeHighRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
@@ -43,12 +46,13 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
+    ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
     Field2dTrajectoryFollowerSequence trajectory1 = new Field2dTrajectoryFollowerSequence(drive, gridToGamePiece, gridToGamePiece.trajectory.getInitialPose());
     Field2dTrajectoryFollowerSequence trajectory2 = new Field2dTrajectoryFollowerSequence(drive, gamePieceToGrid);
     Field2dTrajectoryFollowerSequence trajectory3 = new Field2dTrajectoryFollowerSequence(drive, gridToChargeStation);
 
     addCommands(
-      calibrateElevator,
+      calibrateElevatorAndWrist,
       placeCube1,
       trajectory1,
       quickTurn1,

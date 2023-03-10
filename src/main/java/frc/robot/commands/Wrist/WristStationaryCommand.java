@@ -12,6 +12,8 @@ import frc.robot.subsystems.Wrist;
 public class WristStationaryCommand extends CommandBase {
 
   private final Wrist m_wrist;
+  private final Timer timer;
+  private boolean run = false;
 
   /** Creates a new WristStationaryCommand. */
   public WristStationaryCommand(Wrist wrist) {
@@ -20,21 +22,27 @@ public class WristStationaryCommand extends CommandBase {
 
     m_wrist = wrist;
 
+    timer = new Timer();
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    Timer.delay(1);
-    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
-    m_wrist.setWristPosition(m_wrist.getAngle());
-
+    run = false;
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (timer.get() > 1 && !run) {
+      run = true;
+      m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
+      m_wrist.setWristPosition(m_wrist.getAngle());
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

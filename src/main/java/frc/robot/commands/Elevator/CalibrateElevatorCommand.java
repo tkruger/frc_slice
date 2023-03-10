@@ -15,7 +15,7 @@ public class CalibrateElevatorCommand extends CommandBase {
     m_elevator = elevator;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_elevator);
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.

@@ -7,14 +7,9 @@ package frc.robot.auto.modes;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.auto.AutoSelector;
-import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
-import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
-import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
-import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.sequences.PlaceConeHighRowSequence;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -22,26 +17,21 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
-  /** Creates a new OneGamePieceGoOutThenEngageMode. */
-  public ScoreOneCubeGoOutThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+public class ScoreOneConeHighRowMode extends SequentialCommandGroup {
+  /** Creates a new ScoreOneConeHighRow. */
+  public ScoreOneConeHighRowMode(Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    PlaceCubeMidRowSequence placeCube = new PlaceCubeMidRowSequence(elevator, wrist, intake);
-    GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
-    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    PlaceConeHighRowSequence placeCone = new PlaceConeHighRowSequence(elevator, wrist, intake);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
-    Field2dTrajectoryFollowerSequence trajectory = new Field2dTrajectoryFollowerSequence(drive, gridOutOfCommunityToChargeStation, gridOutOfCommunityToChargeStation.trajectory.getInitialPose());
 
     addCommands(
       calibrateElevatorAndWrist,
-      placeCube,
-      trajectory,
-      chargeStationBalance
+      placeCone
     );
 
   }

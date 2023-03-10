@@ -12,13 +12,18 @@ import frc.robot.subsystems.LEDs;
 public class FlashColorCommand extends CommandBase {
   private final LEDs m_LEDs;
   private final Color color;
-  private final double onTime, offTime;
+  private final double onTime, offTime, totalTime;
+  private final Timer timer;
+  private boolean on;
   /** Creates a new FlashColorCommand. */
   public FlashColorCommand(LEDs LEDs, Color color, double onTime, double offTime) {
     m_LEDs = LEDs;
     this.color = color;
     this.onTime = onTime;
     this.offTime = offTime;
+    totalTime = onTime + offTime;
+
+    timer = new Timer();
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_LEDs);
@@ -28,15 +33,21 @@ public class FlashColorCommand extends CommandBase {
   @Override
   public void initialize() {
     m_LEDs.setAll(Color.kBlack);
+    timer.reset();
+    timer.start();
+    on = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Timer.delay(offTime);
-    m_LEDs.setAll(color);
-    Timer.delay(onTime);
-    m_LEDs.setAll(Color.kBlack);
+    if ((timer.get() % totalTime) > offTime && !on) {
+      m_LEDs.setAll(color);
+      on = true;
+    }else if ((timer.get() % totalTime) <= offTime && on) {
+      m_LEDs.setAll(Color.kBlack);
+      on = false;
+    }
   }
 
   // Called once the command ends or is interrupted.

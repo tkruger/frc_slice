@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -205,6 +205,8 @@ public class Drivetrain extends SubsystemBase {
 
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);
+
+    CameraServer.startAutomaticCapture();
 
   }
 

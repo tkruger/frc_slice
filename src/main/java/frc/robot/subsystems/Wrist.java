@@ -31,6 +31,8 @@ public class Wrist extends SubsystemBase {
   private final ShuffleboardTab manipulatorTab;
   private final SimpleWidget angleWidget, velocityWidget, voltageWidget;
 
+  private double targetPosition;
+
   /** Creates a new Wrist. */
   public Wrist() {
     motor = SparkMaxFactory.createDefaultSparkMax(Constants.Wrist.MOTOR_PORT);
@@ -45,7 +47,9 @@ public class Wrist extends SubsystemBase {
 
     angleWidget = manipulatorTab.add("Wrist Angle", 0).withPosition(5, 1).withSize(2, 1);
     velocityWidget = manipulatorTab.add("Wrist Velocity", 0).withPosition(5, 2).withSize(2, 1);
-    voltageWidget = manipulatorTab.add("Wrist Voltage", 0);
+    voltageWidget = manipulatorTab.add("Wrist Voltage", 0).withPosition(7, 2).withSize(2, 1);
+  
+    targetPosition = -105;
   }
 
   public void spinWrist(double speed) {
@@ -54,6 +58,7 @@ public class Wrist extends SubsystemBase {
 
   public void setWristPosition(double position) {
     pidController.setReference(position, ControlType.kPosition);
+    targetPosition = position;
   }
 
   /**
@@ -68,7 +73,7 @@ public class Wrist extends SubsystemBase {
     pidController.setD(kD);
 
     pidController.setIAccum(0);
-    pidController.setOutputRange(-10, 10);
+    pidController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
   }
 
   /**
@@ -101,6 +106,13 @@ public class Wrist extends SubsystemBase {
   public boolean completelyStowed() {
     boolean stowed = motor.getOutputCurrent() > Constants.Wrist.CALIBRATE_CURRENT_THRESHOLD;
     return stowed;
+  }
+
+  public boolean atTargetPosition() {
+    double position = getAngle();
+    double error = Math.abs(position - targetPosition);
+    return error < Constants.Wrist.POSITIONAL_ERROR_THRESHOLD;
+
   }
 
   @Override

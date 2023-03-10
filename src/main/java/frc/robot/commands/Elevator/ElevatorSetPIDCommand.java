@@ -46,9 +46,7 @@ public class ElevatorSetPIDCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    double position = (m_elevator.getLeftMotorPosition() + m_elevator.getRightMotorPosition()) / 2;
-    double error = m_targetPosition - position;
-    return Math.abs(error) < 2.5;
+    return m_elevator.atTargetPosition();
     
   }
   

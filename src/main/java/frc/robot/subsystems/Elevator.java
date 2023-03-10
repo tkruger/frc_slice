@@ -32,7 +32,11 @@ public class Elevator extends SubsystemBase {
 
   private final ShuffleboardTab manipulatorTab;
 
-  private final SimpleWidget positionWidget, velocityWidget;
+  private final SimpleWidget positionWidget, velocityWidget, lowLimitWidget;
+
+  private double targetPosition;
+
+  private boolean calibrating;
 
   /** Creates a new Elevator. */
   public Elevator() {
@@ -52,7 +56,11 @@ public class Elevator extends SubsystemBase {
 
     positionWidget = manipulatorTab.add("Elevator Position", 0).withPosition(2, 1).withSize(2, 1);
     velocityWidget = manipulatorTab.add("Elevator Velocity", 0).withPosition(2, 2).withSize(2, 1);
+    lowLimitWidget = manipulatorTab.add("Elevator At Low Limit", false).withPosition(0, 2).withSize(2, 1);
 
+    targetPosition = 0;
+
+    calibrating = false;
   }
 
   /**
@@ -64,6 +72,8 @@ public class Elevator extends SubsystemBase {
 
       leftMotor.set(-speed);
       rightMotor.set(speed);
+
+      calibrating = speed <= 0;
 
   }
 
@@ -85,6 +95,9 @@ public class Elevator extends SubsystemBase {
   public void setPosition(double position) {
     leftPID.setReference(position, ControlType.kPosition);
     rightPID.setReference(-position, ControlType.kPosition);
+    targetPosition = position;
+
+    calibrating = false;
   }
 
   /**
@@ -178,12 +191,25 @@ public class Elevator extends SubsystemBase {
     return lowLimitSwitch.get();
   }
 
+  public boolean atTargetPosition() {
+    double position = getElevatorPosition();
+    double error = Math.abs(position - targetPosition);
+    return error < Constants.Elevator.POSITIONAL_ERROR_THRESHOLD;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
+    if(atBottom() && calibrating) {
+
+      setEncoderPosition(0);
+
+    }
+
     positionWidget.getEntry().setDouble(getElevatorPosition());
     velocityWidget.getEntry().setDouble(getElevatorVelocity());
+    lowLimitWidget.getEntry().setBoolean(atBottom());
 
     SmartDashboard.putNumber("Elevator Left Motor Position", getLeftMotorPosition());
     SmartDashboard.putNumber("Elevator Right Motor Position", getRightMotorPosition());

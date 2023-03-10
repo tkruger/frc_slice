@@ -74,6 +74,7 @@ public final class Constants {
         public static final double SET_SPEED = 0.7; // May be deprecated with PID
         public static final double CALIBRATION_SPEEED = 0.3;
 
+        public static final double POSITIONAL_ERROR_THRESHOLD = 3;
     }
 
     //Define Wrist Constants
@@ -94,7 +95,7 @@ public final class Constants {
 
         //P, I, and D gains for the wrist when going to a set position
         public static final double KP = 0.018;
-        public static final double KI = 0.000035;
+        public static final double KI = 0.000037;
         public static final double KD = 0.0015;
 
         public static final double RUN_UP_SPEED = 0.3;
@@ -103,6 +104,9 @@ public final class Constants {
         public static final double POSITION_CONVERSION_FACTOR = (18 * 360) / 1500;
 
         public static final double CALIBRATE_CURRENT_THRESHOLD = 40;
+
+        public static final double POSITIONAL_ERROR_THRESHOLD = 5;
+        public static final double POSITIONAL_MAX_SPEED = 0.5;
 
     }
 
@@ -142,20 +146,20 @@ public final class Constants {
     }
 
     public final class LEDs {
-        public static final int port = -100000;
+        public static final int port = 9;
         public static final int count = 77;
     }
 
     //Define RobotState Constants
     public static final class States {
 
-        public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(0, 0);
-        public static final RobotState MID_ROW_CUBE_STATE = new RobotState(50, 0);
-        public static final RobotState MID_ROW_CONE_STATE = new RobotState(50, 0);
-        public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(0, 0);
-        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(0, 0);
-        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(0, 0);
-        public static final RobotState TRAVEL_STATE = new RobotState(5, -105);
+        public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(1, -5);
+        public static final RobotState MID_ROW_CUBE_STATE = new RobotState(16, -71);
+        public static final RobotState MID_ROW_CONE_STATE = new RobotState(38, -50);
+        public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(55, -43);
+        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(108, -25);
+        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(80, -12);
+        public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
 
     }
 

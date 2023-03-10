@@ -15,7 +15,7 @@ public class ElevatorJoystickRunCommand extends CommandBase {
 
   private final Joystick m_manipulatorJoystick;
 
-  private final JoystickFilter speedFilter = new JoystickFilter(0, 0.3);
+  private final JoystickFilter speedFilter = new JoystickFilter(0.05, 0.3);
 
   /** Creates a new ElevatorJoystickRunCommand. */
   public ElevatorJoystickRunCommand(Elevator elevator, Joystick manipulatorJoystick) {
