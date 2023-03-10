@@ -30,7 +30,7 @@ public class Elevator extends SubsystemBase {
 
   private final DigitalInput lowLimitSwitch;
 
-  private final ShuffleboardTab manipulatorTab;
+  private final ShuffleboardTab teleopTab;
 
   private final SimpleWidget positionWidget, velocityWidget, lowLimitWidget;
 
@@ -52,11 +52,11 @@ public class Elevator extends SubsystemBase {
 
     lowLimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_CHANNEL);
 
-    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+    teleopTab = Shuffleboard.getTab("Teleop Tab");
 
-    positionWidget = manipulatorTab.add("Elevator Position", 0).withPosition(2, 1).withSize(2, 1);
-    velocityWidget = manipulatorTab.add("Elevator Velocity", 0).withPosition(2, 2).withSize(2, 1);
-    lowLimitWidget = manipulatorTab.add("Elevator At Low Limit", false).withPosition(0, 2).withSize(2, 1);
+    positionWidget = teleopTab.add("Elevator Position", 0).withPosition(2, 0).withSize(2, 1);
+    velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(2, 1).withSize(2, 1);
+    lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(4, 0).withSize(1, 1);
 
     targetPosition = 0;
 

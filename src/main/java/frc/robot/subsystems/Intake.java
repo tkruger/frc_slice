@@ -28,9 +28,9 @@ public class Intake extends SubsystemBase {
 
   private boolean mandibleClosed;
 
-  private final ShuffleboardTab manipulatorTab;
+  private final ShuffleboardTab teleopTab;
 
-  private final SimpleWidget mandibleClosedWidget, mandiblePositionWidget;
+  private final SimpleWidget mandiblesClosedWidget;//, mandiblePositionWidget;
 
   /** Creates a new Elevator. */
   public Intake() {
@@ -46,10 +46,10 @@ public class Intake extends SubsystemBase {
 
     mandibleClosed = false;
 
-    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+    teleopTab = Shuffleboard.getTab("Teleop Tab");
 
-    mandibleClosedWidget = manipulatorTab.add("Mandibles Closed", false).withPosition(4, 1).withSize(1, 1);
-    mandiblePositionWidget = manipulatorTab.add("Mandibles Position", 0).withPosition(3, 0).withSize(3, 1);
+    mandiblesClosedWidget = teleopTab.add("Mandibles Closed", false).withPosition(4, 1).withSize(1, 1);
+    //mandiblePositionWidget = manipulatorTab.add("Mandibles Position", 0).withPosition(3, 0).withSize(3, 1);
 
   }
 
@@ -137,8 +137,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    mandibleClosedWidget.getEntry().setBoolean(getMandibleClosed());
-    mandiblePositionWidget.getEntry().setDouble(getMandibleEncoderPosition());
+    mandiblesClosedWidget.getEntry().setBoolean(getMandibleClosed());
+    //mandiblePositionWidget.getEntry().setDouble(getMandibleEncoderPosition());
   }
 
 }

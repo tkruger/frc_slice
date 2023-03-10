@@ -58,11 +58,11 @@ public class Drivetrain extends SubsystemBase {
   //private final DifferentialDriveOdometry m_odometry;
   private final DifferentialDrivePoseEstimator m_odometry;
 
-  private final ShuffleboardTab driveTab;
+  private final ShuffleboardTab teleopTab;
 
   private final GenericEntry 
-  leftSidePositionWidget, 
-  rightSidePositionWidget, 
+  //leftSidePositionWidget, 
+  //rightSidePositionWidget, 
   leftSideVelocityWidget, 
   rightSideVelocityWidget, 
   driveHeadingWidget, 
@@ -149,59 +149,59 @@ public class Drivetrain extends SubsystemBase {
       new Pose2d(8, 4, Rotation2d.fromDegrees(0)));
 
     //Creates the "Driver Tab" on Shuffleboard
-    driveTab = Shuffleboard.getTab("Driver Tab");
+    teleopTab = Shuffleboard.getTab("Teleop Tab");
 
     //Creates a widget for showing the gyro heading
     driveHeadingWidget = 
-    driveTab.add("Drive Heading", 0.0).
+    teleopTab.add("Drive Heading", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", 0, "Max", 360)).
-    withPosition(2, 0).
+    withPosition(0, 0).
     withSize(2, 2).
     getEntry();
 
     //Creates a widget for showing the gyro pitch
     drivePitchWidget = 
-    driveTab.add("Drive Pitch", 0.0).
+    teleopTab.add("Drive Pitch", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", -180, "Max", 180)).
-    withPosition(5, 0).
+    withPosition(7, 0).
     withSize(2, 2).
     getEntry();
 
     //Creates a widget for showing the drivetrain left side position
-    leftSidePositionWidget = 
+    /*leftSidePositionWidget = 
     driveTab.add("Left Side Position", 0.0).
     withPosition(0, 0).
     withSize(2, 1).
-    getEntry();
+    getEntry();*/
 
     //Creates a widget for showing the drivetrain right side position
-    rightSidePositionWidget = 
+    /*rightSidePositionWidget = 
     driveTab.add("Right Side Position", 0.0).
     withPosition(7, 0).
     withSize(2, 1).
-    getEntry();
+    getEntry();*/
 
     //Creates a widget for showing the drivetrain left side position
     leftSideVelocityWidget = 
-    driveTab.add("Left Side Velocity", 0.0).
-    withPosition(0, 1).
-    withSize(2, 1).
+    teleopTab.add("Left Side Velocity", 0.0).
+    withPosition(3, 2).
+    withSize(3, 1).
     getEntry();
 
     //Creates a widget for showing the drivetrain left side position
     rightSideVelocityWidget = 
-    driveTab.add("Right Side Velocity", 0.0).
-    withPosition(7, 1).
-    withSize(2, 1).
+    teleopTab.add("Right Side Velocity", 0.0).
+    withPosition(3, 3).
+    withSize(3, 1).
     getEntry();
 
     //Displays how the robot is moving on Shuffleboard
-    driveTab.add(robotDrive).withPosition(5, 2).withSize(3, 2);
+    teleopTab.add(robotDrive).withPosition(6, 2).withSize(3, 2);
 
     //Displays the current position of the robot on the field on Shuffleboard
-    driveTab.add(m_field2d).withPosition(1, 2).withSize(3, 2);
+    teleopTab.add(m_field2d).withPosition(0, 2).withSize(3, 2);
 
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);
@@ -218,18 +218,14 @@ public class Drivetrain extends SubsystemBase {
 
     m_field2d.setRobotPose(getPose());
 
-    leftSidePositionWidget.setDouble(getLeftSideDistance());
-    rightSidePositionWidget.setDouble(getRightSideDistance());
+    //leftSidePositionWidget.setDouble(getLeftSideDistance());
+    //rightSidePositionWidget.setDouble(getRightSideDistance());
 
     leftSideVelocityWidget.setDouble(getLeftSideVelocity());
     rightSideVelocityWidget.setDouble(getRightSideVelocity());
 
     driveHeadingWidget.setDouble(getHeading());
     drivePitchWidget.setDouble(getPitch());
-
-    //driveHeadingWidget.setDouble(getHeading());
-
-    //SmartDashboard.putBoolean("Gyro Connected", navXGyro.isConnected());
 
   }
 
