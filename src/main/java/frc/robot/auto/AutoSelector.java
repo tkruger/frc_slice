@@ -80,7 +80,7 @@ public class AutoSelector {
         m_intake = intake;
         m_colorSensor = colorSensor;
 
-        startingPositionChooser = new SendableChooser<>();
+        startingPositionChooser = new SendableChooser<StartingPosition>();
 
         startingPositionChooser.setDefaultOption("Blue Left", StartingPosition.BLUE_COMMUNITY_LEFT);
 
@@ -90,7 +90,7 @@ public class AutoSelector {
         startingPositionChooser.addOption("Red Middle", StartingPosition.RED_COMMUNITY_MIDDLE);
         startingPositionChooser.addOption("Red Right", StartingPosition.RED_COMMUNITY_RIGHT);
 
-        modeChooser = new SendableChooser<>();
+        modeChooser = new SendableChooser<DesiredMode>();
 
         modeChooser.setDefaultOption("Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
 

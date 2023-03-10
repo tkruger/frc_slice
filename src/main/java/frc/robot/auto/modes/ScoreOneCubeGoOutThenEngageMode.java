@@ -13,7 +13,7 @@ import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
-import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
+import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -30,7 +30,7 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    PlaceCubeMidRowSequence placeCube = new PlaceCubeMidRowSequence(elevator, wrist, intake);
+    PlaceCubeHighRowSequence placeCube = new PlaceCubeHighRowSequence(elevator, wrist, intake);
     GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
