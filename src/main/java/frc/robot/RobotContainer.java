@@ -98,9 +98,10 @@ public class RobotContainer {
   public final GoToStateCommand m_manualSetGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
   public final GoToStateCommand m_manualSetStowState = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
 
-  public final ConditionalCommand m_setMidRowState = new ConditionalCommand(m_manualSetMidCone, m_manualSetMidCube, Button.setConeState);
-  public final ConditionalCommand m_setHighRowState = new ConditionalCommand(m_manualSetHighCone, m_manualSetHighCube, Button.setConeState);
+  //public final ConditionalCommand m_setMidRowState = new ConditionalCommand(m_manualSetMidCone, m_manualSetMidCube, Button.setConeState);
+  //public final ConditionalCommand m_setHighRowState = new ConditionalCommand(m_manualSetHighCone, m_manualSetHighCube, Button.setConeState);
 
+  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateElevator, m_resetWristAngle);
   //public final FlashColorCommand m_redLEDCommand = new FlashColorCommand(null, null, 0, 0)
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -157,16 +158,19 @@ public class RobotContainer {
     Button.wristDown.whileTrue(m_wristRunDownwards);
 
     //Execute Low Row Ground State Positioning
-    Button.setLowRowGroundState.onTrue(m_placeGamePieceLowRow);
+    Button.toLowState.onTrue(m_manualSetGround);
 
     //Execute Mid Row State Positioning
-    Button.setMidRowState.onTrue(m_setMidRowState);
+    Button.toMidCubeState.onTrue(m_manualSetMidCube);
+    Button.toMidConeState.onTrue(m_manualSetMidCone);
 
     //Execute High Row State Positioning
-    Button.setHighRowState.onTrue(m_setHighRowState);
+    Button.toHighState.onTrue(m_manualSetHighCone);
 
     //Execute Stow State Positioning
-    Button.manualSetStowState.onTrue(m_manualSetStowState);
+    Button.toStowState.onTrue(m_manualSetStowState);
+
+    Button.toDoubleSubstationState.onTrue(m_manualSetDoubleSubstation);
 
     //Enable Mandibles Moving Inwards
     Button.mandiblesInwards.whileTrue(m_runMandiblesInwards);
@@ -175,7 +179,7 @@ public class RobotContainer {
     Button.mandiblesOutwards.whileTrue(m_runMandiblesOutwards);
 
     //Execute Mandibles Position Calibration
-    Button.calibrateMandibles.onTrue(m_calibrateMandibles);
+    Button.calibrateAll.onTrue(m_calibrateCommands);
 
     //Execute Wrist Angle Reset
     Button.resetWrist.onTrue(m_resetWristAngle);
