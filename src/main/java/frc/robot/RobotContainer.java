@@ -23,9 +23,9 @@ import frc.robot.commands.Wrist.*;
 import frc.robot.commands.Limelight.*;
 import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
-import frc.robot.commands.sequences.PlaceConeHighRowSequence;
 import frc.robot.commands.sequences.PlaceConeMidRowSequence;
-import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
+import frc.robot.commands.sequences.PlaceHighRowSequence;
+import frc.robot.commands.sequences.ToHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 import frc.robot.commands.sequences.PlaceGamePieceLowRowSequence;
 import frc.robot.subsystems.*;
@@ -87,16 +87,17 @@ public class RobotContainer {
   public final PlaceGamePieceLowRowSequence m_placeGamePieceLowRow = new PlaceGamePieceLowRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceCubeMidRowSequence m_placeCubeMidRow = new PlaceCubeMidRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceConeMidRowSequence m_placeConeMidRow = new PlaceConeMidRowSequence(m_elevator, m_wrist, m_intake);
-  public final PlaceCubeHighRowSequence m_placeCubeHighRow = new PlaceCubeHighRowSequence(m_elevator, m_wrist, m_intake);
-  public final PlaceConeHighRowSequence m_placeConeHighRow = new PlaceConeHighRowSequence(m_elevator, m_wrist, m_intake);
+  public final PlaceHighRowSequence m_placeCubeHighRow = new PlaceHighRowSequence(m_elevator, m_wrist, m_intake);
 
   public final GoToStateCommand m_manualSetMidCube = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CUBE_STATE);
-  public final GoToStateCommand m_manualSetHighCube = new GoToStateCommand(m_elevator, m_wrist, Constants.States.HIGH_ROW_CUBE_STATE);
+  public final ToHighRowSequence m_manualSetHighRow = new ToHighRowSequence(m_elevator, m_wrist);
   public final GoToStateCommand m_manualSetMidCone = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CONE_STATE);
-  public final GoToStateCommand m_manualSetHighCone = new GoToStateCommand(m_elevator, m_wrist, Constants.States.HIGH_ROW_CONE_STATE);
   public final GoToStateCommand m_manualSetDoubleSubstation = new GoToStateCommand(m_elevator, m_wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
   public final GoToStateCommand m_manualSetGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
-  public final GoToStateCommand m_manualSetStowState = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
+  
+  public final GoToStateCommand m_toStowTransitionState = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRANSITION_OUT_STATE);
+  public final GoToStateCommand m_toStowSate = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
+  public final SequentialCommandGroup m_manualSetStowState = new SequentialCommandGroup(m_toStowTransitionState, m_toStowSate);
 
   //public final ConditionalCommand m_setMidRowState = new ConditionalCommand(m_manualSetMidCone, m_manualSetMidCube, Button.setConeState);
   //public final ConditionalCommand m_setHighRowState = new ConditionalCommand(m_manualSetHighCone, m_manualSetHighCube, Button.setConeState);
@@ -165,7 +166,7 @@ public class RobotContainer {
     Button.toMidConeState.onTrue(m_manualSetMidCone);
 
     //Execute High Row State Positioning
-    Button.toHighState.onTrue(m_manualSetHighCone);
+    Button.toHighState.onTrue(m_manualSetHighRow);
 
     //Execute Stow State Positioning
     Button.toStowState.onTrue(m_manualSetStowState);
@@ -183,12 +184,6 @@ public class RobotContainer {
 
     //Execute Wrist Angle Reset
     Button.resetWrist.onTrue(m_resetWristAngle);
-
-    Button.rightButton8.onTrue(m_manualSetDoubleSubstation);
-    Button.rightButton10.onTrue(m_manualSetHighCube);
-    Button.rightButton12.onTrue(m_manualSetHighCone);
-    Button.rightButton9.onTrue(m_manualSetMidCube);
-    Button.rightButton11.onTrue(m_manualSetMidCone);
 
     //Toggle Purple LED Flashing
     Button.flashPurpleLEDs.toggleOnTrue(m_flashPurpleLEDs);

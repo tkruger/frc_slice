@@ -4,10 +4,12 @@
 
 package frc.robot.commands.sequences;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
 import frc.robot.commands.Intake.OpenMandiblesCommand;
+import frc.robot.commands.Intake.TimedRunMandiblesCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -15,19 +17,21 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlaceConeHighRowSequence extends SequentialCommandGroup {
+public class PlaceHighRowSequence extends SequentialCommandGroup {
 
   /** Creates a new PlaceGamePieceHighRowSequence. */
-  public PlaceConeHighRowSequence(Elevator elevator, Wrist wrist, Intake intake) {
+  public PlaceHighRowSequence(Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.States.HIGH_ROW_CONE_STATE);
-    OpenMandiblesCommand openMandibles = new OpenMandiblesCommand(intake);
+    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.2);
+    ToHighRowSequence toHighCube = new ToHighRowSequence(elevator, wrist);
+    TimedRunMandiblesCommand openMandibles = new TimedRunMandiblesCommand(intake, false, 0.3);
     GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
 
     addCommands(
-      setHighRowState,
+      closeMandibles,
+      toHighCube,
       openMandibles,
       setTravelState
     );

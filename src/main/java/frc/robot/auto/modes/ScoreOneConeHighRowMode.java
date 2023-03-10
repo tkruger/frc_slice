@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
-import frc.robot.commands.sequences.PlaceConeHighRowSequence;
+import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -25,7 +25,7 @@ public class ScoreOneConeHighRowMode extends SequentialCommandGroup {
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    PlaceConeHighRowSequence placeCone = new PlaceConeHighRowSequence(elevator, wrist, intake);
+    PlaceHighRowSequence placeCone = new PlaceHighRowSequence(elevator, wrist, intake);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
 

@@ -17,7 +17,7 @@ import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
-import frc.robot.commands.sequences.PlaceCubeHighRowSequence;
+import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
@@ -36,7 +36,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    PlaceCubeHighRowSequence placeCube1 = new PlaceCubeHighRowSequence(elevator, wrist, intake);
+    PlaceHighRowSequence placeCube1 = new PlaceHighRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake, colorSensor);
