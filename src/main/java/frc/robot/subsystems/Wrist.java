@@ -28,8 +28,8 @@ public class Wrist extends SubsystemBase {
   private final RelativeEncoder encoder;
   private final SparkMaxPIDController pidController;
   private final DigitalInput stowLimitSwitch;
-  private final ShuffleboardTab manipulatorTab;
-  private final SimpleWidget angleWidget, velocityWidget, voltageWidget;
+  private final ShuffleboardTab teleopTab;
+  private final SimpleWidget angleWidget, velocityWidget;//, voltageWidget;
 
   private double targetPosition;
 
@@ -43,11 +43,10 @@ public class Wrist extends SubsystemBase {
 
     stowLimitSwitch = new DigitalInput(Constants.Wrist.LIMIT_SWITCH_CHANNEL);
 
-    manipulatorTab = Shuffleboard.getTab("Manipulator Tab");
+    teleopTab = Shuffleboard.getTab("Teleop Tab");
 
-    angleWidget = manipulatorTab.add("Wrist Angle", 0).withPosition(5, 1).withSize(2, 1);
-    velocityWidget = manipulatorTab.add("Wrist Velocity", 0).withPosition(5, 2).withSize(2, 1);
-    voltageWidget = manipulatorTab.add("Wrist Voltage", 0).withPosition(7, 2).withSize(2, 1);
+    angleWidget = teleopTab.add("Wrist Angle", 0).withPosition(5, 0).withSize(2, 1);
+    velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(5, 1).withSize(2, 1);
   
     targetPosition = -105;
   }
@@ -120,6 +119,6 @@ public class Wrist extends SubsystemBase {
     // This method will be called once per scheduler run
     angleWidget.getEntry().setDouble(getAngle());
     velocityWidget.getEntry().setDouble(getVelocity());
-    voltageWidget.getEntry().setDouble(motor.getOutputCurrent());
+    //voltageWidget.getEntry().setDouble(motor.getOutputCurrent());
   }
 }
