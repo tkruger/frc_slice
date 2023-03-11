@@ -45,6 +45,9 @@ public final class Constants {
         //Define Charge Station Balance Constants
         public static final double CHARGE_STATION_BALANCE_SPEED = 0.3;
 
+        //Autnomous Tolerances
+        public static final double AUTO_DISTANCE_ERROR_TOLERANCE = 0.25;
+
     }
 
     //Define Encoder Constants

@@ -469,6 +469,10 @@ public class Drivetrain extends SubsystemBase {
     return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
   }
 
+  public double getAverageDistance() {
+    return (getLeftSideDistance() + getRightSideDistance()) / 2;
+  }
+
   /**
    * Calculates and returns the sum of both left encoder velocities(meters/second).
    * 

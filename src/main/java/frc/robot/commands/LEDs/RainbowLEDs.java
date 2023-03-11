@@ -29,6 +29,8 @@ public class RainbowLEDs extends CommandBase {
 
         m_rainbowFirstPixelHue += 3;
         m_rainbowFirstPixelHue %= 180;
+
+        leds.ledBuffer();
     }
 
     // Called once the command ends or is interrupted.

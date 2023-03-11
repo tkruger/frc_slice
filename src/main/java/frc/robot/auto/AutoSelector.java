@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
+import frc.robot.auto.modes.ScoreOnePieceThenMobility;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
@@ -39,7 +40,8 @@ public class AutoSelector {
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE,
         SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE,
         SCORE_ONE_CONE_HIGH_ROW,
-        SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE
+        SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE,
+        SCORE_ONE_PIECE_THEN_MOBILITY
 
     }
 
@@ -97,6 +99,7 @@ public class AutoSelector {
         modeChooser.addOption("Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
         modeChooser.addOption("Score One Cone High Row", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
+        modeChooser.addOption("Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -160,6 +163,8 @@ public class AutoSelector {
                 return Optional.of(new ScoreOneConeHighRowMode(m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
+            case SCORE_ONE_PIECE_THEN_MOBILITY:
+                return Optional.of(new ScoreOnePieceThenMobility(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
     
