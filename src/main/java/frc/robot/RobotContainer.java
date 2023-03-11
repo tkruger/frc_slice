@@ -16,18 +16,11 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
-import frc.robot.commands.Intake.CalibrateMandiblesCommand;
-import frc.robot.commands.Intake.RunMandiblesCommand;
-import frc.robot.commands.LEDs.FlashColorCommand;
+import frc.robot.commands.Intake.*;
+import frc.robot.commands.LEDs.*;
 import frc.robot.commands.Wrist.*;
 import frc.robot.commands.Limelight.*;
-import frc.robot.commands.sequences.PickUpGamePieceDoubleSubstationSequence;
-import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
-import frc.robot.commands.sequences.PlaceConeMidRowSequence;
-import frc.robot.commands.sequences.PlaceHighRowSequence;
-import frc.robot.commands.sequences.ToHighRowSequence;
-import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
-import frc.robot.commands.sequences.PlaceGamePieceLowRowSequence;
+import frc.robot.commands.sequences.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -81,6 +74,7 @@ public class RobotContainer {
 
   public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 0.5, 0.5);
   public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 0.5, 0.5);
+  public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds);
 
   public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
   public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
@@ -116,7 +110,7 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new IdleCommand(m_intake));
     m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
     m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
-    //m_leds.setDefaultCommand(new IdleCommand(m_leds));
+    m_leds.setDefaultCommand(m_idleLEDs);
 
   }
 

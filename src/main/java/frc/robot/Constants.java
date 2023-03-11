@@ -157,12 +157,12 @@ public final class Constants {
         public static final RobotState MID_ROW_CUBE_STATE = new RobotState(16, -71);
         public static final RobotState MID_ROW_CONE_STATE = new RobotState(38, -50);
         public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(90, -25);
-        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(108, -25);
+        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(98, -25);
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(90, -12);
         public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
 
         public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -60);
-        public static final RobotState TRANSITION_HIGH_STATE = new RobotState(90, -60);
+        public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -60);
         public static final RobotState TRANSITION_MID_STATE = new RobotState(38, -60);
 
     }

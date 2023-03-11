@@ -48,6 +48,14 @@ public class LEDs extends SubsystemBase {
     leds.setData(buffer);
   }
 
+  public void setLEDhsv(int index, int h, int s, int v) {
+    buffer.setHSV(index, h, s, v);
+  }
+
+  public void ledBuffer() {
+    leds.setData(buffer);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
