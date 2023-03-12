@@ -99,7 +99,7 @@ public final class Constants {
         //P, I, and D gains for the wrist when going to a set position
         public static final double KP = 0.018;
         public static final double KI = 0.000037;
-        public static final double KD = 0.0015;
+        public static final double KD = 0.0016;
 
         public static final double RUN_UP_SPEED = 0.3;
         public static final double RUN_DOWN_SPEED = 0.2;
@@ -108,8 +108,8 @@ public final class Constants {
 
         public static final double CALIBRATE_CURRENT_THRESHOLD = 40;
 
-        public static final double POSITIONAL_ERROR_THRESHOLD = 5;
-        public static final double POSITIONAL_MAX_SPEED = 0.4;
+        public static final double POSITIONAL_ERROR_THRESHOLD = 6;
+        public static final double POSITIONAL_MAX_SPEED = 0.25;
 
     }
 
@@ -161,12 +161,13 @@ public final class Constants {
         public static final RobotState MID_ROW_CONE_STATE = new RobotState(38, -50);
         public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(90, -25);
         public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(98, -25);
-        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(90, -12);
+        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(82, -30);
         public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
 
         public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -60);
         public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -60);
         public static final RobotState TRANSITION_MID_STATE = new RobotState(38, -60);
+        public static final RobotState TRANSITION_DOUBLE_SUB_STATE = new RobotState(DOUBLE_SUBSTATION_STATE.elevatorHeight, -60);
 
     }
 

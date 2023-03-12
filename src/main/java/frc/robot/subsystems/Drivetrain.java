@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -63,10 +64,11 @@ public class Drivetrain extends SubsystemBase {
   private final GenericEntry 
   //leftSidePositionWidget, 
   //rightSidePositionWidget, 
-  leftSideVelocityWidget, 
-  rightSideVelocityWidget, 
+  //leftSideVelocityWidget, 
+  //rightSideVelocityWidget, 
   driveHeadingWidget, 
-  drivePitchWidget;
+  drivePitchWidget,
+  driveRollWidget;
 
   private final Field2d m_field2d;
 
@@ -75,6 +77,8 @@ public class Drivetrain extends SubsystemBase {
   private Pose2d botPose;
 
   private boolean drivetrainReversed = false;
+
+  private final UsbCamera cameraFeed;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -157,16 +161,26 @@ public class Drivetrain extends SubsystemBase {
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", 0, "Max", 360)).
     withPosition(0, 0).
-    withSize(2, 2).
+    withSize(2, 1).
     getEntry();
 
-    //Creates a widget for showing the gyro pitch
+
+        //Creates a widget for showing the gyro pitch
     drivePitchWidget = 
     teleopTab.add("Drive Pitch", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", -180, "Max", 180)).
     withPosition(7, 0).
-    withSize(2, 2).
+    withSize(2, 1).
+    getEntry();
+
+    //Creates a widget for showing the gyro pitch
+    driveRollWidget = 
+    teleopTab.add("Drive Roll", 0.0).
+    withWidget(BuiltInWidgets.kDial).
+    withProperties(Map.of("Min", -180, "Max", 180)).
+    withPosition(7, 1).
+    withSize(2, 1).
     getEntry();
 
     //Creates a widget for showing the drivetrain left side position
@@ -184,18 +198,20 @@ public class Drivetrain extends SubsystemBase {
     getEntry();*/
 
     //Creates a widget for showing the drivetrain left side position
-    leftSideVelocityWidget = 
+    /*leftSideVelocityWidget = 
     teleopTab.add("Left Side Velocity", 0.0).
     withPosition(3, 2).
     withSize(3, 1).
-    getEntry();
+    getEntry();*/
 
     //Creates a widget for showing the drivetrain left side position
-    rightSideVelocityWidget = 
+    /*rightSideVelocityWidget = 
     teleopTab.add("Right Side Velocity", 0.0).
     withPosition(3, 3).
     withSize(3, 1).
-    getEntry();
+    getEntry();*/
+
+    cameraFeed = CameraServer.startAutomaticCapture();
 
     //Displays how the robot is moving on Shuffleboard
     teleopTab.add(robotDrive).withPosition(6, 2).withSize(3, 2);
@@ -203,10 +219,11 @@ public class Drivetrain extends SubsystemBase {
     //Displays the current position of the robot on the field on Shuffleboard
     teleopTab.add(m_field2d).withPosition(0, 2).withSize(3, 2);
 
+    //Displays the feed from the USB camera on Shufflboard
+    teleopTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(3, 1).withSize(3, 3);
+
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);
-
-    CameraServer.startAutomaticCapture();
 
   }
 
@@ -221,11 +238,12 @@ public class Drivetrain extends SubsystemBase {
     //leftSidePositionWidget.setDouble(getLeftSideDistance());
     //rightSidePositionWidget.setDouble(getRightSideDistance());
 
-    leftSideVelocityWidget.setDouble(getLeftSideVelocity());
-    rightSideVelocityWidget.setDouble(getRightSideVelocity());
+    //leftSideVelocityWidget.setDouble(getLeftSideVelocity());
+    //rightSideVelocityWidget.setDouble(getRightSideVelocity());
 
     driveHeadingWidget.setDouble(getHeading());
     drivePitchWidget.setDouble(getPitch());
+    driveRollWidget.setDouble(getRoll());
 
   }
 
@@ -544,6 +562,10 @@ public class Drivetrain extends SubsystemBase {
 
     return navXGyro.getPitch() + 1;
 
+  }
+
+  public double getRoll() {
+    return navXGyro.getRoll();
   }
 
   /**

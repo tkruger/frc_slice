@@ -32,17 +32,16 @@ public class WristStationaryCommand extends CommandBase {
     run = false;
     timer.reset();
     timer.start();
-    
+    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timer.get() < 1) {
+    if (timer.get() < 0.125) {
       m_wrist.spinWrist(0);
-    }else if (timer.get() > 1 && !run) {
+    }else if (timer.get() > 0.125 && !run) {
       run = true;
-      m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
       m_wrist.setWristPosition(m_wrist.getAngle());
     }
   }

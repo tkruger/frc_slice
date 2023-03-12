@@ -4,16 +4,13 @@
 
 package frc.robot.auto.modes;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.auto.AutoSelector;
-import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
-import frc.robot.auto.paths.GridToGamePiecePath;
-import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.AutonomousAngleDriveCommand;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
-import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -26,30 +23,25 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreOnePieceThenMobility extends SequentialCommandGroup {
-  /** Creates a new OneGamePieceGoOutThenEngageMode. */
-  public ScoreOnePieceThenMobility(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
+  /** Creates a new ScoreOneGamePieceThenEngageMode. */
+  public ScoreOneGamePieceThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
-    
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    
-    //GridToGamePiecePath mobilityPath = new GridToGamePiecePath(startPosition);
-    //Field2dTrajectoryFollowerSequence trajectory1 = new Field2dTrajectoryFollowerSequence(drive, mobilityPath);
+    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, 0.75);
+    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
-    AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 3);
+    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 
     addCommands(
       calibrateElevatorAndWrist,
       placePiece,
-      //trajectory1
-      mobility
+      driveToChargeStation,
+      chargeStationBalance
     );
-
   }
-
 }

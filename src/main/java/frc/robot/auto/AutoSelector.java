@@ -1,14 +1,15 @@
 package frc.robot.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
+import frc.robot.auto.modes.ScoreOneGamePieceThenEngageMode;
 import frc.robot.auto.modes.ScoreOnePieceThenMobility;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
@@ -41,7 +42,8 @@ public class AutoSelector {
         SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE,
         SCORE_ONE_CONE_HIGH_ROW,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE,
-        SCORE_ONE_PIECE_THEN_MOBILITY
+        SCORE_ONE_PIECE_THEN_MOBILITY,
+        SCORE_ONE_GAME_PIECE_THEN_ENGAGE
 
     }
 
@@ -63,24 +65,22 @@ public class AutoSelector {
     private final Elevator m_elevator;
     private final Wrist m_wrist;
     private final Intake m_intake;
-    private final ColorSensor m_colorSensor;
 
     private final ShuffleboardTab autoTab;
 
-    private final SimpleWidget selectedAutoModeWidget;
-    private final SimpleWidget selectedStartingPositionWidget;
+    private final GenericEntry selectedAutoModeWidget;
+    private final GenericEntry selectedStartingPositionWidget;
 
-    private final SimpleWidget autoPoseXOffsetWidget;
-    private final SimpleWidget autoPoseYOffsetWidget;
-    private final SimpleWidget autoPoseRotationOffsetWidget;
+    private final GenericEntry autoPoseXOffsetWidget;
+    private final GenericEntry autoPoseYOffsetWidget;
+    private final GenericEntry autoPoseRotationOffsetWidget;
 
-    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
+    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake) {
 
         m_drivetrain = drivetrain;
         m_elevator = elevator;
         m_wrist = wrist;
         m_intake = intake;
-        m_colorSensor = colorSensor;
 
         startingPositionChooser = new SendableChooser<StartingPosition>();
 
@@ -100,6 +100,7 @@ public class AutoSelector {
         modeChooser.addOption("Score One Cone High Row", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
         modeChooser.addOption("Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
+        modeChooser.addOption("Score One Game Piece Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -109,26 +110,31 @@ public class AutoSelector {
         selectedAutoModeWidget = 
         autoTab.add("Selected Auto Mode", "Score Two Game Pieces Then Engage").
         withPosition(2, 1).
-        withSize(2, 1);
+        withSize(2, 1).
+        getEntry();
         selectedStartingPositionWidget = 
         autoTab.add("Selected Starting Position", "Blue Left").
         withPosition(5, 1).
-        withSize(2, 1);
+        withSize(2, 1).
+        getEntry();
 
         autoPoseXOffsetWidget = 
         autoTab.add("Initial Auto Pose X Offset", initialAutoPoseXOffset).
         withPosition(1, 2).
-        withSize(2, 1);
+        withSize(2, 1).
+        getEntry();
 
         autoPoseYOffsetWidget = 
         autoTab.add("Initial Auto Pose Y Offset", initialAutoPoseYOffset).
         withPosition(6, 2).
-        withSize(2, 1);
+        withSize(2, 1).
+        getEntry();
 
         autoPoseRotationOffsetWidget = 
         autoTab.add("Initial Auto Pose Rotation Offset", initialAutoPoseRotationOffset).
         withPosition(3, 2).
-        withSize(3, 1);
+        withSize(3, 1).
+        getEntry();
 
     }
 
@@ -155,16 +161,18 @@ public class AutoSelector {
 
         switch(mode) {
 
-            case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
-                return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
+            //case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
+            //    return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
             case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CONE_HIGH_ROW:
                 return Optional.of(new ScoreOneConeHighRowMode(m_elevator, m_wrist, m_intake));
-            case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
-                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
+            //case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
+            //    return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
             case SCORE_ONE_PIECE_THEN_MOBILITY:
                 return Optional.of(new ScoreOnePieceThenMobility(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
+                return Optional.of(new ScoreOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
     
@@ -179,29 +187,44 @@ public class AutoSelector {
 
         Pose2d botPose = Limelight.getBotPoseBlue();
 
-        switch(storedDesiredMode) {
+        StartingPosition startingPosition = startingPositionChooser.getSelected();
+        DesiredMode desiredMode = modeChooser.getSelected();
 
-            case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
-                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
-                break;
-            case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
-                initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition).trajectory.getInitialPose());
-                break;
-            case SCORE_ONE_CONE_HIGH_ROW:
-                System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
-                initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
-                break;
-            case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
-                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
-                break;
-            default:
-                System.err.println("No valid initial auto pose found for " + storedDesiredMode);
-                initialAutoPose = Optional.empty();
-                break;
+        if(storedStartingPosition != startingPosition || storedDesiredMode != desiredMode) {
+
+            switch(storedDesiredMode) {
+
+                case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
+                    initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
+                    break;
+                case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
+                    initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition).trajectory.getInitialPose());
+                    break;
+                case SCORE_ONE_CONE_HIGH_ROW:
+                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    break;
+                case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
+                    initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
+                    break;
+                case SCORE_ONE_PIECE_THEN_MOBILITY:
+                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    break;
+                case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
+                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    break;
+                default:
+                    System.err.println("No valid initial auto pose found for " + storedDesiredMode);
+                    initialAutoPose = Optional.empty();
+                    break;
+                
+            }
 
         }
 
-        if(botPose != null) {
+        if(botPose != null && initialAutoPose != null) {
 
             initialAutoPoseXOffset = initialAutoPose.get().getX() - botPose.getX();
             initialAutoPoseYOffset = initialAutoPose.get().getY() - botPose.getY();
@@ -222,12 +245,16 @@ public class AutoSelector {
 
     public void outputToShuffleboard() {
 
-        selectedAutoModeWidget.getEntry().setString(storedDesiredMode.name());
-        selectedStartingPositionWidget.getEntry().setString(storedStartingPosition.name());
+        selectedAutoModeWidget.setString(storedDesiredMode.name());
+        selectedStartingPositionWidget.setString(storedStartingPosition.name());
 
-        autoPoseXOffsetWidget.getEntry().setDouble(initialAutoPoseXOffset);
-        autoPoseYOffsetWidget.getEntry().setDouble(initialAutoPoseYOffset);
-        autoPoseRotationOffsetWidget.getEntry().setDouble(initialAutoPoseRotationOffset);
+        if(initialAutoPose != null) {
+
+            autoPoseXOffsetWidget.setDouble(initialAutoPoseXOffset);
+            autoPoseYOffsetWidget.setDouble(initialAutoPoseYOffset);
+            autoPoseRotationOffsetWidget.setDouble(initialAutoPoseRotationOffset);
+
+        }
 
     }
 

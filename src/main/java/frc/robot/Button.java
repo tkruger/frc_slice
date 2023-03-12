@@ -53,6 +53,7 @@ public final class Button {
     public static Trigger toLowState = new JoystickButton(manipulatorJoystick, 12);
     public static Trigger toDoubleSubstationState = new JoystickButton(manipulatorJoystick, 7);
     public static Trigger toStowState = new JoystickButton(manipulatorJoystick, 1);
+    
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton2 = new JoystickButton(rightJoystick, 2); //Right Top 2
     public static Trigger rightButton8 = new JoystickButton(rightJoystick, 8); //Right Bottom 8
@@ -90,6 +91,7 @@ public final class Button {
     public static POVButton leftMiniJoystickUpLeft = new POVButton(leftJoystick, 315);
 
     //Unassigned Manipulator Joystick Buttons
+    
     //Unassigned Manipulator Joystick POV Axes
     public static POVButton manipulatorMiniJoystickUp = new POVButton(manipulatorJoystick, 0);
     public static POVButton manipulatorMiniJoystickUpRight = new POVButton(manipulatorJoystick, 45);

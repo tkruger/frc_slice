@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -29,7 +30,7 @@ public class Wrist extends SubsystemBase {
   private final SparkMaxPIDController pidController;
   private final DigitalInput stowLimitSwitch;
   private final ShuffleboardTab teleopTab;
-  private final SimpleWidget angleWidget, velocityWidget;//, voltageWidget;
+  private final GenericEntry angleWidget, velocityWidget;//, voltageWidget;
 
   private double targetPosition;
 
@@ -45,8 +46,8 @@ public class Wrist extends SubsystemBase {
 
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
-    angleWidget = teleopTab.add("Wrist Angle", 0).withPosition(5, 0).withSize(2, 1);
-    velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(5, 1).withSize(2, 1);
+    angleWidget = teleopTab.add("Wrist Angle", 0).withPosition(5, 0).withSize(2, 1).getEntry();
+    velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(7, 1).withSize(2, 1).getEntry();
   
     targetPosition = -105;
   }
@@ -75,6 +76,18 @@ public class Wrist extends SubsystemBase {
     pidController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
   }
 
+  public void setPID(double kP, double kI, double kD, double maxSpeed) {
+    pidController.setP(kP);
+    pidController.setI(kI);
+    pidController.setD(kD);
+
+    pidController.setIAccum(0);
+    pidController.setOutputRange(-maxSpeed, maxSpeed);
+  }
+
+  public void setPositionalMaxSpeed(double maxSpeed) {
+    pidController.setOutputRange(-maxSpeed, maxSpeed);
+  }
   /**
    * Resets the encoder position to a set angle
    * @param angleDegrees the current angle fo the wrist, in degrees
@@ -117,8 +130,8 @@ public class Wrist extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    angleWidget.getEntry().setDouble(getAngle());
-    velocityWidget.getEntry().setDouble(getVelocity());
-    //voltageWidget.getEntry().setDouble(motor.getOutputCurrent());
+    angleWidget.setDouble(getAngle());
+    velocityWidget.setDouble(getVelocity());
+    //voltageWidget.setDouble(motor.getOutputCurrent());
   }
 }

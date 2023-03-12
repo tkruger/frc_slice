@@ -12,23 +12,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 //import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /** An example command that uses an example subsystem. */
-public class AutonomousDistanceDriveCommand extends CommandBase {
+public class AutonomousAngleDriveCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Drivetrain m_drivetrain;
 
-  private final double forwardSpeed, distance;
-
-  private double targetDistance;
+  private final double forwardSpeed;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutonomousDistanceDriveCommand(Drivetrain drivetrain, double forwardSpeed, double distance) {
+  public AutonomousAngleDriveCommand(Drivetrain drivetrain, double forwardSpeed) {
     this.m_drivetrain = drivetrain;
     this.forwardSpeed = forwardSpeed;
-    this.distance = -1 * Math.abs(distance) * Math.signum(forwardSpeed);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -39,7 +36,6 @@ public class AutonomousDistanceDriveCommand extends CommandBase {
   public void initialize() {
 
     m_drivetrain.resetHeading();
-    targetDistance = m_drivetrain.getAverageDistance() + distance;
     
   }
 
@@ -58,6 +54,7 @@ public class AutonomousDistanceDriveCommand extends CommandBase {
   public void end(boolean interrupted) {
 
     m_drivetrain.ArcadeDrive(0, 0);
+    System.out.println("End of Autonomous Angle Drive Command");
 
   }
 
@@ -65,8 +62,8 @@ public class AutonomousDistanceDriveCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    double error = Math.abs(m_drivetrain.getAverageDistance() - targetDistance); 
-    return error < Constants.Drivetrain.AUTO_DISTANCE_ERROR_TOLERANCE;
+    double angle = m_drivetrain.getRoll() + 1;
+    return Math.abs(angle) > 12;
 
   }
 }

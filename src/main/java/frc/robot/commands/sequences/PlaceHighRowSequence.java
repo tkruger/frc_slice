@@ -24,10 +24,10 @@ public class PlaceHighRowSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.2);
+    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.3);
     ToHighRowSequence toHighCube = new ToHighRowSequence(elevator, wrist);
     TimedRunMandiblesCommand openMandibles = new TimedRunMandiblesCommand(intake, false, 0.3);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
+    StowSequence setTravelState = new StowSequence(elevator, wrist);
 
     addCommands(
       closeMandibles,

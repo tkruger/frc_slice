@@ -10,9 +10,9 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -20,9 +20,9 @@ import frc.robot.factories.SparkMaxFactory;
 
 public class Intake extends SubsystemBase {
  
-  private final CANSparkMax mandibleMotor, rotateMotor;
+  private final CANSparkMax mandibleMotor;
 
-  private final RelativeEncoder mandibleEncoder, rotateEncoder;
+  private final RelativeEncoder mandibleEncoder;
 
   private final SparkMaxPIDController mandiblePID/*, rotatePID*/;
 
@@ -30,16 +30,14 @@ public class Intake extends SubsystemBase {
 
   private final ShuffleboardTab teleopTab;
 
-  private final SimpleWidget mandiblesClosedWidget;//, mandiblePositionWidget;
+  private final GenericEntry mandiblesClosedWidget;//, mandiblePositionWidget;
 
   /** Creates a new Elevator. */
   public Intake() {
 
     mandibleMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.MANDIBLE_PORT);
-    rotateMotor = SparkMaxFactory.createDefaultSparkMax(Constants.Intake.SPIN_PORT);
 
     mandibleEncoder = mandibleMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
-    rotateEncoder = rotateMotor.getEncoder(Type.kHallSensor, Constants.Encoder.CPR);
 
     mandiblePID = mandibleMotor.getPIDController();
     //rotatePID = rotateMotor.getPIDController();
@@ -48,7 +46,7 @@ public class Intake extends SubsystemBase {
 
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
-    mandiblesClosedWidget = teleopTab.add("Mandibles Closed", false).withPosition(4, 1).withSize(1, 1);
+    mandiblesClosedWidget = teleopTab.add("Mandibles Closed", false).withPosition(2, 1).withSize(1, 1).getEntry();
     //mandiblePositionWidget = manipulatorTab.add("Mandibles Position", 0).withPosition(3, 0).withSize(3, 1);
 
   }
@@ -84,15 +82,6 @@ public class Intake extends SubsystemBase {
   }
 
   /**
-   * Spins the wheels along the intake
-   * @param speed the speed the wheels spin at, from 1 to -1. If positive, intake. if negative, eject.
-   */
-  public void runIntake(double speed) {
-    // SKELETON CODE NOTE: might need to reverse speed so positive is intake and negative is eject
-    rotateMotor.set(speed);
-  }
-
-  /**
    * @return the angular position of the mandibles, in [UNITS GO HERE]
    */
   public double getMandibleEncoderPosition() {
@@ -107,15 +96,6 @@ public class Intake extends SubsystemBase {
    */
   public void setMandibleEncoderPosition(double position) {
     mandibleEncoder.setPosition(position);
-  }
-
-  /**
-   * @return the angular position of the intake wheels, in [UNITS GO HERE]
-   */
-  public double getRotateEncoderPosition() {
-
-    return rotateEncoder.getPosition();
-
   }
 
   public boolean mandibleVoltageSpike() {
@@ -137,8 +117,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    mandiblesClosedWidget.getEntry().setBoolean(getMandibleClosed());
-    //mandiblePositionWidget.getEntry().setDouble(getMandibleEncoderPosition());
+    mandiblesClosedWidget.setBoolean(getMandibleClosed());
+    //mandiblePositionWidget.setDouble(getMandibleEncoderPosition());
   }
 
 }

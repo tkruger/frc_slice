@@ -13,20 +13,20 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ToHighRowSequence extends SequentialCommandGroup {
+public class ToDoubleSubstationSequence extends SequentialCommandGroup {
   /** Creates a new ToHighCone. */
-  public ToHighRowSequence(Elevator elevator, Wrist wrist) {
+  public ToDoubleSubstationSequence(Elevator elevator, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setOutState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_OUT_STATE, 2);
-    GoToStateCommand setUpState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_HIGH_STATE);
-    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.States.HIGH_ROW_CONE_STATE);
+    GoToStateCommand setOutState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_OUT_STATE);
+    GoToStateCommand setUpState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_DOUBLE_SUB_STATE);
+    GoToStateCommand setDoubleSubState = new GoToStateCommand(elevator, wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
     
     addCommands(
       setOutState,
       setUpState,
-      setHighRowState
+      setDoubleSubState
     );
   }
 }

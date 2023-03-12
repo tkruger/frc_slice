@@ -10,6 +10,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -32,7 +33,7 @@ public class Elevator extends SubsystemBase {
 
   private final ShuffleboardTab teleopTab;
 
-  private final SimpleWidget positionWidget, velocityWidget, lowLimitWidget;
+  private final GenericEntry positionWidget, velocityWidget, lowLimitWidget;
 
   private double targetPosition;
 
@@ -54,9 +55,9 @@ public class Elevator extends SubsystemBase {
 
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
-    positionWidget = teleopTab.add("Elevator Position", 0).withPosition(2, 0).withSize(2, 1);
-    velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(2, 1).withSize(2, 1);
-    lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(4, 0).withSize(1, 1);
+    positionWidget = teleopTab.add("Elevator Position", 0).withPosition(2, 0).withSize(2, 1).getEntry();
+    velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(0, 1).withSize(2, 1).getEntry();
+    lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(4, 0).withSize(1, 1).getEntry();
 
     targetPosition = 0;
 
@@ -210,9 +211,9 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    positionWidget.getEntry().setDouble(getElevatorPosition());
-    velocityWidget.getEntry().setDouble(getElevatorVelocity());
-    lowLimitWidget.getEntry().setBoolean(atBottom());
+    positionWidget.setDouble(getElevatorPosition());
+    velocityWidget.setDouble(getElevatorVelocity());
+    lowLimitWidget.setBoolean(atBottom());
 
     SmartDashboard.putNumber("Elevator Left Motor Position", getLeftMotorPosition());
     SmartDashboard.putNumber("Elevator Right Motor Position", getRightMotorPosition());

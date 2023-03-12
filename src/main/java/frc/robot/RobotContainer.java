@@ -36,9 +36,9 @@ public class RobotContainer {
   public final Wrist m_wrist = new Wrist();
   public final Intake m_intake = new Intake();
   public final Limelight m_limelight = new Limelight();
-  public final ColorSensor m_colorSensor = new ColorSensor();
+  //public final ColorSensor m_colorSensor = new ColorSensor();
   public final LEDs m_leds = new LEDs();
-  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor);
+  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake);
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -72,12 +72,12 @@ public class RobotContainer {
 
   public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
 
-  public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 0.5, 0.5);
-  public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 0.5, 0.5);
+  public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 5, 0.001);
+  public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 5, 0.001);
   public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds);
 
-  public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
-  public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
+  //public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
+  //public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
   public final PlaceGamePieceLowRowSequence m_placeGamePieceLowRow = new PlaceGamePieceLowRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceCubeMidRowSequence m_placeCubeMidRow = new PlaceCubeMidRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceConeMidRowSequence m_placeConeMidRow = new PlaceConeMidRowSequence(m_elevator, m_wrist, m_intake);
@@ -86,17 +86,19 @@ public class RobotContainer {
   public final GoToStateCommand m_manualSetMidCube = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CUBE_STATE);
   public final ToHighRowSequence m_manualSetHighRow = new ToHighRowSequence(m_elevator, m_wrist);
   public final GoToStateCommand m_manualSetMidCone = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CONE_STATE);
-  public final GoToStateCommand m_manualSetDoubleSubstation = new GoToStateCommand(m_elevator, m_wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
   public final GoToStateCommand m_manualSetGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
   
+  public final GoToStateCommand m_toDoubleSubstation = new GoToStateCommand(m_elevator, m_wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
+  public final ToDoubleSubstationSequence m_manualSetDoubleSubstation = new ToDoubleSubstationSequence(m_elevator, m_wrist);
+
   public final GoToStateCommand m_toStowTransitionState = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRANSITION_OUT_STATE);
   public final GoToStateCommand m_toStowSate = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
-  public final SequentialCommandGroup m_manualSetStowState = new SequentialCommandGroup(m_toStowTransitionState, m_toStowSate);
-
+  public final StowSequence m_manualSetStow = new StowSequence(m_elevator, m_wrist);
+  
   //public final ConditionalCommand m_setMidRowState = new ConditionalCommand(m_manualSetMidCone, m_manualSetMidCube, Button.setConeState);
   //public final ConditionalCommand m_setHighRowState = new ConditionalCommand(m_manualSetHighCone, m_manualSetHighCube, Button.setConeState);
-
-  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateElevator, m_resetWristAngle);
+  public final TimedRunMandiblesCommand m_calibrateCloseMandibles = new TimedRunMandiblesCommand(m_intake, true, 0.3);
+  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle);
   //public final FlashColorCommand m_redLEDCommand = new FlashColorCommand(null, null, 0, 0)
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -109,7 +111,7 @@ public class RobotContainer {
     m_wrist.setDefaultCommand(m_wristStationary);
     m_intake.setDefaultCommand(new IdleCommand(m_intake));
     m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
-    m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
+    //m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));
     m_leds.setDefaultCommand(m_idleLEDs);
 
   }
@@ -143,9 +145,6 @@ public class RobotContainer {
     //Enable Limelight Alignment
     Button.limelightAlign.whileTrue(m_limelightAlign);
 
-    //Execute Elevator Position Calibration
-    Button.calibrateElevator.onTrue(m_calibrateElevator);
-
     //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);
 
@@ -163,7 +162,7 @@ public class RobotContainer {
     Button.toHighState.onTrue(m_manualSetHighRow);
 
     //Execute Stow State Positioning
-    Button.toStowState.onTrue(m_manualSetStowState);
+    Button.toStowState.onTrue(m_manualSetStow);
 
     Button.toDoubleSubstationState.onTrue(m_manualSetDoubleSubstation);
 
@@ -177,7 +176,7 @@ public class RobotContainer {
     Button.calibrateAll.onTrue(m_calibrateCommands);
 
     //Execute Wrist Angle Reset
-    Button.resetWrist.onTrue(m_resetWristAngle);
+    //Button.resetWrist.onTrue(m_resetWristAngle);
 
     //Toggle Purple LED Flashing
     Button.flashPurpleLEDs.toggleOnTrue(m_flashPurpleLEDs);

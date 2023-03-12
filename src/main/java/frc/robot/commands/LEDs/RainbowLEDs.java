@@ -27,7 +27,7 @@ public class RainbowLEDs extends CommandBase {
             leds.setLEDhsv(i, hue, 255, 128);
         }
 
-        m_rainbowFirstPixelHue += 3;
+        m_rainbowFirstPixelHue += 1.5;
         m_rainbowFirstPixelHue %= 180;
 
         leds.ledBuffer();

@@ -42,7 +42,7 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
   @Override
   public void execute() {
 
-    pitch = m_drivetrain.getPitch();
+    pitch = m_drivetrain.getRoll();
 
     if (Math.abs(pitch) > 2.5) {
       m_drivetrain.PIDArcadeDrive(pidController.calculate(pitch), 0);

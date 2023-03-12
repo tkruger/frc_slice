@@ -6,27 +6,27 @@ package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.RobotState;
 import frc.robot.commands.GoToStateCommand;
+import frc.robot.commands.Wrist.SetWristPosition;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ToHighRowSequence extends SequentialCommandGroup {
-  /** Creates a new ToHighCone. */
-  public ToHighRowSequence(Elevator elevator, Wrist wrist) {
+public class StowSequence extends SequentialCommandGroup {
+  /** Creates a new StowSequence. */
+  public StowSequence(Elevator elevator, Wrist wrist) {
+
+    SetWristPosition transitionState = new SetWristPosition(wrist, -60);
+    GoToStateCommand stowState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
+    
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-
-    GoToStateCommand setOutState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_OUT_STATE, 2);
-    GoToStateCommand setUpState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_HIGH_STATE);
-    GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.States.HIGH_ROW_CONE_STATE);
-    
     addCommands(
-      setOutState,
-      setUpState,
-      setHighRowState
+      transitionState,
+      stowState
     );
   }
 }

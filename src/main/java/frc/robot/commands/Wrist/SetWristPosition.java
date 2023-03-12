@@ -14,6 +14,8 @@ public class SetWristPosition extends CommandBase {
   private final Wrist m_wrist;
   private final double m_angle;
   private final Timer m_timer;
+  private final double speed;
+
   /** Creates a new SetWristPosition. */
   public SetWristPosition(Wrist wrist, double angle) {
     m_wrist = wrist;
@@ -21,6 +23,20 @@ public class SetWristPosition extends CommandBase {
 
     m_timer = new Timer();
 
+    speed = Constants.Wrist.POSITIONAL_MAX_SPEED;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_wrist);
+  }
+
+  public SetWristPosition(Wrist wrist, double angle, double customSpeed) {
+    m_wrist = wrist;
+    m_angle = MathUtil.clamp(angle, Constants.Wrist.MIN_ANGLE, Constants.Wrist.MAX_ANGLE);
+
+    m_timer = new Timer();
+
+    speed = customSpeed;
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_wrist);
   }
@@ -28,7 +44,7 @@ public class SetWristPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
+    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD, speed);
     m_wrist.setWristPosition(m_angle);
 
     m_timer.reset();
@@ -41,7 +57,9 @@ public class SetWristPosition extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_wrist.setPositionalMaxSpeed(Constants.Wrist.POSITIONAL_MAX_SPEED);
+  }
 
   // Returns true when the command should end.
   @Override

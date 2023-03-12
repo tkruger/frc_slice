@@ -32,7 +32,7 @@ public class CalibrateElevatorCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_elevator.runElevator(0);
-    m_elevator.setPosition(0);
+    // m_elevator.setPosition(0);
   }
 
   // Returns true when the command should end.
