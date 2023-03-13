@@ -10,6 +10,7 @@ import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
 import frc.robot.auto.modes.ScoreOneGamePieceThenEngageMode;
+import frc.robot.auto.modes.ScoreOnePieceMobilityThenAlignMode;
 import frc.robot.auto.modes.ScoreOnePieceThenMobility;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
@@ -43,7 +44,8 @@ public class AutoSelector {
         SCORE_ONE_CONE_HIGH_ROW,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE,
         SCORE_ONE_PIECE_THEN_MOBILITY,
-        SCORE_ONE_GAME_PIECE_THEN_ENGAGE
+        SCORE_ONE_GAME_PIECE_THEN_ENGAGE,
+        SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN
 
     }
 
@@ -101,6 +103,7 @@ public class AutoSelector {
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
         modeChooser.addOption("Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
         modeChooser.addOption("Score One Game Piece Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
+        modeChooser.addOption("Score One Game Piece Mobility Then Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -173,6 +176,8 @@ public class AutoSelector {
                 return Optional.of(new ScoreOnePieceThenMobility(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
                 return Optional.of(new ScoreOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
+                return Optional.of(new ScoreOnePieceMobilityThenAlignMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
     
@@ -208,11 +213,15 @@ public class AutoSelector {
                     initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
                     break;
                 case SCORE_ONE_PIECE_THEN_MOBILITY:
-                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                    System.out.println("No initial pose is available for the 'ScoreOnePieceThenMobility' mode");
                     initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
                     break;
                 case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
                     System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    break;
+                case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
+                    System.out.println("No initial pose is available for the 'Score' mode");
                     initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
                     break;
                 default:

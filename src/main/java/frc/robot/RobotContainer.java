@@ -95,6 +95,9 @@ public class RobotContainer {
   public final GoToStateCommand m_toStowSate = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
   public final StowSequence m_manualSetStow = new StowSequence(m_elevator, m_wrist);
   
+  public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
+  public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
+
   //public final ConditionalCommand m_setMidRowState = new ConditionalCommand(m_manualSetMidCone, m_manualSetMidCube, Button.setConeState);
   //public final ConditionalCommand m_setHighRowState = new ConditionalCommand(m_manualSetHighCone, m_manualSetHighCube, Button.setConeState);
   public final TimedRunMandiblesCommand m_calibrateCloseMandibles = new TimedRunMandiblesCommand(m_intake, true, 0.3);
@@ -195,5 +198,13 @@ public class RobotContainer {
 
     return m_autoSelector.getAutoMode();
     
+  }
+
+  public Command getBrakeCommand() {
+    return m_brakeCommand;
+  }
+
+  public Command getCoastCommand() {
+    return m_coastCommand;
   }
 }

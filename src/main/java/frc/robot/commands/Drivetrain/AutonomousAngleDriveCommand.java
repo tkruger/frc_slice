@@ -62,8 +62,8 @@ public class AutonomousAngleDriveCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    double angle = m_drivetrain.getRoll() + 1;
-    return Math.abs(angle) > 12;
+    double angle = m_drivetrain.getRoll();
+    return Math.abs(angle) > 14;
 
   }
 }

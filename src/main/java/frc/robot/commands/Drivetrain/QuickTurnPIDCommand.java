@@ -52,7 +52,6 @@ public class QuickTurnPIDCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_drivetrain.ArcadeDrive(0, 0);
-        m_drivetrain.reverseDrivetrain();
         timeoutTimer.stop();
     }
 

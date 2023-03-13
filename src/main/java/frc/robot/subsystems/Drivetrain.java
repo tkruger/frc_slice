@@ -225,6 +225,8 @@ public class Drivetrain extends SubsystemBase {
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);
 
+    drivetrainReversed = false;
+
   }
 
   @Override
@@ -565,7 +567,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getRoll() {
-    return navXGyro.getRoll();
+    return navXGyro.getRoll() + 1.7;
   }
 
   /**
