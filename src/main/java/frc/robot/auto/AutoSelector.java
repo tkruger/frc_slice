@@ -15,7 +15,6 @@ import frc.robot.auto.modes.ScoreOnePieceThenMobility;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
-import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -164,14 +163,14 @@ public class AutoSelector {
 
         switch(mode) {
 
-            //case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
-            //    return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
+            case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
+                return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CONE_HIGH_ROW:
                 return Optional.of(new ScoreOneConeHighRowMode(m_elevator, m_wrist, m_intake));
-            //case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
-            //    return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_colorSensor));
+            case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
+                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_PIECE_THEN_MOBILITY:
                 return Optional.of(new ScoreOnePieceThenMobility(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:

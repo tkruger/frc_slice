@@ -19,7 +19,6 @@ import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
-import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -30,7 +29,7 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
   /** Creates a new OneGamePieceThenEngageMode. */
-  public ScoreTwoGamePiecesThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
+  public ScoreTwoGamePiecesThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -39,7 +38,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     PlaceHighRowSequence placeCube1 = new PlaceHighRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
-    PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake, colorSensor);
+    PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
     QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
     GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition);
     PlaceCubeMidRowSequence placeCube2 = new PlaceCubeMidRowSequence(elevator, wrist, intake);

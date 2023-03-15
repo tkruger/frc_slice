@@ -6,7 +6,6 @@ package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Limelight;
 
 public class ToggleForceVisionImplementation extends CommandBase {
 
@@ -36,15 +35,14 @@ public class ToggleForceVisionImplementation extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
-    m_drivetrain.toggleVisionImplementation();
-
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Limelight.getBotPoseBlue() != null;
+
+    return true;
+
   }
+
 }

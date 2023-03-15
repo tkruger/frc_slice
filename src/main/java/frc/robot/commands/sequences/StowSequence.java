@@ -6,7 +6,6 @@ package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.RobotState;
 import frc.robot.commands.GoToStateCommand;
 import frc.robot.commands.Wrist.SetWristPosition;
 import frc.robot.subsystems.Elevator;

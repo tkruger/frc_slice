@@ -6,7 +6,6 @@ package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.sequences.TrajectoryFollowerSequence;
-import frc.robot.commands.Intake.TimedRunMandiblesCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -23,17 +22,11 @@ public class DoubleSubstationAlignThenPickUpPieceSequence extends SequentialComm
     // addCommands(new FooCommand(), new BarCommand());
 
     TrajectoryFollowerSequence doubleSubstationAlign = new TrajectoryFollowerSequence(drive, limelight);
-    TimedRunMandiblesCommand openMandibles = new TimedRunMandiblesCommand(intake, false, 0.3);
-    ToDoubleSubstationSequence toDoubleSubstation = new ToDoubleSubstationSequence(elevator, wrist);
-    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.3);
-    StowSequence setTravelState = new StowSequence(elevator, wrist);
+    PickUpGamePieceDoubleSubstationSequence pickUpGamePiece = new PickUpGamePieceDoubleSubstationSequence(elevator, wrist, intake);
 
     addCommands(
       doubleSubstationAlign,
-      openMandibles,
-      toDoubleSubstation,
-      closeMandibles,
-      setTravelState
+      pickUpGamePiece
     );
   }
 }

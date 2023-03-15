@@ -5,10 +5,7 @@
 package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.commands.GoToStateCommand;
-import frc.robot.commands.Intake.AutoMandiblesCommand;
-import frc.robot.subsystems.ColorSensor;
+import frc.robot.commands.Intake.TimedRunMandiblesCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -18,16 +15,18 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PickUpGamePieceDoubleSubstationSequence extends SequentialCommandGroup {
   /** Creates a new PickUpGamePieceDoubleSubstationSequence. */
-  public PickUpGamePieceDoubleSubstationSequence(Elevator elevator, Wrist wrist, Intake intake, ColorSensor colorSensor) {
+  public PickUpGamePieceDoubleSubstationSequence(Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setDoubleSubstationPickUpState = new GoToStateCommand(elevator, wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
-    AutoMandiblesCommand closeMandibles = new AutoMandiblesCommand(intake, colorSensor);
-    GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
+    TimedRunMandiblesCommand openMandibles = new TimedRunMandiblesCommand(intake, false, 0.3);
+    ToDoubleSubstationSequence toDoubleSubstation = new ToDoubleSubstationSequence(elevator, wrist);
+    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.3);
+    StowSequence setTravelState = new StowSequence(elevator, wrist);
 
     addCommands(
-      setDoubleSubstationPickUpState,
+      openMandibles,
+      toDoubleSubstation,
       closeMandibles,
       setTravelState
     );

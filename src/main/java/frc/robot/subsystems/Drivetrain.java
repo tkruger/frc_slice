@@ -8,18 +8,17 @@ import java.util.Map;
 
 import frc.robot.*;
 import frc.robot.factories.SparkMaxFactory;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
-
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -30,8 +29,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 //import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 
-import edu.wpi.first.networktables.GenericEntry;
-
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -39,8 +36,6 @@ import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
-
-//import edu.wpi.first.cameraserver.CameraServer;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -76,7 +71,7 @@ public class Drivetrain extends SubsystemBase {
 
   private Pose2d botPose;
 
-  private boolean forceVisionImplementation;
+  private boolean forceVisionImplementation = false;
 
   private boolean drivetrainReversed = false;
 
@@ -176,7 +171,7 @@ public class Drivetrain extends SubsystemBase {
     withSize(2, 1).
     getEntry();*/
 
-    //Creates a widget for showing the gyro pitch
+    //Creates a widget for showing the gyro roll
     driveRollWidget = 
     teleopTab.add("Drive Roll", 0.0).
     withWidget(BuiltInWidgets.kDial).
@@ -402,15 +397,10 @@ public class Drivetrain extends SubsystemBase {
 
       botPose = Limelight.getBotPoseBlue();
 
-      if((botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1))) {
+      if(botPose != null && ((Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) || forceVisionImplementation)) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
   
-      }
-      else if(forceVisionImplementation) {
-
-        m_odometry.resetPosition(getRotation2d(), getLeftSideDistance(), getRightSideDistance(), botPose);
-
       }
 
     return m_odometry.getEstimatedPosition();
