@@ -4,8 +4,14 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -128,6 +134,46 @@ public class Limelight extends SubsystemBase {
   public void setPipeline(Number pipelineNumber) {
 
     pipeline.setNumber(pipelineNumber);
+
+  }
+
+  public Trajectory generateDoubleSubstationTrajectory(Pose2d initialPosition) {
+
+    double aprilTagX;
+    double aprilTagY;
+
+    Pose2d finalPosition;
+
+    if(aprilTagID == 4 || aprilTagID == 5) {
+
+      if(aprilTagID == 4) {
+
+        aprilTagX = 16.19;
+        aprilTagY = 6.74;
+        finalPosition = new Pose2d(aprilTagX - 1.2, aprilTagY, Rotation2d.fromDegrees(0));
+  
+      }
+      else {
+  
+        aprilTagX = 0.37;
+        aprilTagY = 6.74;
+        finalPosition = new Pose2d(aprilTagX + 1.2, aprilTagY, Rotation2d.fromDegrees(180));
+  
+      }
+  
+      return TrajectoryGenerator.generateTrajectory(initialPosition, 
+      List.of(new Translation2d(
+        (initialPosition.getX() + finalPosition.getX()) / 2, 
+        (initialPosition.getY() + finalPosition.getY()) / 2)),
+      finalPosition, 
+      new TrajectoryConfig(0.5, 0.2));
+  
+    }
+    else {
+
+      return new Trajectory();
+
+    }
 
   }
 

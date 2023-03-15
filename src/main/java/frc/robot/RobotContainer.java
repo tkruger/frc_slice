@@ -6,13 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.auto.AutoSelector;
-
+import frc.robot.auto.sequences.TrajectoryFollowerSequence;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
@@ -51,6 +50,7 @@ public class RobotContainer {
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
+  public final TrajectoryFollowerSequence m_doubleSubstationAlign = new TrajectoryFollowerSequence(m_drivetrain, m_limelight);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
@@ -70,7 +70,7 @@ public class RobotContainer {
   public final RunMandiblesCommand m_runMandiblesOutwards = new RunMandiblesCommand(m_intake, false);
   public final CalibrateMandiblesCommand m_calibrateMandibles = new CalibrateMandiblesCommand(m_intake);
 
-  public final LimelightAlignCommand m_limelightAlign = new LimelightAlignCommand(m_limelight, m_drivetrain);
+  public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
 
   public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 5, 0.001);
   public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 5, 0.001);
@@ -86,7 +86,7 @@ public class RobotContainer {
   public final GoToStateCommand m_manualSetMidCube = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CUBE_STATE);
   public final ToHighRowSequence m_manualSetHighRow = new ToHighRowSequence(m_elevator, m_wrist);
   public final GoToStateCommand m_manualSetMidCone = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CONE_STATE);
-  public final GoToStateCommand m_manualSetGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
+  public final GoToStateCommand m_manualSetLowRowGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
   
   public final GoToStateCommand m_toDoubleSubstation = new GoToStateCommand(m_elevator, m_wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
   public final ToDoubleSubstationSequence m_manualSetDoubleSubstation = new ToDoubleSubstationSequence(m_elevator, m_wrist);
@@ -145,8 +145,11 @@ public class RobotContainer {
     //Toggle Curvature Drive
     Button.curvatureDrive.toggleOnTrue(m_curvatureDrive);
 
-    //Enable Limelight Alignment
-    Button.limelightAlign.whileTrue(m_limelightAlign);
+    //Enable Node Alignment
+    Button.nodeAlign.whileTrue(m_nodeAlign);
+
+    //Enable Double Substation Alignment
+    Button.doubleSubstationAlign.whileTrue(m_doubleSubstationAlign);
 
     //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);
@@ -155,10 +158,12 @@ public class RobotContainer {
     Button.wristDown.whileTrue(m_wristRunDownwards);
 
     //Execute Low Row Ground State Positioning
-    Button.toLowState.onTrue(m_manualSetGround);
+    Button.toLowRowGroundState.onTrue(m_manualSetLowRowGround);
 
-    //Execute Mid Row State Positioning
+    //Execute Mid Row Cube State Positioning
     Button.toMidCubeState.onTrue(m_manualSetMidCube);
+
+    //Execute Mid Row Cone State Positioning
     Button.toMidConeState.onTrue(m_manualSetMidCone);
 
     //Execute High Row State Positioning

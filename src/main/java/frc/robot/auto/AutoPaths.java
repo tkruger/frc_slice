@@ -16,7 +16,7 @@ public class AutoPaths {
     public RamseteCommand command;
     public PathPlannerTrajectory trajectory;
 
-    public RamseteCommand generateRamseteCommand(Trajectory trajectory, Drivetrain drive) {
+    public static RamseteCommand generateRamseteCommand(Trajectory trajectory, Drivetrain drive) {
 
         return new RamseteCommand(
             trajectory,

@@ -11,7 +11,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
-public class LimelightAlignCommand extends CommandBase {
+public class LimelightNodeAlignCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
   private final Limelight m_limelight;
@@ -34,7 +34,7 @@ public class LimelightAlignCommand extends CommandBase {
   private double currentAprilTagID;
 
   /** Creates a new LimelightAlignmentCommand. */
-  public LimelightAlignCommand(Limelight limelight, Drivetrain drivetrain) {
+  public LimelightNodeAlignCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight, drivetrain);
 
