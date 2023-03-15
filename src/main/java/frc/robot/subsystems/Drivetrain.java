@@ -67,7 +67,7 @@ public class Drivetrain extends SubsystemBase {
   //leftSideVelocityWidget, 
   //rightSideVelocityWidget, 
   driveHeadingWidget, 
-  drivePitchWidget,
+  //drivePitchWidget,
   driveRollWidget;
 
   private final Field2d m_field2d;
@@ -75,6 +75,8 @@ public class Drivetrain extends SubsystemBase {
   private final Timer m_timer;
 
   private Pose2d botPose;
+
+  private boolean forceVisionImplementation;
 
   private boolean drivetrainReversed = false;
 
@@ -165,21 +167,21 @@ public class Drivetrain extends SubsystemBase {
     getEntry();
 
 
-        //Creates a widget for showing the gyro pitch
+    /*//Creates a widget for showing the gyro pitch
     drivePitchWidget = 
     teleopTab.add("Drive Pitch", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", -180, "Max", 180)).
     withPosition(7, 0).
     withSize(2, 1).
-    getEntry();
+    getEntry();*/
 
     //Creates a widget for showing the gyro pitch
     driveRollWidget = 
     teleopTab.add("Drive Roll", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", -180, "Max", 180)).
-    withPosition(7, 1).
+    withPosition(7, 0).
     withSize(2, 1).
     getEntry();
 
@@ -244,7 +246,7 @@ public class Drivetrain extends SubsystemBase {
     //rightSideVelocityWidget.setDouble(getRightSideVelocity());
 
     driveHeadingWidget.setDouble(getHeading());
-    drivePitchWidget.setDouble(getPitch());
+    //drivePitchWidget.setDouble(getPitch());
     driveRollWidget.setDouble(getRoll());
 
   }
@@ -369,6 +371,12 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public void toggleVisionImplementation() {
+
+    forceVisionImplementation = !forceVisionImplementation;
+
+  }
+
   /*public Pose2d updateOdometry() {
 
     return m_odometry.update(
@@ -394,11 +402,16 @@ public class Drivetrain extends SubsystemBase {
 
       botPose = Limelight.getBotPoseBlue();
 
-      if(botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1)) {
+      if((botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1))) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
   
-      }  
+      }
+      else if(forceVisionImplementation) {
+
+        m_odometry.resetPosition(getRotation2d(), getLeftSideDistance(), getRightSideDistance(), botPose);
+
+      }
 
     return m_odometry.getEstimatedPosition();
 

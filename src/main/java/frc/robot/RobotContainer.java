@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.auto.AutoSelector;
-import frc.robot.auto.sequences.TrajectoryFollowerSequence;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.*;
@@ -50,7 +49,7 @@ public class RobotContainer {
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
-  public final TrajectoryFollowerSequence m_doubleSubstationAlign = new TrajectoryFollowerSequence(m_drivetrain, m_limelight);
+  public final ToggleForceVisionImplementation m_toggleForceVisionImplementation = new ToggleForceVisionImplementation(m_drivetrain);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
@@ -71,6 +70,7 @@ public class RobotContainer {
   public final CalibrateMandiblesCommand m_calibrateMandibles = new CalibrateMandiblesCommand(m_intake);
 
   public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
+  public final DoubleSubstationAlignThenPickUpPieceSequence m_doubleSubstationAlignThenPickUpPiece = new DoubleSubstationAlignThenPickUpPieceSequence(m_drivetrain, m_limelight, m_elevator, m_wrist, m_intake);
 
   public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 5, 0.001);
   public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 5, 0.001);
@@ -148,8 +148,11 @@ public class RobotContainer {
     //Enable Node Alignment
     Button.nodeAlign.whileTrue(m_nodeAlign);
 
-    //Enable Double Substation Alignment
-    Button.doubleSubstationAlign.whileTrue(m_doubleSubstationAlign);
+    //Toggle Vision Implementation Force
+    Button.toggleForceVisionImplementation.onTrue(m_toggleForceVisionImplementation);
+
+    //Enable Double Substation Align Then Pick Up Piece Sequence
+    Button.doubleSubstationAlign.whileTrue(m_doubleSubstationAlignThenPickUpPiece);
 
     //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);

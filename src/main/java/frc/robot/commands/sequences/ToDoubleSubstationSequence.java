@@ -20,13 +20,13 @@ public class ToDoubleSubstationSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     GoToStateCommand setOutState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_OUT_STATE);
-    GoToStateCommand setUpState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_DOUBLE_SUB_STATE);
-    GoToStateCommand setDoubleSubState = new GoToStateCommand(elevator, wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
+    GoToStateCommand setUpState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_DOUBLE_SUBSTATION_STATE);
+    GoToStateCommand setDoubleSubstationState = new GoToStateCommand(elevator, wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
     
     addCommands(
       setOutState,
       setUpState,
-      setDoubleSubState
+      setDoubleSubstationState
     );
   }
 }

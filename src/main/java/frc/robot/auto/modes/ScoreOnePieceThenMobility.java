@@ -9,12 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.AutoSelector;
-import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
-import frc.robot.auto.paths.GridToGamePiecePath;
-import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
-import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
-import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
@@ -37,9 +32,6 @@ public class ScoreOnePieceThenMobility extends SequentialCommandGroup {
     ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
     
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    
-    //GridToGamePiecePath mobilityPath = new GridToGamePiecePath(startPosition);
-    //Field2dTrajectoryFollowerSequence trajectory1 = new Field2dTrajectoryFollowerSequence(drive, mobilityPath);
 
     AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 3);
 

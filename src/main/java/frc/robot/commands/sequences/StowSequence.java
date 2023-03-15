@@ -19,14 +19,14 @@ public class StowSequence extends SequentialCommandGroup {
   /** Creates a new StowSequence. */
   public StowSequence(Elevator elevator, Wrist wrist) {
 
-    SetWristPosition transitionState = new SetWristPosition(wrist, -60);
-    GoToStateCommand stowState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
+    SetWristPosition setTransitionState = new SetWristPosition(wrist, -60);
+    GoToStateCommand setStowState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
     
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      transitionState,
-      stowState
+      setTransitionState,
+      setStowState
     );
   }
 }

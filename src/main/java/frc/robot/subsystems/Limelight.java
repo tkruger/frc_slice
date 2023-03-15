@@ -150,14 +150,14 @@ public class Limelight extends SubsystemBase {
 
         aprilTagX = 16.19;
         aprilTagY = 6.74;
-        finalPosition = new Pose2d(aprilTagX - 1.2, aprilTagY, Rotation2d.fromDegrees(0));
+        finalPosition = new Pose2d(aprilTagX - 2, aprilTagY + 0.6, Rotation2d.fromDegrees(0));
   
       }
       else {
   
         aprilTagX = 0.37;
         aprilTagY = 6.74;
-        finalPosition = new Pose2d(aprilTagX + 1.2, aprilTagY, Rotation2d.fromDegrees(180));
+        finalPosition = new Pose2d(aprilTagX + 2, aprilTagY + 0.6, Rotation2d.fromDegrees(180));
   
       }
   
