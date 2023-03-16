@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ServiceConfigurationError;
+
 import edu.wpi.first.math.MathUtil;
 
 /**
@@ -28,8 +30,15 @@ public class JoystickFilter {
         return MathUtil.applyDeadband(raw, deadzone);
     }
 
+    public double withCurve(double raw) {
+        double firstTerm = Constants.Joysticks.A_COEFFICIENT * Math.pow(raw, Constants.Joysticks.FIRST_POWER);
+        double secondTerm = Constants.Joysticks.B_COEFFICIENT * Math.pow(raw, Constants.Joysticks.SECOND_POWER);
+        return firstTerm + secondTerm;
+    }
+
     public double filter(double raw) {
-        double signal = smoothing * lastInput + (1 - smoothing) * raw;
+        double curved = withCurve(raw);
+        double signal = smoothing * lastInput + (1 - smoothing) * curved;
         lastInput = signal;
         signal = withDead(signal);
         return signal;

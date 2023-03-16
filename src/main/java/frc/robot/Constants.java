@@ -25,6 +25,11 @@ public final class Constants {
         //(This is a placeholder for now)
         public static final int MANIPULATOR_JOYSTICK_PORT = 2;
 
+        public static final double A_COEFFICIENT = 0.7;
+        public static final double B_COEFFICIENT = 0.3;
+        public static final int FIRST_POWER = 3;
+        public static final int SECOND_POWER = 1;
+
     }
 
     //Define Drivetrain Constants
