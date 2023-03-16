@@ -7,14 +7,16 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class ToggleForceVisionImplementation extends CommandBase {
+public class SetForceVisionImplementationCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
+  private final boolean m_enable;
 
   /** Creates a new ForceVisionImplementation. */
-  public ToggleForceVisionImplementation(Drivetrain drivetrain) {
+  public SetForceVisionImplementationCommand(Drivetrain drivetrain, boolean enable) {
 
     m_drivetrain = drivetrain;
+    m_enable = enable;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -25,7 +27,16 @@ public class ToggleForceVisionImplementation extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.toggleVisionImplementation();
+    if(m_enable) {
+
+      m_drivetrain.enableForceVisionImplementation();
+
+    }
+    else {
+
+      m_drivetrain.disableForceVisionImplementation();
+
+    }
 
   }
 

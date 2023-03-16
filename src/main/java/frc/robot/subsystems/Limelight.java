@@ -27,7 +27,7 @@ public class Limelight extends SubsystemBase {
   private double targetYOffset;
 
   private static double[] currentBotPoseBlue;
-  private static double[] lastBotPoseBlue;
+  private static double[] lastBotPoseBlue = new double[0];
   private double[] lastRobotTargetSpacePose;
   private double[] currentRobotTargetSpacePose;
 
@@ -59,7 +59,7 @@ public class Limelight extends SubsystemBase {
     targetXOffset = table.getEntry("tx").getDouble(0);
     targetYOffset = table.getEntry("ty").getDouble(0);
 
-    currentBotPoseBlue = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    currentBotPoseBlue = table.getEntry("botpose").getDoubleArray(new double[6]);
     currentRobotTargetSpacePose = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     if(currentRobotTargetSpacePose != null) {
@@ -92,11 +92,15 @@ public class Limelight extends SubsystemBase {
 
   public static Pose2d getBotPoseBlue() {
 
-    lastBotPoseBlue = currentBotPoseBlue;
+    if(currentBotPoseBlue != null) {
 
-    if(lastBotPoseBlue != null) {
+      lastBotPoseBlue = currentBotPoseBlue;
 
-      return new Pose2d(lastBotPoseBlue[0], lastBotPoseBlue[1], Rotation2d.fromDegrees(lastBotPoseBlue[5]));
+    }
+
+    if(lastBotPoseBlue.length != 0) {
+      
+      return new Pose2d(lastBotPoseBlue[0] + 8.28, lastBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastBotPoseBlue[5]));
 
     }
     else {
@@ -161,12 +165,13 @@ public class Limelight extends SubsystemBase {
   
       }
   
-      return TrajectoryGenerator.generateTrajectory(initialPosition, 
-      List.of(new Translation2d(
-        (initialPosition.getX() + finalPosition.getX()) / 2, 
-        (initialPosition.getY() + finalPosition.getY()) / 2)),
-      finalPosition, 
-      new TrajectoryConfig(0.5, 0.2));
+      return TrajectoryGenerator.generateTrajectory(
+        initialPosition, 
+        List.of(new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2)),
+        finalPosition, 
+        new TrajectoryConfig(0.5, 0.2));
   
     }
     else {

@@ -28,14 +28,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 //import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.trajectory.Trajectory;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
-
-import com.pathplanner.lib.PathPlannerTrajectory;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -71,7 +70,8 @@ public class Drivetrain extends SubsystemBase {
 
   private Pose2d botPose;
 
-  private boolean forceVisionImplementation = false;
+  private boolean forceVisionImplementation = true;
+  private boolean preventVisionImplementation = false;
 
   private boolean drivetrainReversed = false;
 
@@ -366,9 +366,33 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public void toggleVisionImplementation() {
+  public void toggleForceVisionImplementation() {
 
     forceVisionImplementation = !forceVisionImplementation;
+
+  }
+
+  public void enableForceVisionImplementation() {
+
+    forceVisionImplementation = true;
+
+  }
+
+  public void disableForceVisionImplementation() {
+
+    forceVisionImplementation = false;
+
+  }
+
+  public void preventVisionImplementation() {
+
+    preventVisionImplementation = true;
+
+  }
+
+  public void allowVisionImplementation() {
+
+    preventVisionImplementation = false;
 
   }
 
@@ -397,7 +421,7 @@ public class Drivetrain extends SubsystemBase {
 
       botPose = Limelight.getBotPoseBlue();
 
-      if(botPose != null && ((Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) || forceVisionImplementation)) {
+      if(botPose != null && ((Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) || forceVisionImplementation) && !preventVisionImplementation) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
   
@@ -447,7 +471,7 @@ public class Drivetrain extends SubsystemBase {
    * 
    * @param trajectory The desired trajectory to send to the Field2d object.
    */
-  public void setField2d(PathPlannerTrajectory trajectory) {
+  public void setField2d(Trajectory trajectory) {
 
     m_field2d.getObject("Trajectory").setTrajectory(trajectory);
 

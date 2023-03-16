@@ -42,7 +42,7 @@ public final class Button {
 
     //Define Limelight Buttons
     public static Trigger nodeAlign = new JoystickButton(rightJoystick, 7); //Right Bottom 7
-    public static Trigger doubleSubstationAlign = new JoystickButton(leftJoystick, 3); //Left Top 3
+    public static Trigger doubleSubstationAlignThenPickUpPiece = new JoystickButton(leftJoystick, 3); //Left Top 3
 
     //Define LED Buttons
     public static Trigger flashPurpleLEDs = new JoystickButton(rightJoystick, 5); //Right Top 5
@@ -91,6 +91,7 @@ public final class Button {
     public static POVButton leftMiniJoystickUpLeft = new POVButton(leftJoystick, 315);
 
     //Unassigned Manipulator Joystick Buttons
+    public static Trigger manipulatorButton11 = new JoystickButton(manipulatorJoystick, 11); //Manipulator Bottom 11
     
     //Unassigned Manipulator Joystick POV Axes
     public static POVButton manipulatorMiniJoystickUp = new POVButton(manipulatorJoystick, 0);

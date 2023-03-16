@@ -49,7 +49,7 @@ public class RobotContainer {
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
-  public final ToggleForceVisionImplementation m_toggleForceVisionImplementation = new ToggleForceVisionImplementation(m_drivetrain);
+  public final ToggleForceVisionImplementationCommand m_toggleForceVisionImplementation = new ToggleForceVisionImplementationCommand(m_drivetrain);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
@@ -57,8 +57,6 @@ public class RobotContainer {
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
-  //public final SequentialCommandGroup m_wristRunUpwards = new WristRunCommand(m_wrist, true).andThen(new WristStationaryCommand(m_wrist));
-  //public final SequentialCommandGroup m_wristRunDownwards = new WristRunCommand(m_wrist, false).andThen(new WristStationaryCommand(m_wrist));
   public final WristRunCommand m_wristRunUpwards = new WristRunCommand(m_wrist, true);
   public final WristRunCommand m_wristRunDownwards = new WristRunCommand(m_wrist, false);
   public final WristStationaryCommand m_wristStationary = new WristStationaryCommand(m_wrist);
@@ -76,8 +74,8 @@ public class RobotContainer {
   public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 5, 0.001);
   public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds);
 
-  //public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
-  //public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake, m_colorSensor);
+  public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake);
+  public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake);
   public final PlaceGamePieceLowRowSequence m_placeGamePieceLowRow = new PlaceGamePieceLowRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceCubeMidRowSequence m_placeCubeMidRow = new PlaceCubeMidRowSequence(m_elevator, m_wrist, m_intake);
   public final PlaceConeMidRowSequence m_placeConeMidRow = new PlaceConeMidRowSequence(m_elevator, m_wrist, m_intake);
@@ -87,22 +85,15 @@ public class RobotContainer {
   public final ToHighRowSequence m_manualSetHighRow = new ToHighRowSequence(m_elevator, m_wrist);
   public final GoToStateCommand m_manualSetMidCone = new GoToStateCommand(m_elevator, m_wrist, Constants.States.MID_ROW_CONE_STATE);
   public final GoToStateCommand m_manualSetLowRowGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
-  
-  public final GoToStateCommand m_toDoubleSubstation = new GoToStateCommand(m_elevator, m_wrist, Constants.States.DOUBLE_SUBSTATION_STATE);
   public final ToDoubleSubstationSequence m_manualSetDoubleSubstation = new ToDoubleSubstationSequence(m_elevator, m_wrist);
-
-  public final GoToStateCommand m_toStowTransitionState = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRANSITION_OUT_STATE);
-  public final GoToStateCommand m_toStowSate = new GoToStateCommand(m_elevator, m_wrist, Constants.States.TRAVEL_STATE);
   public final StowSequence m_manualSetStow = new StowSequence(m_elevator, m_wrist);
   
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
 
-  //public final ConditionalCommand m_setMidRowState = new ConditionalCommand(m_manualSetMidCone, m_manualSetMidCube, Button.setConeState);
-  //public final ConditionalCommand m_setHighRowState = new ConditionalCommand(m_manualSetHighCone, m_manualSetHighCube, Button.setConeState);
   public final TimedRunMandiblesCommand m_calibrateCloseMandibles = new TimedRunMandiblesCommand(m_intake, true, 0.3);
   public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle);
-  //public final FlashColorCommand m_redLEDCommand = new FlashColorCommand(null, null, 0, 0)
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -148,11 +139,11 @@ public class RobotContainer {
     //Enable Node Alignment
     Button.nodeAlign.whileTrue(m_nodeAlign);
 
-    //Toggle Vision Implementation Force
+    //Execute Vision Implementation Force Toggle
     Button.toggleForceVisionImplementation.onTrue(m_toggleForceVisionImplementation);
 
     //Enable Double Substation Align Then Pick Up Piece Sequence
-    Button.doubleSubstationAlign.whileTrue(m_doubleSubstationAlignThenPickUpPiece);
+    Button.doubleSubstationAlignThenPickUpPiece.whileTrue(m_doubleSubstationAlignThenPickUpPiece);
 
     //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);
@@ -175,6 +166,7 @@ public class RobotContainer {
     //Execute Stow State Positioning
     Button.toStowState.onTrue(m_manualSetStow);
 
+    //Execute Double Substation State Positioning
     Button.toDoubleSubstationState.onTrue(m_manualSetDoubleSubstation);
 
     //Enable Mandibles Moving Inwards

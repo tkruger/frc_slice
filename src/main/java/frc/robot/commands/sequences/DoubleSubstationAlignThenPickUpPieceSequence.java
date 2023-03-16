@@ -6,6 +6,7 @@ package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.sequences.TrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -22,11 +23,15 @@ public class DoubleSubstationAlignThenPickUpPieceSequence extends SequentialComm
     // addCommands(new FooCommand(), new BarCommand());
 
     TrajectoryFollowerSequence doubleSubstationAlign = new TrajectoryFollowerSequence(drive, limelight);
-    PickUpGamePieceDoubleSubstationSequence pickUpGamePiece = new PickUpGamePieceDoubleSubstationSequence(elevator, wrist, intake);
+    AutonomousDistanceDriveCommand moveForward = new AutonomousDistanceDriveCommand(drive, 0.5, 1);
+    //PickUpGamePieceDoubleSubstationSequence pickUpGamePiece = new PickUpGamePieceDoubleSubstationSequence(elevator, wrist, intake);
 
     addCommands(
       doubleSubstationAlign,
-      pickUpGamePiece
+      moveForward/*,
+      pickUpGamePiece*/
     );
+
   }
+
 }

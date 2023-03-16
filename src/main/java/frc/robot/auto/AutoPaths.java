@@ -1,7 +1,5 @@
 package frc.robot.auto;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -14,7 +12,7 @@ import frc.robot.subsystems.Drivetrain;
 public class AutoPaths {
 
     public RamseteCommand command;
-    public PathPlannerTrajectory trajectory;
+    public Trajectory trajectory;
 
     public static RamseteCommand generateRamseteCommand(Trajectory trajectory, Drivetrain drive) {
 

@@ -4,23 +4,20 @@
 
 package frc.robot.commands.Drivetrain;
 
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class SetField2dCommand extends CommandBase {
+public class ToggleForceVisionImplementationCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
 
-  private final Trajectory m_trajectory;
+  /** Creates a new ForceVisionImplementation. */
+  public ToggleForceVisionImplementationCommand(Drivetrain drivetrain) {
 
- /** Creates a new SetField2dCommand. */
-  public SetField2dCommand(Trajectory trajectory, Drivetrain drivetrain) {
+    m_drivetrain = drivetrain;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
-
-    m_trajectory = trajectory;
-    m_drivetrain = drivetrain;
 
   }
 
@@ -28,10 +25,9 @@ public class SetField2dCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.setField2d(m_trajectory);
-    
-  }
+    m_drivetrain.toggleForceVisionImplementation();
 
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -48,4 +44,5 @@ public class SetField2dCommand extends CommandBase {
     return true;
 
   }
+
 }
