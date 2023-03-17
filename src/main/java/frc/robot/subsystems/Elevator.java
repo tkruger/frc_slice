@@ -86,8 +86,8 @@ public class Elevator extends SubsystemBase {
     rightPID.setI(kI);
     rightPID.setD(kD);
 
-    leftPID.setOutputRange(-0.5, 0.5);
-    rightPID.setOutputRange(-0.5, 0.5);
+    leftPID.setOutputRange(-Constants.Elevator.POSITIONAL_MAX_SPEED, Constants.Elevator.POSITIONAL_MAX_SPEED);
+    rightPID.setOutputRange(-Constants.Elevator.POSITIONAL_MAX_SPEED, Constants.Elevator.POSITIONAL_MAX_SPEED);
   }
 
   /**

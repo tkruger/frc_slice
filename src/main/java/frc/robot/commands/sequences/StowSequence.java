@@ -7,6 +7,7 @@ package frc.robot.commands.sequences;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
+import frc.robot.commands.Elevator.ElevatorSetPIDCommand;
 import frc.robot.commands.Wrist.SetWristPosition;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
@@ -19,12 +20,14 @@ public class StowSequence extends SequentialCommandGroup {
   public StowSequence(Elevator elevator, Wrist wrist) {
 
     SetWristPosition setTransitionState = new SetWristPosition(wrist, -60);
+    ElevatorSetPIDCommand down = new ElevatorSetPIDCommand(elevator, Constants.States.TRAVEL_STATE.elevatorHeight);
     GoToStateCommand setStowState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
     
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       setTransitionState,
+      down,
       setStowState
     );
   }

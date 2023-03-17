@@ -82,7 +82,8 @@ public final class Constants {
         public static final double SET_SPEED = 0.7; // May be deprecated with PID
         public static final double CALIBRATION_SPEEED = 0.3;
 
-        public static final double POSITIONAL_ERROR_THRESHOLD = 3;
+        public static final double POSITIONAL_ERROR_THRESHOLD = 4;
+        public static final double POSITIONAL_MAX_SPEED = 0.6;
     }
 
     //Define Wrist Constants
@@ -114,7 +115,7 @@ public final class Constants {
         public static final double CALIBRATE_CURRENT_THRESHOLD = 40;
 
         public static final double POSITIONAL_ERROR_THRESHOLD = 6;
-        public static final double POSITIONAL_MAX_SPEED = 0.25;
+        public static final double POSITIONAL_MAX_SPEED = 0.35;
 
     }
 
@@ -162,12 +163,12 @@ public final class Constants {
     public static final class States {
 
         public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(1, -5);
-        public static final RobotState MID_ROW_CUBE_STATE = new RobotState(16, -71);
-        public static final RobotState MID_ROW_CONE_STATE = new RobotState(38, -50);
-        public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(90, -25);
-        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(98, -30);
+        public static final RobotState MID_ROW_CUBE_STATE = new RobotState(38, -50);
+        public static final RobotState MID_ROW_CONE_STATE = new RobotState(48, -50);
+        public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(98, -25);
+        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(98, -40);
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(85, -27);
-        public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
+        public static final RobotState TRAVEL_STATE = new RobotState(1, -90);
 
         public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -60);
         public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -60);

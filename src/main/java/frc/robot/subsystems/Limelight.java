@@ -12,10 +12,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
 
@@ -31,7 +33,8 @@ public class Limelight extends SubsystemBase {
   private double[] lastRobotTargetSpacePose;
   private double[] currentRobotTargetSpacePose;
 
-  private double aprilTagID;
+  private double currentAprilTagID;
+  private double lastAprilTagID;
 
   private final NetworkTableEntry ledMode;
 
@@ -68,7 +71,7 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    aprilTagID = table.getEntry("tid").getDouble(0);
+    currentAprilTagID = table.getEntry("tid").getDouble(0);
 
   }
 
@@ -119,7 +122,7 @@ public class Limelight extends SubsystemBase {
 
   public double getAprilTagID() {
 
-    return aprilTagID;
+    return currentAprilTagID;
 
   }
 
@@ -148,9 +151,17 @@ public class Limelight extends SubsystemBase {
 
     Pose2d finalPosition;
 
-    if(aprilTagID == 4 || aprilTagID == 5) {
+    double currentAprilTagID = this.currentAprilTagID;
 
-      if(aprilTagID == 4) {
+    if(currentAprilTagID == 4 || currentAprilTagID == 5) {
+
+      lastAprilTagID = currentAprilTagID;
+
+    }
+
+    if(lastAprilTagID == 4 || lastAprilTagID == 5) {
+
+      if(lastAprilTagID == 4) {
 
         aprilTagX = 16.19;
         aprilTagY = 6.74;
@@ -171,12 +182,12 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getX() + finalPosition.getX()) / 2, 
           (initialPosition.getY() + finalPosition.getY()) / 2)),
         finalPosition, 
-        new TrajectoryConfig(0.5, 0.2));
+        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Autonomous.kDriveKinematics));
   
     }
     else {
 
-      return new Trajectory();
+      return new Trajectory(List.of(new State(0, 0, 0, initialPosition, 0)));
 
     }
 

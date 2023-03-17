@@ -14,7 +14,7 @@ import edu.wpi.first.math.MathUtil;
 public class JoystickFilter {
     private double lastInput;
     private final double deadzone, smoothing;
-
+    private final boolean curve;
     /**
      * @param deadzone input from the joystick that is less than the deadzone will be ignored. -1 to 1
      * @param smoothing a higher value will smooth the input more but also increase input delay. 0 to 1
@@ -22,6 +22,15 @@ public class JoystickFilter {
     public JoystickFilter(double deadzone, double smoothing) {
         this.deadzone = deadzone;
         this.smoothing = smoothing;
+        curve = true;
+        
+        lastInput = 0;
+    }
+
+    public JoystickFilter(double deadzone, double smoothing, boolean curve) {
+        this.deadzone = deadzone;
+        this.smoothing = smoothing;
+        this.curve = curve;
         
         lastInput = 0;
     }
@@ -37,10 +46,12 @@ public class JoystickFilter {
     }
 
     public double filter(double raw) {
-        double curved = withCurve(raw);
-        double signal = smoothing * lastInput + (1 - smoothing) * curved;
+        double filtered = withDead(raw);
+        if (curve) {
+            filtered = withCurve(filtered);
+        }
+        double signal = smoothing * lastInput + (1 - smoothing) * filtered;
         lastInput = signal;
-        signal = withDead(signal);
         return signal;
     }
 }

@@ -48,6 +48,13 @@ public class LEDs extends SubsystemBase {
     leds.setData(buffer);
   }
 
+  public void setAllHSV(int h, int s, int v) {
+    for (int i = 0; i < Constants.LEDs.count; i++) {
+      buffer.setHSV(i, h, s, v);
+    }
+    leds.setData(buffer);
+  }
+
   public void setLEDhsv(int index, int h, int s, int v) {
     buffer.setHSV(index, h, s, v);
   }
