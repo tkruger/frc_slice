@@ -70,7 +70,6 @@ public class Drivetrain extends SubsystemBase {
 
   private Pose2d botPose;
 
-  private boolean forceVisionImplementation = true;
   private boolean preventVisionImplementation = false;
 
   private boolean drivetrainReversed = false;
@@ -147,7 +146,7 @@ public class Drivetrain extends SubsystemBase {
       getRotation2d(), 
       getLeftSideDistance(),
       getRightSideDistance(),
-      new Pose2d(8, 4, Rotation2d.fromDegrees(0)));
+      new Pose2d(8.28, 4, Rotation2d.fromDegrees(0)));
 
     //Creates the "Driver Tab" on Shuffleboard
     teleopTab = Shuffleboard.getTab("Teleop Tab");
@@ -366,31 +365,13 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public void toggleForceVisionImplementation() {
-
-    forceVisionImplementation = !forceVisionImplementation;
-
-  }
-
-  public void enableForceVisionImplementation() {
-
-    forceVisionImplementation = true;
-
-  }
-
-  public void disableForceVisionImplementation() {
-
-    forceVisionImplementation = false;
-
-  }
-
-  public void preventVisionImplementation() {
+  public void enablePreventVisionImplementation() {
 
     preventVisionImplementation = true;
 
   }
 
-  public void allowVisionImplementation() {
+  public void disablePreventVisionImplementation() {
 
     preventVisionImplementation = false;
 
@@ -419,9 +400,9 @@ public class Drivetrain extends SubsystemBase {
       getLeftSideDistance(), 
       getRightSideDistance());
 
-      botPose = Limelight.getBotPoseBlue();
+      botPose = Limelight.getCurrentBotPoseBlue();
 
-      if(botPose != null && ((Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) || forceVisionImplementation) && !preventVisionImplementation) {
+      if(botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) && !preventVisionImplementation) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
   

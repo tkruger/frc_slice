@@ -25,7 +25,6 @@ public final class Button {
     public static Trigger quickTurnPID1 = new JoystickButton(leftJoystick, 1); //Left Top 1
     public static Trigger quickTurnPID2 = new JoystickButton(rightJoystick, 1); //Right Top 1
     public static Trigger quickTurnPID = quickTurnPID1.and(quickTurnPID2); //Left Top 1 and Right Top 1
-    public static Trigger toggleForceVisionImplementation = new JoystickButton(leftJoystick, 10); //Left Bottom 10
 
     //Define Elevator Buttons
     public static Trigger calibrateElevator = new JoystickButton(rightJoystick, 6); //Right Top 6
@@ -77,6 +76,7 @@ public final class Button {
     //Unassigned Left Joystick Buttons
     public static Trigger leftButton2 = new JoystickButton(leftJoystick, 2); //Left Top 2
     public static Trigger leftButton4 = new JoystickButton(leftJoystick, 4); //Left Top 4
+    public static Trigger leftButton10 = new JoystickButton(leftJoystick, 10); //Left Bottom 10
     public static Trigger leftButton11 = new JoystickButton(leftJoystick, 11); //Left Bottom 11
     public static Trigger leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12
 

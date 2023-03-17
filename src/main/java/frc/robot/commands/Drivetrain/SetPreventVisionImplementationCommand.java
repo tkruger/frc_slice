@@ -7,13 +7,13 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class SetForceVisionImplementationCommand extends CommandBase {
+public class SetPreventVisionImplementationCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
   private final boolean m_enable;
 
-  /** Creates a new ForceVisionImplementation. */
-  public SetForceVisionImplementationCommand(Drivetrain drivetrain, boolean enable) {
+  /** Creates a new SetPreventVisionImplementation. */
+  public SetPreventVisionImplementationCommand(Drivetrain drivetrain, boolean enable) {
 
     m_drivetrain = drivetrain;
     m_enable = enable;
@@ -29,12 +29,12 @@ public class SetForceVisionImplementationCommand extends CommandBase {
 
     if(m_enable) {
 
-      m_drivetrain.enableForceVisionImplementation();
+      m_drivetrain.enablePreventVisionImplementation();
 
     }
     else {
 
-      m_drivetrain.disableForceVisionImplementation();
+      m_drivetrain.disablePreventVisionImplementation();
 
     }
 

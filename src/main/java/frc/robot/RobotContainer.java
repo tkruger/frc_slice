@@ -49,7 +49,6 @@ public class RobotContainer {
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurn = new QuickTurnSequence(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
-  public final ToggleForceVisionImplementationCommand m_toggleForceVisionImplementation = new ToggleForceVisionImplementationCommand(m_drivetrain);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
@@ -138,9 +137,6 @@ public class RobotContainer {
 
     //Enable Node Alignment
     Button.nodeAlign.whileTrue(m_nodeAlign);
-
-    //Execute Vision Implementation Force Toggle
-    Button.toggleForceVisionImplementation.onTrue(m_toggleForceVisionImplementation);
 
     //Enable Double Substation Align Then Pick Up Piece Sequence
     Button.doubleSubstationAlignThenPickUpPiece.whileTrue(m_doubleSubstationAlignThenPickUpPiece);

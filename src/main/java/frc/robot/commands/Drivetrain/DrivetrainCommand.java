@@ -45,7 +45,7 @@ public class DrivetrainCommand extends CommandBase {
   public void initialize() {
 
     m_drivetrain.resetHeading();
-    m_drivetrain.disableForceVisionImplementation();
+    m_drivetrain.resetOdometry(Limelight.getLastBotPoseBlue());
 
   }
 

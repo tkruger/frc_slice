@@ -29,12 +29,13 @@ public class Limelight extends SubsystemBase {
   private double targetYOffset;
 
   private static double[] currentBotPoseBlue;
-  private static double[] lastBotPoseBlue = new double[0];
+  private static double[] lastNonNullBotPoseBlue = new double[0];
+  private static double[] lastNonEmptyBotPoseBlue;
   private double[] lastRobotTargetSpacePose;
   private double[] currentRobotTargetSpacePose;
 
-  private double currentAprilTagID;
-  private double lastAprilTagID;
+  private static double currentAprilTagID;
+  private static double lastAprilTagID;
 
   private final NetworkTableEntry ledMode;
 
@@ -63,6 +64,19 @@ public class Limelight extends SubsystemBase {
     targetYOffset = table.getEntry("ty").getDouble(0);
 
     currentBotPoseBlue = table.getEntry("botpose").getDoubleArray(new double[6]);
+
+    if(currentBotPoseBlue != null) {
+
+      lastNonNullBotPoseBlue = currentBotPoseBlue;
+
+      if(lastNonNullBotPoseBlue.length != 0) {
+
+        lastNonEmptyBotPoseBlue = lastNonNullBotPoseBlue;
+    
+      }
+
+    }
+
     currentRobotTargetSpacePose = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     if(currentRobotTargetSpacePose != null) {
@@ -93,18 +107,31 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public static Pose2d getBotPoseBlue() {
+  public static Pose2d getLastBotPoseBlue() {
 
-    if(currentBotPoseBlue != null) {
+    double[] lastNonEmptyBotPoseBlue = Limelight.lastNonEmptyBotPoseBlue;
 
-      lastBotPoseBlue = currentBotPoseBlue;
+    if(lastNonEmptyBotPoseBlue != null) {
+
+      return new Pose2d(lastNonEmptyBotPoseBlue[0] + 8.28, lastNonEmptyBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastNonEmptyBotPoseBlue[5]));
+
+    }
+    else {
+
+      return new Pose2d(8.28, 4, Rotation2d.fromDegrees(0));
 
     }
 
-    if(lastBotPoseBlue.length != 0) {
-      
-      return new Pose2d(lastBotPoseBlue[0] + 8.28, lastBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastBotPoseBlue[5]));
+  }
 
+  public static Pose2d getCurrentBotPoseBlue() {
+
+    double[] lastNonNullBotPoseBlue = Limelight.lastNonNullBotPoseBlue;
+
+    if(lastNonNullBotPoseBlue.length != 0) {
+      
+      return new Pose2d(lastNonNullBotPoseBlue[0] + 8.28, lastNonNullBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastNonNullBotPoseBlue[5]));
+  
     }
     else {
 
@@ -144,14 +171,14 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public Trajectory generateDoubleSubstationTrajectory(Pose2d initialPosition) {
+  public static Trajectory generateDoubleSubstationTrajectory(Pose2d initialPosition) {
 
     double aprilTagX;
     double aprilTagY;
 
     Pose2d finalPosition;
 
-    double currentAprilTagID = this.currentAprilTagID;
+    double currentAprilTagID = Limelight.currentAprilTagID;
 
     if(currentAprilTagID == 4 || currentAprilTagID == 5) {
 

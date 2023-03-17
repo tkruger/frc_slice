@@ -189,7 +189,7 @@ public class AutoSelector {
 
     public void updateInitialAutoPoseOffset() {
 
-        Pose2d botPose = Limelight.getBotPoseBlue();
+        Pose2d botPose = Limelight.getLastBotPoseBlue();
 
         StartingPosition startingPosition = startingPositionChooser.getSelected();
         DesiredMode desiredMode = modeChooser.getSelected();
@@ -206,22 +206,22 @@ public class AutoSelector {
                     break;
                 case SCORE_ONE_CONE_HIGH_ROW:
                     System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
-                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    initialAutoPose = Optional.of(botPose);
                     break;
                 case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
                     initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
                     break;
                 case SCORE_ONE_PIECE_THEN_MOBILITY:
                     System.out.println("No initial pose is available for the 'ScoreOnePieceThenMobility' mode");
-                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    initialAutoPose = Optional.of(botPose);
                     break;
                 case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
                     System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
-                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    initialAutoPose = Optional.of(botPose);
                     break;
                 case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
                     System.out.println("No initial pose is available for the 'Score' mode");
-                    initialAutoPose = Optional.of(Limelight.getBotPoseBlue());
+                    initialAutoPose = Optional.of(botPose);
                     break;
                 default:
                     System.err.println("No valid initial auto pose found for " + storedDesiredMode);

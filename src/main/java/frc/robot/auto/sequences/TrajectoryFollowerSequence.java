@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.AutoPaths;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
-import frc.robot.commands.Drivetrain.SetForceVisionImplementationCommand;
+import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
@@ -24,16 +24,16 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
   public TrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetForceVisionImplementationCommand enableForceVisionImplementation = new SetForceVisionImplementationCommand(drive, true);
+    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
     RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetForceVisionImplementationCommand disableForceVisionImplementation = new SetForceVisionImplementationCommand(drive, false);
+    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
 
     addCommands(
-      enableForceVisionImplementation,
+      preventVisionImplementation,
       ramseteCommand,
       stopDriveCommand,
-      disableForceVisionImplementation);
+      allowVisionImplementation);
       
   }
 
@@ -41,18 +41,18 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
   public TrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath, Pose2d position) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetForceVisionImplementationCommand enableForceVisionImplementation = new SetForceVisionImplementationCommand(drive, true);
-    ResetOdometryCommand resetOdometryCommand = new ResetOdometryCommand(drive, position);
+    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    ResetOdometryCommand resetOdometry = new ResetOdometryCommand(drive, position);
     RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetForceVisionImplementationCommand disableForceVisionImplementation = new SetForceVisionImplementationCommand(drive, false);
+    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
 
     addCommands(
-      enableForceVisionImplementation,
-      resetOdometryCommand,
+      preventVisionImplementation,
+      resetOdometry,
       ramseteCommand,
       stopDriveCommand,
-      disableForceVisionImplementation);
+      allowVisionImplementation);
       
   }
 
@@ -60,16 +60,18 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
   public TrajectoryFollowerSequence(Drivetrain drive, Limelight limelight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetForceVisionImplementationCommand enableForceVisionImplementation = new SetForceVisionImplementationCommand(drive, true);
-    RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
+    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    ResetOdometryCommand correctOdometry = new ResetOdometryCommand(drive, Limelight.getLastBotPoseBlue());
+    RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetForceVisionImplementationCommand disableForceVisionImplementation = new SetForceVisionImplementationCommand(drive, false);
+    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
 
     addCommands(
-      enableForceVisionImplementation,
+      preventVisionImplementation,
+      correctOdometry,
       ramseteCommand,
       stopDriveCommand,
-      disableForceVisionImplementation
+      allowVisionImplementation
     );
 
   }
