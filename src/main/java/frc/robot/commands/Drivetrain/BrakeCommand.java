@@ -2,32 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auto;
+package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class UpdateField2dCommand extends CommandBase {
-  /** Creates a new field2dCommand. */
-  private final int m_trajectoryNumber;
+public class BrakeCommand extends CommandBase {
+  private final SwerveDrivetrain m_drivetrain;
+  private final boolean brake;
 
-  public UpdateField2dCommand(int trajectoryNumber) {
+  /** Creates a new BrakeCommand. */
+  public BrakeCommand(SwerveDrivetrain drivetrain, boolean brake) {
+    m_drivetrain = drivetrain;
+    this.brake = brake;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    m_trajectoryNumber = trajectoryNumber;
-
+    addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_drivetrain.setIdleMode(brake);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    SwerveDrivetrain.updateField2d(m_trajectoryNumber);
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -36,6 +37,6 @@ public class UpdateField2dCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -2,25 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Drivetrain;
+package frc.robot.auto.commands;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class ResetOdometryCommand extends CommandBase {
+public class PrepareAutoRotationsCommand extends CommandBase {
 
   private final SwerveDrivetrain m_drivetrain;
-  private final Pose2d m_position;
-  
-   /** Creates a new ResetOdometryCommand. */
-  public ResetOdometryCommand(SwerveDrivetrain drivetrain, Pose2d position) {
+  private final PathPlannerTrajectory m_trajectory;
+
+  /** Creates a new GetTrajectoryRotationCommand. */
+  public PrepareAutoRotationsCommand(SwerveDrivetrain drivetrain, PathPlannerTrajectory trajectory) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
     m_drivetrain = drivetrain;
-    m_position = position;
+    m_trajectory = trajectory;
 
   }
 
@@ -28,7 +28,8 @@ public class ResetOdometryCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.resetOdometry(m_position);
+    m_drivetrain.startAutoTrajectoryTimer();
+    m_drivetrain.setCurrentAutoTrajectory(m_trajectory);
 
   }
 
@@ -45,7 +46,7 @@ public class ResetOdometryCommand extends CommandBase {
   public boolean isFinished() {
 
     return true;
-    
+
   }
 
 }

@@ -4,8 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.auto.Paths;
-import frc.robot.auto.trajectoryFollowerAutoRoutine;
+import frc.robot.auto.AutoSelector;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.subsystems.*;
 
@@ -23,12 +22,15 @@ public class RobotContainer {
   private static Joystick rightJoystick = Button.rightJoystick;
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveDrivetrain m_swerveDrivetrain = new SwerveDrivetrain();
+  public final SwerveDrivetrain m_swerveDrivetrain = new SwerveDrivetrain();
+
+  public final AutoSelector m_autoSelector = new AutoSelector(m_swerveDrivetrain);
+
+  public final BrakeCommand m_brakeCommand = new BrakeCommand(m_swerveDrivetrain, true);
+  public final BrakeCommand m_coastCommand = new BrakeCommand(m_swerveDrivetrain, false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    Paths.createAutoPaths();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -51,7 +53,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new trajectoryFollowerAutoRoutine(m_swerveDrivetrain, leftJoystick, rightJoystick);
+    return m_autoSelector.getAutoMode();
   }
+
+  public Command getBrakeCommand() {
+    return m_brakeCommand;
+  }
+
+  public Command getCoastCommand() {
+    return m_coastCommand;
+  }
+
 }

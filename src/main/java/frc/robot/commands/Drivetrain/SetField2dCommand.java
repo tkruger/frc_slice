@@ -4,23 +4,24 @@
 
 package frc.robot.commands.Drivetrain;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class ResetOdometryCommand extends CommandBase {
+public class SetField2dCommand extends CommandBase {
 
   private final SwerveDrivetrain m_drivetrain;
-  private final Pose2d m_position;
-  
-   /** Creates a new ResetOdometryCommand. */
-  public ResetOdometryCommand(SwerveDrivetrain drivetrain, Pose2d position) {
+
+  private final PathPlannerTrajectory m_trajectory;
+
+ /** Creates a new SetField2dCommand. */
+  public SetField2dCommand(PathPlannerTrajectory trajectory, SwerveDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
+    m_trajectory = trajectory;
     m_drivetrain = drivetrain;
-    m_position = position;
 
   }
 
@@ -28,9 +29,10 @@ public class ResetOdometryCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.resetOdometry(m_position);
-
+    m_drivetrain.setField2d(m_trajectory);
+    
   }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -45,7 +47,6 @@ public class ResetOdometryCommand extends CommandBase {
   public boolean isFinished() {
 
     return true;
-    
-  }
 
+  }
 }
