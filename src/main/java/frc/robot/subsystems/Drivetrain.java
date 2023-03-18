@@ -142,7 +142,7 @@ public class Drivetrain extends SubsystemBase {
       new Pose2d(8, 4, getRotation2d()));*/
 
     m_odometry = new DifferentialDrivePoseEstimator(
-      Constants.Autonomous.kDriveKinematics,
+      Constants.Drivetrain.kDriveKinematics,
       getRotation2d(), 
       getLeftSideDistance(),
       getRightSideDistance(),
@@ -389,7 +389,8 @@ public class Drivetrain extends SubsystemBase {
   /**
    * Updates the drivetrain odometry object,
    * adding a vision meausurement from the limelight
-   * if it gives a pose that is within a certain range of the main pose.
+   * if it gives a non-null pose that is within a certain range of the main pose
+   * and vision implementation is not being prevented.
    * 
    * @return The new updated pose of the robot.
    */

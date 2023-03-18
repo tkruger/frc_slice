@@ -14,7 +14,7 @@ import frc.robot.subsystems.Wrist;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ToDoubleSubstationSequence extends SequentialCommandGroup {
-  /** Creates a new ToHighCone. */
+  /** Creates a new ToDoubleSubstationSequence. */
   public ToDoubleSubstationSequence(Elevator elevator, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

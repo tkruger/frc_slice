@@ -33,7 +33,7 @@ public final class Constants {
     }
 
     //Define Drivetrain Constants
-    public final class Drivetrain {
+    public final static class Drivetrain {
 
         //Define Motor Ports
         public static final int LEFT_FRONT_PORT = 3;
@@ -41,11 +41,14 @@ public final class Constants {
         public static final int RIGHT_FRONT_PORT = 7;
         public static final int RIGHT_BACK_PORT = 8;
 
-        //Define Drivetrain Encoder Constants
+        //Define Encoder Constants
         public static final double WHEEL_DIAMETER_METERS = 0.15;
 
         public static final double VELOCITY_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS /(60 * 10.75);
         public static final double POSITION_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS / 10.75;
+
+        //Define Drivetrain Kinematics Object
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(0.5842);
 
         //Define Charge Station Balance Constants
         public static final double CHARGE_STATION_BALANCE_SPEED = 0.3;
@@ -178,12 +181,10 @@ public final class Constants {
     }
 
     //Define Autonomous Constants
-    public static final class Autonomous {
+    public final class Autonomous {
 
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
-
-        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(0.5842);
 
         public static final double ksVolts = 0.2492;
         public static final double kvVoltsSecondsPerMeter = 2.8532;

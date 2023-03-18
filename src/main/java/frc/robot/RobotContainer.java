@@ -67,7 +67,7 @@ public class RobotContainer {
   public final CalibrateMandiblesCommand m_calibrateMandibles = new CalibrateMandiblesCommand(m_intake);
 
   public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
-  public final DoubleSubstationAlignThenPickUpPieceSequence m_doubleSubstationAlignThenPickUpPiece = new DoubleSubstationAlignThenPickUpPieceSequence(m_drivetrain, m_limelight, m_elevator, m_wrist, m_intake);
+  public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_limelight, m_elevator, m_wrist);
 
   public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 5, 0.001);
   public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 5, 0.001);
@@ -138,8 +138,8 @@ public class RobotContainer {
     //Enable Node Alignment
     Button.nodeAlign.whileTrue(m_nodeAlign);
 
-    //Enable Double Substation Align Then Pick Up Piece Sequence
-    Button.doubleSubstationAlignThenPickUpPiece.whileTrue(m_doubleSubstationAlignThenPickUpPiece);
+    //Enable Double Substation Alignment And Positioning
+    Button.doubleSubstationAlignAndPosition.whileTrue(m_doubleSubstationAlignAndPosition);
 
     //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);
@@ -171,7 +171,7 @@ public class RobotContainer {
     //Enable Mandibles Moving Outwards
     Button.mandiblesOutwards.whileTrue(m_runMandiblesOutwards);
 
-    //Execute Mandibles Position Calibration
+    //Execute Mandibles, Elevator, and Wrist Calibration
     Button.calibrateAll.onTrue(m_calibrateCommands);
 
     //Execute Wrist Angle Reset

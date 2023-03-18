@@ -5,6 +5,7 @@
 package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.auto.sequences.TrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.subsystems.Drivetrain;
@@ -16,20 +17,20 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DoubleSubstationAlignThenPickUpPieceSequence extends SequentialCommandGroup {
+public class DoubleSubstationAlignAndPositionSequence extends SequentialCommandGroup {
   /** Creates a new DoubleSubstationAlignThenPickUpPieceSequence. */
-  public DoubleSubstationAlignThenPickUpPieceSequence(Drivetrain drive, Limelight limelight, Elevator elevator, Wrist wrist, Intake intake) {
+  public DoubleSubstationAlignAndPositionSequence(Drivetrain drive, Limelight limelight, Elevator elevator, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     TrajectoryFollowerSequence doubleSubstationAlign = new TrajectoryFollowerSequence(drive, limelight);
-    AutonomousDistanceDriveCommand moveForward = new AutonomousDistanceDriveCommand(drive, 0.5, 1);
-    //PickUpGamePieceDoubleSubstationSequence pickUpGamePiece = new PickUpGamePieceDoubleSubstationSequence(elevator, wrist, intake);
+    AutonomousDistanceDriveCommand moveForward = new AutonomousDistanceDriveCommand(drive, 0.5, 0.5);
+    ToDoubleSubstationSequence toDoubleSubstation = new ToDoubleSubstationSequence(elevator, wrist);
 
     addCommands(
       doubleSubstationAlign,
-      moveForward/*,
-      pickUpGamePiece*/
+      moveForward,
+      toDoubleSubstation
     );
 
   }

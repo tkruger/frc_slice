@@ -41,7 +41,7 @@ public final class Button {
 
     //Define Limelight Buttons
     public static Trigger nodeAlign = new JoystickButton(rightJoystick, 7); //Right Bottom 7
-    public static Trigger doubleSubstationAlignThenPickUpPiece = new JoystickButton(leftJoystick, 3); //Left Top 3
+    public static Trigger doubleSubstationAlignAndPosition = new JoystickButton(leftJoystick, 3); //Left Top 3
 
     //Define LED Buttons
     public static Trigger flashPurpleLEDs = new JoystickButton(rightJoystick, 5); //Right Top 5

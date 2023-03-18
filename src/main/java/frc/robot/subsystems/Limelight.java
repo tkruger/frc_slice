@@ -35,7 +35,7 @@ public class Limelight extends SubsystemBase {
   private double[] currentRobotTargetSpacePose;
 
   private static double currentAprilTagID;
-  private static double lastAprilTagID;
+  private static double lastDoubleSubAprilTagID;
 
   private final NetworkTableEntry ledMode;
 
@@ -182,13 +182,13 @@ public class Limelight extends SubsystemBase {
 
     if(currentAprilTagID == 4 || currentAprilTagID == 5) {
 
-      lastAprilTagID = currentAprilTagID;
+      lastDoubleSubAprilTagID = currentAprilTagID;
 
     }
 
-    if(lastAprilTagID == 4 || lastAprilTagID == 5) {
+    if(lastDoubleSubAprilTagID == 4 || lastDoubleSubAprilTagID == 5) {
 
-      if(lastAprilTagID == 4) {
+      if(lastDoubleSubAprilTagID == 4) {
 
         aprilTagX = 16.19;
         aprilTagY = 6.74;
@@ -209,7 +209,7 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getX() + finalPosition.getX()) / 2, 
           (initialPosition.getY() + finalPosition.getY()) / 2)),
         finalPosition, 
-        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Autonomous.kDriveKinematics));
+        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
   
     }
     else {
