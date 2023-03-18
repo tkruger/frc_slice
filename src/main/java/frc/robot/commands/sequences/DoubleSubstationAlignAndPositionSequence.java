@@ -10,7 +10,6 @@ import frc.robot.auto.sequences.TrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 

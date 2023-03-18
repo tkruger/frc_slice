@@ -24,7 +24,7 @@ public class AutoPaths {
                 Constants.Autonomous.ksVolts,
                 Constants.Autonomous.kvVoltsSecondsPerMeter,
                 Constants.Autonomous.kaVoltsSecondsSquaredPerMeter),
-            Constants.Autonomous.kDriveKinematics,
+            Constants.Drivetrain.kDriveKinematics,
             drive::getWheelSpeeds,
             new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
             new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
