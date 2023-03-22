@@ -61,10 +61,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_autoSelector.updateModeCreator();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
-    
-    m_brakeCommand = m_robotContainer.getBrakeCommand();
-    m_brakeCommand.schedule();
-
   }
 
   @Override
@@ -78,17 +74,15 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_coastCommand = m_robotContainer.getCoastCommand();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    m_coastCommand.schedule();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
 
-    m_robotContainer.m_drivetrain.setIdleMode(true);
+    //m_robotContainer.m_drivetrain.setIdleMode(true);
 
   }
 
@@ -98,9 +92,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_coastCommand = m_robotContainer.getCoastCommand();
-
-    m_coastCommand.schedule();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -109,7 +100,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.m_drivetrain.setIdleMode(false);
+    //m_robotContainer.m_drivetrain.setIdleMode(false);
 
   }
 

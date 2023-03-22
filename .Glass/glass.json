@@ -16,7 +16,11 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Auto Tab/Auto Mode": "String Chooser",
+      "/Shuffleboard/Auto Tab/Starting Position": "String Chooser",
       "/Shuffleboard/Driver Tab/DifferentialDrive[1]": "DifferentialDrive",
+      "/Shuffleboard/Teleop Tab/DifferentialDrive[1]": "DifferentialDrive",
+      "/Shuffleboard/Teleop Tab/Field": "Field2d",
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Starting Position": "String Chooser"
@@ -32,7 +36,7 @@
           "arrows": false,
           "style": "Track"
         },
-        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2023 Main Season Code\\2023 Personal Code\\frc_slice\\.Glass\\2023-field.png",
+        "image": "C:\\Users\\Slice Robotics Club\\Documents\\SLICE 2023 Code\\Slice Git\\Slice_23 2\\.Glass\\2023-field.png",
         "window": {
           "visible": true
         }

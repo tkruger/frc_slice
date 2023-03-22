@@ -32,7 +32,7 @@ public class Elevator extends SubsystemBase {
 
   private final ShuffleboardTab teleopTab;
 
-  private final GenericEntry positionWidget, velocityWidget, lowLimitWidget;
+  private final GenericEntry positionWidget, velocityWidget, lowLimitWidget, targetPositionWidget;
 
   private double targetPosition;
 
@@ -57,10 +57,13 @@ public class Elevator extends SubsystemBase {
     positionWidget = teleopTab.add("Elevator Position", 0).withPosition(2, 0).withSize(2, 1).getEntry();
     velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(0, 1).withSize(2, 1).getEntry();
     lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(4, 0).withSize(1, 1).getEntry();
+    targetPositionWidget = teleopTab.add("Elevator Target Position", 0).getEntry();
 
     targetPosition = 0;
 
     calibrating = false;
+
+    setPID(Constants.Elevator.KP, Constants.Elevator.KI, Constants.Elevator.KD);
   }
 
   /**
@@ -204,21 +207,16 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    if(atBottom() && calibrating) {
-
-      setEncoderPosition(0);
-
+    if(calibrating) {
+      if(atBottom()) {
+        setEncoderPosition(0);
+      }
     }
 
     positionWidget.setDouble(getElevatorPosition());
     velocityWidget.setDouble(getElevatorVelocity());
     lowLimitWidget.setBoolean(atBottom());
-
-    SmartDashboard.putNumber("Elevator Left Motor Position", getLeftMotorPosition());
-    SmartDashboard.putNumber("Elevator Right Motor Position", getRightMotorPosition());
-
-    SmartDashboard.putNumber("Elevator Motor Current", (leftMotor.getOutputCurrent() + rightMotor.getOutputCurrent()) / 2);
-
+    targetPositionWidget.setDouble(targetPosition);
   }
 
 }

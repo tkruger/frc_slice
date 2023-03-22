@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -35,7 +36,7 @@ public class Limelight extends SubsystemBase {
   private double[] currentRobotTargetSpacePose;
 
   private static double currentAprilTagID;
-  private static double lastDoubleSubAprilTagID;
+  private static double lastAprilTagID;
 
   private final NetworkTableEntry ledMode;
 
@@ -86,6 +87,14 @@ public class Limelight extends SubsystemBase {
     }
 
     currentAprilTagID = table.getEntry("tid").getDouble(0);
+
+    if(currentAprilTagID == 4 || currentAprilTagID == 5) {
+
+       lastAprilTagID = currentAprilTagID;
+
+    }
+
+    SmartDashboard.putNumber("Last Apriltag ID", lastAprilTagID);
 
   }
 
@@ -178,17 +187,11 @@ public class Limelight extends SubsystemBase {
 
     Pose2d finalPosition;
 
-    double currentAprilTagID = Limelight.currentAprilTagID;
+    double lastAprilTagID = Limelight.lastAprilTagID;
 
-    if(currentAprilTagID == 4 || currentAprilTagID == 5) {
+    if(lastAprilTagID == 4 || lastAprilTagID == 5) {
 
-      lastDoubleSubAprilTagID = currentAprilTagID;
-
-    }
-
-    if(lastDoubleSubAprilTagID == 4 || lastDoubleSubAprilTagID == 5) {
-
-      if(lastDoubleSubAprilTagID == 4) {
+      if(lastAprilTagID == 4) {
 
         aprilTagX = 16.19;
         aprilTagY = 6.74;

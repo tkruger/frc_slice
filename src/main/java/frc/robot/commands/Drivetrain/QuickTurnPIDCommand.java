@@ -22,8 +22,8 @@ public class QuickTurnPIDCommand extends CommandBase {
 
         this.m_drivetrain = drivetrain;
 
-        positionalPID = new PIDController(0.023, 0.0003, 0.0004);
-        m_drivetrain.setPIDF(.17, .000002, .12, .62);
+        positionalPID = new PIDController(0.017/2, 0.0003, 0.0004/2);
+        m_drivetrain.setPIDF(.06, .000002, .12, .62);
 
         timeoutTimer = new Timer();
 

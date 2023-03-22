@@ -19,7 +19,7 @@ public class ToHighRowSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    GoToStateCommand setOutState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_OUT_STATE, 2);
+    GoToStateCommand setOutState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_OUT_STATE);
     GoToStateCommand setUpState = new GoToStateCommand(elevator, wrist, Constants.States.TRANSITION_HIGH_STATE);
     GoToStateCommand setHighRowState = new GoToStateCommand(elevator, wrist, Constants.States.HIGH_ROW_CONE_STATE);
     

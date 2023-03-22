@@ -28,7 +28,7 @@ public class Wrist extends SubsystemBase {
   private final SparkMaxPIDController pidController;
   private final DigitalInput stowLimitSwitch;
   private final ShuffleboardTab teleopTab;
-  private final GenericEntry angleWidget, velocityWidget;//, voltageWidget;
+  private final GenericEntry angleWidget, velocityWidget, targetAngleWidget;//, voltageWidget;
 
   private double targetPosition;
 
@@ -46,8 +46,12 @@ public class Wrist extends SubsystemBase {
 
     angleWidget = teleopTab.add("Wrist Angle", 0).withPosition(5, 0).withSize(2, 1).getEntry();
     velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(7, 1).withSize(2, 1).getEntry();
-  
+    targetAngleWidget = teleopTab.add("Target Wrist Angle", 0).getEntry();
+
     targetPosition = -105;
+
+    setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
+    pidController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
   }
 
   public void spinWrist(double speed) {
@@ -71,21 +75,8 @@ public class Wrist extends SubsystemBase {
     pidController.setD(kD);
 
     pidController.setIAccum(0);
-    pidController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
   }
 
-  public void setPID(double kP, double kI, double kD, double maxSpeed) {
-    pidController.setP(kP);
-    pidController.setI(kI);
-    pidController.setD(kD);
-
-    pidController.setIAccum(0);
-    pidController.setOutputRange(-maxSpeed, maxSpeed);
-  }
-
-  public void setPositionalMaxSpeed(double maxSpeed) {
-    pidController.setOutputRange(-maxSpeed, maxSpeed);
-  }
   /**
    * Resets the encoder position to a set angle
    * @param angleDegrees the current angle fo the wrist, in degrees
@@ -130,6 +121,7 @@ public class Wrist extends SubsystemBase {
     // This method will be called once per scheduler run
     angleWidget.setDouble(getAngle());
     velocityWidget.setDouble(getVelocity());
+    targetAngleWidget.setDouble(targetPosition);
     //voltageWidget.setDouble(motor.getOutputCurrent());
   }
 }

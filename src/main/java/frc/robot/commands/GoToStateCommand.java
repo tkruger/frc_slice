@@ -31,18 +31,4 @@ public class GoToStateCommand extends ParallelCommandGroup {
 
   }
 
-  public GoToStateCommand(Elevator elevator, Wrist wrist, RobotState state, double maxWristSpeed) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-
-    SetWristPosition setWristState = new SetWristPosition(wrist, state.wristAngle, maxWristSpeed);
-    ElevatorSetPIDCommand setElevatorState = new ElevatorSetPIDCommand(elevator, state.elevatorHeight);
-
-    addCommands(
-      setWristState,
-      setElevatorState
-    );
-
-  }
-
 }

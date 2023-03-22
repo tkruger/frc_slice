@@ -25,8 +25,8 @@ public final class Constants {
         //(This is a placeholder for now)
         public static final int MANIPULATOR_JOYSTICK_PORT = 2;
 
-        public static final double A_COEFFICIENT = 0.7;
-        public static final double B_COEFFICIENT = 0.3;
+        public static final double A_COEFFICIENT = 0.4;
+        public static final double B_COEFFICIENT = 1 - A_COEFFICIENT;
         public static final int FIRST_POWER = 3;
         public static final int SECOND_POWER = 1;
 
@@ -73,9 +73,9 @@ public final class Constants {
         public static final int RIGHT_PORT = 2;
 
         //P, I, and D gains for the elevator when going to a set position (these are placeholders)
-        public static final double KP = 0.1;
+        public static final double KP = 0.18088;
         public static final double KI = 0;
-        public static final double KD = 0;
+        public static final double KD = 0.01807;
 
         //Define Elevator Limit Switch Channels (this is a placeholder for now) 
         public static final int LIMIT_SWITCH_CHANNEL = 9;
@@ -85,8 +85,8 @@ public final class Constants {
         public static final double SET_SPEED = 0.7; // May be deprecated with PID
         public static final double CALIBRATION_SPEEED = 0.3;
 
-        public static final double POSITIONAL_ERROR_THRESHOLD = 4;
-        public static final double POSITIONAL_MAX_SPEED = 0.6;
+        public static final double POSITIONAL_ERROR_THRESHOLD = 10;
+        public static final double POSITIONAL_MAX_SPEED = 0.8;
     }
 
     //Define Wrist Constants
@@ -106,9 +106,9 @@ public final class Constants {
         public static final double RESET_SPEED = 0.3;
 
         //P, I, and D gains for the wrist when going to a set position
-        public static final double KP = 0.018;
-        public static final double KI = 0.000037;
-        public static final double KD = 0.0016;
+        public static final double KP = 0.02;
+        public static final double KI = 0.00005;
+        public static final double KD = 0.005;
 
         public static final double RUN_UP_SPEED = 0.3;
         public static final double RUN_DOWN_SPEED = 0.2;
@@ -169,9 +169,9 @@ public final class Constants {
         public static final RobotState MID_ROW_CUBE_STATE = new RobotState(38, -50);
         public static final RobotState MID_ROW_CONE_STATE = new RobotState(48, -50);
         public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(98, -25);
-        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(98, -40);
-        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(85, -27);
-        public static final RobotState TRAVEL_STATE = new RobotState(1, -90);
+        public static final RobotState HIGH_ROW_CONE_STATE = new RobotState(94, -40);
+        public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(85, -22);
+        public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
 
         public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -60);
         public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -60);
@@ -186,9 +186,9 @@ public final class Constants {
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-        public static final double ksVolts = 0.2492;
-        public static final double kvVoltsSecondsPerMeter = 2.8532;
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.57535;
+        public static final double ksVolts = 0.2492 / 2;
+        public static final double kvVoltsSecondsPerMeter = 2.8532 / 4;
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.57535 / 4;
     
         public static final double kPDriveVel = 0.00029423;
 
