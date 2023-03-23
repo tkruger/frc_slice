@@ -9,12 +9,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
+import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode;
 import frc.robot.auto.modes.ScoreOneGamePieceThenEngageMode;
 import frc.robot.auto.modes.ScoreOnePieceMobilityThenAlignMode;
 import frc.robot.auto.modes.ScoreOnePieceThenMobility;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
+import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageWithArcMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
+import frc.robot.auto.paths.GridToGamePieceWithArcPath;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -44,7 +47,9 @@ public class AutoSelector {
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE,
         SCORE_ONE_PIECE_THEN_MOBILITY,
         SCORE_ONE_GAME_PIECE_THEN_ENGAGE,
-        SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN
+        SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN,
+        SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC,
+        SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC
 
     }
 
@@ -103,6 +108,8 @@ public class AutoSelector {
         modeChooser.addOption("Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
         modeChooser.addOption("Score One Game Piece Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
         modeChooser.addOption("Score One Game Piece Mobility Then Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
+        modeChooser.addOption("Score Two Game Pieces Then Engage With Arc", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
+        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage With Arc", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -177,6 +184,10 @@ public class AutoSelector {
                 return Optional.of(new ScoreOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
                 return Optional.of(new ScoreOnePieceMobilityThenAlignMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC:
+                return Optional.of(new ScoreTwoGamePiecesThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC:
+                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
     
@@ -222,6 +233,12 @@ public class AutoSelector {
                 case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
                     System.out.println("No initial pose is available for the 'Score' mode");
                     initialAutoPose = Optional.of(botPose);
+                    break;
+                case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC:
+                    initialAutoPose = Optional.of(new GridToGamePieceWithArcPath(startingPosition).trajectory.getInitialPose());
+                    break;
+                case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC:
+                    initialAutoPose = Optional.of(new GridToGamePieceWithArcPath(startingPosition).trajectory.getInitialPose());
                     break;
                 default:
                     System.err.println("No valid initial auto pose found for " + storedDesiredMode);
