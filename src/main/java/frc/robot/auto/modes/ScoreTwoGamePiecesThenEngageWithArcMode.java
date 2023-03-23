@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePieceWithArcPath;
-import frc.robot.auto.paths.GamePieceToGridPath;
-import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.auto.paths.GamePieceToGridWithArcPath;
+import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -37,14 +37,14 @@ public class ScoreTwoGamePiecesThenEngageWithArcMode extends SequentialCommandGr
     PlaceHighRowSequence placeCube1 = new PlaceHighRowSequence(elevator, wrist, intake);
     GridToGamePieceWithArcPath gridToGamePieceWithArc = new GridToGamePieceWithArcPath(startPosition);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
-    GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition);
+    GamePieceToGridWithArcPath gamePieceToGridWithArc = new GamePieceToGridWithArcPath(startPosition);
     PlaceCubeMidRowSequence placeCube2 = new PlaceCubeMidRowSequence(elevator, wrist, intake);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
     Field2dTrajectoryFollowerSequence trajectory1 = new Field2dTrajectoryFollowerSequence(drive, gridToGamePieceWithArc, gridToGamePieceWithArc.trajectory.getInitialPose());
-    Field2dTrajectoryFollowerSequence trajectory2 = new Field2dTrajectoryFollowerSequence(drive, gamePieceToGrid);
+    Field2dTrajectoryFollowerSequence trajectory2 = new Field2dTrajectoryFollowerSequence(drive, gamePieceToGridWithArc);
     Field2dTrajectoryFollowerSequence trajectory3 = new Field2dTrajectoryFollowerSequence(drive, gridToChargeStation);
 
     addCommands(

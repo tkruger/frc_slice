@@ -36,7 +36,6 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
     QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
-    QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
     GamePieceToChargeStationPath gamePieceToChargeStation = new GamePieceToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
@@ -50,7 +49,6 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
       trajectory1,
       quickTurn1,
       pickUpGamePiece,
-      quickTurn2,
       trajectory2,
       chargeStationBalance
     );

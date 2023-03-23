@@ -173,7 +173,7 @@ public final class Constants {
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(85, -22);
         public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
 
-        public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -60);
+        public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -80);
         public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -60);
         public static final RobotState TRANSITION_MID_STATE = new RobotState(38, -60);
         public static final RobotState TRANSITION_DOUBLE_SUBSTATION_STATE = new RobotState(DOUBLE_SUBSTATION_STATE.elevatorHeight, -60);
