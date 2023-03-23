@@ -5,8 +5,8 @@
 package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
-import frc.robot.auto.sequences.TrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.sequences.TrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;

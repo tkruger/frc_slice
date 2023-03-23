@@ -32,18 +32,16 @@ public class ScoreOnePieceMobilityThenAlignMode extends SequentialCommandGroup {
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
-    
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-
     AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 4.5);
     QuickTurnPIDCommand quickTurn = new QuickTurnPIDCommand(drive);
     SetWristPosition setWristGround = new SetWristPosition(wrist, Constants.States.LOW_ROW_GROUND_STATE.wristAngle);
 
+    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
+
     addCommands(
       calibrateElevatorAndWrist,
       placePiece,
-      //trajectory1
       mobility,
       quickTurn,
       setWristGround

@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.m_autoSelector.reset();
     m_robotContainer.m_autoSelector.updateModeCreator();
+    m_robotContainer.m_drivetrain.disablePreventVisionImplementation();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
