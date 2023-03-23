@@ -187,7 +187,7 @@ public class Limelight extends SubsystemBase {
 
     Pose2d finalPosition;
 
-    double lastAprilTagID = Limelight.lastAprilTagID;
+    //double lastAprilTagID = Limelight.lastAprilTagID;
 
     if(lastAprilTagID == 4 || lastAprilTagID == 5) {
 
