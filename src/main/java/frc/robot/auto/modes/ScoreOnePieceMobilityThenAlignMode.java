@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Constants;
 import frc.robot.auto.AutoSelector;
+import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
-import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
+import frc.robot.commands.Drivetrain.QuickTurnCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.Wrist.SetWristPosition;
@@ -33,8 +34,9 @@ public class ScoreOnePieceMobilityThenAlignMode extends SequentialCommandGroup {
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 4.5);
-    QuickTurnPIDCommand quickTurn = new QuickTurnPIDCommand(drive);
+    //AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 4.5);
+    AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 3.75);
+    QuickTurnCommand quickTurn = new QuickTurnCommand(drive);
     SetWristPosition setWristGround = new SetWristPosition(wrist, Constants.States.LOW_ROW_GROUND_STATE.wristAngle);
 
     ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);

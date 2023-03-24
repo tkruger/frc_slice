@@ -30,7 +30,7 @@ public class ScoreOnePieceThenMobility extends SequentialCommandGroup {
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 3);
+    AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 4);
 
     ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
 

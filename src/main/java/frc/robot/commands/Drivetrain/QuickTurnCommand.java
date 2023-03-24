@@ -29,7 +29,7 @@ public class QuickTurnCommand extends CommandBase {
     }
 
     public void execute() {
-        m_drivetrain.ArcadeDrive(0, -.8);
+        m_drivetrain.ArcadeDrive(0, -.4);
     }
 
     // Called once the command ends or is interrupted.
@@ -43,7 +43,7 @@ public class QuickTurnCommand extends CommandBase {
     public boolean isFinished() {
         double currentRot = m_drivetrain.getHeading();
 
-        if(currentRot > endRot - 55 && currentRot < endRot + 55) {
+        if(currentRot > endRot - 20 && currentRot < endRot + 20) {
             return true;
         }
 

@@ -102,14 +102,14 @@ public class AutoSelector {
 
         modeChooser.setDefaultOption("Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
 
-        modeChooser.addOption("Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
-        modeChooser.addOption("Score One Cone High Row", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
-        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
-        modeChooser.addOption("Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
-        modeChooser.addOption("Score One Game Piece Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
-        modeChooser.addOption("Score One Game Piece Mobility Then Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
-        modeChooser.addOption("Score Two Game Pieces Then Engage With Arc", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
-        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage With Arc", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
+        modeChooser.addOption("Wire Side - Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
+        modeChooser.addOption("Center - High Row Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
+        modeChooser.addOption("HP Side - Score One Game Piece Mobility Then Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
+        modeChooser.addOption("Score One Cone High Row (Motionless)", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
+        modeChooser.addOption("Score One Cube Go Out Then Engage (Pathplanner)", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
+        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage (Pathplanner)", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
+        modeChooser.addOption("Score Two Game Pieces Then Engage With Arc (Pathplanner)", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
+        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage With Arc (Pathplanner)", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
