@@ -11,8 +11,9 @@ import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode;
 import frc.robot.auto.modes.ScoreOneGamePieceThenEngageMode;
-import frc.robot.auto.modes.ScoreOnePieceMobilityThenAlignMode;
-import frc.robot.auto.modes.ScoreOnePieceThenMobility;
+import frc.robot.auto.modes.ScoreOneGamePieceMobilityThenAlignMode;
+import frc.robot.auto.modes.ScoreOneGamePieceMobilityThenEngageMode;
+import frc.robot.auto.modes.ScoreOneGamePieceThenMobilityMode;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.modes.ScoreTwoGamePiecesThenEngageWithArcMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
@@ -45,11 +46,12 @@ public class AutoSelector {
         SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE,
         SCORE_ONE_CONE_HIGH_ROW,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE,
-        SCORE_ONE_PIECE_THEN_MOBILITY,
+        SCORE_ONE_GAME_PIECE_THEN_MOBILITY,
         SCORE_ONE_GAME_PIECE_THEN_ENGAGE,
         SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN,
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC,
-        SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC
+        SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC,
+        SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE
 
     }
 
@@ -105,11 +107,12 @@ public class AutoSelector {
         modeChooser.addOption("Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
         modeChooser.addOption("Score One Cone High Row", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
-        modeChooser.addOption("Score One Piece Then Mobility", DesiredMode.SCORE_ONE_PIECE_THEN_MOBILITY);
+        modeChooser.addOption("Score One Game Piece Then Mobility", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_MOBILITY);
         modeChooser.addOption("Score One Game Piece Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
         modeChooser.addOption("Score One Game Piece Mobility Then Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
         modeChooser.addOption("Score Two Game Pieces Then Engage With Arc", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
         modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage With Arc", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
+        modeChooser.addOption("Score One Game Piece Mobility Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -178,16 +181,18 @@ public class AutoSelector {
                 return Optional.of(new ScoreOneConeHighRowMode(m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
                 return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
-            case SCORE_ONE_PIECE_THEN_MOBILITY:
-                return Optional.of(new ScoreOnePieceThenMobility(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_ONE_GAME_PIECE_THEN_MOBILITY:
+                return Optional.of(new ScoreOneGamePieceThenMobilityMode(m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
-                return Optional.of(new ScoreOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneGamePieceThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
-                return Optional.of(new ScoreOnePieceMobilityThenAlignMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneGamePieceMobilityThenAlignMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC:
                 return Optional.of(new ScoreTwoGamePiecesThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC:
                 return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE:
+                return Optional.of(new ScoreOneGamePieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
     
@@ -222,16 +227,16 @@ public class AutoSelector {
                 case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
                     initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
                     break;
-                case SCORE_ONE_PIECE_THEN_MOBILITY:
-                    System.out.println("No initial pose is available for the 'ScoreOnePieceThenMobility' mode");
+                case SCORE_ONE_GAME_PIECE_THEN_MOBILITY:
+                    System.out.println("No initial pose is available for the 'ScoreOneGamePieceThenMobility' mode");
                     initialAutoPose = Optional.of(botPose);
                     break;
                 case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
-                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                    System.out.println("No initial pose is available for the 'ScoreOneGamePieceThenEngage' mode");
                     initialAutoPose = Optional.of(botPose);
                     break;
                 case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
-                    System.out.println("No initial pose is available for the 'Score' mode");
+                    System.out.println("No initial pose is available for the 'ScoreOneGamePieceMobilityThenAlign' mode");
                     initialAutoPose = Optional.of(botPose);
                     break;
                 case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC:
@@ -239,6 +244,10 @@ public class AutoSelector {
                     break;
                 case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC:
                     initialAutoPose = Optional.of(new GridToGamePieceWithArcPath(startingPosition).trajectory.getInitialPose());
+                    break;
+                case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE:
+                    System.out.println("No initial pose is available for the 'ScoreOneGamePieceMobilityThenEngage' mode");
+                    initialAutoPose = Optional.of(botPose);
                     break;
                 default:
                     System.err.println("No valid initial auto pose found for " + storedDesiredMode);

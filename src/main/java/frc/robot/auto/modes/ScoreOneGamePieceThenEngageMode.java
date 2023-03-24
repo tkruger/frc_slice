@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import frc.robot.auto.AutoSelector;
 import frc.robot.commands.Drivetrain.AutonomousAngleDriveCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
@@ -25,19 +24,18 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
   /** Creates a new ScoreOneGamePieceThenEngageMode. */
-  public ScoreOneGamePieceThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneGamePieceThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
-    
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-
     AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, 0.8);
     AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, 0.8, 0, 0.3);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+
+    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 
     addCommands(
       calibrateElevatorAndWrist,

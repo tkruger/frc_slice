@@ -24,9 +24,9 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreOnePieceMobilityThenAlignMode extends SequentialCommandGroup {
-  /** Creates a new OneGamePieceGoOutThenEngageMode. */
-  public ScoreOnePieceMobilityThenAlignMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+public class ScoreOneGamePieceMobilityThenAlignMode extends SequentialCommandGroup {
+  /** Creates a new ScoreOnePieceMobilityThenAlignMode. */
+  public ScoreOneGamePieceMobilityThenAlignMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.auto.AutoSelector;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -21,9 +20,9 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreOnePieceThenMobility extends SequentialCommandGroup {
-  /** Creates a new OneGamePieceGoOutThenEngageMode. */
-  public ScoreOnePieceThenMobility(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+public class ScoreOneGamePieceThenMobilityMode extends SequentialCommandGroup {
+  /** Creates a new ScoreOneGamePieceThenMobilityMode. */
+  public ScoreOneGamePieceThenMobilityMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -37,7 +36,6 @@ public class ScoreOnePieceThenMobility extends SequentialCommandGroup {
     addCommands(
       calibrateElevatorAndWrist,
       placePiece,
-      //trajectory1
       mobility
     );
 

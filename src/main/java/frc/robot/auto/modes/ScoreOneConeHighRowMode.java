@@ -18,7 +18,7 @@ import frc.robot.subsystems.Wrist;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneConeHighRowMode extends SequentialCommandGroup {
-  /** Creates a new ScoreOneConeHighRow. */
+  /** Creates a new ScoreOneConeHighRowMode. */
   public ScoreOneConeHighRowMode(Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

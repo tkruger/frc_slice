@@ -24,7 +24,7 @@ import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode extends SequentialCommandGroup {
-  /** Creates a new ScoreOneCubePickUpGamePieceThenEngageMode. */
+  /** Creates a new ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode. */
   public ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
