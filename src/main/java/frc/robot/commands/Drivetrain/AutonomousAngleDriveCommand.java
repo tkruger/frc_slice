@@ -44,7 +44,7 @@ public class AutonomousAngleDriveCommand extends CommandBase {
 
     // Sets robot speed and turn speed
 
-    m_drivetrain.ArcadeDrive(forwardSpeed, 0);
+    m_drivetrain.ArcadeDrive(forwardSpeed, 0.1);
 
   }
 

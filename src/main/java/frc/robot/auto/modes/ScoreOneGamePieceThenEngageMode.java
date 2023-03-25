@@ -31,7 +31,7 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, 0.8);
+    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, 0.25);
     AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, 0.8, 0, 0.3);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 

@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
 
     positionWidget = teleopTab.add("Elevator Position", 0).withPosition(2, 0).withSize(2, 1).getEntry();
     velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(0, 1).withSize(2, 1).getEntry();
-    lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(4, 0).withSize(1, 1).getEntry();
+    lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(6, 1).withSize(1, 1).getEntry();
     targetPositionWidget = teleopTab.add("Elevator Target Position", 0).getEntry();
 
     targetPosition = 0;

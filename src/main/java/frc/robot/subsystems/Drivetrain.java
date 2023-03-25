@@ -53,7 +53,7 @@ public class Drivetrain extends SubsystemBase {
   //private final DifferentialDriveOdometry m_odometry;
   private final DifferentialDrivePoseEstimator m_odometry;
 
-  private final ShuffleboardTab teleopTab;
+  private final ShuffleboardTab teleopTab, driverTab;
 
   private final GenericEntry 
   //leftSidePositionWidget, 
@@ -148,8 +148,11 @@ public class Drivetrain extends SubsystemBase {
       getRightSideDistance(),
       new Pose2d(8.28, 4, Rotation2d.fromDegrees(0)));
 
-    //Creates the "Driver Tab" on Shuffleboard
+    //Creates the "Teleop Tab" on Shuffleboard
     teleopTab = Shuffleboard.getTab("Teleop Tab");
+
+    //Creates the "Driver Tab" on Shuffleboard
+    driverTab = Shuffleboard.getTab("Driver Tab");
 
     //Creates a widget for showing the gyro heading
     driveHeadingWidget = 
@@ -210,13 +213,13 @@ public class Drivetrain extends SubsystemBase {
     cameraFeed = CameraServer.startAutomaticCapture();
 
     //Displays how the robot is moving on Shuffleboard
-    teleopTab.add(robotDrive).withPosition(6, 2).withSize(3, 2);
+    teleopTab.add(robotDrive).withPosition(5, 2).withSize(3, 2);
 
     //Displays the current position of the robot on the field on Shuffleboard
-    teleopTab.add(m_field2d).withPosition(0, 2).withSize(3, 2);
+    teleopTab.add(m_field2d).withPosition(1, 2).withSize(3, 2);
 
     //Displays the feed from the USB camera on Shufflboard
-    teleopTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(3, 1).withSize(3, 3);
+    driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(1, 0).withSize(3, 3);
 
     //Sends the Fiel2d object to NetworkTables
     SmartDashboard.putData(m_field2d);

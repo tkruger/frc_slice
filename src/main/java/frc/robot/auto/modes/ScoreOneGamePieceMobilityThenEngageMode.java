@@ -7,6 +7,7 @@ package frc.robot.auto.modes;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.commands.Drivetrain.AutonomousAngleDriveCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
@@ -30,8 +31,8 @@ public class ScoreOneGamePieceMobilityThenEngageMode extends SequentialCommandGr
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 6);
-    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, -0.8);
+    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.25, 0, 6);
+    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, -0.25);
     AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.8, 0, 0.3);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.util.List;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,6 +17,8 @@ import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -44,6 +47,8 @@ public class Limelight extends SubsystemBase {
 
   private final NetworkTableEntry pipeline;
 
+  private final ShuffleboardTab driverTab;
+
   /** Creates a new Limelight. */
   public Limelight() {
 
@@ -52,6 +57,10 @@ public class Limelight extends SubsystemBase {
     ledMode = table.getEntry("ledMode");
     cameraMode = table.getEntry("cameraMode");
     pipeline = table.getEntry("pipeline");
+
+    driverTab = Shuffleboard.getTab("Driver Tab");
+
+    //driverTab.addCamera("Limelight", "limelight-slice", "http://");
 
   }
 

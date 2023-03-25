@@ -34,8 +34,8 @@ public class ScoreOneGamePieceMobilityThenAlignMode extends SequentialCommandGro
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    //AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 4.5);
-    AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 3.75);
+    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 3.25);
+    //AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 3.75);
     QuickTurnCommand quickTurn = new QuickTurnCommand(drive);
     SetWristPosition setWristGround = new SetWristPosition(wrist, Constants.States.LOW_ROW_GROUND_STATE.wristAngle);
 
