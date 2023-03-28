@@ -5,12 +5,16 @@
 package frc.robot.auto.modes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import frc.robot.commands.Drivetrain.AutonomousAngleDriveCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalanceCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
-import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
+import frc.robot.commands.Drivetrain.QuickTurnCommand;
+import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
@@ -31,17 +35,20 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, 0.25);
-    AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, 0.8, 0, 0.3);
-    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
+    QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
+    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
+    ChargeStationBalanceCommand chargeStationBalance = new ChargeStationBalanceCommand(drive);
 
     ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 
     addCommands(
       calibrateElevatorAndWrist,
       placePiece,
-      driveToChargeStation,
-      continueDrive,
+      driveBack,
+      quickTurn,
+      getOnChargeStation,
+      new WaitCommand(2),
       chargeStationBalance
     );
   }

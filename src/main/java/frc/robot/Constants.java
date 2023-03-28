@@ -192,6 +192,13 @@ public final class Constants {
     
         public static final double kPDriveVel = 0.00029423;
 
+        // Defines the minimum angle the drivetrain must be at to stop when boarding the charge station
+        public static final double BOARD_CHARGE_MINIMUM_STOP_ANGLE = 6;
+        // Defines the amount the angle should drop below the maximum angle to stop boarding the charge station and begin balancing
+        public static final double BOARD_CHARGE_ANGLE_CHANGE_THRESHOLD = 4.6;
+
+        public static final double BOARD_CHARGE_SPEED = -0.5;
+
     }
 
 }

@@ -65,7 +65,7 @@ public class QuickTurnPIDCommand extends CommandBase {
         }
 
         // Timeout after 1 second
-        if(timeoutTimer.get() > 1) {
+        if(timeoutTimer.get() > 2) {
             return true;
         }
 

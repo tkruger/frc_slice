@@ -12,7 +12,7 @@ import frc.robot.auto.paths.GridToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePieceWithArcPath;
 import frc.robot.auto.paths.GamePieceToGridWithArcPath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
-import frc.robot.commands.Drivetrain.ChargeStationBalancePIDCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
