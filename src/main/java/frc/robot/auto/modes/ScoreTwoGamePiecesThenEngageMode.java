@@ -12,6 +12,7 @@ import frc.robot.auto.paths.GridToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.auto.paths.GamePieceToGridPath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
@@ -46,6 +47,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
     QuickTurnSequence quickTurn3 = new QuickTurnSequence(drive);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
+    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
@@ -65,6 +67,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
       driveBack,
       quickTurn3,
       trajectory3,
+      getOnChargeStation,
       chargeStationBalance
     );
     

@@ -14,6 +14,7 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GamePieceToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePieceWithArcPath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -35,6 +36,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode extends Sequent
     GridToGamePieceWithArcPath gridToGamePieceWithArc = new GridToGamePieceWithArcPath(startPosition);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
     GamePieceToChargeStationPath gamePieceToChargeStation = new GamePieceToChargeStationPath(startPosition);
+    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
@@ -47,6 +49,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode extends Sequent
       trajectory1,
       pickUpGamePiece,
       trajectory2,
+      getOnChargeStation,
       chargeStationBalance
     );
 

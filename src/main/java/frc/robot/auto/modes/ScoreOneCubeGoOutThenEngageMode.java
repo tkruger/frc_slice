@@ -12,6 +12,7 @@ import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
+import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -36,6 +37,7 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
+    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
@@ -47,6 +49,7 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
       driveBack,
       quickTurn,
       trajectory,
+      getOnChargeStation,
       chargeStationBalance
     );
 

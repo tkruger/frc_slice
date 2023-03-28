@@ -14,8 +14,8 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GamePieceToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
-import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -39,6 +39,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
     QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
     GamePieceToChargeStationPath gamePieceToChargeStation = new GamePieceToChargeStationPath(startPosition);
+    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
@@ -53,6 +54,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
       pickUpGamePiece,
       quickTurn2,
       trajectory2,
+      getOnChargeStation,
       chargeStationBalance
     );
 
