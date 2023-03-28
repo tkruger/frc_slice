@@ -13,7 +13,8 @@ import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.auto.paths.GamePieceToGridPath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
-import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
+import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
+import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
@@ -37,11 +38,13 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placeCube1 = new PlaceHighRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
-    QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
+    QuickTurnSequence quickTurn1 = new QuickTurnSequence(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
-    QuickTurnPIDCommand quickTurn2 = new QuickTurnPIDCommand(drive);
+    QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
     GamePieceToGridPath gamePieceToGrid = new GamePieceToGridPath(startPosition);
     PlaceCubeMidRowSequence placeCube2 = new PlaceCubeMidRowSequence(elevator, wrist, intake);
+    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
+    QuickTurnSequence quickTurn3 = new QuickTurnSequence(drive);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
@@ -59,6 +62,8 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
       quickTurn2,
       trajectory2,
       placeCube2,
+      driveBack,
+      quickTurn3,
       trajectory3,
       chargeStationBalance
     );

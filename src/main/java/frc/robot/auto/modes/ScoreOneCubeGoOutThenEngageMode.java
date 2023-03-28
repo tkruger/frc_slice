@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
+import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
+import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -31,6 +33,8 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placeCube = new PlaceHighRowSequence(elevator, wrist, intake);
+    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
+    QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
@@ -40,6 +44,8 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
     addCommands(
       calibrateElevatorAndWrist,
       placeCube,
+      driveBack,
+      quickTurn,
       trajectory,
       chargeStationBalance
     );

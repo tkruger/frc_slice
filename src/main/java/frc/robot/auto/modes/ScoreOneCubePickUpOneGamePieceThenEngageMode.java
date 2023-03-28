@@ -16,6 +16,7 @@ import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnPIDCommand;
+import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
@@ -34,8 +35,9 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceCubeMidRowSequence placeCube1 = new PlaceCubeMidRowSequence(elevator, wrist, intake);
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startPosition);
-    QuickTurnPIDCommand quickTurn1 = new QuickTurnPIDCommand(drive);
+    QuickTurnSequence quickTurn1 = new QuickTurnSequence(drive);
     PickUpGamePieceGroundSequence pickUpGamePiece = new PickUpGamePieceGroundSequence(elevator, wrist, intake);
+    QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
     GamePieceToChargeStationPath gamePieceToChargeStation = new GamePieceToChargeStationPath(startPosition);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
@@ -49,6 +51,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
       trajectory1,
       quickTurn1,
       pickUpGamePiece,
+      quickTurn2,
       trajectory2,
       chargeStationBalance
     );
