@@ -64,6 +64,10 @@ public class Wrist extends SubsystemBase {
     motor.set(speed);
   }
 
+  public void setWristVoltage(double voltage) {
+    motor.setVoltage(voltage);
+  }
+
   public void setWristPosition(double position) {
     pidController.setSetpoint(position);
     targetPosition = position;
