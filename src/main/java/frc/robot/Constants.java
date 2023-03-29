@@ -106,9 +106,13 @@ public final class Constants {
         public static final double RESET_SPEED = 0.3;
 
         //P, I, and D gains for the wrist when going to a set position
-        public static final double KP = 0.12;
-        public static final double KI = 0.007;
-        public static final double KD = 0.01;
+        public static final double CUSTOM_KP = 0.12;
+        public static final double CUSTOM_KI = 0.007;
+        public static final double CUSTOM_KD = 0.01;
+
+        public static final double NATIVE_KP = 0.02;
+        public static final double NATIVE_KI = 0.00005;
+        public static final double NATIVE_KD = 0.005;
 
         public static final double RUN_UP_SPEED = 0.3;
         public static final double RUN_DOWN_SPEED = 0.2;
@@ -195,7 +199,7 @@ public final class Constants {
         // Defines the minimum angle the drivetrain must be at to stop when boarding the charge station
         public static final double BOARD_CHARGE_MINIMUM_STOP_ANGLE = 6;
         // Defines the amount the angle should drop below the maximum angle to stop boarding the charge station and begin balancing
-        public static final double BOARD_CHARGE_ANGLE_CHANGE_THRESHOLD = 4.6;
+        public static final double BOARD_CHARGE_ANGLE_CHANGE_THRESHOLD = 4.22;
 
         public static final double BOARD_CHARGE_SPEED = -0.5;
 

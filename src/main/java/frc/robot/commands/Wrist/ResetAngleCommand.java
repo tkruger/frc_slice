@@ -36,6 +36,8 @@ public class ResetAngleCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
     m_wrist.setEncoder(Constants.Wrist.MIN_ANGLE);
+    m_wrist.setWristPosition(m_wrist.getAngle());
+    m_wrist.disableManualControl();
   }
 
   // Returns true when the command should end.

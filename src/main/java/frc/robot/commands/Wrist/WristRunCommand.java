@@ -35,12 +35,20 @@ public class WristRunCommand extends CommandBase {
 
     if(m_runUpwards) {
 
-      m_wrist.spinWrist(-Constants.Wrist.RUN_UP_SPEED);
+      if (m_wrist.completelyStowed() || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE + 5)) {
+        m_wrist.spinWrist(0); 
+      } else {
+        m_wrist.spinWrist(-Constants.Wrist.RUN_UP_SPEED);
+      }
 
     }
     else {
 
-      m_wrist.spinWrist(Constants.Wrist.RUN_DOWN_SPEED);
+      if (m_wrist.completelyStowed() || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE + 5)) {
+        m_wrist.spinWrist(0); 
+      } else {
+        m_wrist.spinWrist(Constants.Wrist.RUN_DOWN_SPEED);
+      }
 
     }
 

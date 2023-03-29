@@ -22,7 +22,7 @@ public class QuickTurnPIDCommand extends CommandBase {
 
         this.m_drivetrain = drivetrain;
 
-        positionalPID = new PIDController(0.017/2, 0.0003, 0.0004/2);
+        positionalPID = new PIDController(0.017/2, 0.0005, 0.00000);
         m_drivetrain.setPIDF(.06, .000002, .12, .62);
 
         timeoutTimer = new Timer();
@@ -59,8 +59,9 @@ public class QuickTurnPIDCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         //double currentRot = m_drivetrain.getHeading();
+        Rotation2d diff = endRot.minus(m_drivetrain.getRotation2d());
 
-        if(Math.abs(m_drivetrain.getRotation2d().getDegrees() - endRot.getDegrees()) < 7) {
+        if (Math.abs(diff.getDegrees()) < 10) {
             return true;
         }
 

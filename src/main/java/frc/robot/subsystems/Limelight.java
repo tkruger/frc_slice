@@ -59,7 +59,9 @@ public class Limelight extends SubsystemBase {
 
     driverTab = Shuffleboard.getTab("Driver Tab");
 
-    //driverTab.addCamera("Limelight", "limelight-slice", "http://10.87.38.73:5800");
+    driverTab.addCamera("Limelight", "limelight-slice-1", "http://10.87.38.73:5800").
+    withPosition(5, 0).
+    withSize(3, 3);
 
   }
 

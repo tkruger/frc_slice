@@ -28,7 +28,8 @@ public class Wrist extends SubsystemBase {
   // Spark Max Motor Objects
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
-  private final PIDController pidController;
+  private final PIDController customPIDController;
+  private final SparkMaxPIDController nativePIDController;
 
   // Shuffleboard
   private final ShuffleboardTab teleopTab;
@@ -48,7 +49,12 @@ public class Wrist extends SubsystemBase {
     targetPosition = -105;
     
     // PID
-    pidController = new PIDController(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
+    customPIDController = new PIDController(Constants.Wrist.CUSTOM_KP, Constants.Wrist.CUSTOM_KI, Constants.Wrist.CUSTOM_KD);
+
+    nativePIDController = motor.getPIDController();
+    nativePIDController.setP(Constants.Wrist.NATIVE_KP);
+    nativePIDController.setI(Constants.Wrist.NATIVE_KI);
+    nativePIDController.setD(Constants.Wrist.NATIVE_KD);
 
     // Shuffleboard
     teleopTab = Shuffleboard.getTab("Teleop Tab");
@@ -62,15 +68,19 @@ public class Wrist extends SubsystemBase {
   }
 
   public void spinWrist(double speed) {
+    manualControl = true;
     motor.set(speed);
   }
 
   public void setWristVoltage(double voltage) {
+    manualControl = true;
     motor.setVoltage(voltage);
   }
 
   public void setWristPosition(double position) {
-    pidController.setSetpoint(position);
+    //customPIDController.setSetpoint(position);
+    nativePIDController.setReference(position, ControlType.kPosition);
+    manualControl = false;
     targetPosition = position;
   }
 
@@ -119,13 +129,14 @@ public class Wrist extends SubsystemBase {
 
   public void disableManualControl() {
     manualControl = false;
-    pidController.reset();
+    //customPIDController.reset();
+    nativePIDController.setIAccum(0);
   }
 
   @Override
   public void periodic() {
     updateShuffleboard();
-    updatePIDController();
+    //updatePIDController();
   }
 
   public void updateShuffleboard() {
@@ -136,10 +147,11 @@ public class Wrist extends SubsystemBase {
     // Get angle from encoder reading
     if (!manualControl) {
       double angle = getAngle();
-      double feedback = pidController.calculate(angle);
+      //double feedback = customPIDController.calculate(angle);
       double feedforward = getAntigravityFeedforward(angle);
-      double volts = MathUtil.clamp(feedback + feedforward, -12, 12);
-      motor.setVoltage(volts);
+      //double volts = MathUtil.clamp(feedback + feedforward, -12, 12);
+      //motor.setVoltage(volts);
+      nativePIDController.setReference(targetPosition, ControlType.kPosition, 1, feedforward);
     }
   }
 
