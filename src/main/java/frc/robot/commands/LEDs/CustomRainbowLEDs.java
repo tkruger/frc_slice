@@ -6,14 +6,13 @@ import frc.robot.subsystems.LEDs;
 
 public class CustomRainbowLEDs extends CommandBase {
     private final LEDs leds;
-    private int offset;
-    private final int m_centerHue, m_range;
+    private int m_rainbowFirstPixelHue = 0;
+    private int range = 20;
+    private int color;
     
-    public CustomRainbowLEDs(LEDs leds, int hue, int range) {
+    public CustomRainbowLEDs(LEDs leds, int hue) {
       this.leds = leds;
-      m_centerHue = hue;
-      m_range = range;
-      offset = 0;
+      color = hue;
 
       // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(leds);
@@ -27,13 +26,12 @@ public class CustomRainbowLEDs extends CommandBase {
     @Override
     public void execute() {
         for(int i = 0; i < 77; i++) {
-            int shift = m_range * (int) Math.sin((i+offset) * 2.0 * Math.PI / 77.0);
-            int hue = (m_centerHue + shift) % 180;
-            leds.setLEDhsv(i, hue, 255, 255);
+            final int hue = (((m_rainbowFirstPixelHue + (i * range / 77 )) % range) + color) % 180;
+            leds.setLEDhsv(i, hue, 255, 128);
         }
 
-        offset++;
-        offset %= 77;
+        m_rainbowFirstPixelHue += 0.5;
+        m_rainbowFirstPixelHue %= range;
 
         leds.ledBuffer();
     }
