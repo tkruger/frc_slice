@@ -71,8 +71,8 @@ public class RobotContainer {
   public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
   public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_limelight, m_elevator, m_wrist);
 
-  public final FlashColorCommand m_flashPurpleLEDs = new FlashColorCommand(m_leds, Color.kYellow, 5, 0.001);
-  public final FlashColorCommand m_flashYellowLEDs = new FlashColorCommand(m_leds, Color.kPurple, 5, 0.001);
+  public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
+  public final CustomRainbowLEDs m_flashYellowLEDs = new CustomRainbowLEDs(m_leds, 28);
   public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds);
 
   public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake);
