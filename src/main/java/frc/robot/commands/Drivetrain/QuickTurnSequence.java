@@ -11,7 +11,7 @@ public class QuickTurnSequence extends SequentialCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
     
         addCommands(
-          new QuickTurnCommand(drive),
+          new QuickTurnPIDCommand(drive),
           new WaitCommand(0.25)
         );
           
