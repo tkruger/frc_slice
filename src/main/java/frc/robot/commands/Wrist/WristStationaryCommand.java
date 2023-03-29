@@ -32,7 +32,6 @@ public class WristStationaryCommand extends CommandBase {
     run = false;
     timer.reset();
     timer.start();
-    m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

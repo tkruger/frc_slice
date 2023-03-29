@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -23,35 +24,40 @@ import frc.robot.factories.SparkMaxFactory;
  */
 public class Wrist extends SubsystemBase {
 
+  // Spark Max Motor Objects
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
-  private final SparkMaxPIDController pidController;
-  private final DigitalInput stowLimitSwitch;
+  private final PIDController pidController;
+
+  // Shuffleboard
   private final ShuffleboardTab teleopTab;
   private final GenericEntry angleWidget, velocityWidget, targetAngleWidget;//, voltageWidget;
 
   private double targetPosition;
+  private boolean manualControl;
 
   /** Creates a new Wrist. */
   public Wrist() {
+    // Motor
     motor = SparkMaxFactory.createDefaultSparkMax(Constants.Wrist.MOTOR_PORT);
+
+    // Encoder
     encoder = motor.getEncoder();
-    pidController = motor.getPIDController();
-
     encoder.setPositionConversionFactor(Constants.Wrist.POSITION_CONVERSION_FACTOR);
+    targetPosition = -105;
+    
+    // PID
+    pidController = new PIDController(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
 
-    stowLimitSwitch = new DigitalInput(Constants.Wrist.LIMIT_SWITCH_CHANNEL);
-
+    // Shuffleboard
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
     angleWidget = teleopTab.add("Wrist Angle", 0).withPosition(5, 0).withSize(2, 1).getEntry();
     velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(7, 1).withSize(2, 1).getEntry();
     targetAngleWidget = teleopTab.add("Target Wrist Angle", 0).getEntry();
 
-    targetPosition = -105;
+    manualControl = true;
 
-    setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
-    pidController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
   }
 
   public void spinWrist(double speed) {
@@ -59,23 +65,10 @@ public class Wrist extends SubsystemBase {
   }
 
   public void setWristPosition(double position) {
-    pidController.setReference(position, ControlType.kPosition);
+    pidController.setSetpoint(position);
     targetPosition = position;
   }
 
-  /**
-   * Sets the gains of the positional PID controller for the wrist motor
-   * @param kP The proportional gain of the PID controller
-   * @param kI The integral gain of the PID controller
-   * @param kD The derivative gain of the PID controller
-   */
-  public void setPID(double kP, double kI, double kD) {
-    pidController.setP(kP);
-    pidController.setI(kI);
-    pidController.setD(kD);
-
-    pidController.setIAccum(0);
-  }
 
   /**
    * Resets the encoder position to a set angle
@@ -113,15 +106,44 @@ public class Wrist extends SubsystemBase {
     double position = getAngle();
     double error = Math.abs(position - targetPosition);
     return error < Constants.Wrist.POSITIONAL_ERROR_THRESHOLD;
+  }
 
+  public void enableManualControl() {
+    manualControl = true;
+  }
+
+  public void disableManualControl() {
+    manualControl = false;
+    pidController.reset();
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    angleWidget.setDouble(getAngle());
-    velocityWidget.setDouble(getVelocity());
-    targetAngleWidget.setDouble(targetPosition);
-    //voltageWidget.setDouble(motor.getOutputCurrent());
+    updateShuffleboard();
+    updatePIDController();
+  }
+
+  public void updateShuffleboard() {
+      angleWidget.setDouble(getAngle());
+      velocityWidget.setDouble(getVelocity());
+      targetAngleWidget.setDouble(targetPosition);
+  }
+
+  public void updatePIDController() {
+    // Get angle from encoder reading
+    if (!manualControl) {
+      double angle = getAngle();
+      double feedback = pidController.calculate(angle);
+      double feedforward = getAntigravityFeedforward();
+      motor.setVoltage(feedback + feedforward);
+    }
+  }
+
+  /**
+   * Calculates the required extra output to keep the wrist stable at the current angle
+   * @return the needed feedforward in volts
+   */
+  public double getAntigravityFeedforward() {
+    return 0;
   }
 }

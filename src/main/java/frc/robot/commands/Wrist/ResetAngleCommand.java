@@ -21,7 +21,9 @@ public class ResetAngleCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_wrist.enableManualControl();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -34,6 +36,7 @@ public class ResetAngleCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
     m_wrist.setEncoder(Constants.Wrist.MIN_ANGLE);
+    m_wrist.disableManualControl();
   }
 
   // Returns true when the command should end.
