@@ -95,6 +95,7 @@ public class RobotContainer {
   public final TimedRunMandiblesCommand m_calibrateCloseMandibles = new TimedRunMandiblesCommand(m_intake, true, 0.3);
   public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle);
 
+  public final ManualVoltageWristCommand m_regressionTester = new ManualVoltageWristCommand(m_wrist, -0.25);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -103,7 +104,7 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(m_oldDrive);
     m_elevator.setDefaultCommand(m_elevatorJoystickRun);
-    m_wrist.setDefaultCommand(m_wristStationary);
+    //m_wrist.setDefaultCommand(m_regressionTester);
     m_intake.setDefaultCommand(new IdleCommand(m_intake));
     m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
     //m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));

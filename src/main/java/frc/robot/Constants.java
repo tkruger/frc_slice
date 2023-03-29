@@ -106,9 +106,9 @@ public final class Constants {
         public static final double RESET_SPEED = 0.3;
 
         //P, I, and D gains for the wrist when going to a set position
-        public static final double KP = 0.02;
-        public static final double KI = 0.00005;
-        public static final double KD = 0.005;
+        public static final double KP = 0.12;
+        public static final double KI = 0.007;
+        public static final double KD = 0.01;
 
         public static final double RUN_UP_SPEED = 0.3;
         public static final double RUN_DOWN_SPEED = 0.2;

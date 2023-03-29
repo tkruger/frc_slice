@@ -30,9 +30,9 @@ public class ManualVoltageWristCommand extends CommandBase {
   @Override
   public void execute() {
     if ((m_wrist.completelyStowed() && m_voltage > 0) || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE && m_voltage < 0)) {
-      m_wrist.spinWrist(0); 
+      m_wrist.setWristVoltage(0);
     } else {
-      m_wrist.spinWrist(m_voltage);
+      m_wrist.setWristVoltage(m_voltage);
     }
 
   }
@@ -41,7 +41,6 @@ public class ManualVoltageWristCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
-    m_wrist.disableManualControl();
   }
 
   // Returns true when the command should end.

@@ -23,7 +23,7 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
 
     m_drivetrain = drivetrain;
 
-    pidController = new PIDController(0.028, 0.0001, 0.000);
+    pidController = new PIDController(0.028, 0.0000, 0.0014);
     pidController.setSetpoint(0);
 
   }

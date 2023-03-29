@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -129,8 +130,6 @@ public class Wrist extends SubsystemBase {
 
   public void updateShuffleboard() {
       angleWidget.setDouble(getAngle());
-      velocityWidget.setDouble(getVelocity());
-      targetAngleWidget.setDouble(targetPosition);
   }
 
   public void updatePIDController() {
@@ -138,8 +137,9 @@ public class Wrist extends SubsystemBase {
     if (!manualControl) {
       double angle = getAngle();
       double feedback = pidController.calculate(angle);
-      double feedforward = getAntigravityFeedforward();
-      motor.setVoltage(feedback + feedforward);
+      double feedforward = getAntigravityFeedforward(angle);
+      double volts = MathUtil.clamp(feedback + feedforward, -12, 12);
+      motor.setVoltage(volts);
     }
   }
 
@@ -147,7 +147,10 @@ public class Wrist extends SubsystemBase {
    * Calculates the required extra output to keep the wrist stable at the current angle
    * @return the needed feedforward in volts
    */
-  public double getAntigravityFeedforward() {
-    return 0;
+  public double getAntigravityFeedforward(double angle) {
+    if (angle < -80) {
+      return 0;
+    }
+    return (angle * -0.00742061) - 0.670058;
   }
 }

@@ -50,6 +50,7 @@ public class WristRunCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
+    m_wrist.setWristPosition(m_wrist.getAngle());
     m_wrist.disableManualControl();
   }
 

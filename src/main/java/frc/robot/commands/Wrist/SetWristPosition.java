@@ -31,6 +31,7 @@ public class SetWristPosition extends CommandBase {
   public void initialize() {
     //m_wrist.setPID(Constants.Wrist.KP, Constants.Wrist.KI, Constants.Wrist.KD);
     m_wrist.setWristPosition(m_angle);
+    m_wrist.disableManualControl();
 
     m_timer.reset();
     m_timer.start();
