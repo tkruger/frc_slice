@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalanceCommand;
+import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
@@ -29,15 +31,16 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
-    ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
+    // CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    // ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
+    InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
+    //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 
     addCommands(
       calibrateElevatorAndWrist,

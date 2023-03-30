@@ -7,7 +7,7 @@ package frc.robot.auto.modes;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -26,12 +26,13 @@ public class ScoreOneGamePieceThenMobilityMode extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
-    ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
+    // CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    // ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
+    InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousDistanceDriveCommand mobility = new AutonomousDistanceDriveCommand(drive, 0.5, 4);
 
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
+    // ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
 
     addCommands(
       calibrateElevatorAndWrist,
