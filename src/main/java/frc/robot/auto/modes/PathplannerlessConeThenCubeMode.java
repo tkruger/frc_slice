@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Constants;
 import frc.robot.auto.AutoSelector;
+import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Intake.TimedRunMandiblesCommand;
@@ -43,8 +44,9 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
         turnAngle = 180;
     }
 
-    CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
-    ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
+    //CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
+    //ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
+    InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 3.25);
@@ -57,7 +59,7 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
     SetWristPosition setWristGround = new SetWristPosition(wrist, Constants.States.LOW_ROW_GROUND_STATE.wristAngle);
     SetWristPosition stowWrist = new SetWristPosition(wrist, Constants.States.TRAVEL_STATE.wristAngle);
 
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
+    //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
     ParallelCommandGroup openWhileTurning = new ParallelCommandGroup(quickTurn, confirmMandiblesOpen);
     ParallelCommandGroup stowWhileTurning = new ParallelCommandGroup(turnBack, stowWrist);
 
