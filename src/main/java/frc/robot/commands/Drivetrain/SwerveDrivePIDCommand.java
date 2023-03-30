@@ -59,7 +59,7 @@ public class SwerveDrivePIDCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_swerveDrivetrain.swerveDrive(0, 0, 0);
+    m_swerveDrivetrain.swerveDrivePID(0, 0, 0);
 
   }
 

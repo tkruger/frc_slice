@@ -88,8 +88,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
-    m_robotContainer.m_swerveDrivetrain.setIdleMode(true);
-
+    m_robotContainer.m_swerveDrivetrain.setDriveIdleMode(true);
+    m_robotContainer.m_swerveDrivetrain.setSteerIdleMode(true);
   }
 
   /** This function is called periodically during autonomous. */
@@ -109,7 +109,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.m_swerveDrivetrain.setIdleMode(false);
+    m_robotContainer.m_swerveDrivetrain.setDriveIdleMode(false);
+    m_robotContainer.m_swerveDrivetrain.setSteerIdleMode(false);
 
   }
 

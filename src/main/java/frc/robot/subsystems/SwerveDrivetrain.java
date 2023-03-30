@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
-import frc.robot.drivers.*;
+import frc.robot.modules.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,7 +23,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 //import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 
 import java.util.Map;
@@ -32,44 +31,13 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.SwerveModule;
 
 public class SwerveDrivetrain extends SubsystemBase {
-  
-  //Creates drivetrain motor objects and groups
-  private final CANSparkMax 
-  leftMotorFrontDrive, 
-  leftMotorFrontSteer, 
-  leftMotorBackDrive, 
-  leftMotorBackSteer, 
-  rightMotorFrontDrive, 
-  rightMotorFrontSteer, 
-  rightMotorBackDrive, 
-  rightMotorBackSteer;
 
-  private final SparkMaxPIDController 
-  leftPIDFrontDrive, 
-  leftPIDFrontSteer, 
-  leftPIDBackDrive, 
-  leftPIDBackSteer, 
-  rightPIDFrontDrive, 
-  rightPIDFrontSteer, 
-  rightPIDBackDrive, 
-  rightPIDBackSteer;
-
-  private final RelativeEncoder 
-  leftEncoderFrontDrive, 
-  leftEncoderFrontSteer, 
-  leftEncoderBackDrive, 
-  leftEncoderBackSteer, 
-  rightEncoderFrontDrive, 
-  rightEncoderFrontSteer, 
-  rightEncoderBackDrive, 
-  rightEncoderBackSteer;
-
-  private final SwerveModule leftModuleFront, leftModuleBack, rightModuleFront, rightModuleBack;
+  private final SparkMaxSwerveModule leftModuleFront, leftModuleBack, rightModuleFront, rightModuleBack;
+  private final SwerveModule leftSDSModuleFront, leftSDSModuleBack, rightSDSModuleFront, rightSDSModuleBack;
 
   //private final PIDController m_drivePIDController;
   //private final ProfiledPIDController m_steerPIDController;
@@ -98,45 +66,8 @@ public class SwerveDrivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public SwerveDrivetrain() {
 
-    leftMotorFrontDrive = new CANSparkMax(Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, MotorType.kBrushless);
-    leftMotorFrontSteer = new CANSparkMax(Constants.Drivetrain.LEFT_FRONT_PORT_STEER, MotorType.kBrushless);
-
-    leftMotorBackDrive = new CANSparkMax(Constants.Drivetrain.LEFT_BACK_PORT_DRIVE, MotorType.kBrushless);
-    leftMotorBackSteer = new CANSparkMax(Constants.Drivetrain.LEFT_BACK_PORT_STEER, MotorType.kBrushless);
-
-    rightMotorFrontDrive = new CANSparkMax(Constants.Drivetrain.RIGHT_FRONT_PORT_DRIVE, MotorType.kBrushless);
-    rightMotorFrontSteer = new CANSparkMax(Constants.Drivetrain.RIGHT_FRONT_PORT_STEER, MotorType.kBrushless);
-
-    rightMotorBackDrive = new CANSparkMax(Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, MotorType.kBrushless);
-    rightMotorBackSteer = new CANSparkMax(Constants.Drivetrain.RIGHT_BACK_PORT_STEER, MotorType.kBrushless);
-
-    leftPIDFrontDrive = leftMotorFrontDrive.getPIDController();
-    leftPIDFrontSteer = leftMotorFrontSteer.getPIDController();
-
-    leftPIDBackDrive = leftMotorFrontDrive.getPIDController();
-    leftPIDBackSteer = leftMotorFrontDrive.getPIDController();
-
-    rightPIDFrontDrive = leftMotorFrontDrive.getPIDController();
-    rightPIDFrontSteer = leftMotorFrontDrive.getPIDController();
-
-    rightPIDBackDrive = leftMotorFrontDrive.getPIDController();
-    rightPIDBackSteer = leftMotorFrontDrive.getPIDController();
-
-    leftEncoderFrontDrive = createEncoder(leftMotorFrontDrive, true);
-    leftEncoderFrontSteer = createEncoder(leftMotorFrontSteer, false);
-
-    leftEncoderBackDrive = createEncoder(leftMotorBackDrive, true);
-    leftEncoderBackSteer = createEncoder(leftMotorBackSteer, false);
-
-    rightEncoderFrontDrive = createEncoder(rightMotorFrontDrive, true);
-    rightEncoderFrontSteer = createEncoder(rightMotorFrontSteer, false);
-
-    rightEncoderBackDrive = createEncoder(rightMotorBackDrive, true);
-    rightEncoderBackSteer = createEncoder(rightMotorBackSteer, false);
-
-
     //The gear ratios, motor ports, and steer offsets for these object declarations are placholders for now
-    leftModuleFront = Mk4iSwerveModuleHelper.createNeo(
+    leftSDSModuleFront = Mk4iSwerveModuleHelper.createNeo(
       Shuffleboard.getTab("LiveWindow").getLayout("Left Front Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, 
@@ -144,7 +75,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       Constants.Drivetrain.LEFT_FRONT_PORT_STEER, 
       0);
 
-    leftModuleBack = Mk4iSwerveModuleHelper.createNeo(
+    leftSDSModuleBack = Mk4iSwerveModuleHelper.createNeo(
       Shuffleboard.getTab("LiveWindow").getLayout("Left Back Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.LEFT_BACK_PORT_DRIVE, 
@@ -152,7 +83,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       Constants.Drivetrain.LEFT_BACK_PORT_STEER, 
       0);
 
-    rightModuleFront = Mk4iSwerveModuleHelper.createNeo(
+    rightSDSModuleFront = Mk4iSwerveModuleHelper.createNeo(
       Shuffleboard.getTab("LiveWindow").getLayout("Right Front Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.RIGHT_FRONT_PORT_DRIVE, 
@@ -160,13 +91,19 @@ public class SwerveDrivetrain extends SubsystemBase {
       Constants.Drivetrain.RIGHT_FRONT_PORT_STEER, 
       0);
 
-    rightModuleBack = Mk4iSwerveModuleHelper.createNeo(
+    rightSDSModuleBack = Mk4iSwerveModuleHelper.createNeo(
       Shuffleboard.getTab("LiveWindow").getLayout("Right Back Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, 
       Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 
       Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 
       0);
+
+    //The steer offset arguments for these swerve modules are placeholders for now
+    leftModuleFront = new SparkMaxSwerveModule(Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, Constants.Drivetrain.LEFT_FRONT_PORT_STEER, 0);
+    leftModuleBack = new SparkMaxSwerveModule(Constants.Drivetrain.LEFT_BACK_PORT_DRIVE, Constants.Drivetrain.LEFT_BACK_PORT_STEER, 0);
+    rightModuleFront = new SparkMaxSwerveModule(Constants.Drivetrain.RIGHT_FRONT_PORT_DRIVE, Constants.Drivetrain.RIGHT_FRONT_PORT_STEER, 0);
+    rightModuleBack = new SparkMaxSwerveModule(Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 0);
 
     navXGyro = new AHRS(SerialPort.Port.kUSB1);
 
@@ -217,23 +154,6 @@ public class SwerveDrivetrain extends SubsystemBase {
       getPositions(),
       new Pose2d(8.28, 4, Rotation2d.fromDegrees(0)));
 
-    // These gain values are placeholders for now
-    //m_driveFeedForward = new SimpleMotorFeedforward(1, 3);
-    //m_steerFeedForward = new SimpleMotorFeedforward(1, 0.5);
-
-    //m_drivePIDController = new PIDController(Constants.kPDriveVel, 0, 0);
-
-    // Using a TrapezoidProfile PIDController to allow for smooth turning
-    /*m_steerPIDController = new ProfiledPIDController(
-        Constants.kPDriveVel,
-        0,
-        0,
-        new TrapezoidProfile.Constraints(
-          Constants.kMaxAngularVelocityRadiansPerSecond,
-          Constants.kMaxAngularAccelerationRadiansPerSecondSquared));
-
-    m_steerPIDController.enableContinuousInput(-Math.PI, Math.PI);*/
-
   }
 
   @Override
@@ -277,134 +197,70 @@ public class SwerveDrivetrain extends SubsystemBase {
   }
 
   /**
-   * Sets the idle mode of all drivetrain motors to either brake mode or coast mode.
+   * Sets the idle mode of all drive motors to either brake mode or coast mode.
    * 
    * @param enableBrakeMode Whether or not the idle mode of all 
    * drivetrain motors should be set to brake mode(false to set to coast mode).
    * 
    */
-  public void setIdleMode(boolean enableBrakeMode) {
+  public void setDriveIdleMode(boolean enableBrakeMode) {
 
-    if(enableBrakeMode) {
+    leftModuleFront.setDriveIdleMode(enableBrakeMode);
+    leftModuleBack.setDriveIdleMode(enableBrakeMode);
+    rightModuleFront.setDriveIdleMode(enableBrakeMode);
+    rightModuleBack.setDriveIdleMode(enableBrakeMode);
 
-      leftMotorFrontDrive.setIdleMode(IdleMode.kBrake);
-      leftMotorFrontSteer.setIdleMode(IdleMode.kBrake);
-      leftMotorBackDrive.setIdleMode(IdleMode.kBrake);
-      leftMotorBackSteer.setIdleMode(IdleMode.kBrake);
-      rightMotorFrontDrive.setIdleMode(IdleMode.kBrake);
-      rightMotorFrontSteer.setIdleMode(IdleMode.kBrake);
-      rightMotorBackDrive.setIdleMode(IdleMode.kBrake);
-      rightMotorBackSteer.setIdleMode(IdleMode.kBrake);
+  }
 
-    }
-    else {
-      
-      leftMotorFrontDrive.setIdleMode(IdleMode.kCoast);
-      leftMotorFrontSteer.setIdleMode(IdleMode.kCoast);
-      leftMotorBackDrive.setIdleMode(IdleMode.kCoast);
-      leftMotorBackSteer.setIdleMode(IdleMode.kCoast);
-      rightMotorFrontDrive.setIdleMode(IdleMode.kCoast);
-      rightMotorFrontSteer.setIdleMode(IdleMode.kCoast);
-      rightMotorBackDrive.setIdleMode(IdleMode.kCoast);
-      rightMotorBackSteer.setIdleMode(IdleMode.kCoast);
+  /**
+   * Sets the idle mode of all steer motors to either brake mode or coast mode.
+   * 
+   * @param enableBrakeMode Whether or not the idle mode of all 
+   * drivetrain motors should be set to brake mode(false to set to coast mode).
+   * 
+   */
+  public void setSteerIdleMode(boolean enableBrakeMode) {
 
-    }
+    leftModuleFront.setSteerIdleMode(enableBrakeMode);
+    leftModuleBack.setSteerIdleMode(enableBrakeMode);
+    rightModuleFront.setSteerIdleMode(enableBrakeMode);
+    rightModuleBack.setSteerIdleMode(enableBrakeMode);
 
   }
 
   public void setDrivePIDF(double kP, double kI, double kD, double kF) {
 
-    leftPIDFrontDrive.setP(kP);
-    leftPIDBackDrive.setP(kP);
-    rightPIDFrontDrive.setP(kP);
-    rightPIDBackDrive.setP(kP);
-
-    leftPIDFrontDrive.setI(kI);
-    leftPIDBackDrive.setI(kI);
-    rightPIDFrontDrive.setI(kI);
-    rightPIDBackDrive.setI(kI);
-
-    leftPIDFrontDrive.setD(kD);
-    leftPIDBackDrive.setD(kD);
-    rightPIDFrontDrive.setD(kD);
-    rightPIDBackDrive.setD(kD);
-
-    leftPIDFrontDrive.setFF(kF);
-    leftPIDBackDrive.setFF(kF);
-    rightPIDFrontDrive.setFF(kF);
-    rightPIDBackDrive.setFF(kF);
+    leftModuleFront.setDrivePIDF(kP, kI, kD, kF);
+    leftModuleBack.setDrivePIDF(kP, kI, kD, kF);
+    rightModuleFront.setDrivePIDF(kP, kI, kD, kF);
+    rightModuleBack.setDrivePIDF(kP, kI, kD, kF);
 
   }
 
   public void setSteerPIDF(double kP, double kI, double kD, double kF) {
 
-    leftPIDFrontSteer.setP(kP);
-    leftPIDBackSteer.setP(kP);
-    rightPIDFrontSteer.setP(kP);
-    rightPIDBackSteer.setP(kP);
-
-    leftPIDFrontSteer.setI(kI);
-    leftPIDBackSteer.setI(kI);
-    rightPIDFrontSteer.setI(kI);
-    rightPIDBackSteer.setI(kI);
-
-    leftPIDFrontSteer.setD(kD);
-    leftPIDBackSteer.setD(kD);
-    rightPIDFrontSteer.setD(kD);
-    rightPIDBackSteer.setD(kD);
-
-    leftPIDFrontSteer.setFF(kF);
-    leftPIDBackSteer.setFF(kF);
-    rightPIDFrontSteer.setFF(kF);
-    rightPIDBackSteer.setFF(kF);
+    leftModuleFront.setSteerPIDF(kP, kI, kD, kF);
+    leftModuleBack.setSteerPIDF(kP, kI, kD, kF);
+    rightModuleFront.setSteerPIDF(kP, kI, kD, kF);
+    rightModuleBack.setSteerPIDF(kP, kI, kD, kF);
 
   }
 
   public void setMaxDriveOutput(double max) {
 
-    leftPIDFrontDrive.setOutputRange(-max, max);
-    leftPIDBackDrive.setOutputRange(-max, max);
-    rightPIDFrontDrive.setOutputRange(-max, max);
-    rightPIDBackDrive.setOutputRange(-max, max);
-
-    leftPIDFrontDrive.setOutputRange(-max, max);
-    leftPIDBackDrive.setOutputRange(-max, max);
-    rightPIDFrontDrive.setOutputRange(-max, max);
-    rightPIDBackDrive.setOutputRange(-max, max);
-
-    leftPIDFrontDrive.setOutputRange(-max, max);
-    leftPIDBackDrive.setOutputRange(-max, max);
-    rightPIDFrontDrive.setOutputRange(-max, max);
-    rightPIDBackDrive.setOutputRange(-max, max);
-
-    leftPIDFrontDrive.setOutputRange(-max, max);
-    leftPIDBackDrive.setOutputRange(-max, max);
-    rightPIDFrontDrive.setOutputRange(-max, max);
-    rightPIDBackDrive.setOutputRange(-max, max);
+    leftModuleFront.setMaxDriveOutput(max);
+    leftModuleBack.setMaxDriveOutput(max);
+    rightModuleFront.setMaxDriveOutput(max);
+    rightModuleBack.setMaxDriveOutput(max);
 
   }
 
   public void setMaxSteerOutput(double max) {
 
-    leftPIDFrontSteer.setOutputRange(-max, max);
-    leftPIDBackSteer.setOutputRange(-max, max);
-    rightPIDFrontSteer.setOutputRange(-max, max);
-    rightPIDBackSteer.setOutputRange(-max, max);
-
-    leftPIDFrontSteer.setOutputRange(-max, max);
-    leftPIDBackSteer.setOutputRange(-max, max);
-    rightPIDFrontSteer.setOutputRange(-max, max);
-    rightPIDBackSteer.setOutputRange(-max, max);
-
-    leftPIDFrontSteer.setOutputRange(-max, max);
-    leftPIDBackSteer.setOutputRange(-max, max);
-    rightPIDFrontSteer.setOutputRange(-max, max);
-    rightPIDBackSteer.setOutputRange(-max, max);
-
-    leftPIDFrontSteer.setOutputRange(-max, max);
-    leftPIDBackSteer.setOutputRange(-max, max);
-    rightPIDFrontSteer.setOutputRange(-max, max);
-    rightPIDBackSteer.setOutputRange(-max, max);
+    leftModuleFront.setMaxSteerOutput(max);
+    leftModuleBack.setMaxSteerOutput(max);
+    rightModuleFront.setMaxSteerOutput(max);
+    rightModuleBack.setMaxSteerOutput(max);
 
   }
 
@@ -443,18 +299,10 @@ public class SwerveDrivetrain extends SubsystemBase {
   public SwerveModulePosition[] getPositions() {
 
     SwerveModulePosition[] positions = {
-      new SwerveModulePosition(
-        leftEncoderFrontDrive.getPosition(), 
-        Rotation2d.fromRadians(leftEncoderFrontSteer.getPosition())),
-      new SwerveModulePosition(
-        leftEncoderBackDrive.getPosition(), 
-        Rotation2d.fromRadians(leftEncoderBackSteer.getPosition())),
-      new SwerveModulePosition(
-        rightEncoderFrontDrive.getPosition(), 
-        Rotation2d.fromRadians(rightEncoderFrontSteer.getPosition())),
-      new SwerveModulePosition(
-        rightEncoderBackDrive.getPosition(), 
-        Rotation2d.fromRadians(rightEncoderBackSteer.getPosition()))};
+      leftModuleFront.getPosition(),
+      leftModuleBack.getPosition(),
+      rightModuleFront.getPosition(),
+      rightModuleBack.getPosition()};
 
     return positions;
 
@@ -470,7 +318,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  /*public void swerveDrivePID(double translationX, double translationY, double rotation) {
+  public void swerveDrivePID(double translationX, double translationY, double rotation) {
 
     SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       translationX, 
@@ -485,28 +333,6 @@ public class SwerveDrivetrain extends SubsystemBase {
     rightModuleFront.setDesiredState(states[2]);
     rightModuleBack.setDesiredState(states[3]);
 
-  }*/
-
-  public void swerveDrivePID(double translationX, double translationY, double rotation) {
-
-    SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      translationX, 
-      translationY, 
-      rotation, 
-      getRotation2d()));
-
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
-
-    leftPIDFrontDrive.setReference(states[0].speedMetersPerSecond, ControlType.kVelocity);
-    leftPIDBackDrive.setReference(states[1].speedMetersPerSecond, ControlType.kVelocity);
-    rightPIDFrontDrive.setReference(states[2].speedMetersPerSecond, ControlType.kVelocity);
-    rightPIDBackDrive.setReference(states[3].speedMetersPerSecond, ControlType.kVelocity);
-
-    leftPIDFrontSteer.setReference(states[0].angle.getRadians(), ControlType.kPosition);
-    leftPIDBackSteer.setReference(states[1].angle.getRadians(), ControlType.kPosition);
-    rightPIDFrontSteer.setReference(states[2].angle.getRadians(), ControlType.kPosition);
-    rightPIDBackSteer.setReference(states[3].angle.getRadians(), ControlType.kPosition);
-
   }
 
   public void swerveDrive(double translationX, double translationY, double rotation) {
@@ -520,10 +346,10 @@ public class SwerveDrivetrain extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
 
     //The number that the max speed is multiplyed by is the maxiumum voltage, which is taken from Trajectories
-    leftModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
-    leftModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
-    rightModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
-    rightModuleBack.set(states[3].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[3].angle.getRadians());
+    leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
+    leftSDSModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
+    rightSDSModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
+    rightSDSModuleBack.set(states[3].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[3].angle.getRadians());
 
   }
   
@@ -565,37 +391,37 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  /*public void autoOutputModuleStates(SwerveModuleState[] states) {
-
-    //The maximum voltage value of 10 is taken from Trajectories
-    setDesiredState(states[0], leftMotorFrontSteer, leftMotorFrontDrive, leftEncoderFrontDrive, leftEncoderFrontSteer);
-    setDesiredState(states[0], leftMotorBackSteer, leftMotorBackDrive, leftEncoderBackDrive, leftEncoderBackSteer);
-    setDesiredState(states[0], rightMotorFrontSteer, rightMotorFrontDrive, rightEncoderFrontDrive, rightEncoderFrontSteer);
-    setDesiredState(states[0], rightMotorBackSteer, rightMotorBackDrive, rightEncoderBackDrive, rightEncoderBackSteer);
-
-  }*/
-
   public void autoOutputModuleStates(SwerveModuleState[] states) {
 
     //The maximum voltage value of 10 is taken from Trajectories
-    leftModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
-    leftModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
-    rightModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
-    rightModuleBack.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
+    leftModuleFront.setDesiredState(states[0]);
+    leftModuleBack.setDesiredState(states[0]);
+    rightModuleFront.setDesiredState(states[0]);
+    rightModuleBack.setDesiredState(states[0]);
+
+  }
+
+  public void autoOutputSDSModuleStates(SwerveModuleState[] states) {
+
+    //The maximum voltage value of 10 is taken from Trajectories
+    leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
+    leftSDSModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
+    rightSDSModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
+    rightSDSModuleBack.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
 
   }
 
   public void stopDrive() {
 
     SwerveModuleState[] stopStates = {
-      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(leftEncoderFrontSteer.getPosition()))),
-      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(leftEncoderBackSteer.getPosition()))),
-      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(rightEncoderFrontSteer.getPosition()))),
-      new SwerveModuleState(0, new Rotation2d(Units.rotationsToRadians(rightEncoderBackSteer.getPosition())))};
+      new SwerveModuleState(0, leftModuleFront.getState().angle),
+      new SwerveModuleState(0, leftModuleBack.getState().angle),
+      new SwerveModuleState(0, rightModuleFront.getState().angle),
+      new SwerveModuleState(0, rightModuleBack.getState().angle)};
+
 
     autoOutputModuleStates(stopStates);
     
   }
-
 
 }

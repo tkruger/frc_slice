@@ -23,7 +23,8 @@ public class BrakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drivetrain.setIdleMode(brake);
+    m_drivetrain.setDriveIdleMode(brake);
+    m_drivetrain.setSteerIdleMode(brake);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

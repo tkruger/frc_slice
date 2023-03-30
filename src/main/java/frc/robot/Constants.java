@@ -79,20 +79,6 @@ public final class Constants {
         // Back right
         new Translation2d(-kTrackWidthMeters  / 2.0, -0.8128 / 2.0));
 
-    //These PID and Feedforward constants are all placeholders for now
-    public static final double DRIVE_KP = 0.0;
-    public static final double DRIVE_KI = 0.0;
-    public static final double DRIVE_KD = 0.0;
-
-    public static final double STEER_KP = 0.0;
-    public static final double STEER_KI = 0.0;
-    public static final double STEER_KD = 0.0;
-
-    public static final double DRIVE_KS = 0.0;
-    public static final double DRIVE_KV = 0.0;
-
-    public static final double STEER_KS = 0.0;
-    public static final double STEER_KV = 0.0;
 
     }
 
