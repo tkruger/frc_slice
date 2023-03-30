@@ -38,7 +38,7 @@ public class ScoreOneGamePieceMobilityThenEngageMode extends SequentialCommandGr
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 3.25);
+    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 5);
     BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 

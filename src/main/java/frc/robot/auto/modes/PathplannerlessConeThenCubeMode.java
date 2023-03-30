@@ -49,9 +49,9 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.5, 0, 3.25);
-    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.25, 0, .5);
-    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, -0.5, 0, 3.4);
+    AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.25); //3.25
+    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.35, 0, 1.5);
+    AutonomousTimedDriveStraightCommand driveBack = new AutonomousTimedDriveStraightCommand(drive, -0.5, 3.4);
     VariableQuickTurnPIDCommand quickTurn = new VariableQuickTurnPIDCommand(drive, turnAngle);
     VariableQuickTurnPIDCommand turnBack = new VariableQuickTurnPIDCommand(drive, 360 - turnAngle);
     TimedRunMandiblesCommand confirmMandiblesOpen = new TimedRunMandiblesCommand(intake, false, 0.3);

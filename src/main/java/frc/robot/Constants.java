@@ -56,6 +56,8 @@ public final class Constants {
         //Autnomous Tolerances
         public static final double AUTO_DISTANCE_ERROR_TOLERANCE = 0.25;
 
+        public static final double SLOW_MODE_MULTIPLIER = 0.1;
+
     }
 
     //Define Encoder Constants
@@ -77,8 +79,9 @@ public final class Constants {
         public static final double KI = 0;
         public static final double KD = 0.01807;
 
-        //Define Elevator Limit Switch Channels (this is a placeholder for now) 
-        public static final int LIMIT_SWITCH_CHANNEL = 9;
+        //Define Elevator Limit Switch Channels
+        public static final int LIMIT_SWITCH_CHANNEL_1 = 9;
+        public static final int LIMIT_SWITCH_CHANNEL_2 = 8;
 
         //Define Motor Speeds (these are placholders for now)
         public static final double RUN_SPEED = 0.5;
@@ -93,7 +96,7 @@ public final class Constants {
     public final class Wrist {
 
         //Define Motor Ports
-        public static final int MOTOR_PORT = 12;
+        public static final int MOTOR_PORT = 6;
 
         //Define Limit Switch Channels (this is a placeholder for now)
         public static final int LIMIT_SWITCH_CHANNEL = 30;
@@ -112,7 +115,7 @@ public final class Constants {
 
         public static final double NATIVE_KP = 0.02;
         public static final double NATIVE_KI = 0.00005;
-        public static final double NATIVE_KD = 0.005;
+        public static final double NATIVE_KD = 0.015;
 
         public static final double RUN_UP_SPEED = 0.3;
         public static final double RUN_DOWN_SPEED = 0.2;
@@ -177,8 +180,8 @@ public final class Constants {
         public static final RobotState DOUBLE_SUBSTATION_STATE = new RobotState(85, -22);
         public static final RobotState TRAVEL_STATE = new RobotState(1, -80);
 
-        public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -80);
-        public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -60);
+        public static final RobotState TRANSITION_OUT_STATE = new RobotState(1, -90);
+        public static final RobotState TRANSITION_HIGH_STATE = new RobotState(88, -75);
         public static final RobotState TRANSITION_MID_STATE = new RobotState(38, -60);
         public static final RobotState TRANSITION_DOUBLE_SUBSTATION_STATE = new RobotState(DOUBLE_SUBSTATION_STATE.elevatorHeight, -60);
 

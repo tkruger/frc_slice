@@ -55,6 +55,7 @@ public class Wrist extends SubsystemBase {
     nativePIDController.setP(Constants.Wrist.NATIVE_KP);
     nativePIDController.setI(Constants.Wrist.NATIVE_KI);
     nativePIDController.setD(Constants.Wrist.NATIVE_KD);
+    nativePIDController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
 
     // Shuffleboard
     teleopTab = Shuffleboard.getTab("Teleop Tab");

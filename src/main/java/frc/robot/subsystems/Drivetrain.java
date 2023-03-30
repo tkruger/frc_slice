@@ -76,6 +76,8 @@ public class Drivetrain extends SubsystemBase {
 
   private final UsbCamera cameraFeed;
 
+  private double speedMultiplier = 1;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
@@ -134,6 +136,8 @@ public class Drivetrain extends SubsystemBase {
     m_field2d = new Field2d();
 
     resetEncoders();
+
+    speedMultiplier = 1;
 
     /*m_odometry = new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getHeading()), 
@@ -301,6 +305,9 @@ public class Drivetrain extends SubsystemBase {
 
   public void ArcadeDrive(double forwardSpeed, double turnSpeed) {
 
+    forwardSpeed *= speedMultiplier;
+    turnSpeed *= speedMultiplier;
+    
     if(drivetrainReversed == false) {
 
       robotDrive.arcadeDrive(-forwardSpeed, -turnSpeed);
@@ -657,6 +664,14 @@ public class Drivetrain extends SubsystemBase {
 
     tankDriveVolts(0, 0);
 
+  }
+
+  public void disableSlowMode() {
+    speedMultiplier = 1;
+  }
+
+  public void enableSlowMode() {
+    speedMultiplier = Constants.Drivetrain.SLOW_MODE_MULTIPLIER;
   }
 
 }

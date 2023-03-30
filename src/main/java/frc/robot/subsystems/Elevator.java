@@ -27,7 +27,7 @@ public class Elevator extends SubsystemBase {
 
   private final SparkMaxPIDController leftPID, rightPID;
 
-  private final DigitalInput lowLimitSwitch;
+  private final DigitalInput lowLimitSwitch1, lowLimitSwitch2;
 
   private final ShuffleboardTab teleopTab;
 
@@ -49,7 +49,8 @@ public class Elevator extends SubsystemBase {
     leftPID = leftMotor.getPIDController();
     rightPID = rightMotor.getPIDController();
 
-    lowLimitSwitch = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_CHANNEL);
+    lowLimitSwitch1 = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_CHANNEL_1);
+    lowLimitSwitch2 = new DigitalInput(Constants.Elevator.LIMIT_SWITCH_CHANNEL_2);
 
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
@@ -193,7 +194,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public boolean atBottom() {
-    return lowLimitSwitch.get();
+    return !lowLimitSwitch1.get() || !lowLimitSwitch2.get();
   }
 
   public boolean atTargetPosition() {

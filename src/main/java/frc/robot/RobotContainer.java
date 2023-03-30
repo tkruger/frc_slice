@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -50,6 +51,7 @@ public class RobotContainer {
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnCommand m_quickTurn = new QuickTurnCommand(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
+  public final AutonomousDriveCommand m_slowDrive = new AutonomousDriveCommand(m_drivetrain, -0.4);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
@@ -92,7 +94,7 @@ public class RobotContainer {
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
 
   public final TimedRunMandiblesCommand m_calibrateCloseMandibles = new TimedRunMandiblesCommand(m_intake, true, 0.3);
-  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle);
+  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle.withTimeout(1.5));
 
   public final ManualVoltageWristCommand m_regressionTester = new ManualVoltageWristCommand(m_wrist, -0.25);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -184,6 +186,8 @@ public class RobotContainer {
 
     //Toggle Yellow LED Flashing
     Button.flashYellowLEDs.toggleOnTrue(m_flashYellowLEDs);
+
+    Button.slowMode.whileTrue(m_slowDrive);
 
   }
 
