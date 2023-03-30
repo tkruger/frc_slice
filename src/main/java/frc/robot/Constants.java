@@ -66,6 +66,8 @@ public final class Constants {
     //This constant multiplies Pi by 2 as a placeholder for now
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI * 2;
 
+    //This is a placeholder for now
+    public static final double MAXIMUM_VOLTAGE = 10;
 
     public static final SwerveDriveKinematics kSwerveKinematics = new SwerveDriveKinematics(
         // Front left
@@ -76,6 +78,21 @@ public final class Constants {
         new Translation2d(kTrackWidthMeters  / 2.0, -0.8128 / 2.0),
         // Back right
         new Translation2d(-kTrackWidthMeters  / 2.0, -0.8128 / 2.0));
+
+    //These PID and Feedforward constants are all placeholders for now
+    public static final double DRIVE_KP = 0.0;
+    public static final double DRIVE_KI = 0.0;
+    public static final double DRIVE_KD = 0.0;
+
+    public static final double STEER_KP = 0.0;
+    public static final double STEER_KI = 0.0;
+    public static final double STEER_KD = 0.0;
+
+    public static final double DRIVE_KS = 0.0;
+    public static final double DRIVE_KV = 0.0;
+
+    public static final double STEER_KS = 0.0;
+    public static final double STEER_KV = 0.0;
 
     }
 

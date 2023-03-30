@@ -26,6 +26,9 @@ public class RobotContainer {
 
   public final AutoSelector m_autoSelector = new AutoSelector(m_swerveDrivetrain);
 
+  public final SwerveDriveCommand m_swerveDrive = new SwerveDriveCommand(m_swerveDrivetrain, leftJoystick, rightJoystick);
+  public final SwerveDrivePIDCommand m_swerveDrivePID = new SwerveDrivePIDCommand(m_swerveDrivetrain, leftJoystick, rightJoystick);
+
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_swerveDrivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_swerveDrivetrain, false);
 
@@ -35,7 +38,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_swerveDrivetrain.setDefaultCommand(new SwerveDriveCommand(m_swerveDrivetrain, leftJoystick, rightJoystick));
+    m_swerveDrivetrain.setDefaultCommand(m_swerveDrive);
 
   }
 

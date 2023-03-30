@@ -11,14 +11,14 @@ import frc.robot.JoystickFilter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SwerveDriveCommand extends CommandBase {
+public class SwerveDrivePIDCommand extends CommandBase {
   /** Creates a new SwerveDriveCommand. */
   private final SwerveDrivetrain m_swerveDrivetrain;
 
   private final Joystick m_leftJoystick, m_rightJoystick;
   private final JoystickFilter translationXFilter, translationYFilter, rotationFilter;
 
-  public SwerveDriveCommand(SwerveDrivetrain swerveDrivetrain, Joystick leftJoystick, Joystick rightJoystick) {
+  public SwerveDrivePIDCommand(SwerveDrivetrain swerveDrivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDrivetrain);
 
@@ -48,7 +48,7 @@ public class SwerveDriveCommand extends CommandBase {
     double translationY = translationYFilter.filter(m_leftJoystick.getX() * Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
     double rotation = rotationFilter.filter(m_rightJoystick.getX() * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond);
 
-    m_swerveDrivetrain.swerveDrive(
+    m_swerveDrivetrain.swerveDrivePID(
       translationX,
       translationY,
       rotation);

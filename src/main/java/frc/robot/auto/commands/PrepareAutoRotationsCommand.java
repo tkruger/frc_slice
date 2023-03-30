@@ -4,18 +4,18 @@
 
 package frc.robot.auto.commands;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class PrepareAutoRotationsCommand extends CommandBase {
 
   private final SwerveDrivetrain m_drivetrain;
-  private final PathPlannerTrajectory m_trajectory;
+  private final Trajectory m_trajectory;
 
   /** Creates a new GetTrajectoryRotationCommand. */
-  public PrepareAutoRotationsCommand(SwerveDrivetrain drivetrain, PathPlannerTrajectory trajectory) {
+  public PrepareAutoRotationsCommand(SwerveDrivetrain drivetrain, Trajectory trajectory) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 

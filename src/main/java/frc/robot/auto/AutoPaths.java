@@ -1,7 +1,5 @@
 package frc.robot.auto;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,7 +11,7 @@ import frc.robot.subsystems.SwerveDrivetrain;
 
 public class AutoPaths{
 
-    public PathPlannerTrajectory trajectory;
+    public Trajectory trajectory;
 
     //This method uses kPDriveVel as the thetaController parameter for ProfiledPIDController() as a placholder for now
     public SwerveControllerCommand generateSwerveControllerCommand(SwerveDrivetrain drive, Trajectory trajectory) {

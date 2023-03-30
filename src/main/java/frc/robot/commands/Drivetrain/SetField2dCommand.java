@@ -4,19 +4,19 @@
 
 package frc.robot.commands.Drivetrain;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class SetField2dCommand extends CommandBase {
 
   private final SwerveDrivetrain m_drivetrain;
 
-  private final PathPlannerTrajectory m_trajectory;
+  private final Trajectory m_trajectory;
 
  /** Creates a new SetField2dCommand. */
-  public SetField2dCommand(PathPlannerTrajectory trajectory, SwerveDrivetrain drivetrain) {
+  public SetField2dCommand(Trajectory trajectory, SwerveDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 

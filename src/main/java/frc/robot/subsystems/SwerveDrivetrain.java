@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
-
+import frc.robot.drivers.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 //import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
@@ -28,14 +29,12 @@ import edu.wpi.first.networktables.GenericEntry;
 import java.util.Map;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.PathPlannerTrajectory;
+
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import com.swervedrivespecialties.swervelib.*;
-import com.swervedrivespecialties.swervelib.SwerveModule;
 
 public class SwerveDrivetrain extends SubsystemBase {
   
@@ -49,6 +48,16 @@ public class SwerveDrivetrain extends SubsystemBase {
   rightMotorFrontSteer, 
   rightMotorBackDrive, 
   rightMotorBackSteer;
+
+  private final SparkMaxPIDController 
+  leftPIDFrontDrive, 
+  leftPIDFrontSteer, 
+  leftPIDBackDrive, 
+  leftPIDBackSteer, 
+  rightPIDFrontDrive, 
+  rightPIDFrontSteer, 
+  rightPIDBackDrive, 
+  rightPIDBackSteer;
 
   private final RelativeEncoder 
   leftEncoderFrontDrive, 
@@ -76,7 +85,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   private final Timer autoTrajectoryTimer;
 
-  private PathPlannerTrajectory currentAutoTrajectory;
+  private Trajectory currentAutoTrajectory;
 
   //public double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
   // The current target position of every motor
@@ -101,6 +110,18 @@ public class SwerveDrivetrain extends SubsystemBase {
     rightMotorBackDrive = new CANSparkMax(Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, MotorType.kBrushless);
     rightMotorBackSteer = new CANSparkMax(Constants.Drivetrain.RIGHT_BACK_PORT_STEER, MotorType.kBrushless);
 
+    leftPIDFrontDrive = leftMotorFrontDrive.getPIDController();
+    leftPIDFrontSteer = leftMotorFrontSteer.getPIDController();
+
+    leftPIDBackDrive = leftMotorFrontDrive.getPIDController();
+    leftPIDBackSteer = leftMotorFrontDrive.getPIDController();
+
+    rightPIDFrontDrive = leftMotorFrontDrive.getPIDController();
+    rightPIDFrontSteer = leftMotorFrontDrive.getPIDController();
+
+    rightPIDBackDrive = leftMotorFrontDrive.getPIDController();
+    rightPIDBackSteer = leftMotorFrontDrive.getPIDController();
+
     leftEncoderFrontDrive = createEncoder(leftMotorFrontDrive, true);
     leftEncoderFrontSteer = createEncoder(leftMotorFrontSteer, false);
 
@@ -116,7 +137,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     //The gear ratios, motor ports, and steer offsets for these object declarations are placholders for now
     leftModuleFront = Mk4iSwerveModuleHelper.createNeo(
-      Shuffleboard.getTab("SmartDashboard").getLayout("Left Front Module", BuiltInLayouts.kList), 
+      Shuffleboard.getTab("LiveWindow").getLayout("Left Front Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, 
       Constants.Drivetrain.LEFT_FRONT_PORT_STEER, 
@@ -124,7 +145,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       0);
 
     leftModuleBack = Mk4iSwerveModuleHelper.createNeo(
-      Shuffleboard.getTab("SmartDashboard").getLayout("Left Back Module", BuiltInLayouts.kList), 
+      Shuffleboard.getTab("LiveWindow").getLayout("Left Back Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.LEFT_BACK_PORT_DRIVE, 
       Constants.Drivetrain.LEFT_BACK_PORT_STEER, 
@@ -132,7 +153,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       0);
 
     rightModuleFront = Mk4iSwerveModuleHelper.createNeo(
-      Shuffleboard.getTab("SmartDashboard").getLayout("Right Front Module", BuiltInLayouts.kList), 
+      Shuffleboard.getTab("LiveWindow").getLayout("Right Front Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.RIGHT_FRONT_PORT_DRIVE, 
       Constants.Drivetrain.RIGHT_FRONT_PORT_STEER, 
@@ -140,7 +161,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       0);
 
     rightModuleBack = Mk4iSwerveModuleHelper.createNeo(
-      Shuffleboard.getTab("SmartDashboard").getLayout("Right Back Module", BuiltInLayouts.kList), 
+      Shuffleboard.getTab("LiveWindow").getLayout("Right Back Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, 
       Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 
@@ -152,8 +173,6 @@ public class SwerveDrivetrain extends SubsystemBase {
     m_field2d = new Field2d();
 
     autoTrajectoryTimer = new Timer();
-
-    currentAutoTrajectory = new PathPlannerTrajectory();
 
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
@@ -184,6 +203,9 @@ public class SwerveDrivetrain extends SubsystemBase {
     withPosition(7, 0).
     withSize(2, 1).
     getEntry();
+
+    //Displays the current position of the robot on the field on Shuffleboard
+    teleopTab.add(m_field2d).withPosition(3, 2).withSize(3, 2);
 
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(m_field2d); 
@@ -290,7 +312,103 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  public void setField2d(PathPlannerTrajectory trajectory) {
+  public void setDrivePIDF(double kP, double kI, double kD, double kF) {
+
+    leftPIDFrontDrive.setP(kP);
+    leftPIDBackDrive.setP(kP);
+    rightPIDFrontDrive.setP(kP);
+    rightPIDBackDrive.setP(kP);
+
+    leftPIDFrontDrive.setI(kI);
+    leftPIDBackDrive.setI(kI);
+    rightPIDFrontDrive.setI(kI);
+    rightPIDBackDrive.setI(kI);
+
+    leftPIDFrontDrive.setD(kD);
+    leftPIDBackDrive.setD(kD);
+    rightPIDFrontDrive.setD(kD);
+    rightPIDBackDrive.setD(kD);
+
+    leftPIDFrontDrive.setFF(kF);
+    leftPIDBackDrive.setFF(kF);
+    rightPIDFrontDrive.setFF(kF);
+    rightPIDBackDrive.setFF(kF);
+
+  }
+
+  public void setSteerPIDF(double kP, double kI, double kD, double kF) {
+
+    leftPIDFrontSteer.setP(kP);
+    leftPIDBackSteer.setP(kP);
+    rightPIDFrontSteer.setP(kP);
+    rightPIDBackSteer.setP(kP);
+
+    leftPIDFrontSteer.setI(kI);
+    leftPIDBackSteer.setI(kI);
+    rightPIDFrontSteer.setI(kI);
+    rightPIDBackSteer.setI(kI);
+
+    leftPIDFrontSteer.setD(kD);
+    leftPIDBackSteer.setD(kD);
+    rightPIDFrontSteer.setD(kD);
+    rightPIDBackSteer.setD(kD);
+
+    leftPIDFrontSteer.setFF(kF);
+    leftPIDBackSteer.setFF(kF);
+    rightPIDFrontSteer.setFF(kF);
+    rightPIDBackSteer.setFF(kF);
+
+  }
+
+  public void setMaxDriveOutput(double max) {
+
+    leftPIDFrontDrive.setOutputRange(-max, max);
+    leftPIDBackDrive.setOutputRange(-max, max);
+    rightPIDFrontDrive.setOutputRange(-max, max);
+    rightPIDBackDrive.setOutputRange(-max, max);
+
+    leftPIDFrontDrive.setOutputRange(-max, max);
+    leftPIDBackDrive.setOutputRange(-max, max);
+    rightPIDFrontDrive.setOutputRange(-max, max);
+    rightPIDBackDrive.setOutputRange(-max, max);
+
+    leftPIDFrontDrive.setOutputRange(-max, max);
+    leftPIDBackDrive.setOutputRange(-max, max);
+    rightPIDFrontDrive.setOutputRange(-max, max);
+    rightPIDBackDrive.setOutputRange(-max, max);
+
+    leftPIDFrontDrive.setOutputRange(-max, max);
+    leftPIDBackDrive.setOutputRange(-max, max);
+    rightPIDFrontDrive.setOutputRange(-max, max);
+    rightPIDBackDrive.setOutputRange(-max, max);
+
+  }
+
+  public void setMaxSteerOutput(double max) {
+
+    leftPIDFrontSteer.setOutputRange(-max, max);
+    leftPIDBackSteer.setOutputRange(-max, max);
+    rightPIDFrontSteer.setOutputRange(-max, max);
+    rightPIDBackSteer.setOutputRange(-max, max);
+
+    leftPIDFrontSteer.setOutputRange(-max, max);
+    leftPIDBackSteer.setOutputRange(-max, max);
+    rightPIDFrontSteer.setOutputRange(-max, max);
+    rightPIDBackSteer.setOutputRange(-max, max);
+
+    leftPIDFrontSteer.setOutputRange(-max, max);
+    leftPIDBackSteer.setOutputRange(-max, max);
+    rightPIDFrontSteer.setOutputRange(-max, max);
+    rightPIDBackSteer.setOutputRange(-max, max);
+
+    leftPIDFrontSteer.setOutputRange(-max, max);
+    leftPIDBackSteer.setOutputRange(-max, max);
+    rightPIDFrontSteer.setOutputRange(-max, max);
+    rightPIDBackSteer.setOutputRange(-max, max);
+
+  }
+
+  public void setField2d(Trajectory trajectory) {
 
     // Pushes the trajectory to Field2d.
     m_field2d.getObject("Trajectory").setTrajectory(trajectory);
@@ -304,10 +422,10 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  public void setCurrentAutoTrajectory(PathPlannerTrajectory trajectory) {
+  public void setCurrentAutoTrajectory(Trajectory trajectory) {
 
     currentAutoTrajectory = trajectory;
-
+    
   }
 
   public Rotation2d getAutoTrajectoryRotation() {
@@ -352,45 +470,44 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  /*public void setDesiredState(SwerveModuleState desiredState, CANSparkMax driveMotor, CANSparkMax steerMotor, RelativeEncoder driveEncoder, RelativeEncoder steerEncoder) {
-    // Optimize the reference state to avoid spinning further than 90 degrees
-    SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(Units.rotationsToRadians(steerEncoder.getPosition())));
+  /*public void swerveDrivePID(double translationX, double translationY, double rotation) {
 
-    // Calculate the drive output from the drive PID controller.
-    final double driveOutput =
-        m_drivePIDController.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond);
-
-    // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput =
-        m_steerPIDController.calculate(steerEncoder.getPosition(), state.angle.getRadians());
-
-    final double driveFeedForward = m_driveFeedForward.calculate(state.speedMetersPerSecond);
-
-    final double turnFeedForward = m_steerFeedForward.calculate(m_steerPIDController.getSetpoint().velocity);
-
-    driveMotor.setVoltage(driveOutput + driveFeedForward);
-    steerMotor.setVoltage(turnOutput + turnFeedForward);
-
-  }
-
-  public void swerveDrive(double translationX, double translationY, double rotation) {
-
-    SwerveModuleState[] states = Constants.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+    SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       translationX, 
       translationY, 
       rotation, 
       getRotation2d()));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kMaxSpeedMetersPerSeconds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
 
-    //The maximum voltage value of 10 is taken from Trajectories
-    setDesiredState(states[0], leftMotorFrontDrive, leftMotorFrontSteer, leftEncoderFrontDrive, leftEncoderFrontSteer);
-    setDesiredState(states[1], leftMotorBackDrive, leftMotorBackSteer, leftEncoderBackDrive, leftEncoderBackSteer);
-    setDesiredState(states[2], rightMotorFrontDrive, rightMotorFrontSteer, rightEncoderFrontDrive, rightEncoderFrontSteer);
-    setDesiredState(states[3], rightMotorBackDrive, rightMotorBackSteer, rightEncoderBackDrive, rightEncoderBackSteer);
+    leftModuleFront.setDesiredState(states[0]);
+    leftModuleBack.setDesiredState(states[1]);
+    rightModuleFront.setDesiredState(states[2]);
+    rightModuleBack.setDesiredState(states[3]);
 
   }*/
+
+  public void swerveDrivePID(double translationX, double translationY, double rotation) {
+
+    SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+      translationX, 
+      translationY, 
+      rotation, 
+      getRotation2d()));
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
+
+    leftPIDFrontDrive.setReference(states[0].speedMetersPerSecond, ControlType.kVelocity);
+    leftPIDBackDrive.setReference(states[1].speedMetersPerSecond, ControlType.kVelocity);
+    rightPIDFrontDrive.setReference(states[2].speedMetersPerSecond, ControlType.kVelocity);
+    rightPIDBackDrive.setReference(states[3].speedMetersPerSecond, ControlType.kVelocity);
+
+    leftPIDFrontSteer.setReference(states[0].angle.getRadians(), ControlType.kPosition);
+    leftPIDBackSteer.setReference(states[1].angle.getRadians(), ControlType.kPosition);
+    rightPIDFrontSteer.setReference(states[2].angle.getRadians(), ControlType.kPosition);
+    rightPIDBackSteer.setReference(states[3].angle.getRadians(), ControlType.kPosition);
+
+  }
 
   public void swerveDrive(double translationX, double translationY, double rotation) {
 
