@@ -6,14 +6,14 @@ package frc.robot.commands.Wrist;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+//import frc.robot.Constants;
 import frc.robot.subsystems.Wrist;
 
 public class WristStationaryCommand extends CommandBase {
 
   private final Wrist m_wrist;
   private final Timer timer;
-  private boolean run = false;
+  //private boolean run = false;
 
   /** Creates a new WristStationaryCommand. */
   public WristStationaryCommand(Wrist wrist) {
@@ -29,7 +29,7 @@ public class WristStationaryCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    run = false;
+    //run = false;
     timer.reset();
     timer.start();
     m_wrist.disableManualControl();

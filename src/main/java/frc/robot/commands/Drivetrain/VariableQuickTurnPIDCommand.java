@@ -1,24 +1,32 @@
 package frc.robot.commands.Drivetrain;
 
-//import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class QuickTurnCommand extends CommandBase {
+public class VariableQuickTurnPIDCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final Drivetrain m_drivetrain;
     
     Rotation2d startRot, endRot;
 
+    PIDController positionalPID;
+
+    double degrees;
+
     private final Timer timeoutTimer;
     
-    public QuickTurnCommand(Drivetrain drivetrain) {
+    public VariableQuickTurnPIDCommand(Drivetrain drivetrain, double degrees) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(drivetrain);
 
         this.m_drivetrain = drivetrain;
+        this.degrees = degrees;
+
+        positionalPID = new PIDController(0.017/2, 0.0005, 0.00000);
+        m_drivetrain.setPIDF(.06, .000002, .12, .62);
 
         timeoutTimer = new Timer();
 
@@ -30,7 +38,7 @@ public class QuickTurnCommand extends CommandBase {
 
         startRot = m_drivetrain.getRotation2d();
         
-        endRot = startRot.plus(new Rotation2d(Math.PI));
+        endRot = startRot.plus(new Rotation2d(Math.toRadians(degrees)));
 
         timeoutTimer.reset();
         timeoutTimer.start();
@@ -39,7 +47,7 @@ public class QuickTurnCommand extends CommandBase {
 
     public void execute() {
         
-        m_drivetrain.PIDArcadeDrive(0, -.4);
+        m_drivetrain.PIDArcadeDrive(0, -Math.min(positionalPID.calculate(m_drivetrain.getRotation2d().getDegrees(), endRot.getDegrees()), 3));
 
     }
 
@@ -54,13 +62,17 @@ public class QuickTurnCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         //double currentRot = m_drivetrain.getHeading();
-
         Rotation2d diff = endRot.minus(m_drivetrain.getRotation2d());
 
-        if (Math.abs(diff.getDegrees()) < 5) {
+        if (Math.abs(diff.getDegrees()) < 10) {
             return true;
         }
 
-        return timeoutTimer.get() > 5;
+        // Timeout after 3 seconds
+        if(timeoutTimer.get() > 3) {
+            return true;
+        }
+
+        return false;
     }
 }

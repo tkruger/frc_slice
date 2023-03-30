@@ -5,11 +5,10 @@
 package frc.robot.auto.modes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+//import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
-import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalanceCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
@@ -41,8 +40,8 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 
     addCommands(
-      //calibrateElevatorAndWrist,
-      //placePiece,
+      calibrateElevatorAndWrist,
+      placePiece,
       driveBack,
       quickTurn,
       getOnChargeStation,

@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
+import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Wrist.ResetAngleCommand;
@@ -31,19 +32,23 @@ public class ScoreOneGamePieceMobilityThenEngageMode extends SequentialCommandGr
     CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, 0.25, 0, 6);
-    AutonomousAngleDriveCommand driveToChargeStation = new AutonomousAngleDriveCommand(drive, -0.25);
-    AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.8, 0, 0.3);
+    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
+    QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
+    QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
+    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 3.25);
+    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
-    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
+    ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 
     addCommands(
       calibrateElevatorAndWrist,
       placePiece,
+      driveBack,
+      quickTurn,
       mobility,
-      driveToChargeStation,
-      continueDrive,
+      quickTurn2,
+      getOnChargeStation,
       chargeStationBalance
     );
   }

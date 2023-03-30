@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.auto.modes.PathplannerlessConeThenCubeMode;
 import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
@@ -51,7 +52,8 @@ public class AutoSelector {
         SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN,
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC,
-        SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE
+        SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE,
+        SCORE_TWO_GAME_PIECES_PATHPLANNERLESS
 
     }
 
@@ -106,13 +108,14 @@ public class AutoSelector {
 
         modeChooser.addOption("Wire Side - Score One Game Piece Then Mobility", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_MOBILITY);
         modeChooser.addOption("Center - High Row Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE);
-        modeChooser.addOption("HP Side - Score One Game Piece Mobility Then Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
-        modeChooser.addOption("Score One Cone High Row (Motionless)", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
-        modeChooser.addOption("Score One Cube Go Out Then Engage (Pathplanner)", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
-        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage (Pathplanner)", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
-        modeChooser.addOption("Score Two Game Pieces Then Engage With Arc (Pathplanner)", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
-        modeChooser.addOption("Score One Cube Pick Up One Game Piece Then Engage With Arc (Pathplanner)", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
-        modeChooser.addOption("Score One Game Piece Mobility Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE);
+        modeChooser.addOption("Center - High Row Mobility Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE);
+        modeChooser.addOption("HP Side - Score One Game Piece Mobility Then Rough Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
+        modeChooser.addOption("HP Side - Score Two Game Pieces", DesiredMode.SCORE_TWO_GAME_PIECES_PATHPLANNERLESS);
+        modeChooser.addOption("Any - Score One Game Piece", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
+        modeChooser.addOption("(Pathplanner) Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
+        modeChooser.addOption("(Pathplanner) Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
+        modeChooser.addOption("(Pathplanner) Score Two Game Pieces Then Engage With Arc", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
+        modeChooser.addOption("(Pathplanner) Score One Cube Pick Up One Game Piece Then Engage With Arc", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
 
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -193,6 +196,8 @@ public class AutoSelector {
                 return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE:
                 return Optional.of(new ScoreOneGamePieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_TWO_GAME_PIECES_PATHPLANNERLESS:
+                return Optional.of(new PathplannerlessConeThenCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             default:
                 break;
     
