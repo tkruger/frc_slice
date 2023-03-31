@@ -75,6 +75,7 @@ public class AutoSelector {
     private final Elevator m_elevator;
     private final Wrist m_wrist;
     private final Intake m_intake;
+    private final Limelight m_limelight;
 
     private final ShuffleboardTab autoTab;
 
@@ -85,12 +86,13 @@ public class AutoSelector {
     private final GenericEntry autoPoseYOffsetWidget;
     private final GenericEntry autoPoseRotationOffsetWidget;
 
-    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake) {
+    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
 
         m_drivetrain = drivetrain;
         m_elevator = elevator;
         m_wrist = wrist;
         m_intake = intake;
+        m_limelight = limelight;
 
         startingPositionChooser = new SendableChooser<StartingPosition>();
 
@@ -197,7 +199,7 @@ public class AutoSelector {
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE:
                 return Optional.of(new ScoreOneGamePieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_TWO_GAME_PIECES_PATHPLANNERLESS:
-                return Optional.of(new PathplannerlessConeThenCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new PathplannerlessConeThenCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
             default:
                 break;
     

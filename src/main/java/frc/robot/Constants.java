@@ -162,6 +162,8 @@ public final class Constants {
         public static final double TURN_ALIGNMENT_SPEED = 0.5;
         public static final double FORWARD_ALIGNMENT_SPEED = 0.4;
 
+        public static final double STEERING_ADJUST_PROPORTION = 0.03;
+
     }
 
     public final class LEDs {

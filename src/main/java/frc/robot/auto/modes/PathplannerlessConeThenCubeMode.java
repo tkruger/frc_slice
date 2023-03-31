@@ -12,11 +12,13 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Intake.TimedRunMandiblesCommand;
+import frc.robot.commands.Limelight.LimelightXAlignmentCommand;
 import frc.robot.commands.Wrist.SetWristPosition;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,18 +26,20 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
   /** Creates a new ScoreOnePieceMobilityThenAlignMode. */
-  public PathplannerlessConeThenCubeMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public PathplannerlessConeThenCubeMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    double turnAngle = 0;
+    double turnAngle, turnAngle2 = 0;
 
     switch(startPosition) {
       case BLUE_COMMUNITY_LEFT:
-        turnAngle = 181;
+        turnAngle = 175;
+        turnAngle2 = 185;
         break;
       case RED_COMMUNITY_RIGHT:
-        turnAngle = 179;
+        turnAngle = 185;
+        turnAngle2 = 175;
         break;
       default:
         turnAngle = 180;
@@ -46,11 +50,12 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.25); //3.25
-    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.5);
-    AutonomousTimedDriveStraightCommand driveBack = new AutonomousTimedDriveStraightCommand(drive, -0.5, 3.4);
+    AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.35); //3.25
+    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.6);
+    AutonomousTimedDriveStraightCommand driveBack = new AutonomousTimedDriveStraightCommand(drive, -0.5, 4);
     VariableQuickTurnSequence quickTurn = new VariableQuickTurnSequence(drive, turnAngle);
-    VariableQuickTurnSequence turnBack = new VariableQuickTurnSequence(drive, 360 - turnAngle);
+    LimelightXAlignmentCommand alignWithCube = new LimelightXAlignmentCommand(limelight, drive);
+    VariableQuickTurnSequence turnBack = new VariableQuickTurnSequence(drive, turnAngle2);
     TimedRunMandiblesCommand confirmMandiblesOpen = new TimedRunMandiblesCommand(intake, false, 0.3);
     TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.6);
     SetWristPosition setWristGround = new SetWristPosition(wrist, Constants.States.LOW_ROW_GROUND_STATE.wristAngle);
@@ -65,6 +70,7 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
       placePiece,
       mobility,
       openWhileTurning,
+      alignWithCube,
       setWristGround,
       pickUpDrive,
       closeMandibles,

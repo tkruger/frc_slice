@@ -56,7 +56,16 @@ public class TimedRunMandiblesCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_intake.runMandibles(0);
+      if(m_runInwards) {
+
+        m_intake.runMandibles(Constants.Intake.MANDIBLE_RUN_SPEED);
+
+      }
+      else {
+
+        m_intake.runMandibles(0);
+
+      }
   }
 
   // Returns true when the command should end.

@@ -38,13 +38,14 @@ public class DrivetrainCommand extends CommandBase {
     forwardFilter = new JoystickFilter(0.07, 0.3, false);
     turnFilter = new JoystickFilter(0.07, 0.3);
 
+    m_drivetrain.resetHeading();
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
-    m_drivetrain.resetHeading();
     m_drivetrain.resetOdometry(Limelight.getLastBotPoseBlue());
 
   }

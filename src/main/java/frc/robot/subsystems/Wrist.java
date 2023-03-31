@@ -33,7 +33,7 @@ public class Wrist extends SubsystemBase {
 
   // Shuffleboard
   private final ShuffleboardTab teleopTab;
-  private final GenericEntry angleWidget, velocityWidget, targetAngleWidget;//, voltageWidget;
+  private final GenericEntry angleWidget, /*velocityWidget,*/ targetAngleWidget;//, voltageWidget;
 
   private double targetPosition;
   private boolean manualControl;
@@ -61,8 +61,8 @@ public class Wrist extends SubsystemBase {
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
     angleWidget = teleopTab.add("Wrist Angle", 0).withPosition(5, 0).withSize(2, 1).getEntry();
-    velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(7, 1).withSize(2, 1).getEntry();
-    targetAngleWidget = teleopTab.add("Target Wrist Angle", 0).getEntry();
+    //velocityWidget = teleopTab.add("Wrist Velocity", 0).withPosition(7, 1).withSize(2, 1).getEntry();
+    targetAngleWidget = teleopTab.add("Target Wrist Angle", 0).withPosition(7, 1).withSize(2, 1).getEntry();
 
     manualControl = true;
 
@@ -142,6 +142,7 @@ public class Wrist extends SubsystemBase {
 
   public void updateShuffleboard() {
       angleWidget.setDouble(getAngle());
+      targetAngleWidget.setDouble(targetPosition);
   }
 
   public void updatePIDController() {

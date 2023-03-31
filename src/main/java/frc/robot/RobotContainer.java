@@ -38,7 +38,7 @@ public class RobotContainer {
   public final Limelight m_limelight = new Limelight();
   //public final ColorSensor m_colorSensor = new ColorSensor();
   public final LEDs m_leds = new LEDs();
-  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake);
+  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight);
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -51,6 +51,7 @@ public class RobotContainer {
   public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
   public final QuickTurnCommand m_quickTurn = new QuickTurnCommand(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
+  public final QuickTurnSequence m_quickTurnSequence = new QuickTurnSequence(m_drivetrain);
   public final AutonomousDriveCommand m_slowDrive = new AutonomousDriveCommand(m_drivetrain, -0.4);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
@@ -71,6 +72,7 @@ public class RobotContainer {
 
   public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
   public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_limelight, m_elevator, m_wrist);
+  public final LimelightXAlignmentCommand m_xAlign = new LimelightXAlignmentCommand(m_limelight, m_drivetrain);
 
   public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
   public final CustomRainbowLEDs m_flashYellowLEDs = new CustomRainbowLEDs(m_leds, 28);
@@ -128,7 +130,7 @@ public class RobotContainer {
     Button.chargeStationBalancePID.whileTrue(m_ChargeStationBalancePID);
 
     //Execute PID Drivetrain Quick Turn
-    Button.quickTurnPID.onTrue(m_quickTurnPID);
+    Button.quickTurnPID.onTrue(m_quickTurnSequence);
 
     //Toggle Old Drive
     Button.oldDrive.toggleOnTrue(m_oldDrive);
@@ -144,6 +146,9 @@ public class RobotContainer {
 
     //Enable Double Substation Alignment And Positioning
     Button.doubleSubstationAlignAndPosition.whileTrue(m_doubleSubstationAlignAndPosition);
+
+    //Enable X Alignment
+    Button.xAlign.whileTrue(m_xAlign);
 
     //Enable Wrist Moving Upwards
     Button.wristUp.whileTrue(m_wristRunUpwards);
@@ -187,6 +192,7 @@ public class RobotContainer {
     //Toggle Yellow LED Flashing
     Button.flashYellowLEDs.toggleOnTrue(m_flashYellowLEDs);
 
+    //Enable Automatic Slow Drive
     Button.slowMode.whileTrue(m_slowDrive);
 
   }
