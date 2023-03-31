@@ -4,18 +4,13 @@
 
 package frc.robot.auto.modes;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
-import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
-import frc.robot.commands.Elevator.CalibrateElevatorCommand;
-import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;

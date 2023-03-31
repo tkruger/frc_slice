@@ -4,7 +4,6 @@
 
 package frc.robot.auto.modes;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.AutoSelector;
@@ -17,8 +16,6 @@ import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDComman
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
-import frc.robot.commands.Elevator.CalibrateElevatorCommand;
-import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
