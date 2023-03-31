@@ -6,15 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 
 public class InstantCalibrationCommand extends CommandBase {
-  private final Elevator m_elevator;
   private final Wrist m_wrist;
   /** Creates a new InstantCalibrationCommand. */
-  public InstantCalibrationCommand(Elevator elevator, Wrist wrist) {
-    m_elevator = elevator;
+  public InstantCalibrationCommand(Wrist wrist) {
     m_wrist = wrist;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,7 +27,6 @@ public class InstantCalibrationCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_elevator.setEncoderPosition(0);
     m_wrist.setEncoder(Constants.Wrist.MIN_ANGLE);
   }
 

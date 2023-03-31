@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.math.MathUtil;
 //import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
@@ -29,7 +30,7 @@ public class Wrist extends SubsystemBase {
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
   private final PIDController customPIDController;
-  private final SparkMaxPIDController nativePIDController;
+  //private final SparkMaxPIDController nativePIDController;
 
   // Shuffleboard
   private final ShuffleboardTab teleopTab;
@@ -51,11 +52,11 @@ public class Wrist extends SubsystemBase {
     // PID
     customPIDController = new PIDController(Constants.Wrist.CUSTOM_KP, Constants.Wrist.CUSTOM_KI, Constants.Wrist.CUSTOM_KD);
 
-    nativePIDController = motor.getPIDController();
-    nativePIDController.setP(Constants.Wrist.NATIVE_KP);
-    nativePIDController.setI(Constants.Wrist.NATIVE_KI);
-    nativePIDController.setD(Constants.Wrist.NATIVE_KD);
-    nativePIDController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
+    // nativePIDController = motor.getPIDController();
+    // nativePIDController.setP(Constants.Wrist.NATIVE_KP);
+    // nativePIDController.setI(Constants.Wrist.NATIVE_KI);
+    // nativePIDController.setD(Constants.Wrist.NATIVE_KD);
+    // nativePIDController.setOutputRange(-Constants.Wrist.POSITIONAL_MAX_SPEED, Constants.Wrist.POSITIONAL_MAX_SPEED);
 
     // Shuffleboard
     teleopTab = Shuffleboard.getTab("Teleop Tab");
@@ -79,8 +80,8 @@ public class Wrist extends SubsystemBase {
   }
 
   public void setWristPosition(double position) {
-    //customPIDController.setSetpoint(position);
-    nativePIDController.setReference(position, ControlType.kPosition);
+    customPIDController.setSetpoint(position);
+    //nativePIDController.setReference(position, ControlType.kPosition);
     manualControl = false;
     targetPosition = position;
   }
@@ -130,29 +131,30 @@ public class Wrist extends SubsystemBase {
 
   public void disableManualControl() {
     manualControl = false;
-    //customPIDController.reset();
-    nativePIDController.setIAccum(0);
+    customPIDController.reset();
   }
 
   @Override
   public void periodic() {
     updateShuffleboard();
-    //updatePIDController();
+    updatePIDController();
   }
 
   public void updateShuffleboard() {
       angleWidget.setDouble(getAngle());
+      targetAngleWidget.setDouble(targetPosition);
+      velocityWidget.setDouble(getVelocity());
   }
 
   public void updatePIDController() {
     // Get angle from encoder reading
     if (!manualControl) {
       double angle = getAngle();
-      //double feedback = customPIDController.calculate(angle);
+      double feedback = customPIDController.calculate(angle);
       double feedforward = getAntigravityFeedforward(angle);
-      //double volts = MathUtil.clamp(feedback + feedforward, -12, 12);
-      //motor.setVoltage(volts);
-      nativePIDController.setReference(targetPosition, ControlType.kPosition, 1, feedforward);
+      double volts = MathUtil.clamp(feedback + feedforward, -12, 12);
+      motor.setVoltage(volts);
+      //nativePIDController.setReference(targetPosition, ControlType.kPosition, 1, feedforward);
     }
   }
 

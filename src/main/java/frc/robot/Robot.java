@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_robotContainer.m_autoSelector.updateModeCreator();
+    //m_robotContainer.m_autoSelector.updateModeCreator();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    m_robotContainer.m_autoSelector.outputToShuffleboard();
+    //m_robotContainer.m_autoSelector.outputToShuffleboard();
 
   }
 
@@ -57,9 +57,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
 
-    m_robotContainer.m_autoSelector.reset();
-    m_robotContainer.m_autoSelector.updateModeCreator();
-    m_robotContainer.m_drivetrain.disablePreventVisionImplementation();
+    // m_robotContainer.m_autoSelector.reset();
+    // m_robotContainer.m_autoSelector.updateModeCreator();
+    // m_robotContainer.m_drivetrain.disablePreventVisionImplementation();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
 
-    m_robotContainer.m_autoSelector.updateModeCreator();
+    //m_robotContainer.m_autoSelector.updateModeCreator();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }
