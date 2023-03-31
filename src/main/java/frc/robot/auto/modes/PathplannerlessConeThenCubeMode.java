@@ -5,16 +5,13 @@
 package frc.robot.auto.modes;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Constants;
 import frc.robot.auto.AutoSelector;
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.*;
-import frc.robot.commands.Elevator.CalibrateElevatorCommand;
 import frc.robot.commands.Intake.TimedRunMandiblesCommand;
-import frc.robot.commands.Wrist.ResetAngleCommand;
 import frc.robot.commands.Wrist.SetWristPosition;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
@@ -35,10 +32,10 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
 
     switch(startPosition) {
       case BLUE_COMMUNITY_LEFT:
-        turnAngle = 184;
+        turnAngle = 181;
         break;
       case RED_COMMUNITY_RIGHT:
-        turnAngle = 176;
+        turnAngle = 179;
         break;
       default:
         turnAngle = 180;
@@ -50,12 +47,12 @@ public class PathplannerlessConeThenCubeMode extends SequentialCommandGroup {
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.25); //3.25
-    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.35, 0, 1.5);
+    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.5);
     AutonomousTimedDriveStraightCommand driveBack = new AutonomousTimedDriveStraightCommand(drive, -0.5, 3.4);
-    VariableQuickTurnPIDCommand quickTurn = new VariableQuickTurnPIDCommand(drive, turnAngle);
-    VariableQuickTurnPIDCommand turnBack = new VariableQuickTurnPIDCommand(drive, 360 - turnAngle);
+    VariableQuickTurnSequence quickTurn = new VariableQuickTurnSequence(drive, turnAngle);
+    VariableQuickTurnSequence turnBack = new VariableQuickTurnSequence(drive, 360 - turnAngle);
     TimedRunMandiblesCommand confirmMandiblesOpen = new TimedRunMandiblesCommand(intake, false, 0.3);
-    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.5);
+    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.6);
     SetWristPosition setWristGround = new SetWristPosition(wrist, Constants.States.LOW_ROW_GROUND_STATE.wristAngle);
     SetWristPosition stowWrist = new SetWristPosition(wrist, Constants.States.TRAVEL_STATE.wristAngle);
 
