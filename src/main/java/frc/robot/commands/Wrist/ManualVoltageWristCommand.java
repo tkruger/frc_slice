@@ -41,6 +41,8 @@ public class ManualVoltageWristCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
+    m_wrist.disableManualControl();
+    m_wrist.setWristPosition(m_wrist.getAngle());
   }
 
   // Returns true when the command should end.

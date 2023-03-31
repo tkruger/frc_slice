@@ -31,7 +31,7 @@ public class Elevator extends SubsystemBase {
 
   private final ShuffleboardTab teleopTab;
 
-  private final GenericEntry positionWidget, velocityWidget, lowLimitWidget, targetPositionWidget;
+  private final GenericEntry positionWidget, /*velocityWidget,*/ lowLimitWidget, targetPositionWidget;
 
   private double targetPosition;
 
@@ -55,9 +55,9 @@ public class Elevator extends SubsystemBase {
     teleopTab = Shuffleboard.getTab("Teleop Tab");
 
     positionWidget = teleopTab.add("Elevator Position", 0).withPosition(2, 0).withSize(2, 1).getEntry();
-    velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(0, 1).withSize(2, 1).getEntry();
+    //velocityWidget = teleopTab.add("Elevator Velocity", 0).withPosition(0, 1).withSize(2, 1).getEntry();
     lowLimitWidget = teleopTab.add("Elevator At Low Limit", false).withPosition(6, 1).withSize(1, 1).getEntry();
-    targetPositionWidget = teleopTab.add("Elevator Target Position", 0).getEntry();
+    targetPositionWidget = teleopTab.add("Elevator Target Position", 0).withPosition(0, 1).withSize(2, 1).getEntry();
 
     targetPosition = 0;
 
@@ -214,7 +214,7 @@ public class Elevator extends SubsystemBase {
     }
 
     positionWidget.setDouble(getElevatorPosition());
-    velocityWidget.setDouble(getElevatorVelocity());
+    //velocityWidget.setDouble(getElevatorVelocity());
     lowLimitWidget.setBoolean(atBottom());
     targetPositionWidget.setDouble(targetPosition);
   }

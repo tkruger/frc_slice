@@ -76,7 +76,7 @@ public final class Constants {
 
         //P, I, and D gains for the elevator when going to a set position (these are placeholders)
         public static final double KP = 0.18088;
-        public static final double KI = 0;
+        public static final double KI = 0.000004;
         public static final double KD = 0.01807;
 
         //Define Elevator Limit Switch Channels
@@ -113,13 +113,16 @@ public final class Constants {
         public static final double CUSTOM_KI = 0.007;
         public static final double CUSTOM_KD = 0.01;
 
-        public static final double NATIVE_KP = 0.02;
-        public static final double NATIVE_KI = 0.00005;
-        public static final double NATIVE_KD = 0.015;
+        public static final double NATIVE_KP = 0.025;
+        //public static final double NATIVE_KI = 0.00005;
+        public static final double NATIVE_KI = 0.00001;
+        //public static final double NATIVE_KD = 0.015;
+        public static final double NATIVE_KD = 0.004;
 
         public static final double RUN_UP_SPEED = 0.3;
         public static final double RUN_DOWN_SPEED = 0.2;
 
+        public static final double VELOCITY_CONVERSION_FACTOR = ((18 * 360) / 1500) / 60;
         public static final double POSITION_CONVERSION_FACTOR = (18 * 360) / 1500;
 
         public static final double CALIBRATE_CURRENT_THRESHOLD = 40;
@@ -174,7 +177,7 @@ public final class Constants {
     //Define RobotState Constants
     public static final class States {
 
-        public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(1, -5);
+        public static final RobotState LOW_ROW_GROUND_STATE = new RobotState(5, 8);
         public static final RobotState MID_ROW_CUBE_STATE = new RobotState(38, -50);
         public static final RobotState MID_ROW_CONE_STATE = new RobotState(48, -50);
         public static final RobotState HIGH_ROW_CUBE_STATE = new RobotState(98, -25);

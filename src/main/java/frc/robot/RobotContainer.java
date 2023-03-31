@@ -107,7 +107,7 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(m_oldDrive);
     m_elevator.setDefaultCommand(m_elevatorJoystickRun);
-    //m_wrist.setDefaultCommand(m_regressionTester);
+    m_wrist.setDefaultCommand(m_wristStationary);
     m_intake.setDefaultCommand(new IdleCommand(m_intake));
     m_limelight.setDefaultCommand(new IdleCommand(m_limelight));
     //m_colorSensor.setDefaultCommand(new IdleCommand(m_colorSensor));

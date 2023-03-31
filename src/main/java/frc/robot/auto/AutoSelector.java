@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.auto.modes.PathplannerlessConeThenCubeMode;
+import frc.robot.auto.modes.PathplannerlessScoreConeAndCubeMode;
+import frc.robot.auto.modes.PathplannerlessScoreConeThenPickUpCubeMode;
 import frc.robot.auto.modes.ScoreOneConeHighRowMode;
 import frc.robot.auto.modes.ScoreOneCubeGoOutThenEngageMode;
 import frc.robot.auto.modes.ScoreOneCubePickUpOneGamePieceThenEngageMode;
@@ -53,7 +54,8 @@ public class AutoSelector {
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC,
         SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE,
-        SCORE_TWO_GAME_PIECES_PATHPLANNERLESS
+        SCORE_TWO_GAME_PIECES_PATHPLANNERLESS,
+        SCORE_CONE_THEN_PICK_UP_CUBE_PATHPLANNERLESS
 
     }
 
@@ -113,6 +115,7 @@ public class AutoSelector {
         modeChooser.addOption("Center - High Row Mobility Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE);
         modeChooser.addOption("HP Side - Score One Game Piece Mobility Then Rough Align", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN);
         modeChooser.addOption("HP Side - Score Two Game Pieces", DesiredMode.SCORE_TWO_GAME_PIECES_PATHPLANNERLESS);
+        modeChooser.addOption("HP Side - Score Cone Then Pick Up Cube", DesiredMode.SCORE_CONE_THEN_PICK_UP_CUBE_PATHPLANNERLESS);
         modeChooser.addOption("Any - Score One Game Piece", DesiredMode.SCORE_ONE_CONE_HIGH_ROW);
         modeChooser.addOption("(Pathplanner) Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
         modeChooser.addOption("(Pathplanner) Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE);
@@ -199,7 +202,9 @@ public class AutoSelector {
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE:
                 return Optional.of(new ScoreOneGamePieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_TWO_GAME_PIECES_PATHPLANNERLESS:
-                return Optional.of(new PathplannerlessConeThenCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
+                return Optional.of(new PathplannerlessScoreConeAndCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
+            case SCORE_CONE_THEN_PICK_UP_CUBE_PATHPLANNERLESS:
+                return Optional.of(new PathplannerlessScoreConeThenPickUpCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
             default:
                 break;
     

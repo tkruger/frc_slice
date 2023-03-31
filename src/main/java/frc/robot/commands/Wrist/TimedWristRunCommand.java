@@ -4,22 +4,29 @@
 
 package frc.robot.commands.Wrist;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Wrist;
 
-public class WristRunCommand extends CommandBase {
+public class TimedWristRunCommand extends CommandBase {
 
   private final Wrist m_wrist;
   private final boolean m_runUpwards;
 
+  private final Timer m_timer;
+  private final double m_time;
+
 /** Creates a new ElevatorRunCommand. */
-  public WristRunCommand(Wrist wrist, boolean runUpwards) {
+  public TimedWristRunCommand(Wrist wrist, boolean runUpwards, double time) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(wrist);
 
     m_wrist = wrist;
     m_runUpwards = runUpwards;
+
+    m_timer = new Timer();
+    m_time = time;
 
   }
 
@@ -27,6 +34,9 @@ public class WristRunCommand extends CommandBase {
   @Override
   public void initialize() {
     m_wrist.enableManualControl();
+
+    m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +54,11 @@ public class WristRunCommand extends CommandBase {
     }
     else {
 
-      m_wrist.spinWrist(Constants.Wrist.RUN_DOWN_SPEED);
+      if (m_wrist.completelyStowed() || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE + 5)) {
+        m_wrist.spinWrist(0); 
+      } else {
+        m_wrist.spinWrist(Constants.Wrist.RUN_DOWN_SPEED);
+      }
 
     }
 
@@ -54,7 +68,6 @@ public class WristRunCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_wrist.spinWrist(0);
-    m_wrist.setWristPosition(m_wrist.getAngle());
     m_wrist.disableManualControl();
   }
 
@@ -62,7 +75,7 @@ public class WristRunCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    return false;
+    return m_timer.get() > m_time;
     
   }
   

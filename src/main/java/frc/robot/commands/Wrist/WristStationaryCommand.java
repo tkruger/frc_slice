@@ -13,7 +13,7 @@ public class WristStationaryCommand extends CommandBase {
 
   private final Wrist m_wrist;
   private final Timer timer;
-  //private boolean run = false;
+  private boolean run = false;
 
   /** Creates a new WristStationaryCommand. */
   public WristStationaryCommand(Wrist wrist) {
@@ -29,11 +29,10 @@ public class WristStationaryCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //run = false;
+    run = false;
     timer.reset();
     timer.start();
     m_wrist.disableManualControl();
-    m_wrist.setWristPosition(m_wrist.getAngle());
       
   }
   
@@ -41,6 +40,15 @@ public class WristStationaryCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    if(!run && timer.get() > 1) {
+      run = true;
+      m_wrist.setWristPosition(m_wrist.getAngle());
+    }
+    else if(timer.get() < 1) {
+      m_wrist.spinWrist(-0.01);
+    }
+
   }
 
   // Called once the command ends or is interrupted.
