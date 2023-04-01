@@ -23,7 +23,8 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
 
     m_drivetrain = drivetrain;
 
-    pidController = new PIDController(0.035, 0.0000, 0.002);
+    //pidController = new PIDController(0.035, 0.0000, 0.002);
+    pidController = new PIDController(0.028, 0.0001, 0.000);
     pidController.setSetpoint(0);
 
   }
@@ -44,11 +45,12 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
 
     pitch = m_drivetrain.getRoll();
 
-    if (Math.abs(pitch) > 2) {
+    //if (Math.abs(pitch) > 2) {
+    if (Math.abs(pitch) > 0.5) {  
       m_drivetrain.PIDArcadeDrive(pidController.calculate(pitch), 0);
     } else {
       m_drivetrain.PIDArcadeDrive(0, 0);
-      pidController.reset();;
+      pidController.reset();
     }
 
   }

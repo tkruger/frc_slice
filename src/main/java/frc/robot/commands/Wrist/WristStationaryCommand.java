@@ -46,7 +46,7 @@ public class WristStationaryCommand extends CommandBase {
       m_wrist.setWristPosition(m_wrist.getAngle());
     }
     else if(timer.get() < 1) {
-      m_wrist.spinWrist(-0.01);
+      m_wrist.spinWrist(-0.05);
     }
 
   }

@@ -44,7 +44,7 @@ public class AutonomousAngleDriveCommand extends CommandBase {
 
     // Sets robot speed and turn speed
 
-    m_drivetrain.ArcadeDrive(forwardSpeed, 0.1);
+    m_drivetrain.ArcadeDrive(forwardSpeed, 0);
 
   }
 
@@ -62,7 +62,7 @@ public class AutonomousAngleDriveCommand extends CommandBase {
   public boolean isFinished() {
 
     double angle = m_drivetrain.getRoll();
-    return Math.abs(angle) > 14;
+    return Math.abs(angle) > 12;
 
   }
 }
