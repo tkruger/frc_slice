@@ -46,7 +46,7 @@ public class Wrist extends SubsystemBase {
     // Encoder
     encoder = motor.getEncoder();
     encoder.setPositionConversionFactor(Constants.Wrist.POSITION_CONVERSION_FACTOR);
-    targetPosition = -105;
+    targetPosition = -105; 
     
     // PID
     customPIDController = new PIDController(Constants.Wrist.CUSTOM_KP, Constants.Wrist.CUSTOM_KI, Constants.Wrist.CUSTOM_KD);

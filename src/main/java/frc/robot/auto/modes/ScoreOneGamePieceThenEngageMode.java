@@ -5,6 +5,7 @@
 package frc.robot.auto.modes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.InstantCalibrationCommand;
@@ -33,6 +34,7 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     AutonomousAngleDriveCommand getOnChargeStation = new AutonomousAngleDriveCommand(drive, -0.65);
+    AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.8, 0, 0.551);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
@@ -43,6 +45,8 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
       driveBack,
       quickTurn,
       getOnChargeStation,
+      new WaitCommand(0.25),
+      continueDrive,
       chargeStationBalance
     );
   }

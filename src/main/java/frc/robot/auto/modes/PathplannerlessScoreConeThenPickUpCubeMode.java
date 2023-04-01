@@ -49,7 +49,7 @@ public class PathplannerlessScoreConeThenPickUpCubeMode extends SequentialComman
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.35); //3.25
-    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.3);
+    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.45);
     VariableQuickTurnSequence quickTurn = new VariableQuickTurnSequence(drive, turnAngle);
     LimelightXAlignmentCommand alignWithCube = new LimelightXAlignmentCommand(limelight, drive);
     VariableQuickTurnSequence turnBack = new VariableQuickTurnSequence(drive, turnAngle2);
