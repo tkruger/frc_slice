@@ -34,7 +34,7 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     AutonomousAngleDriveCommand getOnChargeStation = new AutonomousAngleDriveCommand(drive, -0.65);
-    AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.8, 0, 0.551);
+    AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.6, 0, 0.535);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);

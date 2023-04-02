@@ -53,7 +53,7 @@ public class Drivetrain extends SubsystemBase {
   //private final DifferentialDriveOdometry m_odometry;
   private final DifferentialDrivePoseEstimator m_odometry;
 
-  private final ShuffleboardTab teleopTab, driverTab;
+  private final ShuffleboardTab teleopTab, driverTab, drivetrainTab;
 
   private final GenericEntry 
   //leftSidePositionWidget, 
@@ -63,6 +63,9 @@ public class Drivetrain extends SubsystemBase {
   driveHeadingWidget, 
   //drivePitchWidget,
   driveRollWidget;
+
+  // private final GenericEntry lfSpeedWidget, lbSpeedWidget, rfSpeedWidget, rbSpeedWidget;
+  // private final GenericEntry lfCurrentWidget, lbCurrentWidget, rfCurrentWidget, rbCurrentWidget;
 
   private final Field2d m_field2d;
 
@@ -158,6 +161,8 @@ public class Drivetrain extends SubsystemBase {
     //Creates the "Driver Tab" on Shuffleboard
     driverTab = Shuffleboard.getTab("Driver Tab");
 
+    drivetrainTab = Shuffleboard.getTab("Drivetrain Testing Tab");
+
     //Creates a widget for showing the gyro heading
     driveHeadingWidget = 
     teleopTab.add("Drive Heading", 0.0).
@@ -230,6 +235,19 @@ public class Drivetrain extends SubsystemBase {
 
     drivetrainReversed = false;
 
+
+    // TESTING =====================================================
+    // lfSpeedWidget = drivetrainTab.add("Left Front Speed", 0.0).getEntry();
+    // lbSpeedWidget = drivetrainTab.add("Left Back Speed", 0.0).getEntry();
+    // rfSpeedWidget = drivetrainTab.add("Right Front Speed", 0.0).getEntry();
+    // rbSpeedWidget = drivetrainTab.add("Right Back Speed", 0.0).getEntry();
+    // lfCurrentWidget = drivetrainTab.add("Left Front Current", 0.0).getEntry();
+    // lbCurrentWidget = drivetrainTab.add("Left Back Current", 0.0).getEntry();
+    // rfCurrentWidget = drivetrainTab.add("Right Front Current", 0.0).getEntry();
+    // rbCurrentWidget = drivetrainTab.add("Right Back Current", 0.0).getEntry();
+
+    
+
   }
 
   @Override
@@ -249,6 +267,17 @@ public class Drivetrain extends SubsystemBase {
     driveHeadingWidget.setDouble(getHeading());
     //drivePitchWidget.setDouble(getPitch());
     driveRollWidget.setDouble(getRoll());
+
+    // TESTING ====================================
+    // lfSpeedWidget.setDouble(leftEncoderFront.getVelocity());
+    // lbSpeedWidget.setDouble(leftEncoderBack.getVelocity());
+    // rfSpeedWidget.setDouble(rightEncoderFront.getVelocity());
+    // rbSpeedWidget.setDouble(rightEncoderBack.getVelocity());
+
+    // lfCurrentWidget.setDouble(leftMotorFront.getOutputCurrent());
+    // lbCurrentWidget.setDouble(leftMotorBack.getOutputCurrent());
+    // rfCurrentWidget.setDouble(rightMotorFront.getOutputCurrent());
+    // rbCurrentWidget.setDouble(rightMotorBack.getOutputCurrent());
 
   }
 
