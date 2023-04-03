@@ -29,9 +29,6 @@ public class RobotContainer {
   public final SwerveDriveCommand m_swerveDrive = new SwerveDriveCommand(m_swerveDrivetrain, leftJoystick, rightJoystick);
   public final SwerveDrivePIDCommand m_swerveDrivePID = new SwerveDrivePIDCommand(m_swerveDrivetrain, leftJoystick, rightJoystick);
 
-  public final BrakeCommand m_brakeCommand = new BrakeCommand(m_swerveDrivetrain, true);
-  public final BrakeCommand m_coastCommand = new BrakeCommand(m_swerveDrivetrain, false);
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -57,14 +54,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_autoSelector.getAutoMode();
-  }
-
-  public Command getBrakeCommand() {
-    return m_brakeCommand;
-  }
-
-  public Command getCoastCommand() {
-    return m_coastCommand;
   }
 
 }

@@ -22,6 +22,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.util.Units;
 //import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 
@@ -31,13 +32,13 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.SwerveModule;
+//import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+//import com.swervedrivespecialties.swervelib.SwerveModule;
 
 public class SwerveDrivetrain extends SubsystemBase {
 
   private final SparkMaxSwerveModule leftModuleFront, leftModuleBack, rightModuleFront, rightModuleBack;
-  private final SwerveModule leftSDSModuleFront, leftSDSModuleBack, rightSDSModuleFront, rightSDSModuleBack;
+  //private final SwerveModule leftSDSModuleFront, leftSDSModuleBack, rightSDSModuleFront, rightSDSModuleBack;
 
   //private final PIDController m_drivePIDController;
   //private final ProfiledPIDController m_steerPIDController;
@@ -59,7 +60,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   // The current target position of every motor
   //public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
 
-  private final ShuffleboardTab teleopTab;
+  private final ShuffleboardTab debugTab, modulesTab;
 
   private final GenericEntry driveHeadingWidget, /*drivePitchWidget,*/driveRollWidget;
 
@@ -67,7 +68,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   public SwerveDrivetrain() {
 
     //The gear ratios, motor ports, and steer offsets for these object declarations are placholders for now
-    leftSDSModuleFront = Mk4iSwerveModuleHelper.createNeo(
+    /*leftSDSModuleFront = Mk4iSwerveModuleHelper.createNeo(
       Shuffleboard.getTab("LiveWindow").getLayout("Left Front Module", BuiltInLayouts.kList), 
       Mk4iSwerveModuleHelper.GearRatio.L1, 
       Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, 
@@ -97,7 +98,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, 
       Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 
       Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 
-      0);
+      0);*/
 
     //The steer offset arguments for these swerve modules are placeholders for now
     leftModuleFront = new SparkMaxSwerveModule(Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, Constants.Drivetrain.LEFT_FRONT_PORT_STEER, 0);
@@ -111,11 +112,12 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     autoTrajectoryTimer = new Timer();
 
-    teleopTab = Shuffleboard.getTab("Teleop Tab");
+    debugTab = Shuffleboard.getTab("Debug Tab");
+    modulesTab = Shuffleboard.getTab("Modules Tab");
 
     //Creates a widget for showing the gyro heading
     driveHeadingWidget = 
-    teleopTab.add("Drive Heading", 0.0).
+    debugTab.add("Drive Heading", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", 0, "Max", 360)).
     withPosition(0, 0).
@@ -134,18 +136,66 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     //Creates a widget for showing the gyro roll
     driveRollWidget = 
-    teleopTab.add("Drive Roll", 0.0).
+    debugTab.add("Drive Roll", 0.0).
     withWidget(BuiltInWidgets.kDial).
     withProperties(Map.of("Min", -180, "Max", 180)).
     withPosition(7, 0).
     withSize(2, 1).
     getEntry();
 
+    modulesTab.addDouble("Left Front Velocity", () -> leftModuleFront.getState().speedMetersPerSecond).
+    withPosition(0, 0).
+    withSize(2, 1);
+    modulesTab.addDouble("Left Back Velocity", () -> leftModuleBack.getState().speedMetersPerSecond).
+    withPosition(0, 3).
+    withSize(2, 1);
+    modulesTab.addDouble("Right Front Velocity", () -> rightModuleFront.getState().speedMetersPerSecond).
+    withPosition(7, 0).
+    withSize(2, 1);
+    modulesTab.addDouble("Right Back Velocity", () -> rightModuleBack.getState().speedMetersPerSecond).
+    withPosition(7, 3).
+    withSize(2, 1);
+
+    modulesTab.addDouble("Left Front Angle", () -> leftModuleFront.getState().angle.getDegrees()).
+    withWidget(BuiltInWidgets.kDial).
+    withProperties(Map.of("Min", 0, "Max", 360)).
+    withPosition(0, 1).
+    withSize(2, 1);
+    modulesTab.addDouble("Left Back Angle", () -> leftModuleBack.getState().angle.getDegrees()).
+    withWidget(BuiltInWidgets.kDial).
+    withProperties(Map.of("Min", 0,"Max", 360)).
+    withPosition(0, 2).
+    withSize(2, 1);
+    modulesTab.addDouble("Right Front Angle", () -> rightModuleFront.getState().angle.getDegrees()).
+    withWidget(BuiltInWidgets.kDial).
+    withProperties(Map.of("Min", 0, "Max", 360)).
+    withPosition(7, 1).
+    withSize(2, 1);
+    modulesTab.addDouble("Right Back Angle", () -> rightModuleBack.getState().angle.getDegrees()).
+    withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Min", 0, "Max", 360)).
+    withPosition(7, 2).
+    withSize(2, 1);
+
+    modulesTab.addDouble("Left Front Target Angle", () -> Units.radiansToDegrees(leftModuleFront.getTargetSteerAngle())).
+    withPosition(2, 0).
+    withSize(2, 1);
+    modulesTab.addDouble("Left Back Target Angle", () -> Units.radiansToDegrees(leftModuleBack.getTargetSteerAngle())).
+    withPosition(2, 3).
+    withSize(2, 1);
+    modulesTab.addDouble("Right Front Target Angle", () -> Units.radiansToDegrees(rightModuleFront.getTargetSteerAngle())).
+    withPosition(5, 0).
+    withSize(2, 1);
+    modulesTab.addDouble("Right Back Target Angle", () -> Units.radiansToDegrees(rightModuleBack.getTargetSteerAngle())).
+    withPosition(5, 3).
+    withSize(2, 1);
+
     //Displays the current position of the robot on the field on Shuffleboard
-    teleopTab.add(m_field2d).withPosition(3, 2).withSize(3, 2);
+    debugTab.add(m_field2d).withPosition(3, 2).withSize(3, 2);
 
     // Creates and pushes Field2d to SmartDashboard.
-    SmartDashboard.putData(m_field2d); 
+    SmartDashboard.putData(m_field2d);
+
+    resetDriveEncoders();
 
     //These standard deviation values should be measured proplerly for our robot
     m_swerveDrivetrainOdometry = new SwerveDriveOdometry(
@@ -312,6 +362,15 @@ public class SwerveDrivetrain extends SubsystemBase {
     return m_swerveDrivetrainOdometry.getPoseMeters();
   }
 
+  public void resetDriveEncoders() {
+
+    leftModuleFront.resetDriveEncoder();
+    leftModuleBack.resetDriveEncoder();
+    rightModuleFront.resetDriveEncoder();
+    rightModuleBack.resetDriveEncoder();
+
+  }
+
   public void resetOdometry(Pose2d position) {
 
     m_swerveDrivetrainOdometry.resetPosition(getRotation2d(), getPositions(), position);
@@ -326,7 +385,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       rotation, 
       getRotation2d()));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
 
     leftModuleFront.setDesiredState(states[0]);
     leftModuleBack.setDesiredState(states[1]);
@@ -343,15 +402,31 @@ public class SwerveDrivetrain extends SubsystemBase {
       rotation, 
       getRotation2d()));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
 
-    //The number that the max speed is multiplyed by is the maxiumum voltage, which is taken from Trajectories
-    leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
-    leftSDSModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
-    rightSDSModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
-    rightSDSModuleBack.set(states[3].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[3].angle.getRadians());
+    leftModuleFront.setDesiredState(states[0]);
+    leftModuleBack.setDesiredState(states[1]);
+    rightModuleFront.setDesiredState(states[2]);
+    rightModuleBack.setDesiredState(states[3]);
 
   }
+
+  /*public void swerveDrive(double translationX, double translationY, double rotation) {
+
+    SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+      translationX, 
+      translationY, 
+      rotation, 
+      getRotation2d()));
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
+
+    leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[0].angle.getRadians());
+    leftSDSModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[1].angle.getRadians());
+    rightSDSModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[2].angle.getRadians());
+    rightSDSModuleBack.set(states[3].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[3].angle.getRadians());
+
+  }*/
   
   public double getHeading() {
 
@@ -393,23 +468,24 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   public void autoOutputModuleStates(SwerveModuleState[] states) {
 
-    //The maximum voltage value of 10 is taken from Trajectories
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
+
     leftModuleFront.setDesiredState(states[0]);
-    leftModuleBack.setDesiredState(states[0]);
-    rightModuleFront.setDesiredState(states[0]);
-    rightModuleBack.setDesiredState(states[0]);
+    leftModuleBack.setDesiredState(states[1]);
+    rightModuleFront.setDesiredState(states[2]);
+    rightModuleBack.setDesiredState(states[3]);
 
   }
 
-  public void autoOutputSDSModuleStates(SwerveModuleState[] states) {
+  /*public void autoOutputSDSModuleStates(SwerveModuleState[] states) {
 
     //The maximum voltage value of 10 is taken from Trajectories
-    leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[0].angle.getRadians());
-    leftSDSModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[1].angle.getRadians());
-    rightSDSModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
-    rightSDSModuleBack.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxSpeedMetersPerSeconds * 10, states[2].angle.getRadians());
+    leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[0].angle.getRadians());
+    leftSDSModuleBack.set(states[1].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[1].angle.getRadians());
+    rightSDSModuleFront.set(states[2].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[2].angle.getRadians());
+    rightSDSModuleBack.set(states[3].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[2].angle.getRadians());
 
-  }
+  }*/
 
   public void stopDrive() {
 

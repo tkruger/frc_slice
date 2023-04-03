@@ -27,7 +27,7 @@ public class AutoPaths{
                     Constants.Autonomous.kPDriveVel,
                     0,
                     0,
-                    new Constraints(Constants.Drivetrain.kMaxSpeedMetersPerSeconds, Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared))),
+                    new Constraints(Constants.Drivetrain.kMaxVelocityMetersPerSecond, Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared))),
             drive::getAutoTrajectoryRotation,
             //SwerveControllerCommand passes output module states to the callback
             drive::autoOutputModuleStates,

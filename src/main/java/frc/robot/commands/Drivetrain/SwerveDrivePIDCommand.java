@@ -44,9 +44,10 @@ public class SwerveDrivePIDCommand extends CommandBase {
   @Override
   public void execute() {
     
-    double translationX = translationXFilter.filter(m_leftJoystick.getY() * Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
-    double translationY = translationYFilter.filter(m_leftJoystick.getX() * Constants.Drivetrain.kMaxSpeedMetersPerSeconds);
-    double rotation = rotationFilter.filter(m_rightJoystick.getX() * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond);
+       
+    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.Drivetrain.kMaxVelocityMetersPerSecond;
+    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.Drivetrain.kMaxVelocityMetersPerSecond;
+    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond;
 
     m_swerveDrivetrain.swerveDrivePID(
       translationX,

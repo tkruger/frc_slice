@@ -13,6 +13,7 @@ import frc.robot.factories.SparkMaxFactory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
@@ -30,6 +31,9 @@ public class SparkMaxSwerveModule {
 
   private double chassisAngularOffset = 0;
   private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
+
+  private double driveVelocitySetpoint = 0;
+  private double steerAngleSetpoint = 0;
 
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
@@ -176,7 +180,54 @@ public class SparkMaxSwerveModule {
   }
 
   /**
-   * Sets the desired state for the module.
+   * Returns the PID target drive velocity of the module.
+   * 
+   * @return The PID target drive velocity of the module.
+   */
+  public double getTargetDriveVelocity() {
+
+    return driveVelocitySetpoint;
+
+  }
+
+  /**
+   * Returns the PID target steer angle of the module.
+   * 
+   * @return The PID target steer angle of the module.
+   */
+  public double getTargetSteerAngle() {
+
+    return steerAngleSetpoint;
+
+  }
+
+  /**
+   * Sets the desired state for the module using native PID controllers for the linear velocity and angle of the module.
+   * 
+   * @param desiredState Desired state with speed and angle.
+   */
+  public void setDesiredStatePID(SwerveModuleState desiredState) {
+    // Apply chassis angular offset to the desired state.
+    SwerveModuleState correctedDesiredState = new SwerveModuleState();
+    correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
+    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(chassisAngularOffset));
+
+    // Optimize the reference state to avoid spinning further than 90 degrees.
+    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
+        new Rotation2d(steerEncoder.getPosition()));
+
+    driveVelocitySetpoint = optimizedDesiredState.speedMetersPerSecond;
+    steerAngleSetpoint = optimizedDesiredState.angle.getRadians();
+
+    // Command driving and turning SPARKS MAX towards their respective setpoints.
+    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+    steerPIDController.setReference(optimizedDesiredState.angle.getRadians(), ControlType.kPosition);
+
+    this.desiredState = desiredState;
+  }
+  
+  /**
+   * Sets the desired state for the module using a native PID controller only for the angle of the module.
    *
    * @param desiredState Desired state with speed and angle.
    */
@@ -190,15 +241,16 @@ public class SparkMaxSwerveModule {
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
         new Rotation2d(steerEncoder.getPosition()));
 
-    // Command driving and turning SPARKS MAX towards their respective setpoints.
-    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    steerPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+    steerAngleSetpoint = optimizedDesiredState.angle.getRadians();
+
+    driveMotor.setVoltage(optimizedDesiredState.speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10);
+    steerPIDController.setReference(optimizedDesiredState.angle.getRadians(), ControlType.kPosition);
 
     this.desiredState = desiredState;
   }
 
   /** Zeroes the SwerveModule drive encoder. */
-  public void resetEncoders() {
+  public void resetDriveEncoder() {
     driveEncoder.setPosition(0);
   }
 }

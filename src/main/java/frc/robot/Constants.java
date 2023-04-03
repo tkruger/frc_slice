@@ -54,14 +54,14 @@ public final class Constants {
     public static final double DISTANCE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS / 10.75;
     public static final double ANGLE_CONVERSION_FACTOR = (Math.PI * WHEEL_DIAMETER_METERS / 10.75) / (WHEEL_DIAMETER_METERS / 2);
 
-    public static final double kMaxSpeedMetersPerSeconds = 3;
+    public static final double kMaxVelocityMetersPerSecond = 4;
     public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
 
     public static final double kTrackWidthMeters = 0.5842;
 
     //This constant uses the total length of the robot(0.8128 meters) for now as a placeholder for wheelbase length
     public static final double kMaxAngularVelocityRadiansPerSecond = 
-        kMaxSpeedMetersPerSeconds / Math.hypot(kTrackWidthMeters / 2.0, 0.8128 / 2.0);
+        kMaxVelocityMetersPerSecond / Math.hypot(kTrackWidthMeters / 2.0, 0.8128 / 2.0);
 
     //This constant multiplies Pi by 2 as a placeholder for now
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI * 2;
