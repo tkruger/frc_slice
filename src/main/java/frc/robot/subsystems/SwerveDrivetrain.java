@@ -30,8 +30,6 @@ import java.util.Map;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import com.revrobotics.*;
-import com.revrobotics.CANSparkMax;
 //import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 //import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -225,32 +223,11 @@ public class SwerveDrivetrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public RelativeEncoder createEncoder(CANSparkMax motor, boolean isDriveEncoder) {
-
-    RelativeEncoder encoder = motor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, Constants.Encoder.CPR);
-
-    if(isDriveEncoder) {
-
-      encoder.setVelocityConversionFactor(Constants.Drivetrain.LINEAR_VELOCITY_CONVERSION_FACTOR);
-      encoder.setPositionConversionFactor(Constants.Drivetrain.DISTANCE_CONVERSION_FACTOR);
-
-    }
-    else {
-
-      encoder.setVelocityConversionFactor(Constants.Drivetrain.ANGULAR_VELOCITY_CONVERSION_FACTOR);
-      encoder.setPositionConversionFactor(Constants.Drivetrain.ANGLE_CONVERSION_FACTOR);
-
-    }
-
-    return encoder;
-
-  }
-
   /**
    * Sets the idle mode of all drive motors to either brake mode or coast mode.
    * 
    * @param enableBrakeMode Whether or not the idle mode of all 
-   * drivetrain motors should be set to brake mode(false to set to coast mode).
+   * drive motors should be set to brake mode(false to set to coast mode).
    * 
    */
   public void setDriveIdleMode(boolean enableBrakeMode) {
@@ -266,7 +243,7 @@ public class SwerveDrivetrain extends SubsystemBase {
    * Sets the idle mode of all steer motors to either brake mode or coast mode.
    * 
    * @param enableBrakeMode Whether or not the idle mode of all 
-   * drivetrain motors should be set to brake mode(false to set to coast mode).
+   * steer motors should be set to brake mode(false to set to coast mode).
    * 
    */
   public void setSteerIdleMode(boolean enableBrakeMode) {
@@ -278,6 +255,14 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
+  /**
+   * Sets all drive motors to specified proportional, integral, derivative, and feedforward gains.
+   * 
+   * @param kP The desired proportional gain for all drive motors to be set to.
+   * @param kI The desired integral gain for all drive motors to be set to.
+   * @param kD The desired derivative gain for all drive motors to be set to.
+   * @param kF The desired feedforward gain for all drive motors to be set to.
+   */
   public void setDrivePIDF(double kP, double kI, double kD, double kF) {
 
     leftModuleFront.setDrivePIDF(kP, kI, kD, kF);
@@ -287,15 +272,27 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  public void setSteerPIDF(double kP, double kI, double kD, double kF) {
+  /**
+   * Sets all steer motors to specified proportional, integral, and derivative gains.
+   * 
+   * @param kP The desired proportional gain for all steer motors to be set to.
+   * @param kI The desired integral gain for all steer motors to be set to.
+   * @param kD The desired derivative gain for all steer motors to be set to.
+   */
+  public void setSteerPID(double kP, double kI, double kD) {
 
-    leftModuleFront.setSteerPIDF(kP, kI, kD, kF);
-    leftModuleBack.setSteerPIDF(kP, kI, kD, kF);
-    rightModuleFront.setSteerPIDF(kP, kI, kD, kF);
-    rightModuleBack.setSteerPIDF(kP, kI, kD, kF);
+    leftModuleFront.setSteerPID(kP, kI, kD);
+    leftModuleBack.setSteerPID(kP, kI, kD);
+    rightModuleFront.setSteerPID(kP, kI, kD);
+    rightModuleBack.setSteerPID(kP, kI, kD);
 
   }
 
+  /**
+   * Sets the maxiumum and reverse power of all native drive PIDF controllers to a specified value.
+   * 
+   * @param max The desired maximum forward and reverse power to set all native drive PIDF controllers to.
+   */
   public void setMaxDriveOutput(double max) {
 
     leftModuleFront.setMaxDriveOutput(max);
@@ -305,6 +302,11 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
+  /**
+   * Sets the maxiumum and reverse power of all native steer PID controllers to a specified value.
+   * 
+   * @param max The desired maximum forward and reverse power to set all native steer PID controllers to.
+   */
   public void setMaxSteerOutput(double max) {
 
     leftModuleFront.setMaxSteerOutput(max);
@@ -314,69 +316,14 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  public void setField2d(Trajectory trajectory) {
-
-    // Pushes the trajectory to Field2d.
-    m_field2d.getObject("Trajectory").setTrajectory(trajectory);
-
-  }
-
-  public void startAutoTrajectoryTimer() {
-
-    autoTrajectoryTimer.reset();
-    autoTrajectoryTimer.start();
-
-  }
-
-  public void setCurrentAutoTrajectory(Trajectory trajectory) {
-
-    currentAutoTrajectory = trajectory;
-    
-  }
-
-  public Rotation2d getAutoTrajectoryRotation() {
-
-    return currentAutoTrajectory.sample(autoTrajectoryTimer.get()).poseMeters.getRotation();
-
-  }
-
-  public Pose2d updateOdometry() {
-
-    return m_swerveDrivetrainOdometry.update(getRotation2d(), getPositions());
-
-  }
-
-  public SwerveModulePosition[] getPositions() {
-
-    SwerveModulePosition[] positions = {
-      leftModuleFront.getPosition(),
-      leftModuleBack.getPosition(),
-      rightModuleFront.getPosition(),
-      rightModuleBack.getPosition()};
-
-    return positions;
-
-  }
-
-  public Pose2d getPose() {
-    return m_swerveDrivetrainOdometry.getPoseMeters();
-  }
-
-  public void resetDriveEncoders() {
-
-    leftModuleFront.resetDriveEncoder();
-    leftModuleBack.resetDriveEncoder();
-    rightModuleFront.resetDriveEncoder();
-    rightModuleBack.resetDriveEncoder();
-
-  }
-
-  public void resetOdometry(Pose2d position) {
-
-    m_swerveDrivetrainOdometry.resetPosition(getRotation2d(), getPositions(), position);
-
-  }
-
+  /**
+   * Drives the robot at given X, Y, and rotational velocities using native PID controllers for the drive
+   * and steer motors of the swerve modules.
+   * 
+   * @param translationX The desired velocity for the robot to move at along the X axis of the field(forwards/backwards from driver POV).
+   * @param translationY The desired velocity for the robot to move at along the Y axis of the field(left/right from driver POV).
+   * @param rotation The desired velocity for the robot to rotate at.
+   */
   public void swerveDrivePID(double translationX, double translationY, double rotation) {
 
     SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -387,13 +334,21 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
 
-    leftModuleFront.setDesiredState(states[0]);
-    leftModuleBack.setDesiredState(states[1]);
-    rightModuleFront.setDesiredState(states[2]);
-    rightModuleBack.setDesiredState(states[3]);
+    leftModuleFront.setDesiredStatePID(states[0]);
+    leftModuleBack.setDesiredStatePID(states[1]);
+    rightModuleFront.setDesiredStatePID(states[2]);
+    rightModuleBack.setDesiredStatePID(states[3]);
 
   }
 
+  /**
+   * Drives the robot at given X, Y, and rotational velocities using native PID controllers for only the
+   * steer motors of the swerve modules.
+   * 
+   * @param translationX The desired velocity for the robot to move at along the X axis of the field(forwards/backwards from driver POV).
+   * @param translationY The desired velocity for the robot to move at along the Y axis of the field(left/right from driver POV).
+   * @param rotation The desired velocity for the robot to rotate at.
+   */
   public void swerveDrive(double translationX, double translationY, double rotation) {
 
     SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -411,6 +366,14 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
+  /**
+   * Drives the robot at given X, Y, and rotational velocities using native PID controllers for only the
+   * steer motors of the swerve modules.
+   * 
+   * @param translationX The desired velocity for the robot to move at along the X axis of the field(forwards/backwards from driver POV).
+   * @param translationY The desired velocity for the robot to move at along the Y axis of the field(left/right from driver POV).
+   * @param rotation The desired velocity for the robot to rotate at.
+   */
   /*public void swerveDrive(double translationX, double translationY, double rotation) {
 
     SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -427,22 +390,110 @@ public class SwerveDrivetrain extends SubsystemBase {
     rightSDSModuleBack.set(states[3].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[3].angle.getRadians());
 
   }*/
-  
-  public double getHeading() {
 
-    return -navXGyro.getYaw() + 180;
+  /**
+   * Sends the poses of a desired trajectory to the Field2d object.
+   * 
+   * @param trajectory The desired trajectory to send to the Field2d object.
+   */
+  public void setField2d(Trajectory trajectory) {
+
+    // Pushes the trajectory to Field2d.
+    m_field2d.getObject("Trajectory").setTrajectory(trajectory);
 
   }
 
-  public double getPitch() {
+  /**
+   * Resets and starts a timer in order to provide a time 
+   * since the beginning of the trajectory to sample from.
+   */
+  public void startAutoTrajectoryTimer() {
 
-    return navXGyro.getPitch() + 1;
+    autoTrajectoryTimer.reset();
+    autoTrajectoryTimer.start();
 
   }
 
-  public double getRoll() {
+  /**
+   * Sets the auto trajectory used to sample the state at each time step from.
+   * 
+   * @param trajectory The current auto trajectory to sample from.
+   */
+  public void setCurrentAutoTrajectory(Trajectory trajectory) {
 
-    return navXGyro.getRoll() + 1.7;
+    currentAutoTrajectory = trajectory;
+    
+  }
+
+  /**
+   * Samples and obtains the rotation at the current time step of the current auto trajectory. 
+   * 
+   * @return The rotation of the robot of at the current time step of the current auto trajectory.
+   */
+  public Rotation2d getAutoTrajectoryRotation() {
+
+    return currentAutoTrajectory.sample(autoTrajectoryTimer.get()).poseMeters.getRotation();
+
+  }
+
+  /**
+   * Updates the drivetrain odometry object to the robot's current position on the field.
+   * 
+   * @return The new updated pose of the robot.
+   */
+  public Pose2d updateOdometry() {
+
+    return m_swerveDrivetrainOdometry.update(getRotation2d(), getPositions());
+
+  }
+
+  /**
+   * Returns the current pose of the robot without updating
+   * the odometry.
+   * 
+   * @return The current estimated pose of the robot.
+   */
+  public Pose2d getPose() {
+    return m_swerveDrivetrainOdometry.getPoseMeters();
+  }
+
+  /**
+   * Obtains and returns the current positions of all drivetrain swerve modules.
+   * 
+   * @return The current positions of all drivetrain swerve modules.
+   */
+  public SwerveModulePosition[] getPositions() {
+
+    SwerveModulePosition[] positions = {
+      leftModuleFront.getPosition(),
+      leftModuleBack.getPosition(),
+      rightModuleFront.getPosition(),
+      rightModuleBack.getPosition()};
+
+    return positions;
+
+  }
+
+  /**
+   * Resets the position of the odometry object using a specified position.
+   * 
+   * @param position The desired position to reset the odometry of the robot to.
+   */
+  public void resetOdometry(Pose2d position) {
+
+    m_swerveDrivetrainOdometry.resetPosition(getRotation2d(), getPositions(), position);
+
+  }
+
+  /**
+   * Sets the positions of all drive encoders to 0(meters).
+   */
+  public void resetDriveEncoders() {
+
+    leftModuleFront.resetDriveEncoder();
+    leftModuleBack.resetDriveEncoder();
+    rightModuleFront.resetDriveEncoder();
+    rightModuleBack.resetDriveEncoder();
 
   }
 
@@ -456,6 +507,39 @@ public class SwerveDrivetrain extends SubsystemBase {
     return navXGyro.getRotation2d();
     
   }
+  
+  /**
+   * Obtains and returns the current heading of the robot going positive counter-clockwise from 0 to 360 degrees from the gyro object.
+   *
+   * @return The current heading of the robot going counter-clockwise positive from 0 to 360 degrees.
+   */
+  public double getHeading() {
+
+    return -navXGyro.getYaw() + 180;
+
+  }
+
+  /**
+   * Obtains and returns the current pitch of the robot from -180 to 180 degrees, with an offset of 1 degree from the gyro object.
+   * 
+   * @return The current pitch of the robot from -180 to 180 degrees, with an offset of 1 degree.
+   */
+  public double getPitch() {
+
+    return navXGyro.getPitch() + 1;
+
+  }
+
+  /**
+   * Obtains and returns the current roll of the robot from -180 to 180 degrees, with an offset of 1.7 degrees from the gyro object.
+   * 
+   * @return The current pitch of the robot from -180 to 180 degrees, with an offset of 1.7 degrees.
+   */
+  public double getRoll() {
+
+    return navXGyro.getRoll() + 1.7;
+
+  }
 
   /**
    * Resets the gyro yaw axis to a heading of 0.
@@ -466,7 +550,12 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  public void autoOutputModuleStates(SwerveModuleState[] states) {
+  /**
+   * Sets the desired states of all drivetrain swerve modules to a specified arrary of states.
+   * 
+   * @param states The desired states for all drivetrian swerve modules to be set to.
+   */
+  public void setModuleStates(SwerveModuleState[] states) {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
 
@@ -477,7 +566,12 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }
 
-  /*public void autoOutputSDSModuleStates(SwerveModuleState[] states) {
+  /**
+   * Sets the desired states of all drivetrain swerve modules to a specified arrary of states.
+   * 
+   * @param states The desired states for all drivetrian swerve modules to be set to.
+   */
+  /*public void setSDSModuleStates(SwerveModuleState[] states) {
 
     //The maximum voltage value of 10 is taken from Trajectories
     leftSDSModuleFront.set(states[0].speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10, states[0].angle.getRadians());
@@ -487,6 +581,9 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   }*/
 
+  /**
+   * Sets all drivetrain swerve modules to states with speeds of 0 and the current angles of the modules.
+   */
   public void stopDrive() {
 
     SwerveModuleState[] stopStates = {
@@ -496,7 +593,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       new SwerveModuleState(0, rightModuleBack.getState().angle)};
 
 
-    autoOutputModuleStates(stopStates);
+    setModuleStates(stopStates);
     
   }
 

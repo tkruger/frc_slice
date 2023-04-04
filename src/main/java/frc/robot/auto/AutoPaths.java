@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrivetrain;
 
@@ -30,7 +31,7 @@ public class AutoPaths{
                     new Constraints(Constants.Drivetrain.kMaxVelocityMetersPerSecond, Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared))),
             drive::getAutoTrajectoryRotation,
             //SwerveControllerCommand passes output module states to the callback
-            drive::autoOutputModuleStates,
+            drive::setModuleStates,
             drive);
 
     }

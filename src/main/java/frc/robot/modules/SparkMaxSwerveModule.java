@@ -94,6 +94,14 @@ public class SparkMaxSwerveModule {
     driveEncoder.setPosition(0);
   }
 
+  /**
+   * Sets the drive motor of the module to specified proportional, integral, derivative, and feedforward gains.
+   * 
+   * @param kP The desired proportional gain for the drive motor to be set to.
+   * @param kI The desired integral gain for the drive motor to be set to.
+   * @param kD The desired derivative gain for the drive motor to be set to.
+   * @param kF The desired feedforward gain for the drive motor to be set to.
+   */
   public void setDrivePIDF(double kP, double kI, double kD, double kFF) {
 
     drivePIDController.setP(kP);
@@ -103,27 +111,49 @@ public class SparkMaxSwerveModule {
 
   }
 
-  public void setSteerPIDF(double kP, double kI, double kD, double kFF) {
+  /**
+   * Sets the steer motor of the module to specified proportional, integral, and derivative gains.
+   * 
+   * @param kP The desired proportional gain for the steer motor to be set to.
+   * @param kI The desired integral gain for the steer motor to be set to.
+   * @param kD The desired derivative gain for the steer motor to be set to.
+   */
+  public void setSteerPID(double kP, double kI, double kD) {
 
     steerPIDController.setP(kP);
     steerPIDController.setI(kI);
     steerPIDController.setD(kD);
-    steerPIDController.setFF(kFF);
 
   }
 
+  /**
+   * Sets the maximum output range of the native drive PID controller of the module.
+   * 
+   * @param max The desired maximum forward and reverse power output for the native drive PID controller to be set to.
+   */
   public void setMaxDriveOutput(double max) {
 
     drivePIDController.setOutputRange(-max, max);
 
   }
 
+  /**
+   * Sets the maximum output range of the native steer PID controller of the module.
+   * 
+   * @param max The desired maximum forward and reverse power output for the native steer PID controller to be set to.
+   */
   public void setMaxSteerOutput(double max) {
 
     steerPIDController.setOutputRange(-max, max);
 
   }
 
+  /**
+   * Sets the idle mode of the drive motor of the module to either brake mode or coast mode.
+   * 
+   * @param setBrakeMode Whether or not the idle mode of the 
+   * drive motor should be set to brake mode(false to set to coast mode).
+   */
   public void setDriveIdleMode(boolean setBrakeMode) {
 
     if(setBrakeMode) {
@@ -139,6 +169,12 @@ public class SparkMaxSwerveModule {
 
   }
   
+ /**
+   * Sets the idle mode of the steer motor of the module to either brake mode or coast mode.
+   * 
+   * @param setBrakeMode Whether or not the idle mode of the 
+   * steer motor should be set to brake mode(false to set to coast mode).
+   */
   public void setSteerIdleMode(boolean setBrakeMode) {
 
     if(setBrakeMode) {
@@ -180,9 +216,9 @@ public class SparkMaxSwerveModule {
   }
 
   /**
-   * Returns the PID target drive velocity of the module.
+   * Returns the PID target drive velocity of the module(meters/second).
    * 
-   * @return The PID target drive velocity of the module.
+   * @return The PID target drive velocity of the module(meters/second).
    */
   public double getTargetDriveVelocity() {
 
@@ -191,9 +227,9 @@ public class SparkMaxSwerveModule {
   }
 
   /**
-   * Returns the PID target steer angle of the module.
+   * Returns the PID target steer angle of the module(radians).
    * 
-   * @return The PID target steer angle of the module.
+   * @return The PID target steer angle of the module(radians).
    */
   public double getTargetSteerAngle() {
 

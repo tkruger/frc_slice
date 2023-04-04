@@ -38,6 +38,10 @@ public class SwerveDrivePIDCommand extends CommandBase {
 
     m_swerveDrivetrain.resetHeading();
 
+    m_swerveDrivetrain.setSteerPID(1.0, 0, 0.1);
+    //These PIDF gains are placeholders for now
+    m_swerveDrivetrain.setDrivePIDF(0, 0, 0, 0);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

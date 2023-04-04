@@ -54,8 +54,10 @@ public final class Constants {
     public static final double DISTANCE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS / 10.75;
     public static final double ANGLE_CONVERSION_FACTOR = (Math.PI * WHEEL_DIAMETER_METERS / 10.75) / (WHEEL_DIAMETER_METERS / 2);
 
+    /*These maximum velocities and accelerations are placeholders for now and should
+    be slightly below the actual maximum velocity and acceleration that the robot is capable of*/
     public static final double kMaxVelocityMetersPerSecond = 4;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
 
     public static final double kTrackWidthMeters = 0.5842;
 
