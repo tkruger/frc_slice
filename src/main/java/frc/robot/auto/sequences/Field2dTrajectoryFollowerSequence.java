@@ -12,7 +12,7 @@ import frc.robot.auto.AutoPaths;
 import frc.robot.auto.commands.PrepareAutoRotationsCommand;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.commands.Drivetrain.SetField2dCommand;
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,7 +20,7 @@ import frc.robot.subsystems.SwerveDrivetrain;
 public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
 
   /** Creates a new Field2dTrajectoryFollowerSequence without reseting the position of the robot. */
-  public Field2dTrajectoryFollowerSequence(SwerveDrivetrain drive, AutoPaths autoPath) {
+  public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
@@ -37,7 +37,7 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
   }
 
   /** Creates a new Field2dTrajectoryFollowerSequence, reseting the position of the robot at the beginning of the sequence. */
-  public Field2dTrajectoryFollowerSequence(SwerveDrivetrain drive, AutoPaths autoPath, Pose2d position) {
+  public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath, Pose2d position) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     ResetOdometryCommand resetOdometryCommand = new ResetOdometryCommand(drive, position);

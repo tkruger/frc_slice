@@ -7,15 +7,15 @@ package frc.robot.auto.commands;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 public class PrepareAutoRotationsCommand extends CommandBase {
 
-  private final SwerveDrivetrain m_drivetrain;
+  private final Drivetrain m_drivetrain;
   private final Trajectory m_trajectory;
 
   /** Creates a new GetTrajectoryRotationCommand. */
-  public PrepareAutoRotationsCommand(SwerveDrivetrain drivetrain, Trajectory trajectory) {
+  public PrepareAutoRotationsCommand(Drivetrain drivetrain, Trajectory trajectory) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
@@ -28,8 +28,8 @@ public class PrepareAutoRotationsCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.startAutoTrajectoryTimer();
     m_drivetrain.setCurrentAutoTrajectory(m_trajectory);
+    m_drivetrain.startAutoTrajectoryTimer();
 
   }
 

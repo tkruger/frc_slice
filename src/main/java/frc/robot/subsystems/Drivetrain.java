@@ -9,12 +9,8 @@ import frc.robot.modules.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.math.controller.PIDController;
-//import edu.wpi.first.math.controller.ProfiledPIDController;
-//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -22,48 +18,29 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
-//import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.networktables.GenericEntry;
-
-import java.util.Map;
 
 import com.kauailabs.navx.frc.AHRS;
 
 //import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 //import com.swervedrivespecialties.swervelib.SwerveModule;
 
-public class SwerveDrivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase {
 
   private final SparkMaxSwerveModule leftModuleFront, leftModuleBack, rightModuleFront, rightModuleBack;
   //private final SwerveModule leftSDSModuleFront, leftSDSModuleBack, rightSDSModuleFront, rightSDSModuleBack;
-
-  //private final PIDController m_drivePIDController;
-  //private final ProfiledPIDController m_steerPIDController;
-
-  //private final SimpleMotorFeedforward m_driveFeedForward;
-  //private final SimpleMotorFeedforward m_steerFeedForward;
 
   private final SwerveDriveOdometry m_swerveDrivetrainOdometry;
 
   private final AHRS navXGyro;
 
-  private final Field2d m_field2d;
+  public final Field2d m_field2d;
 
   private final Timer autoTrajectoryTimer;
 
   private Trajectory currentAutoTrajectory;
 
-  //public double leftFrontLastPosition, leftBackLastPosition, rightFrontLastPosition, rightBackLastPosition;
-  // The current target position of every motor
-  //public double leftTargetPositionFront, leftTargetPositionBack, rightTargetPositionFront, rightTargetPositionBack;
-
-  private final ShuffleboardTab debugTab, modulesTab;
-
-  private final GenericEntry driveHeadingWidget, /*drivePitchWidget,*/driveRollWidget;
-
   /** Creates a new Drivetrain. */
-  public SwerveDrivetrain() {
+  public Drivetrain() {
 
     //The gear ratios, motor ports, and steer offsets for these object declarations are placholders for now
     /*leftSDSModuleFront = Mk4iSwerveModuleHelper.createNeo(
@@ -99,96 +76,16 @@ public class SwerveDrivetrain extends SubsystemBase {
       0);*/
 
     //The steer offset arguments for these swerve modules are placeholders for now
-    leftModuleFront = new SparkMaxSwerveModule(Constants.Drivetrain.LEFT_FRONT_PORT_DRIVE, Constants.Drivetrain.LEFT_FRONT_PORT_STEER, 0);
-    leftModuleBack = new SparkMaxSwerveModule(Constants.Drivetrain.LEFT_BACK_PORT_DRIVE, Constants.Drivetrain.LEFT_BACK_PORT_STEER, 0);
-    rightModuleFront = new SparkMaxSwerveModule(Constants.Drivetrain.RIGHT_FRONT_PORT_DRIVE, Constants.Drivetrain.RIGHT_FRONT_PORT_STEER, 0);
-    rightModuleBack = new SparkMaxSwerveModule(Constants.Drivetrain.RIGHT_BACK_PORT_DRIVE, Constants.Drivetrain.RIGHT_BACK_PORT_STEER, 0);
+    leftModuleFront = new SparkMaxSwerveModule(Constants.kDrivetrain.LEFT_FRONT_PORT_DRIVE, Constants.kDrivetrain.LEFT_FRONT_PORT_STEER, 0);
+    leftModuleBack = new SparkMaxSwerveModule(Constants.kDrivetrain.LEFT_BACK_PORT_DRIVE, Constants.kDrivetrain.LEFT_BACK_PORT_STEER, 0);
+    rightModuleFront = new SparkMaxSwerveModule(Constants.kDrivetrain.RIGHT_FRONT_PORT_DRIVE, Constants.kDrivetrain.RIGHT_FRONT_PORT_STEER, 0);
+    rightModuleBack = new SparkMaxSwerveModule(Constants.kDrivetrain.RIGHT_BACK_PORT_DRIVE, Constants.kDrivetrain.RIGHT_BACK_PORT_STEER, 0);
 
     navXGyro = new AHRS(SerialPort.Port.kUSB1);
 
     m_field2d = new Field2d();
 
     autoTrajectoryTimer = new Timer();
-
-    debugTab = Shuffleboard.getTab("Debug Tab");
-    modulesTab = Shuffleboard.getTab("Modules Tab");
-
-    //Creates a widget for showing the gyro heading
-    driveHeadingWidget = 
-    debugTab.add("Drive Heading", 0.0).
-    withWidget(BuiltInWidgets.kDial).
-    withProperties(Map.of("Min", 0, "Max", 360)).
-    withPosition(0, 0).
-    withSize(2, 1).
-    getEntry();
-
-
-    /*//Creates a widget for showing the gyro pitch
-    drivePitchWidget = 
-    teleopTab.add("Drive Pitch", 0.0).
-    withWidget(BuiltInWidgets.kDial).
-    withProperties(Map.of("Min", -180, "Max", 180)).
-    withPosition(7, 0).
-    withSize(2, 1).
-    getEntry();*/
-
-    //Creates a widget for showing the gyro roll
-    driveRollWidget = 
-    debugTab.add("Drive Roll", 0.0).
-    withWidget(BuiltInWidgets.kDial).
-    withProperties(Map.of("Min", -180, "Max", 180)).
-    withPosition(7, 0).
-    withSize(2, 1).
-    getEntry();
-
-    modulesTab.addDouble("Left Front Velocity", () -> leftModuleFront.getState().speedMetersPerSecond).
-    withPosition(0, 0).
-    withSize(2, 1);
-    modulesTab.addDouble("Left Back Velocity", () -> leftModuleBack.getState().speedMetersPerSecond).
-    withPosition(0, 3).
-    withSize(2, 1);
-    modulesTab.addDouble("Right Front Velocity", () -> rightModuleFront.getState().speedMetersPerSecond).
-    withPosition(7, 0).
-    withSize(2, 1);
-    modulesTab.addDouble("Right Back Velocity", () -> rightModuleBack.getState().speedMetersPerSecond).
-    withPosition(7, 3).
-    withSize(2, 1);
-
-    modulesTab.addDouble("Left Front Angle", () -> leftModuleFront.getState().angle.getDegrees()).
-    withWidget(BuiltInWidgets.kDial).
-    withProperties(Map.of("Min", 0, "Max", 360)).
-    withPosition(0, 1).
-    withSize(2, 1);
-    modulesTab.addDouble("Left Back Angle", () -> leftModuleBack.getState().angle.getDegrees()).
-    withWidget(BuiltInWidgets.kDial).
-    withProperties(Map.of("Min", 0,"Max", 360)).
-    withPosition(0, 2).
-    withSize(2, 1);
-    modulesTab.addDouble("Right Front Angle", () -> rightModuleFront.getState().angle.getDegrees()).
-    withWidget(BuiltInWidgets.kDial).
-    withProperties(Map.of("Min", 0, "Max", 360)).
-    withPosition(7, 1).
-    withSize(2, 1);
-    modulesTab.addDouble("Right Back Angle", () -> rightModuleBack.getState().angle.getDegrees()).
-    withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Min", 0, "Max", 360)).
-    withPosition(7, 2).
-    withSize(2, 1);
-
-    modulesTab.addDouble("Left Front Target Angle", () -> Units.radiansToDegrees(leftModuleFront.getTargetSteerAngle())).
-    withPosition(2, 0).
-    withSize(2, 1);
-    modulesTab.addDouble("Left Back Target Angle", () -> Units.radiansToDegrees(leftModuleBack.getTargetSteerAngle())).
-    withPosition(2, 3).
-    withSize(2, 1);
-    modulesTab.addDouble("Right Front Target Angle", () -> Units.radiansToDegrees(rightModuleFront.getTargetSteerAngle())).
-    withPosition(5, 0).
-    withSize(2, 1);
-    modulesTab.addDouble("Right Back Target Angle", () -> Units.radiansToDegrees(rightModuleBack.getTargetSteerAngle())).
-    withPosition(5, 3).
-    withSize(2, 1);
-
-    //Displays the current position of the robot on the field on Shuffleboard
-    debugTab.add(m_field2d).withPosition(3, 2).withSize(3, 2);
 
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(m_field2d);
@@ -197,7 +94,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     //These standard deviation values should be measured proplerly for our robot
     m_swerveDrivetrainOdometry = new SwerveDriveOdometry(
-      Constants.Drivetrain.kSwerveKinematics, 
+      Constants.kDrivetrain.kSwerveKinematics, 
       getRotation2d(), 
       getPositions(),
       new Pose2d(8.28, 4, Rotation2d.fromDegrees(0)));
@@ -211,10 +108,6 @@ public class SwerveDrivetrain extends SubsystemBase {
     updateOdometry();
 
     m_field2d.setRobotPose(getPose());
-
-    driveHeadingWidget.setDouble(getHeading());
-    //drivePitchWidget.setDouble(getPitch());
-    driveRollWidget.setDouble(getRoll());
 
   }
 
@@ -326,13 +219,13 @@ public class SwerveDrivetrain extends SubsystemBase {
    */
   public void swerveDrivePID(double translationX, double translationY, double rotation) {
 
-    SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+    SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       translationX, 
       translationY, 
       rotation, 
       getRotation2d()));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.kMaxVelocityMetersPerSecond);
 
     leftModuleFront.setDesiredStatePID(states[0]);
     leftModuleBack.setDesiredStatePID(states[1]);
@@ -351,13 +244,13 @@ public class SwerveDrivetrain extends SubsystemBase {
    */
   public void swerveDrive(double translationX, double translationY, double rotation) {
 
-    SwerveModuleState[] states = Constants.Drivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+    SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       translationX, 
       translationY, 
       rotation, 
       getRotation2d()));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.kMaxVelocityMetersPerSecond);
 
     leftModuleFront.setDesiredState(states[0]);
     leftModuleBack.setDesiredState(states[1]);
@@ -475,6 +368,40 @@ public class SwerveDrivetrain extends SubsystemBase {
   }
 
   /**
+   * Obtains and returns the current states of all drivetrain swerve modules.
+   * 
+   * @return The current states of all drivetrain swerve modules.
+   */
+  public SwerveModuleState[] getStates() {
+
+    SwerveModuleState[] states = {
+      leftModuleFront.getState(),
+      leftModuleBack.getState(),
+      rightModuleFront.getState(),
+      rightModuleBack.getState()};
+
+      return states;
+
+    }
+
+  /**
+   * Obtains and returns the target states that the drivetrain swerve modules have been set to.
+   * 
+   * @return The target states that the drivetrain swerve modules have been set to.
+   */
+  public SwerveModuleState[] getTargetStates() {
+
+    SwerveModuleState[] targetStates = {
+      leftModuleFront.getTargetState(),
+      leftModuleBack.getTargetState(),
+      rightModuleFront.getTargetState(),
+      rightModuleBack.getTargetState()};
+
+    return targetStates;
+    
+  }
+
+  /**
    * Resets the position of the odometry object using a specified position.
    * 
    * @param position The desired position to reset the odometry of the robot to.
@@ -557,7 +484,7 @@ public class SwerveDrivetrain extends SubsystemBase {
    */
   public void setModuleStates(SwerveModuleState[] states) {
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.kMaxVelocityMetersPerSecond);
 
     leftModuleFront.setDesiredState(states[0]);
     leftModuleBack.setDesiredState(states[1]);

@@ -31,15 +31,17 @@ public class SparkMaxSwerveModule {
 
   private double chassisAngularOffset = 0;
   private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
-
-  private double driveVelocitySetpoint = 0;
-  private double steerAngleSetpoint = 0;
+  private SwerveModuleState targetState = new SwerveModuleState(0.0, new Rotation2d());
 
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
    * encoder, and PID controller. This configuration is specific to the REV
    * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
    * Encoder.
+   * 
+   * @param driveMotorPort The CAN id of the drive motor of the swerve module.
+   * @param steerMotorPort The CAN id of the steer motor of the swerve module.
+   * @param chassisAngularOffset The offset of the steer encoder of the module from true zero in radians.
    */
   public SparkMaxSwerveModule(int driveMotorPort, int steerMotorPort, double chassisAngularOffset) {
     driveMotor = SparkMaxFactory.createDefaultSparkMax(driveMotorPort);
@@ -63,14 +65,14 @@ public class SparkMaxSwerveModule {
     // Apply position and velocity conversion factors for the driving encoder. The
     // native units for position and velocity are rotations and RPM, respectively,
     // but we want meters and meters per second to use with WPILib's swerve APIs.
-    driveEncoder.setPositionConversionFactor(Constants.Drivetrain.DISTANCE_CONVERSION_FACTOR);
-    driveEncoder.setVelocityConversionFactor(Constants.Drivetrain.LINEAR_VELOCITY_CONVERSION_FACTOR);
+    driveEncoder.setPositionConversionFactor(Constants.kDrivetrain.DISTANCE_CONVERSION_FACTOR);
+    driveEncoder.setVelocityConversionFactor(Constants.kDrivetrain.LINEAR_VELOCITY_CONVERSION_FACTOR);
 
     // Apply position and velocity conversion factors for the turning encoder. We
     // want these in radians and radians per second to use with WPILib's swerve
     // APIs.
-    steerEncoder.setPositionConversionFactor(Constants.Drivetrain.ANGLE_CONVERSION_FACTOR);
-    steerEncoder.setVelocityConversionFactor(Constants.Drivetrain.ANGULAR_VELOCITY_CONVERSION_FACTOR);
+    steerEncoder.setPositionConversionFactor(Constants.kDrivetrain.ANGLE_CONVERSION_FACTOR);
+    steerEncoder.setVelocityConversionFactor(Constants.kDrivetrain.ANGULAR_VELOCITY_CONVERSION_FACTOR);
 
     // Invert the turning encoder, since the output shaft rotates in the opposite direction of
     // the steering motor in the MAXSwerve Module.
@@ -216,24 +218,13 @@ public class SparkMaxSwerveModule {
   }
 
   /**
-   * Returns the PID target drive velocity of the module(meters/second).
+   * Returns the target state that the module has been set to.
    * 
-   * @return The PID target drive velocity of the module(meters/second).
+   * @return The target state that the moudle has been set to.
    */
-  public double getTargetDriveVelocity() {
+  public SwerveModuleState getTargetState() {
 
-    return driveVelocitySetpoint;
-
-  }
-
-  /**
-   * Returns the PID target steer angle of the module(radians).
-   * 
-   * @return The PID target steer angle of the module(radians).
-   */
-  public double getTargetSteerAngle() {
-
-    return steerAngleSetpoint;
+    return targetState;
 
   }
 
@@ -252,8 +243,7 @@ public class SparkMaxSwerveModule {
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
         new Rotation2d(steerEncoder.getPosition()));
 
-    driveVelocitySetpoint = optimizedDesiredState.speedMetersPerSecond;
-    steerAngleSetpoint = optimizedDesiredState.angle.getRadians();
+    targetState = optimizedDesiredState;
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
     drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
@@ -277,9 +267,9 @@ public class SparkMaxSwerveModule {
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
         new Rotation2d(steerEncoder.getPosition()));
 
-    steerAngleSetpoint = optimizedDesiredState.angle.getRadians();
+    targetState = optimizedDesiredState;
 
-    driveMotor.setVoltage(optimizedDesiredState.speedMetersPerSecond / Constants.Drivetrain.kMaxVelocityMetersPerSecond * 10);
+    driveMotor.setVoltage(optimizedDesiredState.speedMetersPerSecond / Constants.kDrivetrain.kMaxVelocityMetersPerSecond * Constants.kDrivetrain.MAXIMUM_VOLTAGE);
     steerPIDController.setReference(optimizedDesiredState.angle.getRadians(), ControlType.kPosition);
 
     this.desiredState = desiredState;

@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public final class Button {
 
     //Define Joysticks
-    public static Joystick leftJoystick = new Joystick(Constants.Joysticks.LEFT_JOYSTICK_PORT);
-    public static Joystick rightJoystick = new Joystick(Constants.Joysticks.RIGHT_JOYSTICK_PORT);
+    public static Joystick leftJoystick = new Joystick(Constants.kJoysticks.LEFT_JOYSTICK_PORT);
+    public static Joystick rightJoystick = new Joystick(Constants.kJoysticks.RIGHT_JOYSTICK_PORT);
 
     //Unassigned Left Joystick Buttons
     public static Trigger leftButton1 = new JoystickButton(leftJoystick, 1); //Left Top 1

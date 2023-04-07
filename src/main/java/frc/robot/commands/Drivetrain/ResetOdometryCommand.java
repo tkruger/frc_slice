@@ -7,15 +7,15 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 public class ResetOdometryCommand extends CommandBase {
 
-  private final SwerveDrivetrain m_drivetrain;
+  private final Drivetrain m_drivetrain;
   private final Pose2d m_position;
   
    /** Creates a new ResetOdometryCommand. */
-  public ResetOdometryCommand(SwerveDrivetrain drivetrain, Pose2d position) {
+  public ResetOdometryCommand(Drivetrain drivetrain, Pose2d position) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 

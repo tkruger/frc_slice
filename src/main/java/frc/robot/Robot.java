@@ -49,8 +49,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    m_robotContainer.m_autoSelector.outputToShuffleboard();
-
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -61,8 +59,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_autoSelector.updateModeCreator();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
-    m_robotContainer.m_swerveDrivetrain.setDriveIdleMode(true);
-    m_robotContainer.m_swerveDrivetrain.setSteerIdleMode(true);
+    m_robotContainer.m_drivetrain.setDriveIdleMode(true);
+    m_robotContainer.m_drivetrain.setSteerIdleMode(true);
 
   }
 
@@ -84,8 +82,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
-    m_robotContainer.m_swerveDrivetrain.setDriveIdleMode(true);
-    m_robotContainer.m_swerveDrivetrain.setSteerIdleMode(true);
+    m_robotContainer.m_drivetrain.setDriveIdleMode(true);
+    m_robotContainer.m_drivetrain.setSteerIdleMode(true);
 
   }
 
@@ -103,8 +101,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.m_swerveDrivetrain.setDriveIdleMode(false);
-    m_robotContainer.m_swerveDrivetrain.setSteerIdleMode(false);
+    m_robotContainer.m_drivetrain.setDriveIdleMode(false);
+    m_robotContainer.m_drivetrain.setSteerIdleMode(false);
 
   }
 

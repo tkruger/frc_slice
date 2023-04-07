@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.auto.sequences.TrajectoryFollowerSequence;
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TestAutoMode extends SequentialCommandGroup {
   /** Creates a new TestAutoMode. */
-  public TestAutoMode(AutoSelector.StartingPosition startingPosition, SwerveDrivetrain drive) {
+  public TestAutoMode(AutoSelector.StartingPosition startingPosition, Drivetrain drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 

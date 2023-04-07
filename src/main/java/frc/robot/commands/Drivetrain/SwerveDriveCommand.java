@@ -5,7 +5,7 @@
 package frc.robot.commands.Drivetrain;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.JoystickFilter;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,16 +13,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SwerveDriveCommand extends CommandBase {
   /** Creates a new SwerveDriveCommand. */
-  private final SwerveDrivetrain m_swerveDrivetrain;
+  private final Drivetrain m_drivetrain;
 
   private final Joystick m_leftJoystick, m_rightJoystick;
   private final JoystickFilter translationXFilter, translationYFilter, rotationFilter;
 
-  public SwerveDriveCommand(SwerveDrivetrain swerveDrivetrain, Joystick leftJoystick, Joystick rightJoystick) {
+  public SwerveDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveDrivetrain);
+    addRequirements(drivetrain);
 
-    m_swerveDrivetrain = swerveDrivetrain;
+    m_drivetrain = drivetrain;
     m_leftJoystick = leftJoystick;
     m_rightJoystick = rightJoystick;
 
@@ -36,9 +36,9 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_swerveDrivetrain.resetHeading();
+    m_drivetrain.resetHeading();
 
-    m_swerveDrivetrain.setSteerPID(1.0, 0, 0.1);
+    m_drivetrain.setSteerPID(1.0, 0, 0.1);
 
   }
 
@@ -46,11 +46,11 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void execute() {
     
-    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.Drivetrain.kMaxVelocityMetersPerSecond;
-    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.Drivetrain.kMaxVelocityMetersPerSecond;
-    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond;
+    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.kDrivetrain.kMaxVelocityMetersPerSecond;
+    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.kDrivetrain.kMaxVelocityMetersPerSecond;
+    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.kMaxAngularVelocityRadiansPerSecond;
 
-    m_swerveDrivetrain.swerveDrive(
+    m_drivetrain.swerveDrive(
       translationX,
       translationY,
       rotation);
@@ -61,7 +61,7 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_swerveDrivetrain.swerveDrive(0, 0, 0);
+    m_drivetrain.swerveDrive(0, 0, 0);
 
   }
 

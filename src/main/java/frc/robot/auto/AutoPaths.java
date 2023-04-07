@@ -8,27 +8,26 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 public class AutoPaths{
 
     public Trajectory trajectory;
 
-    //This method uses kPDriveVel as the thetaController parameter for ProfiledPIDController() as a placholder for now
-    public SwerveControllerCommand generateSwerveControllerCommand(SwerveDrivetrain drive, Trajectory trajectory) {
+    public SwerveControllerCommand generateSwerveControllerCommand(Drivetrain drive, Trajectory trajectory) {
 
         return new SwerveControllerCommand(
             trajectory,
             drive::getPose,
-            Constants.Drivetrain.kSwerveKinematics,
+            Constants.kDrivetrain.kSwerveKinematics,
             new HolonomicDriveController(
-                new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
-                new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
+                new PIDController(Constants.kAutonomous.kPDriveVel, 0, 0),
+                new PIDController(Constants.kAutonomous.kPDriveVel, 0, 0),
                 new ProfiledPIDController(
-                    Constants.Autonomous.kPDriveVel,
+                    Constants.kAutonomous.kPDriveVel,
                     0,
                     0,
-                    new Constraints(Constants.Drivetrain.kMaxVelocityMetersPerSecond, Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared))),
+                    new Constraints(Constants.kDrivetrain.kMaxVelocityMetersPerSecond, Constants.kDrivetrain.kMaxAccelerationMetersPerSecondSquared))),
             drive::getAutoTrajectoryRotation,
             //SwerveControllerCommand passes output module states to the callback
             drive::setModuleStates,

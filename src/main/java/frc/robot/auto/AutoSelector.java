@@ -1,14 +1,11 @@
 package frc.robot.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.modes.TestAutoMode;
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 import java.util.Optional;
 
@@ -31,34 +28,25 @@ public class AutoSelector {
 
     }
 
-    private StartingPosition storedStartingPosition;
-    private DesiredMode storedDesiredMode;
+    public StartingPosition storedStartingPosition;
+    public DesiredMode storedDesiredMode;
 
-    private SendableChooser<StartingPosition> startingPositionChooser;
-    private SendableChooser<DesiredMode> modeChooser;
+    public SendableChooser<StartingPosition> startingPositionChooser;
+    public SendableChooser<DesiredMode> modeChooser;
 
     private Optional<SequentialCommandGroup> autoMode = Optional.empty();
 
-    private Optional<Pose2d> initialAutoPose;
+    private Optional<Pose2d> initialAutoPose = Optional.empty();
 
-    private double initialAutoPoseXOffset;
-    private double initialAutoPoseYOffset;
-    private double initialAutoPoseRotationOffset;
+    public double initialAutoPoseXOffset = 0;
+    public double initialAutoPoseYOffset = 0;
+    public double initialAutoPoseRotationOffset = 0;
 
-    private final SwerveDrivetrain m_swerveDrivetrain;
+    private final Drivetrain m_drivetrain;
 
-    private final ShuffleboardTab autoTab;
+    public AutoSelector(Drivetrain drivetrain) {
 
-    private final GenericEntry selectedAutoModeWidget;
-    private final GenericEntry selectedStartingPositionWidget;
-
-    private final GenericEntry autoPoseXOffsetWidget;
-    private final GenericEntry autoPoseYOffsetWidget;
-    private final GenericEntry autoPoseRotationOffsetWidget;
-
-    public AutoSelector(SwerveDrivetrain drivetrain) {
-
-        m_swerveDrivetrain = drivetrain;
+        m_drivetrain = drivetrain;
 
         startingPositionChooser = new SendableChooser<StartingPosition>();
 
@@ -73,40 +61,6 @@ public class AutoSelector {
         modeChooser = new SendableChooser<DesiredMode>();
 
         modeChooser.setDefaultOption("Test Auto", DesiredMode.TEST_AUTO);
-
-        autoTab = Shuffleboard.getTab("Auto Tab");
-
-        autoTab.add("Auto Mode", modeChooser).withPosition(2, 0).withSize(2, 1);
-        autoTab.add("Starting Position", startingPositionChooser).withPosition(5, 0).withSize(2, 1);
-
-        selectedAutoModeWidget = 
-        autoTab.add("Selected Auto Mode", "Score Two Game Pieces Then Engage").
-        withPosition(2, 1).
-        withSize(2, 1).
-        getEntry();
-        selectedStartingPositionWidget = 
-        autoTab.add("Selected Starting Position", "Blue Left").
-        withPosition(5, 1).
-        withSize(2, 1).
-        getEntry();
-
-        autoPoseXOffsetWidget = 
-        autoTab.add("Initial Auto Pose X Offset", initialAutoPoseXOffset).
-        withPosition(1, 2).
-        withSize(2, 1).
-        getEntry();
-
-        autoPoseYOffsetWidget = 
-        autoTab.add("Initial Auto Pose Y Offset", initialAutoPoseYOffset).
-        withPosition(6, 2).
-        withSize(2, 1).
-        getEntry();
-
-        autoPoseRotationOffsetWidget = 
-        autoTab.add("Initial Auto Pose Rotation Offset", initialAutoPoseRotationOffset).
-        withPosition(3, 2).
-        withSize(3, 1).
-        getEntry();
 
     }
 
@@ -134,7 +88,7 @@ public class AutoSelector {
         switch(mode) {
 
             case TEST_AUTO:
-                return Optional.of(new TestAutoMode(position, m_swerveDrivetrain));
+                return Optional.of(new TestAutoMode(position, m_drivetrain));
             default:
                 break;
     
@@ -206,21 +160,6 @@ public class AutoSelector {
         storedDesiredMode = null;
 
         initialAutoPose = Optional.empty();
-
-    }
-
-    public void outputToShuffleboard() {
-
-        selectedAutoModeWidget.setString(storedDesiredMode.name());
-        selectedStartingPositionWidget.setString(storedStartingPosition.name());
-
-        if(initialAutoPose != null) {
-
-            autoPoseXOffsetWidget.setDouble(initialAutoPoseXOffset);
-            autoPoseYOffsetWidget.setDouble(initialAutoPoseYOffset);
-            autoPoseRotationOffsetWidget.setDouble(initialAutoPoseRotationOffset);
-
-        }
 
     }
 

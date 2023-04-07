@@ -5,7 +5,7 @@
 package frc.robot.commands.Drivetrain;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.JoystickFilter;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,16 +13,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SwerveDrivePIDCommand extends CommandBase {
   /** Creates a new SwerveDriveCommand. */
-  private final SwerveDrivetrain m_swerveDrivetrain;
+  private final Drivetrain m_drivetrain;
 
   private final Joystick m_leftJoystick, m_rightJoystick;
   private final JoystickFilter translationXFilter, translationYFilter, rotationFilter;
 
-  public SwerveDrivePIDCommand(SwerveDrivetrain swerveDrivetrain, Joystick leftJoystick, Joystick rightJoystick) {
+  public SwerveDrivePIDCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveDrivetrain);
+    addRequirements(drivetrain);
 
-    m_swerveDrivetrain = swerveDrivetrain;
+    m_drivetrain = drivetrain;
     m_leftJoystick = leftJoystick;
     m_rightJoystick = rightJoystick;
 
@@ -36,11 +36,11 @@ public class SwerveDrivePIDCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_swerveDrivetrain.resetHeading();
+    m_drivetrain.resetHeading();
 
-    m_swerveDrivetrain.setSteerPID(1.0, 0, 0.1);
+    m_drivetrain.setSteerPID(1.0, 0, 0.1);
     //These PIDF gains are placeholders for now
-    m_swerveDrivetrain.setDrivePIDF(0, 0, 0, 0);
+    m_drivetrain.setDrivePIDF(0, 0, 0, 0);
 
   }
 
@@ -49,11 +49,11 @@ public class SwerveDrivePIDCommand extends CommandBase {
   public void execute() {
     
        
-    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.Drivetrain.kMaxVelocityMetersPerSecond;
-    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.Drivetrain.kMaxVelocityMetersPerSecond;
-    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond;
+    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.kDrivetrain.kMaxVelocityMetersPerSecond;
+    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.kDrivetrain.kMaxVelocityMetersPerSecond;
+    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.kMaxAngularVelocityRadiansPerSecond;
 
-    m_swerveDrivetrain.swerveDrivePID(
+    m_drivetrain.swerveDrivePID(
       translationX,
       translationY,
       rotation);
@@ -64,7 +64,7 @@ public class SwerveDrivePIDCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_swerveDrivetrain.swerveDrivePID(0, 0, 0);
+    m_drivetrain.swerveDrivePID(0, 0, 0);
 
   }
 

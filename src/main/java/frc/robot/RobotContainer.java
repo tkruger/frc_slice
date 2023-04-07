@@ -22,12 +22,14 @@ public class RobotContainer {
   private static Joystick rightJoystick = Button.rightJoystick;
 
   // The robot's subsystems and commands are defined here...
-  public final SwerveDrivetrain m_swerveDrivetrain = new SwerveDrivetrain();
+  public final Drivetrain m_drivetrain = new Drivetrain();
 
-  public final AutoSelector m_autoSelector = new AutoSelector(m_swerveDrivetrain);
+  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain);
+  
+  public final ShuffleboardData m_shuffleboardData = new ShuffleboardData(m_drivetrain, m_autoSelector);
 
-  public final SwerveDriveCommand m_swerveDrive = new SwerveDriveCommand(m_swerveDrivetrain, leftJoystick, rightJoystick);
-  public final SwerveDrivePIDCommand m_swerveDrivePID = new SwerveDrivePIDCommand(m_swerveDrivetrain, leftJoystick, rightJoystick);
+  public final SwerveDriveCommand m_swerveDrive = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
+  public final SwerveDrivePIDCommand m_swerveDrivePID = new SwerveDrivePIDCommand(m_drivetrain, leftJoystick, rightJoystick);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -35,8 +37,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_swerveDrivetrain.setDefaultCommand(m_swerveDrive);
-
+    m_drivetrain.setDefaultCommand(m_swerveDrive);
+    
   }
 
   /**
