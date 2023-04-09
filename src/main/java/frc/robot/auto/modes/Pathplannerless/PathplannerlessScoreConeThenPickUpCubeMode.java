@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auto.modes;
+package frc.robot.auto.modes.Pathplannerless;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -25,9 +25,9 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PathplannerlessScoreConeAndCubeMode extends SequentialCommandGroup {
+public class PathplannerlessScoreConeThenPickUpCubeMode extends SequentialCommandGroup {
   /** Creates a new ScoreOnePieceMobilityThenAlignMode. */
-  public PathplannerlessScoreConeAndCubeMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
+  public PathplannerlessScoreConeThenPickUpCubeMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -46,14 +46,10 @@ public class PathplannerlessScoreConeAndCubeMode extends SequentialCommandGroup 
         turnAngle = 180;
     }
 
-    //CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
-    //ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.35); //3.25
-    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.3);
-    AutonomousTimedDriveStraightCommand driveBack = new AutonomousTimedDriveStraightCommand(drive, -0.5, 3);
+    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.45);
     VariableQuickTurnSequence quickTurn = new VariableQuickTurnSequence(drive, turnAngle);
     LimelightXAlignmentCommand alignWithCube = new LimelightXAlignmentCommand(limelight, drive);
     VariableQuickTurnSequence turnBack = new VariableQuickTurnSequence(drive, turnAngle2);
@@ -63,7 +59,6 @@ public class PathplannerlessScoreConeAndCubeMode extends SequentialCommandGroup 
     TimedWristRunCommand runWristUp = new TimedWristRunCommand(wrist, true, 0.3);
     SetWristPosition stowWrist = new SetWristPosition(wrist, Constants.States.TRAVEL_STATE.wristAngle);
 
-    //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
     ParallelCommandGroup openWhileTurning = new ParallelCommandGroup(quickTurn, confirmMandiblesOpen);
     ParallelCommandGroup stowWhileTurning = new ParallelCommandGroup(turnBack, stowWrist);
 
@@ -77,9 +72,7 @@ public class PathplannerlessScoreConeAndCubeMode extends SequentialCommandGroup 
       runWristUp,
       pickUpDrive,
       closeMandibles,
-      stowWhileTurning,
-      driveBack,
-      placeSecondPiece
+      stowWhileTurning
     );
 
   }

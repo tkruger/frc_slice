@@ -486,8 +486,8 @@ public class Drivetrain extends SubsystemBase {
    * 
    * @return The average of the left and right encoder distances(meters).
    */
-  public double getAverageEncoderDistance() {
-    return (getLeftSideDistance() + getRightSideDistance()) / 2.0;
+  public double getAverageDistance() {
+    return (getLeftSideDistance() + getRightSideDistance()) / 2;
   }
 
   /**
@@ -496,7 +496,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The sum of both left encoder distances(meters).
    */
   public double getLeftSideDistance() {
-    return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition());
+    return (leftEncoderFront.getPosition() + leftEncoderBack.getPosition()) / 2;
   }
 
   /**
@@ -505,11 +505,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The opposite of the sum of both right encoder distances(meters).
    */
   public double getRightSideDistance() {
-    return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition());
-  }
-
-  public double getAverageDistance() {
-    return (getLeftSideDistance() + getRightSideDistance()) / 2;
+    return -(rightEncoderFront.getPosition() + rightEncoderBack.getPosition()) / 2;
   }
 
   /**
@@ -518,7 +514,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The sum of both left encoder velocities(meters/second).
    */
   public double getLeftSideVelocity() {
-    return leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity();
+    return (leftEncoderFront.getVelocity() + leftEncoderBack.getVelocity()) / 2;
   }
 
   /**
@@ -527,7 +523,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The opposite of the sum of both right encoder velocities(meters/second).
    */
   public double getRightSideVelocity() {
-    return -(rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity());
+    return -(rightEncoderFront.getVelocity() + rightEncoderBack.getVelocity()) / 2;
   }
 
   /**
@@ -646,7 +642,7 @@ public class Drivetrain extends SubsystemBase {
    * Sets the voltages of the left and right drivetrain motor groups to specified values and feeds the motor safety object.
    * 
    * @param leftVolts The desired voltage to set the left drivetrain motors to.
-   * @param rightVolts The desired voltage to set the right drievtrian motors to.
+   * @param rightVolts The desired voltage to set the right drivetrain motors to.
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
 

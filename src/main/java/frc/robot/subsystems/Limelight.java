@@ -33,17 +33,15 @@ public class Limelight extends SubsystemBase {
 
   private static double[] currentBotPoseBlue;
   private static double[] lastNonNullBotPoseBlue = new double[0];
-  private static double[] lastNonEmptyBotPoseBlue;
+  private static double[] lastNonEmptyBotPoseBlue = new double[0];
   private double[] lastRobotTargetSpacePose;
   private double[] currentRobotTargetSpacePose;
 
   private static double currentAprilTagID;
-  private static double lastAprilTagID;
+  private static double lastAprilTagID = 0;
 
   private final NetworkTableEntry ledMode;
-
   private final NetworkTableEntry cameraMode;
-
   private final NetworkTableEntry pipeline;
 
   private final ShuffleboardTab driverTab;
@@ -130,7 +128,7 @@ public class Limelight extends SubsystemBase {
 
     double[] lastNonEmptyBotPoseBlue = Limelight.lastNonEmptyBotPoseBlue;
 
-    if(lastNonEmptyBotPoseBlue != null) {
+    if(lastNonEmptyBotPoseBlue.length != 0) {
 
       return new Pose2d(lastNonEmptyBotPoseBlue[0] + 8.28, lastNonEmptyBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastNonEmptyBotPoseBlue[5]));
 
@@ -199,7 +197,7 @@ public class Limelight extends SubsystemBase {
 
     //double lastAprilTagID = Limelight.lastAprilTagID;
 
-    if(lastAprilTagID == 4 || lastAprilTagID == 5) {
+    if(lastAprilTagID != 0) {
 
       if(lastAprilTagID == 4) {
 
@@ -215,12 +213,16 @@ public class Limelight extends SubsystemBase {
         finalPosition = new Pose2d(aprilTagX + 2, aprilTagY + 0.6, Rotation2d.fromDegrees(180));
   
       }
-  
+
       return TrajectoryGenerator.generateTrajectory(
         initialPosition, 
-        List.of(new Translation2d(
-          (initialPosition.getX() + finalPosition.getX()) / 2, 
-          (initialPosition.getY() + finalPosition.getY()) / 2)),
+        List.of(
+          new Translation2d(
+            initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
+            initialPosition.getY() + ((finalPosition.getY() - initialPosition.getY()) / 3)),
+          new Translation2d(
+            finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
+            finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3))), 
         finalPosition, 
         new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
   

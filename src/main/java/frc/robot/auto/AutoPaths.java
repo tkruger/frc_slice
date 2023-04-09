@@ -1,5 +1,8 @@
 package frc.robot.auto;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPRamseteCommand;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -11,8 +14,27 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AutoPaths {
 
-    public RamseteCommand command;
-    public Trajectory trajectory;
+    public PathPlannerTrajectory trajectory;
+
+    public static PPRamseteCommand generatePPRamseteCommand(PathPlannerTrajectory trajectory, Drivetrain drive) {
+
+        return new PPRamseteCommand(
+            trajectory,
+            drive::getPose,
+            new RamseteController(Constants.Autonomous.kRamseteB, Constants.Autonomous.kRamseteZeta),
+            new SimpleMotorFeedforward(
+                Constants.Autonomous.ksVolts,
+                Constants.Autonomous.kvVoltsSecondsPerMeter,
+                Constants.Autonomous.kaVoltsSecondsSquaredPerMeter),
+            Constants.Drivetrain.kDriveKinematics,
+            drive::getWheelSpeeds,
+            new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
+            new PIDController(Constants.Autonomous.kPDriveVel, 0, 0),
+            // PPRamseteCommand passes volts to the callback
+            drive::tankDriveVolts,
+            drive);
+
+    }
 
     public static RamseteCommand generateRamseteCommand(Trajectory trajectory, Drivetrain drive) {
 
@@ -33,5 +55,5 @@ public class AutoPaths {
             drive);
 
     }
-
+    
 }
