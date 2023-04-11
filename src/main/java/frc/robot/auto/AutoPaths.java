@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class AutoPaths{
+public class AutoPaths {
 
     public Trajectory trajectory;
 
@@ -21,13 +21,13 @@ public class AutoPaths{
             drive::getPose,
             Constants.kDrivetrain.kSwerveKinematics,
             new HolonomicDriveController(
-                new PIDController(Constants.kAutonomous.kPDriveVel, 0, 0),
-                new PIDController(Constants.kAutonomous.kPDriveVel, 0, 0),
+                new PIDController(Constants.kAutonomous.kPXController, 0, 0),
+                new PIDController(Constants.kAutonomous.kPYController, 0, 0),
                 new ProfiledPIDController(
-                    Constants.kAutonomous.kPDriveVel,
+                    Constants.kAutonomous.kPThetaController,
                     0,
                     0,
-                    new Constraints(Constants.kDrivetrain.kMaxVelocityMetersPerSecond, Constants.kDrivetrain.kMaxAccelerationMetersPerSecondSquared))),
+                    new Constraints(Constants.kAutonomous.kMaxVelocityMetersPerSecond, Constants.kAutonomous.kMaxAccelerationMetersPerSecondSquared))),
             drive::getAutoTrajectoryRotation,
             //SwerveControllerCommand passes output module states to the callback
             drive::setModuleStates,

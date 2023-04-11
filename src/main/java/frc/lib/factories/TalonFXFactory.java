@@ -1,4 +1,4 @@
-package frc.robot.factories;
+package frc.lib.factories;
 
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.*;

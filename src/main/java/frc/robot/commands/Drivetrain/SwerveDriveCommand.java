@@ -18,13 +18,18 @@ public class SwerveDriveCommand extends CommandBase {
   private final Joystick m_leftJoystick, m_rightJoystick;
   private final JoystickFilter translationXFilter, translationYFilter, rotationFilter;
 
-  public SwerveDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick) {
+  private final boolean m_isOpenLoop;
+
+  public SwerveDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick, boolean isOpenLoop) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
     m_drivetrain = drivetrain;
+
     m_leftJoystick = leftJoystick;
     m_rightJoystick = rightJoystick;
+
+    m_isOpenLoop = isOpenLoop;
 
     translationXFilter = new JoystickFilter(0.07, 0.3);
     translationYFilter = new JoystickFilter(0.07, 0.3);
@@ -38,7 +43,7 @@ public class SwerveDriveCommand extends CommandBase {
 
     m_drivetrain.resetHeading();
 
-    m_drivetrain.setSteerPID(1.0, 0, 0.1);
+    m_drivetrain.setAnglePIDF(0.01, 0, 0, 0);
 
   }
 
@@ -46,14 +51,15 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void execute() {
     
-    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.kDrivetrain.kMaxVelocityMetersPerSecond;
-    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.kDrivetrain.kMaxVelocityMetersPerSecond;
-    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.kMaxAngularVelocityRadiansPerSecond;
+    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.kDrivetrain.MAX_VELOCITY;
+    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.kDrivetrain.MAX_VELOCITY;
+    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.MAX_ANGULAR_VELOCITY;
 
     m_drivetrain.swerveDrive(
       translationX,
       translationY,
-      rotation);
+      rotation,
+      m_isOpenLoop);
 
   }
 
@@ -61,7 +67,7 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(0, 0, 0);
+    m_drivetrain.swerveDrive(0, 0, 0, m_isOpenLoop);
 
   }
 

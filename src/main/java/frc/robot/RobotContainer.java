@@ -28,8 +28,8 @@ public class RobotContainer {
   
   public final ShuffleboardData m_shuffleboardData = new ShuffleboardData(m_drivetrain, m_autoSelector);
 
-  public final SwerveDriveCommand m_swerveDrive = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
-  public final SwerveDrivePIDCommand m_swerveDrivePID = new SwerveDrivePIDCommand(m_drivetrain, leftJoystick, rightJoystick);
+  public final SwerveDriveCommand m_swerveDriveOpenLoop = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick, true);
+  public final SwerveDriveCommand m_swerveDriveClosedLoop = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick, false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -37,7 +37,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(m_swerveDrive);
+    m_drivetrain.setDefaultCommand(m_swerveDriveClosedLoop);
     
   }
 

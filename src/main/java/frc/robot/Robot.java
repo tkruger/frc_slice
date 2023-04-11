@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
     m_robotContainer.m_drivetrain.setDriveIdleMode(true);
-    m_robotContainer.m_drivetrain.setSteerIdleMode(true);
+    m_robotContainer.m_drivetrain.setAngleIdleMode(true);
 
   }
 
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
     }
 
     m_robotContainer.m_drivetrain.setDriveIdleMode(true);
-    m_robotContainer.m_drivetrain.setSteerIdleMode(true);
+    m_robotContainer.m_drivetrain.setAngleIdleMode(true);
 
   }
 
@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
     }
 
     m_robotContainer.m_drivetrain.setDriveIdleMode(false);
-    m_robotContainer.m_drivetrain.setSteerIdleMode(false);
+    m_robotContainer.m_drivetrain.setAngleIdleMode(false);
 
   }
 

@@ -4,8 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.SerialPort.Port;
+
+import frc.lib.config.SwerveModuleConstants;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -28,79 +34,122 @@ public final class Constants {
 
     }
 
-    public final class kEncoder {
-
-        public static final int CPR = 1;
-
-    }
-
     public static final class kDrivetrain {
+        //ALL CONSTANTS IN THIS CLASS ARE PLACEHOLDERS FOR NOW
 
-        //These motor ports are placeholders for now
-        public static final int 
-        LEFT_FRONT_PORT_DRIVE = 5, 
-        LEFT_FRONT_PORT_STEER = 6,
-        LEFT_BACK_PORT_DRIVE = 1,
-        LEFT_BACK_PORT_STEER = 2,
-        RIGHT_FRONT_PORT_DRIVE = 7,
-        RIGHT_FRONT_PORT_STEER = 8,
-        RIGHT_BACK_PORT_DRIVE = 3,
-        RIGHT_BACK_PORT_STEER = 4;
-
-        //This is the diameter of kit of parts wheels and may be different for swerve
-        public static final double WHEEL_DIAMETER_METERS = 0.15;
+        public static final Port NAVX_PORT = Port.kUSB1;
+        public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
     
-        public static final double LINEAR_VELOCITY_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS /(60 * 10.75);
-        public static final double ANGULAR_VELOCITY_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS /(60 * 10.75) / (WHEEL_DIAMETER_METERS / 2);
+        /* Drivetrain Constants */
+        public static final double TRACK_WIDTH = Units.inchesToMeters(21.73);
+        public static final double WHEEL_BASE = Units.inchesToMeters(21.73);
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
+        public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+    
+        public static final double DRIVE_GEAR_RATIO = (10.71 / 1.0); // 10.71:1
+        public static final double ANGLE_GEAR_RATIO = (10.71 / 1.0); // 10.71:1
+    
+        public static final SwerveDriveKinematics kSwerveKinematics =
+            new SwerveDriveKinematics(
+                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+                new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
+                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0));
+        
+        /* Swerve Voltage Compensation */
+        public static final double MAX_VOLTAGE = 12.0;
+    
+        /* Angle Motor PID Values */
+        public static final double ANGLE_KP = 0.01;
+        public static final double ANGLE_KI = 0.0;
+        public static final double ANGLE_KD = 0.0;
+        public static final double ANGLE_KFF = 0.0;
+    
+        /* Drive Motor PID Values */
+        public static final double DRIVE_KP = 0.1;
+        public static final double DRIVE_KI = 0.0;
+        public static final double DRIVE_KD = 0.0;
+        public static final double DRIVE_KFF = 0.0;
+    
+        /* Drive Motor Characterization Values */
+        public static final double DRIVE_KS = 0.667;
+        public static final double DRIVE_KV = 2.44;
+        public static final double DRIVE_KA = 0.27;
+    
+        /* Drive Motor Conversion Factors */
+        public static final double DRIVE_POSITION_CONVERSION_FACTOR =
+            (WHEEL_DIAMETER * Math.PI) / DRIVE_GEAR_RATIO;
+        public static final double DRIVE_VELOCITY_CONVERSION_FACTOR = DRIVE_POSITION_CONVERSION_FACTOR / 60.0;
+        public static final double ANGLE_POSITION_CONVERSION_FACTOR_DEGREES = 360.0 / ANGLE_GEAR_RATIO;
+        public static final double ANGLE_POSITION_CONVERSION_FACTOR_RADIANS = Math.PI * 2;
+        public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_DEGREES = ANGLE_POSITION_CONVERSION_FACTOR_DEGREES / 60.0;
+        public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_RADIANS = ANGLE_POSITION_CONVERSION_FACTOR_RADIANS / 60.0;
+        /* Swerve Profiling Values */
+        public static final double MAX_VELOCITY = 4.5; // meters per second
+        public static final double MAX_ANGULAR_VELOCITY = 11.5; //radians per second
+    
+        /* Angle Encoder Invert */
+        public static final boolean CANCODER_INVERT = false;
+    
+        /* Module Specific Constants */
+        /* Front Left Module - Module 0 */
+        public static final class Mod0 {
+          public static final int DRIVE_MOTOR_ID = 4;
+          public static final int ANGLE_MOTOR_ID = 3;
+          public static final int CANCODER_ID = 1;
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(327.48046875);
+          public static final SwerveModuleConstants CONSTANTS =
+              new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
+        }
 
-        public static final double DISTANCE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS / 10.75;
-        public static final double ANGLE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER_METERS / 10.75 / (WHEEL_DIAMETER_METERS / 2);
+        /* Back Left Module - Module 1 */
+        public static final class Mod1 {
+          public static final int DRIVE_MOTOR_ID = 2;
+          public static final int ANGLE_MOTOR_ID = 1;
+          public static final int CANCODER_ID = 2;
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(55.01953125);
+          public static final SwerveModuleConstants CONSTANTS =
+              new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
+          }
+    
+        /* Front Right Module - Module 2 */
+        public static final class Mod2 {
+          public static final int DRIVE_MOTOR_ID = 14;
+          public static final int ANGLE_MOTOR_ID = 13;
+          public static final int CANCODER_ID = 3;
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(286.34765625);
+          public static final SwerveModuleConstants CONSTANTS =
+              new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
+        }
 
-        /*These maximum velocities and accelerations are placeholders for now and should
-        be slightly below the actual maximum velocity and acceleration that the robot is capable of*/
-        public static final double kMaxVelocityMetersPerSecond = 4;
+    
+        /* Back Right Module - Module 3 */
+        public static final class Mod3 {
+          public static final int DRIVE_MOTOR_ID = 15;
+          public static final int ANGLE_MOTOR_ID = 16;
+          public static final int CANCODER_ID = 4;
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(67.939453125);
+          public static final SwerveModuleConstants CONSTANTS =
+              new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
+        }
+      }
+    
+      public static final class kAutonomous {
+        //THIS MAXIMUM LINEAR VELOCITY AND ACCELERATION ARE PLACEHOLDERS FOR NOW
+        public static final double kMaxVelocityMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-
-        //These are the track width and wheelbase length of the kit of parts drivetrain and may be different for swerve
-        public static final double kTrackWidthMeters = 0.5842;
-        public static final double kWheelbaseLengthMeters = 0.8128;
-
-        //This constant uses the total length of the robot(0.8128 meters) for now as a placeholder for wheelbase length
-        public static final double kMaxAngularVelocityRadiansPerSecond = 
-            kMaxVelocityMetersPerSecond / Math.hypot(kTrackWidthMeters / 2.0, 0.8128 / 2.0);
-
-        //This constant multiplies Pi by 2 as a placeholder for now
-        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI * 2;
-
-        //This is a placeholder for now
-        public static final double MAXIMUM_VOLTAGE = 10;
-
-        public static final SwerveDriveKinematics kSwerveKinematics = new SwerveDriveKinematics(
-            // Front left
-            new Translation2d(kTrackWidthMeters / 2.0, kWheelbaseLengthMeters / 2.0),
-            // Back left
-            new Translation2d(-kTrackWidthMeters / 2.0, kWheelbaseLengthMeters / 2.0),
-            // Front right
-            new Translation2d(kTrackWidthMeters  / 2.0, -kWheelbaseLengthMeters / 2.0),
-            // Back right
-            new Translation2d(-kTrackWidthMeters  / 2.0, -kWheelbaseLengthMeters / 2.0));
-
-    }
-
-    public final class kAutonomous {
+        public static final double kMaxAngularVelocityRadiansPerSecond = Math.PI;
+        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI;
     
-        //These constants are currently placeholders and need to be determined by characterization
-        public static final double ksVolts = 0.19712;
-        public static final double kvVoltsSecondsPerMeter = 2.7996;
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.38673;
-
-        //This constant is currently a placeholder and needs to be determined by characterization
-        public static final double kPDriveVel = 3.6372;
-
-        // Ramsete controller parameters. There are maethematically determined to be the best parameters for almost every robot
-        public static final double kRamseteB = 2;
-        public static final double kRamseteZeta = 0.7;
-
-    }
+        //THESE P GAINS ARE PLACEHOLDERS FOR NOW
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
+        public static final double kPThetaController = 1;
+    
+        // Constraint for the motion profilied robot angle controller
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+            new TrapezoidProfile.Constraints(
+                kMaxAngularVelocityRadiansPerSecond, kMaxAngularAccelerationRadiansPerSecondSquared);
+      }
 
 }

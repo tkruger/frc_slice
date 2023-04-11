@@ -1,4 +1,4 @@
-package frc.robot.factories;
+package frc.lib.factories;
 
 import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -26,34 +26,55 @@ public class SparkMaxFactory {
         public boolean ENABLE_VOLTAGE_COMPENSATION;
         public double NOMINAL_VOLTAGE;
 
-        public Configuration(IdleMode idleMode, boolean inverted, boolean enableVoltageCompensation, double nominalVoltage, double openLoopRampRate, double closetLoopRampRate) {
+        public int CURRENT_LIMIT;
+
+        public Configuration(IdleMode idleMode, boolean inverted, boolean enableVoltageCompensation, double nominalVoltage, double openLoopRampRate, double closedLoopRampRate, int currentLimit) {
 
             IDLE_MODE = idleMode;
             INVERTED = inverted;
 
             OPEN_LOOP_RAMP_RATE = openLoopRampRate;
-            CLOSED_LOOP_RAMP_RATE = closetLoopRampRate;
+            CLOSED_LOOP_RAMP_RATE = closedLoopRampRate;
 
             ENABLE_VOLTAGE_COMPENSATION = enableVoltageCompensation;
             NOMINAL_VOLTAGE = nominalVoltage;
+
+            CURRENT_LIMIT = currentLimit;
 
         }
 
     }
 
-    private static final Configuration kDefaultConfiguration = new Configuration(
+    private static final Configuration kDefaultDriveConfiguration = new Configuration(
         IdleMode.kBrake,
         false,
         false,
         12,
         0.0,
-        0.0);
+        0.0,
+        80);
 
-    /** Creates a CANSparkMax object with the default configuration.*/
-    public static CANSparkMax createDefaultSparkMax(int id) {
+    private static final Configuration kDefaultAngleConfiguration = new Configuration(
+        IdleMode.kBrake,
+        false,
+        false,
+        12,
+        0.0,
+        0.0,
+        20);
 
-        return createSparkMax(id, kDefaultConfiguration);
+    /** Creates a CANSparkMax object with the default drive motor configuration.*/
+    public static CANSparkMax createDefaultDriveSparkMax(int id) {
 
+        return createSparkMax(id, kDefaultDriveConfiguration);
+
+    }
+
+    /** Creates a CANSparkMax object with the default angle motor configuration.*/
+    public static CANSparkMax createDefaultAngleSparkMax(int id) {
+
+        return createSparkMax(id, kDefaultAngleConfiguration);
+    
     }
 
     private static void handleREVLibError(int id, REVLibError error, String message) {
@@ -91,6 +112,8 @@ public class SparkMaxFactory {
         else {
             handleREVLibError(id, sparkMax.disableVoltageCompensation(), "voltage compensation");
         }
+
+        handleREVLibError(id, sparkMax.setSmartCurrentLimit(config.CURRENT_LIMIT), "current limit");
 
         return sparkMax;
 
