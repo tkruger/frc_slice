@@ -1,0 +1,36 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Auto Tab/Auto Mode": "String Chooser",
+      "/Shuffleboard/Auto Tab/Starting Position": "String Chooser",
+      "/Shuffleboard/Debug Tab/Field": "Field2d",
+      "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/Shuffleboard/Auto Tab/Auto Mode": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Auto Tab/Starting Position": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Debug Tab/Field": {
+        "Trajectory": {
+          "arrows": false,
+          "style": "Track"
+        },
+        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2023 Main Season Code\\2023 Personal Code\\frc_slice\\.Glass\\2023-field.png",
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
+        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2023 Main Season Code\\2023 Personal Code\\frc_slice\\.Glass\\2023-field.png"
+      }
+    }
+  }
+}

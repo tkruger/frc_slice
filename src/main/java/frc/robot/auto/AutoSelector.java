@@ -28,8 +28,8 @@ public class AutoSelector {
 
     }
 
-    public StartingPosition storedStartingPosition;
-    public DesiredMode storedDesiredMode;
+    public StartingPosition storedStartingPosition = StartingPosition.BLUE_COMMUNITY_LEFT;
+    public DesiredMode storedDesiredMode = DesiredMode.TEST_AUTO;
 
     public SendableChooser<StartingPosition> startingPositionChooser;
     public SendableChooser<DesiredMode> modeChooser;
@@ -64,7 +64,7 @@ public class AutoSelector {
 
     }
 
-    public void updateModeCreator() {
+    public void updateAutoSelector() {
 
         StartingPosition startingPosition = startingPositionChooser.getSelected();
         DesiredMode desiredMode = modeChooser.getSelected();
@@ -75,6 +75,8 @@ public class AutoSelector {
             + ", Desired Mode: " + desiredMode.name());
 
             autoMode = getAutoModeForParams(startingPosition, desiredMode);
+
+            //updateInitialAutoPoseOffset(startingPosition, desiredMode);
 
         }
 
@@ -99,50 +101,43 @@ public class AutoSelector {
 
     }
 
-    /*public void updateInitialAutoPoseOffset() {
+    /*public void updateInitialAutoPoseOffset(StartingPosition startingPosition, DesiredMode desiredMode) {
 
         Pose2d botPose = Limelight.getLastBotPoseBlue();
 
-        StartingPosition startingPosition = startingPositionChooser.getSelected();
-        DesiredMode desiredMode = modeChooser.getSelected();
+        switch(storedDesiredMode) {
 
-        if(storedStartingPosition != startingPosition || storedDesiredMode != desiredMode) {
-
-            switch(storedDesiredMode) {
-
-                case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
-                    initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
-                    break;
-                case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
-                    initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition).trajectory.getInitialPose());
-                    break;
-                case SCORE_ONE_CONE_HIGH_ROW:
-                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
-                    initialAutoPose = Optional.of(botPose);
-                    break;
-                case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
-                    initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
-                    break;
-                case SCORE_ONE_PIECE_THEN_MOBILITY:
-                    System.out.println("No initial pose is available for the 'ScoreOnePieceThenMobility' mode");
-                    initialAutoPose = Optional.of(botPose);
-                    break;
-                case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
-                    System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
-                    initialAutoPose = Optional.of(botPose);
-                    break;
-                case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
-                    System.out.println("No initial pose is available for the 'Score' mode");
-                    initialAutoPose = Optional.of(botPose);
-                    break;
-                default:
-                    System.err.println("No valid initial auto pose found for " + storedDesiredMode);
-                    initialAutoPose = Optional.empty();
-                    break;
+            case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
+                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
+                break;
+            case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
+                initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition).trajectory.getInitialPose());
+                break;
+            case SCORE_ONE_CONE_HIGH_ROW:
+                System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                initialAutoPose = Optional.of(botPose);
+                break;
+            case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
+                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
+                break;
+            case SCORE_ONE_PIECE_THEN_MOBILITY:
+                System.out.println("No initial pose is available for the 'ScoreOnePieceThenMobility' mode");
+                initialAutoPose = Optional.of(botPose);
+                break;
+            case SCORE_ONE_GAME_PIECE_THEN_ENGAGE:
+                System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
+                initialAutoPose = Optional.of(botPose);
+                break;
+            case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN:
+                System.out.println("No initial pose is available for the 'Score' mode");
+                initialAutoPose = Optional.of(botPose);
+                break;
+            default:
+                System.err.println("No valid initial auto pose found for " + storedDesiredMode);
+                initialAutoPose = Optional.empty();
+                break;
                 
             }
-
-        }
 
         if(botPose != null && initialAutoPose != null) {
 

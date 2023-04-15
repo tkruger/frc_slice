@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.auto.AutoPaths;
-import frc.robot.auto.commands.PrepareAutoRotationsCommand;
+import frc.robot.commands.Drivetrain.PrepareAutoRotationsCommand;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.subsystems.Drivetrain;
 

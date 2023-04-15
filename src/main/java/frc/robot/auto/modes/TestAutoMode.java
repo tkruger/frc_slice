@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GridToGamePiecePath;
+import frc.robot.auto.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.auto.sequences.TrajectoryFollowerSequence;
 import frc.robot.subsystems.Drivetrain;
 
@@ -22,7 +23,7 @@ public class TestAutoMode extends SequentialCommandGroup {
 
     GridToGamePiecePath gridToGamePiece = new GridToGamePiecePath(startingPosition);
 
-    TrajectoryFollowerSequence trajectory = new TrajectoryFollowerSequence(drive, gridToGamePiece, gridToGamePiece.trajectory.getInitialPose());
+    Field2dTrajectoryFollowerSequence trajectory = new Field2dTrajectoryFollowerSequence(drive, gridToGamePiece, gridToGamePiece.trajectory.getInitialPose());
 
     addCommands(
       trajectory

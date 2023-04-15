@@ -53,43 +53,43 @@ public class ShuffleboardData {
             withSize(2, 1);
         
             //Displays the current angle in degrees of the left front swerve module on Shuffleboard
-            modulesTab.addDouble("Left Front Angle", () -> drivetrain.getStates()[0].angle.getDegrees()).
+            modulesTab.addDouble("Left Front Angle", drivetrain.getStates()[0].angle::getDegrees).
             withWidget(BuiltInWidgets.kDial).
             withProperties(Map.of("Min", 0, "Max", 360)).
             withPosition(0, 1).
             withSize(2, 1);
             //Displays the current angle in degrees of the left back swerve module on Shuffleboard
-            modulesTab.addDouble("Left Back Angle", () -> drivetrain.getStates()[1].angle.getDegrees()).
+            modulesTab.addDouble("Left Back Angle", drivetrain.getStates()[1].angle::getDegrees).
             withWidget(BuiltInWidgets.kDial).
             withProperties(Map.of("Min", 0,"Max", 360)).
             withPosition(0, 2).
             withSize(2, 1);
             //Displays the current angle in degrees of the right front swerve module on Shuffleboard
-            modulesTab.addDouble("Right Front Angle", () -> drivetrain.getStates()[2].angle.getDegrees()).
+            modulesTab.addDouble("Right Front Angle", drivetrain.getStates()[2].angle::getDegrees).
             withWidget(BuiltInWidgets.kDial).
             withProperties(Map.of("Min", 0, "Max", 360)).
             withPosition(7, 1).
             withSize(2, 1);
             //Displays the current angle in degrees of the right back swerve module on Shuffleboard
-            modulesTab.addDouble("Right Back Angle", () -> drivetrain.getStates()[3].angle.getDegrees()).
+            modulesTab.addDouble("Right Back Angle", drivetrain.getStates()[3].angle::getDegrees).
             withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Min", 0, "Max", 360)).
             withPosition(7, 2).
             withSize(2, 1);
         
             //Displays the target angle in degrees that the left front swerve module has been set to on Shuffleboard
-            modulesTab.addDouble("Left Front Target Angle", () -> drivetrain.getTargetStates()[0].angle.getDegrees()).
+            modulesTab.addDouble("Left Front Target Angle", drivetrain.getTargetStates()[0].angle::getDegrees).
             withPosition(2, 0).
             withSize(2, 1);
             //Displays the target angle in degrees that the left back swerve module has been set to on Shuffleboard
-            modulesTab.addDouble("Left Back Target Angle", () -> drivetrain.getTargetStates()[1].angle.getDegrees()).
+            modulesTab.addDouble("Left Back Target Angle", drivetrain.getTargetStates()[1].angle::getDegrees).
             withPosition(2, 3).
             withSize(2, 1);
             //Displays the target angle in degrees that the right front swerve module has been set to on Shuffleboard
-            modulesTab.addDouble("Right Front Target Angle", () -> drivetrain.getTargetStates()[2].angle.getDegrees()).
+            modulesTab.addDouble("Right Front Target Angle", drivetrain.getTargetStates()[2].angle::getDegrees).
             withPosition(5, 0).
             withSize(2, 1);
             //Displays the target angle in degrees that the right back swerve module has been set to on Shuffleboard
-            modulesTab.addDouble("Right Back Target Angle", () -> drivetrain.getTargetStates()[3].angle.getDegrees()).
+            modulesTab.addDouble("Right Back Target Angle", drivetrain.getTargetStates()[3].angle::getDegrees).
             withPosition(5, 3).
             withSize(2, 1);
         
@@ -126,11 +126,11 @@ public class ShuffleboardData {
             autoTab.add("Starting Position", autoSelector.startingPositionChooser).withPosition(5, 0).withSize(2, 1);
 
             //Displays the autonomous mode selected on the sendable chooser on Shuffleboard
-            autoTab.addString("Selected Auto Mode", () -> autoSelector.storedDesiredMode.name()).
+            autoTab.addString("Selected Auto Mode", autoSelector.storedDesiredMode::name).
             withPosition(2, 1).
             withSize(2, 1);
             //Displays the robot starting position selected on the sendable chooser on Shuffleboard
-            autoTab.addString("Selected Starting Position", () -> autoSelector.storedStartingPosition.name()).
+            autoTab.addString("Selected Starting Position", autoSelector.storedStartingPosition::name).
             withPosition(5, 1).
             withSize(2, 1);
 
