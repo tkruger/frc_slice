@@ -126,9 +126,15 @@ public class Limelight extends SubsystemBase {
 
   public static Pose2d getLastBotPoseBlue() {
 
-    double[] lastNonEmptyBotPoseBlue = Limelight.lastNonEmptyBotPoseBlue;
+    //double[] lastNonEmptyBotPoseBlue = Limelight.lastNonEmptyBotPoseBlue;
 
     if(lastNonEmptyBotPoseBlue.length != 0) {
+
+      System.out.println("Receiving Non-Empty Pose");
+
+      SmartDashboard.putNumber("Last Non-Empty Bot Pose Blue X", lastNonEmptyBotPoseBlue[0]);
+      SmartDashboard.putNumber("Last Non-Empty Bot Pose Blue Y", lastNonEmptyBotPoseBlue[1]);
+      SmartDashboard.putNumber("Last Non-Empty Bot Pose Blue Rot", lastNonEmptyBotPoseBlue[5]);
 
       return new Pose2d(lastNonEmptyBotPoseBlue[0] + 8.28, lastNonEmptyBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastNonEmptyBotPoseBlue[5]));
 
