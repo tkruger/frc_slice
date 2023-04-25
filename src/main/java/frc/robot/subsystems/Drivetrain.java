@@ -182,9 +182,9 @@ public class Drivetrain extends SubsystemBase {
   /**
    * Drives the robot at given X, Y, and rotational velocities.
    * 
-   * @param translationX The desired velocity for the robot to move at along the X axis of the field(forwards/backwards from driver POV).
-   * @param translationY The desired velocity for the robot to move at along the Y axis of the field(left/right from driver POV).
-   * @param rotation The desired velocity for the robot to rotate at.
+   * @param translationX The desired velocity in meters/second for the robot to move at along the X axis of the field(forwards/backwards from driver POV).
+   * @param translationY The desired velocity in meters/second for the robot to move at along the Y axis of the field(left/right from driver POV).
+   * @param rotation The desired velocity in radians/second for the robot to rotate at.
    * @param isOpenLoop Whether the accordingly generated states for the given velocities should be set using open loop control for the drive motors
    *                   of the swerve modules.
    */

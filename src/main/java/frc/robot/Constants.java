@@ -78,7 +78,7 @@ public final class Constants {
     
         /* Drive Motor Conversion Factors */
         public static final double DRIVE_POSITION_CONVERSION_FACTOR =
-            (WHEEL_DIAMETER * Math.PI) / DRIVE_GEAR_RATIO;
+            WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
         public static final double DRIVE_VELOCITY_CONVERSION_FACTOR = DRIVE_POSITION_CONVERSION_FACTOR / 60.0;
         public static final double ANGLE_POSITION_CONVERSION_FACTOR_DEGREES = 360.0 / ANGLE_GEAR_RATIO;
         public static final double ANGLE_POSITION_CONVERSION_FACTOR_RADIANS = Math.PI * 2;
@@ -90,7 +90,20 @@ public final class Constants {
     
         /* Angle Encoder Invert */
         public static final boolean CANCODER_INVERT = false;
-    
+
+
+        //Define Charge Station Board and Balance Speeds
+        //public static final double CHARGE_STATION_BALANCE_SPEED = 0.3;
+        //public static final double BOARD_CHARGE_SPEED = -0.55;
+
+        public static final double CHARGE_STATION_BALANCE_SPEED = 1.35;
+        public static final double BOARD_CHARGE_SPEED = -2.475;
+
+        // Defines the minimum angle the drivetrain must be at to stop when boarding the charge station
+        public static final double BOARD_CHARGE_MINIMUM_STOP_ANGLE = 6;
+        // Defines the amount the angle should drop below the maximum angle to stop boarding the charge station and begin balancing
+        public static final double BOARD_CHARGE_ANGLE_CHANGE_THRESHOLD = 3.8;
+            
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 {
