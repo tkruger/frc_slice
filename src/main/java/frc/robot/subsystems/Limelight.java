@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -38,7 +39,7 @@ public class Limelight extends SubsystemBase {
   private double[] currentRobotTargetSpacePose;
 
   private static double currentAprilTagID;
-  private static double lastAprilTagID = 0;
+  private static double lastDoubleSubAprilTagID;
 
   private final NetworkTableEntry ledMode;
   private final NetworkTableEntry cameraMode;
@@ -96,13 +97,13 @@ public class Limelight extends SubsystemBase {
 
     currentAprilTagID = table.getEntry("tid").getDouble(0);
 
-    if(currentAprilTagID == 4 || currentAprilTagID == 5) {
+    if(currentAprilTagID == 4 || currentAprilTagID == 6) {
 
-       lastAprilTagID = currentAprilTagID;
+       lastDoubleSubAprilTagID = currentAprilTagID;
 
     }
 
-    SmartDashboard.putNumber("Last Apriltag ID", lastAprilTagID);
+    SmartDashboard.putNumber("Last Apriltag ID", lastDoubleSubAprilTagID);
 
   }
 
@@ -201,11 +202,13 @@ public class Limelight extends SubsystemBase {
 
     Pose2d finalPosition;
 
-    //double lastAprilTagID = Limelight.lastAprilTagID;
+    double lastDoubleSubAprilTagID = Limelight.lastDoubleSubAprilTagID;
 
-    if(lastAprilTagID != 0) {
+    SmartDashboard.putNumber("Last Received AprilTag ID", lastDoubleSubAprilTagID);
 
-      if(lastAprilTagID == 4) {
+    if(lastDoubleSubAprilTagID != 0) {
+ 
+      if(lastDoubleSubAprilTagID == 4) {
 
         aprilTagX = 16.19;
         aprilTagY = 6.74;
@@ -220,21 +223,34 @@ public class Limelight extends SubsystemBase {
   
       }
 
-      return TrajectoryGenerator.generateTrajectory(
+      ArrayList<Translation2d> interiorWaypoints = new ArrayList<Translation2d>();
+
+      interiorWaypoints.add(new Translation2d(
+        initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
+        initialPosition.getY() + ((finalPosition.getY() - initialPosition.getY()) / 3)));
+      
+      interiorWaypoints.add(new Translation2d(
+        finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
+        finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3)));
+
+      Trajectory doubleSubTrajectory = TrajectoryGenerator.generateTrajectory(
         initialPosition, 
-        List.of(
-          new Translation2d(
-            initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
-            initialPosition.getY() + ((finalPosition.getY() - initialPosition.getY()) / 3)),
-          new Translation2d(
-            finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
-            finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3))), 
+        interiorWaypoints, 
         finalPosition, 
         new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
-  
+
+        SmartDashboard.putNumber("Trajectory Initial X", doubleSubTrajectory.getInitialPose().getX());
+        SmartDashboard.putNumber("Trajectory Initial Y", doubleSubTrajectory.getInitialPose().getY());
+        SmartDashboard.putNumber("Trajectory Initial Rot", doubleSubTrajectory.getInitialPose().getRotation().getDegrees());
+
+        SmartDashboard.putBoolean("Trajectory Returned", true);
+
+        return doubleSubTrajectory;
+
     }
     else {
 
+      SmartDashboard.putBoolean("Trajectory Returned", false);
       return new Trajectory(List.of(new State(0, 0, 0, initialPosition, 0)));
 
     }

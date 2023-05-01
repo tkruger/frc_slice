@@ -73,12 +73,12 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
     SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
 
     addCommands(
-      preventVisionImplementation,
-      correctOdometry,
-      setField2dCommand,
-      ramseteCommand,
-      stopDriveCommand,
-      allowVisionImplementation
+      //preventVisionImplementation,
+      //correctOdometry,
+      setField2dCommand
+      //ramseteCommand,
+      //stopDriveCommand,
+      //allowVisionImplementation
     );
 
   }
