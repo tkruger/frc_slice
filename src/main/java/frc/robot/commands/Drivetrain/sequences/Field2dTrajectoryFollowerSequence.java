@@ -13,6 +13,9 @@ import frc.robot.auto.AutoPaths;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.commands.Drivetrain.SetField2dCommand;
 import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
+import frc.robot.commands.Drivetrain.Lambda.LambdaRamseteCommand;
+import frc.robot.commands.Drivetrain.Lambda.LambdaResetOdometryCommand;
+import frc.robot.commands.Drivetrain.Lambda.LambdaSetField2dCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
@@ -66,19 +69,19 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
-    ResetOdometryCommand correctOdometry = new ResetOdometryCommand(drive, Limelight.getLastBotPoseBlue());
-    SetField2dCommand setField2dCommand = new SetField2dCommand(Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
-    RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
+    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, Limelight::getLastBotPoseBlue);
+    LambdaSetField2dCommand setField2dCommand = new LambdaSetField2dCommand(() -> Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
+    LambdaRamseteCommand lambdaRamseteCommand = AutoPaths.generateLambdaRamseteCommand(() -> Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
     SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
 
     addCommands(
-      //preventVisionImplementation,
-      //correctOdometry,
-      setField2dCommand
-      //ramseteCommand,
-      //stopDriveCommand,
-      //allowVisionImplementation
+      preventVisionImplementation,
+      correctOdometry,
+      setField2dCommand,
+      lambdaRamseteCommand,
+      stopDriveCommand,
+      allowVisionImplementation
     );
 
   }

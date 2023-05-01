@@ -71,7 +71,6 @@ public class RobotContainer {
   public final CalibrateMandiblesCommand m_calibrateMandibles = new CalibrateMandiblesCommand(m_intake);
 
   public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
-  public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_limelight, m_elevator, m_wrist);
   public final LimelightXAlignmentCommand m_xAlign = new LimelightXAlignmentCommand(m_limelight, m_drivetrain);
 
   public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
@@ -91,6 +90,8 @@ public class RobotContainer {
   public final GoToStateCommand m_manualSetLowRowGround = new GoToStateCommand(m_elevator, m_wrist, Constants.States.LOW_ROW_GROUND_STATE);
   public final ToDoubleSubstationSequence m_manualSetDoubleSubstation = new ToDoubleSubstationSequence(m_elevator, m_wrist);
   public final StowSequence m_manualSetStow = new StowSequence(m_elevator, m_wrist);
+
+  public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_elevator, m_wrist);
   
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);

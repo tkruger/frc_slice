@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -223,19 +222,15 @@ public class Limelight extends SubsystemBase {
   
       }
 
-      ArrayList<Translation2d> interiorWaypoints = new ArrayList<Translation2d>();
-
-      interiorWaypoints.add(new Translation2d(
-        initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
-        initialPosition.getY() + ((finalPosition.getY() - initialPosition.getY()) / 3)));
-      
-      interiorWaypoints.add(new Translation2d(
-        finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
-        finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3)));
-
       Trajectory doubleSubTrajectory = TrajectoryGenerator.generateTrajectory(
         initialPosition, 
-        interiorWaypoints, 
+        List.of(
+          new Translation2d(
+            initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
+            initialPosition.getY() + ((finalPosition.getY() - initialPosition.getY()) / 3)),
+          new Translation2d(
+            finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
+            finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3))), 
         finalPosition, 
         new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
 

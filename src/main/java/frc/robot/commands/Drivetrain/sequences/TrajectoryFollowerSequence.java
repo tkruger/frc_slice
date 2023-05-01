@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.AutoPaths;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
+import frc.robot.commands.Drivetrain.Lambda.LambdaRamseteCommand;
+import frc.robot.commands.Drivetrain.Lambda.LambdaResetOdometryCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
@@ -62,15 +64,15 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     
     SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
-    ResetOdometryCommand correctOdometry = new ResetOdometryCommand(drive, Limelight.getLastBotPoseBlue());
-    RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
+    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, Limelight::getLastBotPoseBlue);
+    LambdaRamseteCommand lambdaRamseteCommand = AutoPaths.generateLambdaRamseteCommand(() -> Limelight.generateDoubleSubstationTrajectory(drive.getPose()), drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
     SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
 
     addCommands(
       preventVisionImplementation,
       correctOdometry,
-      ramseteCommand,
+      lambdaRamseteCommand,
       stopDriveCommand,
       allowVisionImplementation
     );

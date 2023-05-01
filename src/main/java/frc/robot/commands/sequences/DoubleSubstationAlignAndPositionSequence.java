@@ -10,7 +10,6 @@ import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence
 //import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,7 +17,7 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DoubleSubstationAlignAndPositionSequence extends SequentialCommandGroup {
   /** Creates a new DoubleSubstationAlignThenPickUpPieceSequence. */
-  public DoubleSubstationAlignAndPositionSequence(Drivetrain drive, Limelight limelight, Elevator elevator, Wrist wrist) {
+  public DoubleSubstationAlignAndPositionSequence(Drivetrain drive, Elevator elevator, Wrist wrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 

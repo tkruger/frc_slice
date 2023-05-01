@@ -43,7 +43,6 @@ public final class Button {
 
     //Define Limelight Buttons
     public static Trigger nodeAlign = new JoystickButton(rightJoystick, 7); //Right Bottom 7
-    public static Trigger doubleSubstationAlignAndPosition = new JoystickButton(leftJoystick, 3); //Left Top 3
     public static Trigger xAlign = new JoystickButton(rightJoystick, 8); //Right Bottom 8
 
     //Define LED Buttons
@@ -57,7 +56,10 @@ public final class Button {
     public static Trigger toLowRowGroundState = new JoystickButton(manipulatorJoystick, 12);
     public static Trigger toDoubleSubstationState = new JoystickButton(manipulatorJoystick, 7);
     public static Trigger toStowState = new JoystickButton(manipulatorJoystick, 1);
-    
+
+    //Define Trajectory Alignment Buttons
+    public static Trigger doubleSubstationAlignAndPosition = new JoystickButton(leftJoystick, 3); //Left Top 3
+
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton9 = new JoystickButton(rightJoystick, 9); //Right Bottom 9
     public static Trigger rightButton10 = new JoystickButton(rightJoystick, 10); //Right Bottom 10
