@@ -42,7 +42,6 @@ public final class Button {
     public static Trigger calibrateAll = new JoystickButton(manipulatorJoystick, 2); //Manipulator Top 2
 
     //Define Limelight Buttons
-    public static Trigger nodeAlign = new JoystickButton(rightJoystick, 7); //Right Bottom 7
     public static Trigger xAlign = new JoystickButton(rightJoystick, 8); //Right Bottom 8
 
     //Define LED Buttons
@@ -59,6 +58,7 @@ public final class Button {
 
     //Define Trajectory Alignment Buttons
     public static Trigger doubleSubstationAlignAndPosition = new JoystickButton(leftJoystick, 3); //Left Top 3
+    public static Trigger nodeAlign = new JoystickButton(leftJoystick, 4); //Left Top 4
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton9 = new JoystickButton(rightJoystick, 9); //Right Bottom 9
@@ -78,7 +78,6 @@ public final class Button {
 
     //Unassigned Left Joystick Buttons
     public static Trigger leftButton2 = new JoystickButton(leftJoystick, 2); //Left Top 2
-    public static Trigger leftButton4 = new JoystickButton(leftJoystick, 4); //Left Top 4
     public static Trigger leftButton10 = new JoystickButton(leftJoystick, 10); //Left Bottom 10
     public static Trigger leftButton11 = new JoystickButton(leftJoystick, 11); //Left Bottom 11
     public static Trigger leftButton12 = new JoystickButton(leftJoystick, 12); //Left Bottom 12

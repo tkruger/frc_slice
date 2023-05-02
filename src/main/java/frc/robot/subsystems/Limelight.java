@@ -244,7 +244,7 @@ public class Limelight extends SubsystemBase {
   
       }
 
-      Trajectory doubleSubTrajectory = TrajectoryGenerator.generateTrajectory(
+      return TrajectoryGenerator.generateTrajectory(
         initialPosition, 
         List.of(new Translation2d(
           (initialPosition.getX() + finalPosition.getX()) / 2, 
@@ -252,7 +252,7 @@ public class Limelight extends SubsystemBase {
         finalPosition, 
         new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
 
-      /*Trajectory doubleSubTrajectory = TrajectoryGenerator.generateTrajectory(
+      /*return TrajectoryGenerator.generateTrajectory(
         initialPosition, 
         List.of(
           new Translation2d(
@@ -263,8 +263,6 @@ public class Limelight extends SubsystemBase {
             finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3))), 
         finalPosition, 
         new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));*/
-
-        return doubleSubTrajectory;
 
     }
     else {
@@ -289,8 +287,8 @@ public class Limelight extends SubsystemBase {
       if(lastNodeAprilTagID == 6) {
 
         aprilTagX = 1.04;
-        aprilTagY = 8.7;
-        finalPosition = new Pose2d(aprilTagX, aprilTagY, Rotation2d.fromDegrees(180));
+        aprilTagY = 4.42;
+        finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
 
       }
 
@@ -301,7 +299,6 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getY() + finalPosition.getY()) / 2)),
         finalPosition, 
         new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
-
 
     }
     else {

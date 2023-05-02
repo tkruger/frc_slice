@@ -5,6 +5,7 @@
 package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 //import frc.robot.commands.Drivetrain.sequences.TrajectoryFollowerSequence;
 //import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
@@ -22,12 +23,12 @@ public class DoubleSubstationAlignAndPositionSequence extends SequentialCommandG
     // addCommands(new FooCommand(), new BarCommand());
 
     Field2dTrajectoryFollowerSequence doubleSubstationAlign = new Field2dTrajectoryFollowerSequence(drive, false);
-    //AutonomousDistanceDriveCommand moveForward = new AutonomousDistanceDriveCommand(drive, 0.5, 0.5);
+    AutonomousTimedDriveCommand moveForward = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.55);
     ToDoubleSubstationSequence toDoubleSubstation = new ToDoubleSubstationSequence(elevator, wrist);
 
     addCommands(
       doubleSubstationAlign,
-      //moveForward,
+      moveForward,
       toDoubleSubstation
     );
 
