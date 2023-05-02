@@ -21,7 +21,7 @@ public class DoubleSubstationAlignAndPositionSequence extends SequentialCommandG
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    Field2dTrajectoryFollowerSequence doubleSubstationAlign = new Field2dTrajectoryFollowerSequence(drive);
+    Field2dTrajectoryFollowerSequence doubleSubstationAlign = new Field2dTrajectoryFollowerSequence(drive, false);
     //AutonomousDistanceDriveCommand moveForward = new AutonomousDistanceDriveCommand(drive, 0.5, 0.5);
     ToDoubleSubstationSequence toDoubleSubstation = new ToDoubleSubstationSequence(elevator, wrist);
 

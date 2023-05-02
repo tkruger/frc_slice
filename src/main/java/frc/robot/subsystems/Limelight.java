@@ -37,8 +37,9 @@ public class Limelight extends SubsystemBase {
   private double[] lastRobotTargetSpacePose;
   private double[] currentRobotTargetSpacePose;
 
-  private static double currentAprilTagID;
-  private static double lastDoubleSubAprilTagID;
+  private static double currentAprilTagID = 0;
+  private static double lastDoubleSubAprilTagID = 0;
+  private static double lastNodeAprilTagID = 0;
 
   private final NetworkTableEntry ledMode;
   private final NetworkTableEntry cameraMode;
@@ -60,6 +61,8 @@ public class Limelight extends SubsystemBase {
     driverTab.addCamera("Limelight", "limelight-slice-1", "http://10.87.38.73:5800").
     withPosition(5, 0).
     withSize(3, 3);
+
+    pipeline.setNumber(1);
 
   }
 
@@ -96,9 +99,15 @@ public class Limelight extends SubsystemBase {
 
     currentAprilTagID = table.getEntry("tid").getDouble(0);
 
-    if(currentAprilTagID == 4 || currentAprilTagID == 6) {
+    if(currentAprilTagID == 4 || currentAprilTagID == 5) {
 
-       lastDoubleSubAprilTagID = currentAprilTagID;
+      lastDoubleSubAprilTagID = currentAprilTagID;
+
+    }
+
+    if(currentAprilTagID != 4 && currentAprilTagID != 5 && currentAprilTagID != 0) {
+
+      lastNodeAprilTagID = currentAprilTagID;
 
     }
 
@@ -194,6 +203,21 @@ public class Limelight extends SubsystemBase {
 
   }
 
+  public static Trajectory generateAlignmentTrajectory(boolean isNodeTrajectory, Pose2d initialPosition) {
+
+    if(isNodeTrajectory) {
+
+      return generateNodeTrajectory(initialPosition);
+
+    }
+    else {
+
+      return generateDoubleSubstationTrajectory(initialPosition);
+
+    }
+
+  }
+
   public static Trajectory generateDoubleSubstationTrajectory(Pose2d initialPosition) {
 
     double aprilTagX;
@@ -202,8 +226,6 @@ public class Limelight extends SubsystemBase {
     Pose2d finalPosition;
 
     double lastDoubleSubAprilTagID = Limelight.lastDoubleSubAprilTagID;
-
-    SmartDashboard.putNumber("Last Received AprilTag ID", lastDoubleSubAprilTagID);
 
     if(lastDoubleSubAprilTagID != 0) {
  
@@ -224,6 +246,14 @@ public class Limelight extends SubsystemBase {
 
       Trajectory doubleSubTrajectory = TrajectoryGenerator.generateTrajectory(
         initialPosition, 
+        List.of(new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2)),
+        finalPosition, 
+        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
+
+      /*Trajectory doubleSubTrajectory = TrajectoryGenerator.generateTrajectory(
+        initialPosition, 
         List.of(
           new Translation2d(
             initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
@@ -232,20 +262,50 @@ public class Limelight extends SubsystemBase {
             finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
             finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3))), 
         finalPosition, 
-        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
-
-        SmartDashboard.putNumber("Trajectory Initial X", doubleSubTrajectory.getInitialPose().getX());
-        SmartDashboard.putNumber("Trajectory Initial Y", doubleSubTrajectory.getInitialPose().getY());
-        SmartDashboard.putNumber("Trajectory Initial Rot", doubleSubTrajectory.getInitialPose().getRotation().getDegrees());
-
-        SmartDashboard.putBoolean("Trajectory Returned", true);
+        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));*/
 
         return doubleSubTrajectory;
 
     }
     else {
 
-      SmartDashboard.putBoolean("Trajectory Returned", false);
+      return new Trajectory(List.of(new State(0, 0, 0, initialPosition, 0)));
+
+    }
+
+  }
+
+  public static Trajectory generateNodeTrajectory(Pose2d initialPosition) {
+
+    double aprilTagX;
+    double aprilTagY;
+
+    Pose2d finalPosition = new Pose2d(1.04, 8.7, Rotation2d.fromDegrees(180));
+
+    double lastNodeAprilTagID = Limelight.lastNodeAprilTagID;
+
+    if(lastNodeAprilTagID != 0) {
+
+      if(lastNodeAprilTagID == 6) {
+
+        aprilTagX = 1.04;
+        aprilTagY = 8.7;
+        finalPosition = new Pose2d(aprilTagX, aprilTagY, Rotation2d.fromDegrees(180));
+
+      }
+
+      return TrajectoryGenerator.generateTrajectory(
+        initialPosition, 
+        List.of(new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2)),
+        finalPosition, 
+        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
+
+
+    }
+    else {
+
       return new Trajectory(List.of(new State(0, 0, 0, initialPosition, 0)));
 
     }

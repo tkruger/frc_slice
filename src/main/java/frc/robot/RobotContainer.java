@@ -15,6 +15,7 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Drivetrain.ChargeStation.*;
+import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Elevator.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.LEDs.*;
@@ -70,7 +71,7 @@ public class RobotContainer {
   public final RunMandiblesCommand m_runMandiblesOutwards = new RunMandiblesCommand(m_intake, false);
   public final CalibrateMandiblesCommand m_calibrateMandibles = new CalibrateMandiblesCommand(m_intake);
 
-  public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
+  //public final LimelightNodeAlignCommand m_nodeAlign = new LimelightNodeAlignCommand(m_limelight, m_drivetrain);
   public final LimelightXAlignmentCommand m_xAlign = new LimelightXAlignmentCommand(m_limelight, m_drivetrain);
 
   public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
@@ -92,6 +93,7 @@ public class RobotContainer {
   public final StowSequence m_manualSetStow = new StowSequence(m_elevator, m_wrist);
 
   public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_elevator, m_wrist);
+  public final Field2dTrajectoryFollowerSequence m_nodeAlign = new Field2dTrajectoryFollowerSequence(m_drivetrain, true);
   
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
