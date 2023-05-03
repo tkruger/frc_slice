@@ -250,7 +250,7 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getX() + finalPosition.getX()) / 2, 
           (initialPosition.getY() + finalPosition.getY()) / 2)),
         finalPosition, 
-        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
+        new TrajectoryConfig(1, 0.5).setKinematics(Constants.Drivetrain.kDriveKinematics));
 
       /*return TrajectoryGenerator.generateTrajectory(
         initialPosition, 
@@ -278,7 +278,8 @@ public class Limelight extends SubsystemBase {
     double aprilTagX;
     double aprilTagY;
 
-    Pose2d finalPosition = new Pose2d(1.04, 8.7, Rotation2d.fromDegrees(180));
+    Translation2d interiorWaypoint = new Translation2d(0, 0);
+    Pose2d finalPosition = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     double lastNodeAprilTagID = Limelight.lastNodeAprilTagID;
 
@@ -288,17 +289,28 @@ public class Limelight extends SubsystemBase {
 
         aprilTagX = 1.04;
         aprilTagY = 4.42;
+
+        finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
+        interiorWaypoint = new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2);
+
+      }
+      else if(lastNodeAprilTagID == 7) {
+
+        aprilTagX = 1.04;
+        aprilTagY = 2.74;
+
+        interiorWaypoint = new Translation2d(2.65, initialPosition.getY());
         finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
 
       }
 
       return TrajectoryGenerator.generateTrajectory(
         initialPosition, 
-        List.of(new Translation2d(
-          (initialPosition.getX() + finalPosition.getX()) / 2, 
-          (initialPosition.getY() + finalPosition.getY()) / 2)),
+        List.of(interiorWaypoint),
         finalPosition, 
-        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));
+        new TrajectoryConfig(1, 0.5).setKinematics(Constants.Drivetrain.kDriveKinematics));
 
     }
     else {

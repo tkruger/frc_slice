@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.auto.AutoPaths;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.commands.Drivetrain.SetField2dCommand;
@@ -69,7 +69,7 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
-    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, Limelight::getLastBotPoseBlue);
+    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, drive::getPose);
     LambdaSetField2dCommand setField2dCommand = new LambdaSetField2dCommand(() -> Limelight.generateAlignmentTrajectory(isNodeTrajectory, drive.getPose()), drive);
     LambdaRamseteCommand lambdaRamseteCommand = AutoPaths.generateLambdaRamseteCommand(() -> Limelight.generateAlignmentTrajectory(isNodeTrajectory, drive.getPose()), drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);

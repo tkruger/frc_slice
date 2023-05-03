@@ -64,7 +64,7 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     
     SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
-    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, Limelight::getLastBotPoseBlue);
+    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, drive::getPose);
     LambdaRamseteCommand lambdaRamseteCommand = AutoPaths.generateLambdaRamseteCommand(() -> Limelight.generateAlignmentTrajectory(isNodeTrajectory, drive.getPose()), drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
     SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
