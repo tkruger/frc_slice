@@ -19,6 +19,7 @@ import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -26,7 +27,7 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
   /** Creates a new SocreOneCubeGoOutThenEngageMode. */
-  public ScoreOneCubeGoOutThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneCubeGoOutThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -38,7 +39,7 @@ public class ScoreOneCubeGoOutThenEngageMode extends SequentialCommandGroup {
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     GridOutOfCommunityToChargeStationPath gridOutOfCommunityToChargeStation = new GridOutOfCommunityToChargeStationPath(startPosition);
     BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
-    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive, leds);
 
     //ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
     PPField2dTrajectoryFollowerSequence trajectory = new PPField2dTrajectoryFollowerSequence(drive, gridOutOfCommunityToChargeStation, gridOutOfCommunityToChargeStation.trajectory.getInitialPose());

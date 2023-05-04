@@ -38,7 +38,7 @@ public class RobotContainer {
   public final Limelight m_limelight = new Limelight();
   //public final ColorSensor m_colorSensor = new ColorSensor();
   public final LEDs m_leds = new LEDs();
-  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight);
+  public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight, m_leds);
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -48,7 +48,7 @@ public class RobotContainer {
   public final CurvatureDriveCommand m_curvatureDrive = new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final PIDDriveCommand m_PIDDrive = new PIDDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final ChargeStationBalanceCommand m_chargeStationBalance = new ChargeStationBalanceCommand(m_drivetrain);
-  public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain);
+  public final ChargeStationBalancePIDCommand m_ChargeStationBalancePID = new ChargeStationBalancePIDCommand(m_drivetrain, m_leds);
   public final QuickTurnCommand m_quickTurn = new QuickTurnCommand(m_drivetrain);
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurnSequence = new QuickTurnSequence(m_drivetrain);
@@ -74,7 +74,7 @@ public class RobotContainer {
 
   public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
   public final CustomRainbowLEDs m_flashYellowLEDs = new CustomRainbowLEDs(m_leds, 28);
-  public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds);
+  public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds, m_drivetrain);
 
   public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake);
   public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake);

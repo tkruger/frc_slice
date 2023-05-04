@@ -22,11 +22,7 @@ import frc.robot.auto.modes.Pathplannerless.ScoreOneGamePieceThenMobilityMode;
 import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.auto.paths.GridToGamePieceWithArcPath;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.*;
 
 import java.util.Optional;
 
@@ -79,6 +75,7 @@ public class AutoSelector {
     private final Wrist m_wrist;
     private final Intake m_intake;
     private final Limelight m_limelight;
+    private final LEDs m_leds;
 
     private final ShuffleboardTab autoTab;
 
@@ -89,13 +86,14 @@ public class AutoSelector {
     private final GenericEntry autoPoseYOffsetWidget;
     private final GenericEntry autoPoseRotationOffsetWidget;
 
-    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
+    public AutoSelector(Drivetrain drivetrain, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight, LEDs leds) {
 
         m_drivetrain = drivetrain;
         m_elevator = elevator;
         m_wrist = wrist;
         m_intake = intake;
         m_limelight = limelight;
+        m_leds = leds;
 
         startingPositionChooser = new SendableChooser<StartingPosition>();
 
@@ -187,25 +185,25 @@ public class AutoSelector {
             case SCORE_ONE_GAME_PIECE_THEN_MOBILITY_PATHPLANNERLESS:
                 return Optional.of(new ScoreOneGamePieceThenMobilityMode(m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNERLESS:
-                return Optional.of(new ScoreOneGamePieceThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneGamePieceThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN_PATHPLANNERLESS:
                 return Optional.of(new ScoreOneGamePieceMobilityThenAlignMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE_PATHPLANNERLESS:
-                return Optional.of(new ScoreOneGamePieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneGamePieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             case SCORE_TWO_GAME_PIECES_PATHPLANNERLESS:
                 return Optional.of(new PathplannerlessScoreConeAndCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
             case SCORE_CONE_THEN_PICK_UP_CUBE_PATHPLANNERLESS:
                 return Optional.of(new PathplannerlessScoreConeThenPickUpCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
             case SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE:
-                return Optional.of(new ScoreOneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneCubeGoOutThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE:
-                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC:
-                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE:
-                return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC:
-                return Optional.of(new ScoreTwoGamePiecesThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreTwoGamePiecesThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_leds));
             default:
                 break;
     

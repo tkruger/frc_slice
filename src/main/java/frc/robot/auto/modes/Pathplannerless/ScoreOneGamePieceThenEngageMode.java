@@ -13,17 +13,14 @@ import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
   /** Creates a new ScoreOneGamePieceThenEngageMode. */
-  public ScoreOneGamePieceThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneGamePieceThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -35,7 +32,7 @@ public class ScoreOneGamePieceThenEngageMode extends SequentialCommandGroup {
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     AutonomousAngleDriveCommand getOnChargeStation = new AutonomousAngleDriveCommand(drive, -0.65);
     AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.8, 0, 0.551);
-    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive, leds);
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(1);
 

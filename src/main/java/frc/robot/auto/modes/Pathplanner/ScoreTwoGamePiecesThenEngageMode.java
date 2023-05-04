@@ -20,17 +20,14 @@ import frc.robot.commands.Drivetrain.QuickTurnSequence;
 import frc.robot.commands.sequences.PickUpGamePieceGroundSequence;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
   /** Creates a new ScoreTwoGamePiecesThenEngageMode. */
-  public ScoreTwoGamePiecesThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreTwoGamePiecesThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -48,7 +45,7 @@ public class ScoreTwoGamePiecesThenEngageMode extends SequentialCommandGroup {
     QuickTurnSequence quickTurn3 = new QuickTurnSequence(drive);
     GridToChargeStationPath gridToChargeStation = new GridToChargeStationPath(startPosition);
     BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
-    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive, leds);
 
     // ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
     PPField2dTrajectoryFollowerSequence trajectory1 = new PPField2dTrajectoryFollowerSequence(drive, gridToGamePiece, gridToGamePiece.trajectory.getInitialPose());

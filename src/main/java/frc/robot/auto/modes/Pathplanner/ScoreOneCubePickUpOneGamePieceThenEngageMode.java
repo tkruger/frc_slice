@@ -5,10 +5,7 @@
 package frc.robot.auto.modes.Pathplanner;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.*;
 import frc.robot.auto.AutoSelector;
 import frc.robot.auto.paths.GamePieceToChargeStationPath;
 import frc.robot.auto.paths.GridToGamePiecePath;
@@ -26,7 +23,7 @@ import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialCommandGroup {
   /** Creates a new ScoreOneCubePickUpOneGamePieceThenEngageMode. */
-  public ScoreOneCubePickUpOneGamePieceThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneCubePickUpOneGamePieceThenEngageMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -40,7 +37,7 @@ public class ScoreOneCubePickUpOneGamePieceThenEngageMode extends SequentialComm
     QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
     GamePieceToChargeStationPath gamePieceToChargeStation = new GamePieceToChargeStationPath(startPosition);
     BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
-    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive, leds);
 
     // ParallelCommandGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle);
     PPField2dTrajectoryFollowerSequence trajectory1 = new PPField2dTrajectoryFollowerSequence(drive, gridToGamePiece, gridToGamePiece.trajectory.getInitialPose());

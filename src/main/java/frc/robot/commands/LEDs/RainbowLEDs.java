@@ -3,13 +3,16 @@ package frc.robot.commands.LEDs;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.Drivetrain;
 
 public class RainbowLEDs extends CommandBase {
     private final LEDs leds;
     private int m_rainbowFirstPixelHue = 0;
+    private Drivetrain drivetrain;
     
-    public RainbowLEDs(LEDs leds) {
+    public RainbowLEDs(LEDs leds, Drivetrain drivetrain) {
       this.leds = leds;
+      this.drivetrain = drivetrain;
 
       // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(leds);
@@ -29,6 +32,10 @@ public class RainbowLEDs extends CommandBase {
 
         m_rainbowFirstPixelHue += 1.5;
         m_rainbowFirstPixelHue %= 180;
+
+        if(drivetrain.getRoll() > 3) {
+          leds.balanceLedMode(drivetrain.getRoll());
+        }
 
         leds.ledBuffer();
     }

@@ -169,9 +169,13 @@ public final class Constants {
 
     }
 
-    public final class LEDs {
+    public final static class cLEDs {
         public static final int port = 9;
         public static final int count = 77;
+
+        public static final int[] ebox = {0, 37};
+        public static final int[] left = {38, 57};
+        public static final int[] right = {58, 77};
     }
 
     //Define RobotState Constants
