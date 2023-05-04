@@ -173,8 +173,8 @@ public final class Constants {
         public static final int port = 9;
         public static final int count = 77;
 
-        public static final int[] ebox = {0, 37};
-        public static final int[] left = {38, 57};
+        public static final int[] ebox = {0, 35};
+        public static final int[] left = {36, 57};
         public static final int[] right = {58, 77};
     }
 
@@ -207,7 +207,7 @@ public final class Constants {
         public static final double kaVoltsSecondsSquaredPerMeter = 0.57535 / 4;
     
         //public static final double kPDriveVel = 0.00029423;
-        public static final double kPDriveVel = 3.9649;
+        public static final double kPDriveVel = 3.9649 - .5;
 
         // Defines the minimum angle the drivetrain must be at to stop when boarding the charge station
         public static final double BOARD_CHARGE_MINIMUM_STOP_ANGLE = 6;

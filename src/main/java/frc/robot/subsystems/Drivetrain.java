@@ -225,9 +225,6 @@ public class Drivetrain extends SubsystemBase {
     //Displays the feed from the USB camera on Shufflboard
     driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(1, 0).withSize(3, 3);
 
-    //Sends the Fiel2d object to NetworkTables
-    SmartDashboard.putData(m_field2d);
-
     drivetrainReversed = false;
 
   }

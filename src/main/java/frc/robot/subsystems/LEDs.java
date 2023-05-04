@@ -75,19 +75,19 @@ public class LEDs extends SubsystemBase {
   public void balanceLedMode(double angle) {
     // angles range between 0 degrees and 15 degrees
 
-    double excludedLeft = (Constants.cLEDs.left[1] - Constants.cLEDs.left[0]) * (1 - (angle * .06667)) + Constants.cLEDs.left[0];
-    double excludedRight = Constants.cLEDs.right[1] - (Constants.cLEDs.right[1] - Constants.cLEDs.right[0]) * (1 - (angle * .06667));
+    double excludedRight = (Constants.cLEDs.right[1] - Constants.cLEDs.right[0]) * (1 - (angle * .06667)) + Constants.cLEDs.right[0];
+    double excludedLeft = Constants.cLEDs.left[1] - (Constants.cLEDs.left[1] - Constants.cLEDs.left[0]) * (1 - (angle * .06667));
 
     // sets all leds to black
     for (int i = 0; i < Constants.cLEDs.count; i++) {
       buffer.setRGB(i, 0, 0, 0);
     }
 
-    for (int i = Constants.cLEDs.left[0]; i < excludedLeft; i++) {
+    for (int i = Constants.cLEDs.right[0]; i < excludedRight || i < Constants.cLEDs.count; i++) {
       buffer.setRGB(i, 255, 140, 60);
     }
 
-    for (int i = Constants.cLEDs.right[1]; i > excludedRight; i--) {
+    for (int i = Constants.cLEDs.left[1]; i > excludedLeft; i--) {
       buffer.setRGB(i, 255, 140, 60);
     }
 
