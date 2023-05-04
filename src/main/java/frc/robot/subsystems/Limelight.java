@@ -34,8 +34,8 @@ public class Limelight extends SubsystemBase {
   private static double[] currentBotPoseBlue;
   private static double[] lastNonNullBotPoseBlue = new double[0];
   private static double[] lastNonEmptyBotPoseBlue = new double[0];
-  private double[] lastRobotTargetSpacePose;
-  private double[] currentRobotTargetSpacePose;
+  private static double[] lastBotPoseTargetSpace = new double[0];
+  private static double[] currentBotPoseTargetSpace;
 
   private static double currentAprilTagID = 0;
   private static double lastDoubleSubAprilTagID = 0;
@@ -89,11 +89,11 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    currentRobotTargetSpacePose = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
-    if(currentRobotTargetSpacePose != null) {
+    if(currentBotPoseTargetSpace != null) {
 
-      lastRobotTargetSpacePose = currentRobotTargetSpacePose;
+      lastBotPoseTargetSpace = currentBotPoseTargetSpace;
 
     }
 
@@ -135,15 +135,9 @@ public class Limelight extends SubsystemBase {
 
   public static Pose2d getLastBotPoseBlue() {
 
-    //double[] lastNonEmptyBotPoseBlue = Limelight.lastNonEmptyBotPoseBlue;
+    double[] lastNonEmptyBotPoseBlue = Limelight.lastNonEmptyBotPoseBlue;
 
     if(lastNonEmptyBotPoseBlue.length != 0) {
-
-      System.out.println("Receiving Non-Empty Pose");
-
-      SmartDashboard.putNumber("Last Non-Empty Bot Pose Blue X", lastNonEmptyBotPoseBlue[0]);
-      SmartDashboard.putNumber("Last Non-Empty Bot Pose Blue Y", lastNonEmptyBotPoseBlue[1]);
-      SmartDashboard.putNumber("Last Non-Empty Bot Pose Blue Rot", lastNonEmptyBotPoseBlue[5]);
 
       return new Pose2d(lastNonEmptyBotPoseBlue[0] + 8.28, lastNonEmptyBotPoseBlue[1] + 4, Rotation2d.fromDegrees(lastNonEmptyBotPoseBlue[5]));
 
@@ -173,9 +167,20 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public Pose2d getRobotTargetSpacePose() {
+  public static Pose2d getBotPoseTargetSpace() {
 
-    return new Pose2d(lastRobotTargetSpacePose[0], lastRobotTargetSpacePose[1], Rotation2d.fromDegrees(lastRobotTargetSpacePose[5]));
+    double[] lastBotPoseTargetSpace = Limelight.lastBotPoseTargetSpace;
+
+    if(lastBotPoseTargetSpace.length != 0) {
+
+      return new Pose2d(lastBotPoseTargetSpace[0], lastBotPoseTargetSpace[1], Rotation2d.fromDegrees(lastBotPoseTargetSpace[5]));
+
+    }
+    else {
+
+      return null;
+
+    }
 
   }
 
@@ -252,18 +257,6 @@ public class Limelight extends SubsystemBase {
         finalPosition, 
         new TrajectoryConfig(1, 0.5).setKinematics(Constants.Drivetrain.kDriveKinematics));
 
-      /*return TrajectoryGenerator.generateTrajectory(
-        initialPosition, 
-        List.of(
-          new Translation2d(
-            initialPosition.getX() + ((finalPosition.getX() - initialPosition.getX()) / 3),
-            initialPosition.getY() + ((finalPosition.getY() - initialPosition.getY()) / 3)),
-          new Translation2d(
-            finalPosition.getX() - ((finalPosition.getX() - initialPosition.getX()) / 3),
-            finalPosition.getY() - ((finalPosition.getY() - initialPosition.getY()) / 3))), 
-        finalPosition, 
-        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics));*/
-
     }
     else {
 
@@ -285,12 +278,47 @@ public class Limelight extends SubsystemBase {
 
     if(lastNodeAprilTagID != 0) {
 
-      if(lastNodeAprilTagID == 6) {
+      if(lastNodeAprilTagID == 1) {
+
+        aprilTagX = 15.52;
+        aprilTagY = 1.06;
+
+        finalPosition = new Pose2d(aprilTagX - 0.8, aprilTagY, Rotation2d.fromDegrees(0));
+
+        interiorWaypoint = new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2);
+
+      }
+      else if(lastNodeAprilTagID == 2) {
+
+        aprilTagX = 15.52;
+        aprilTagY = 2.74;
+
+        finalPosition = new Pose2d(aprilTagX - 0.8, aprilTagY, Rotation2d.fromDegrees(0));
+
+        interiorWaypoint = new Translation2d(13.91, initialPosition.getY());
+
+      }
+      else if (lastNodeAprilTagID == 3) {
+
+        aprilTagX = 15.52;
+        aprilTagY = 4.42;
+
+        finalPosition = new Pose2d(aprilTagX - 0.8, aprilTagY, Rotation2d.fromDegrees(0));
+
+        interiorWaypoint = new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2);
+
+      }
+      else if(lastNodeAprilTagID == 6) {
 
         aprilTagX = 1.04;
         aprilTagY = 4.42;
 
         finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
+
         interiorWaypoint = new Translation2d(
           (initialPosition.getX() + finalPosition.getX()) / 2, 
           (initialPosition.getY() + finalPosition.getY()) / 2);
@@ -301,8 +329,21 @@ public class Limelight extends SubsystemBase {
         aprilTagX = 1.04;
         aprilTagY = 2.74;
 
-        interiorWaypoint = new Translation2d(2.65, initialPosition.getY());
         finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
+
+        interiorWaypoint = new Translation2d(2.65, initialPosition.getY());
+
+      }
+      else {
+
+        aprilTagX = 1.04;
+        aprilTagY = 1.06;
+
+        finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
+
+        interiorWaypoint = new Translation2d(
+          (initialPosition.getX() + finalPosition.getX()) / 2, 
+          (initialPosition.getY() + finalPosition.getY()) / 2);
 
       }
 

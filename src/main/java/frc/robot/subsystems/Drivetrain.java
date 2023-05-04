@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
@@ -67,8 +66,6 @@ public class Drivetrain extends SubsystemBase {
   private final Field2d m_field2d;
 
   private final Timer m_timer;
-
-  private Pose2d botPose;
 
   private boolean preventVisionImplementation = false;
 
@@ -224,9 +221,6 @@ public class Drivetrain extends SubsystemBase {
 
     //Displays the feed from the USB camera on Shufflboard
     driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(1, 0).withSize(3, 3);
-
-    //Sends the Fiel2d object to NetworkTables
-    SmartDashboard.putData(m_field2d);
 
     drivetrainReversed = false;
 
@@ -411,9 +405,14 @@ public class Drivetrain extends SubsystemBase {
       getLeftSideDistance(), 
       getRightSideDistance());
 
-      botPose = Limelight.getCurrentBotPoseBlue();
+      Pose2d botPose = Limelight.getCurrentBotPoseBlue();
+      Pose2d botPoseTargetSpace = Limelight.getBotPoseTargetSpace();
 
-      if(botPose != null && (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) && !preventVisionImplementation) {
+      if(
+        botPose != null && 
+        (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) && 
+        (Math.abs(botPoseTargetSpace.getX()) < 2 && Math.abs(botPoseTargetSpace.getY()) < 2) && 
+        !preventVisionImplementation) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
   

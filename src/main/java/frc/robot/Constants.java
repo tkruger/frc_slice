@@ -203,7 +203,7 @@ public final class Constants {
         public static final double kaVoltsSecondsSquaredPerMeter = 0.57535 / 4;
     
         //public static final double kPDriveVel = 0.00029423;
-        public static final double kPDriveVel = 3.9649;
+        public static final double kPDriveVel = 3.9649 - 0.5;
 
         // Defines the minimum angle the drivetrain must be at to stop when boarding the charge station
         public static final double BOARD_CHARGE_MINIMUM_STOP_ANGLE = 6;
