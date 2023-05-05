@@ -68,7 +68,7 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
-    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, drive::getPose);
+    LambdaResetOdometryCommand correctOdometry = new LambdaResetOdometryCommand(drive, Limelight::getLastBotPoseBlue);
     LambdaSetField2dCommand setField2dCommand = new LambdaSetField2dCommand(() -> Limelight.generateAlignmentTrajectory(isNodeTrajectory, drive.getPose()), drive);
     LambdaRamseteCommand lambdaRamseteCommand = AutoPaths.generateLambdaRamseteCommand(() -> Limelight.generateAlignmentTrajectory(isNodeTrajectory, drive.getPose()), drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);

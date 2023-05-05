@@ -89,7 +89,19 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    //double[] botPoseTargetSpaceDefaults = {1, 1, 1, 1, 1, 1};
+
+    currentBotPoseTargetSpace = table.getEntry("targetpose_robotspace").getDoubleArray(new double[6]);
+
+    if(currentBotPoseTargetSpace != null) {
+    
+      if(currentBotPoseTargetSpace.length != 0) {
+
+        SmartDashboard.putNumber("Bot Pose Target Space X", currentBotPoseTargetSpace[5]);
+
+      }
+
+    }
 
     if(currentBotPoseTargetSpace != null) {
 
@@ -173,7 +185,7 @@ public class Limelight extends SubsystemBase {
 
     if(lastBotPoseTargetSpace.length != 0) {
 
-      return new Pose2d(lastBotPoseTargetSpace[0], lastBotPoseTargetSpace[1], Rotation2d.fromDegrees(lastBotPoseTargetSpace[5]));
+      return new Pose2d(lastBotPoseTargetSpace[3], lastBotPoseTargetSpace[1], Rotation2d.fromDegrees(lastBotPoseTargetSpace[5]));
 
     }
     else {
