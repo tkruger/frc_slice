@@ -11,6 +11,7 @@ import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence
 //import frc.robot.commands.Drivetrain.AutonomousDistanceDriveCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,7 +23,7 @@ public class DoubleSubstationAlignAndPositionSequence extends SequentialCommandG
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    Field2dTrajectoryFollowerSequence doubleSubstationAlign = new Field2dTrajectoryFollowerSequence(drive, false);
+    Field2dTrajectoryFollowerSequence doubleSubstationAlign = new Field2dTrajectoryFollowerSequence(drive, () -> Limelight.generateDoubleSubstationTrajectory(drive.getPose()));
     AutonomousTimedDriveCommand moveForward = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.55);
     ToDoubleSubstationSequence toDoubleSubstation = new ToDoubleSubstationSequence(elevator, wrist);
 

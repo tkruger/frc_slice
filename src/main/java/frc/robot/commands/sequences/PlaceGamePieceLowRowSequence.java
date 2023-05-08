@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Constants;
 import frc.robot.commands.GoToStateCommand;
-import frc.robot.commands.Intake.OpenMandiblesCommand;
+import frc.robot.commands.Intake.TimedRunMandiblesCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -22,11 +22,13 @@ public class PlaceGamePieceLowRowSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
+    TimedRunMandiblesCommand closeMandibles = new TimedRunMandiblesCommand(intake, true, 0.05);
     GoToStateCommand setLowRowState = new GoToStateCommand(elevator, wrist, Constants.States.LOW_ROW_GROUND_STATE);
-    OpenMandiblesCommand openMandibles = new OpenMandiblesCommand(intake);
+    TimedRunMandiblesCommand openMandibles = new TimedRunMandiblesCommand(intake, false, 0.3);
     GoToStateCommand setTravelState = new GoToStateCommand(elevator, wrist, Constants.States.TRAVEL_STATE);
 
     addCommands(
+      closeMandibles,
       setLowRowState,
       openMandibles,
       setTravelState

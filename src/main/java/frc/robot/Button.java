@@ -58,7 +58,7 @@ public final class Button {
 
     //Define Trajectory Alignment Buttons
     public static Trigger doubleSubstationAlignAndPosition = new JoystickButton(leftJoystick, 3); //Left Top 3
-    public static Trigger nodeAlign = new JoystickButton(leftJoystick, 4); //Left Top 4
+    public static Trigger nodeAlignAndPosition = new JoystickButton(leftJoystick, 4); //Left Top 4
 
     //Unassigned Right Joystick Buttons
     public static Trigger rightButton9 = new JoystickButton(rightJoystick, 9); //Right Bottom 9

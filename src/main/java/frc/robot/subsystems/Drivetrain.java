@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
@@ -222,7 +221,7 @@ public class Drivetrain extends SubsystemBase {
     teleopTab.add(m_field2d).withPosition(1, 2).withSize(3, 2);
 
     //Displays the feed from the USB camera on Shufflboard
-    driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(1, 0).withSize(3, 3);
+    driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(0, 0).withSize(3, 2);
 
     drivetrainReversed = false;
 
@@ -412,7 +411,8 @@ public class Drivetrain extends SubsystemBase {
 
       if(
         botPose != null && 
-        (Math.abs(botPose.getX() - getPose().getX()) <= 1 && Math.abs(botPose.getY() - getPose().getY()) <= 1) && 
+        botPoseTargetSpace != null &&
+        (Math.abs(botPose.getX() - getPose().getX()) <= 0.5 && Math.abs(botPose.getY() - getPose().getY()) <= 0.5) && 
         (Math.abs(botPoseTargetSpace.getX()) < 1 && Math.abs(botPoseTargetSpace.getY()) < 1) && 
         !preventVisionImplementation) {
 

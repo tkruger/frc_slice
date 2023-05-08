@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
 
@@ -59,8 +60,8 @@ public class Limelight extends SubsystemBase {
     driverTab = Shuffleboard.getTab("Driver Tab");
 
     driverTab.addCamera("Limelight", "limelight-slice-1", "http://10.87.38.73:5800").
-    withPosition(5, 0).
-    withSize(3, 3);
+    withPosition(6, 0).
+    withSize(3, 2);
 
     pipeline.setNumber(1);
 
@@ -89,9 +90,8 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    //double[] botPoseTargetSpaceDefaults = {1, 1, 1, 1, 1, 1};
-
-    currentBotPoseTargetSpace = table.getEntry("targetpose_robotspace").getDoubleArray(new double[6]);
+    //currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    currentBotPoseTargetSpace = LimelightHelpers.getBotPose_TargetSpace("limelight-slice");
 
     if(currentBotPoseTargetSpace != null) {
     
@@ -185,7 +185,7 @@ public class Limelight extends SubsystemBase {
 
     if(lastBotPoseTargetSpace.length != 0) {
 
-      return new Pose2d(lastBotPoseTargetSpace[3], lastBotPoseTargetSpace[1], Rotation2d.fromDegrees(lastBotPoseTargetSpace[5]));
+      return new Pose2d(lastBotPoseTargetSpace[2], lastBotPoseTargetSpace[0], Rotation2d.fromDegrees(lastBotPoseTargetSpace[5]));
 
     }
     else {
@@ -217,21 +217,6 @@ public class Limelight extends SubsystemBase {
   public void setPipeline(Number pipelineNumber) {
 
     pipeline.setNumber(pipelineNumber);
-
-  }
-
-  public static Trajectory generateAlignmentTrajectory(boolean isNodeTrajectory, Pose2d initialPosition) {
-
-    if(isNodeTrajectory) {
-
-      return generateNodeTrajectory(initialPosition);
-
-    }
-    else {
-
-      return generateDoubleSubstationTrajectory(initialPosition);
-
-    }
 
   }
 
