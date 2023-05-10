@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.Drivetrain;
@@ -133,9 +134,9 @@ public class NodeSelector {
                     }
                     storedSelectedButton = currentButton;
 
-                    selectedSequence = getSequenceForIndex(i);
-
                 }
+
+                selectedSequence = getSequenceForIndex(i);
 
             }
 
@@ -204,6 +205,10 @@ public class NodeSelector {
             interiorWaypoint = new Translation2d(onBlueAlliance? 2.65:13.91 , initialPosition.getY());
         }
 
+        SmartDashboard.putNumber("Initial Position X", initialPosition.getX());
+        SmartDashboard.putNumber("Interior Waypoint X", interiorWaypoint.getX());
+        SmartDashboard.putNumber("Final Position X", finalPosition.getX());
+
         return Optional.of(
                 new LambdaScheduleCommand(
                     () -> new Field2dTrajectoryFollowerSequence(
@@ -212,8 +217,8 @@ public class NodeSelector {
                             initialPosition, 
                             List.of(interiorWaypoint), 
                             finalPosition, 
-                            new TrajectoryConfig(1, 0.5))),
-                    () -> positionSequence));
+                            new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics)))));
+                //new LambdaScheduleCommand(() -> positionSequence)));
 
     }
 
