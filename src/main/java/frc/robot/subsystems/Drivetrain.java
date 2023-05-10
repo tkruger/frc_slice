@@ -61,7 +61,6 @@ public class Drivetrain extends SubsystemBase {
     // Creates and pushes Field2d to SmartDashboard.
     SmartDashboard.putData(m_field2d);
 
-    //These standard deviation values should be measured proplerly for our robot
     m_swerveDrivetrainOdometry = new SwerveDriveOdometry(
       Constants.kDrivetrain.kSwerveKinematics, 
       getRotation2d(), 
