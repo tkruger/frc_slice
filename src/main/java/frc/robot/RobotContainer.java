@@ -93,7 +93,7 @@ public class RobotContainer {
 
   public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_elevator, m_wrist);
   //public final Field2dTrajectoryFollowerSequence m_nodeAlign = new Field2dTrajectoryFollowerSequence(m_drivetrain, true);
-  public final LambdaScheduleCommand m_nodeAlignAndPosition = m_nodeSelector.getNodeSequence();
+  public final NodeSequenceCommand m_nodeAlignAndPosition = new NodeSequenceCommand(m_nodeSelector);
   
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);

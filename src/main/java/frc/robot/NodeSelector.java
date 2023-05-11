@@ -23,14 +23,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 import frc.robot.commands.GoToStateCommand;
-import frc.robot.commands.LambdaScheduleCommand;
 import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 /*import frc.robot.commands.sequences.PlaceConeMidRowSequence;
 import frc.robot.commands.sequences.PlaceCubeMidRowSequence;
@@ -56,7 +55,7 @@ public class NodeSelector {
 
     private GenericEntry storedSelectedButton;
 
-    private static Optional<LambdaScheduleCommand> selectedSequence;
+    private static Optional<SequentialCommandGroup> selectedSequence;
 
     private final Drivetrain m_drivetrain;
     private final Elevator m_elevator;
@@ -144,7 +143,7 @@ public class NodeSelector {
 
     }
 
-    public Optional<LambdaScheduleCommand> getSequenceForIndex(int selectedNodeIndex) {
+    public Optional<SequentialCommandGroup> getSequenceForIndex(int selectedNodeIndex) {
 
         Pose2d initialPosition = Limelight.getLastBotPoseBlue();
         Translation2d interiorWaypoint;
@@ -210,19 +209,19 @@ public class NodeSelector {
         SmartDashboard.putNumber("Final Position X", finalPosition.getX());
 
         return Optional.of(
-                new LambdaScheduleCommand(
-                    () -> new Field2dTrajectoryFollowerSequence(
-                        m_drivetrain, 
-                        () -> TrajectoryGenerator.generateTrajectory(
-                            initialPosition, 
-                            List.of(interiorWaypoint), 
-                            finalPosition, 
-                            new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics)))));
-                //new LambdaScheduleCommand(() -> positionSequence)));
+            new SequentialCommandGroup(
+                new Field2dTrajectoryFollowerSequence(
+                    m_drivetrain, 
+                    TrajectoryGenerator.generateTrajectory(
+                        initialPosition, 
+                        List.of(interiorWaypoint), 
+                        finalPosition, 
+                        new TrajectoryConfig(0.5, 0.2).setKinematics(Constants.Drivetrain.kDriveKinematics)))));
+                //positionSequence)));
 
     }
 
-    public LambdaScheduleCommand getNodeSequence() {
+    public SequentialCommandGroup getNodeSequence() {
 
         return selectedSequence.get();
 
