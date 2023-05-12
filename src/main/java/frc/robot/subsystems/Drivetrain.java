@@ -411,9 +411,9 @@ public class Drivetrain extends SubsystemBase {
 
       if(
         botPose != null && 
-        botPoseTargetSpace != null &&
+        //botPoseTargetSpace != null &&
         (Math.abs(botPose.getX() - getPose().getX()) <= 0.5 && Math.abs(botPose.getY() - getPose().getY()) <= 0.5) && 
-        (Math.abs(botPoseTargetSpace.getX()) < 1 && Math.abs(botPoseTargetSpace.getY()) < 1) && 
+        //(Math.abs(botPoseTargetSpace.getX()) < 1 && Math.abs(botPoseTargetSpace.getY()) < 1) && 
         !preventVisionImplementation) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());

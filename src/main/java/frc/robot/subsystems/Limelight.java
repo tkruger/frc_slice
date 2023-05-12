@@ -90,8 +90,9 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    //currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
-    currentBotPoseTargetSpace = LimelightHelpers.getBotPose_TargetSpace("limelight-slice");
+    
+    currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    //currentBotPoseTargetSpace = LimelightHelpers.getBotPose_TargetSpace("limelight-slice");
 
     if(currentBotPoseTargetSpace != null) {
     
