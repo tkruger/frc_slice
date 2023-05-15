@@ -14,7 +14,6 @@ import frc.robot.auto.AutoSelector;
 import frc.robot.commands.*;
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Drivetrain.ChargeStation.*;
-import frc.robot.commands.Drivetrain.sequences.Field2dTrajectoryFollowerSequence;
 import frc.robot.commands.Elevator.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.LEDs.*;
@@ -38,7 +37,9 @@ public class RobotContainer {
   public final Limelight m_limelight = new Limelight();
   //public final ColorSensor m_colorSensor = new ColorSensor();
   public final LEDs m_leds = new LEDs();
+
   public final AutoSelector m_autoSelector = new AutoSelector(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight);
+  public final NodeSelector m_nodeSelector = new NodeSelector(m_drivetrain, m_elevator, m_wrist, m_intake);
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
@@ -91,7 +92,8 @@ public class RobotContainer {
   public final StowSequence m_manualSetStow = new StowSequence(m_elevator, m_wrist);
 
   public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_elevator, m_wrist);
-  public final Field2dTrajectoryFollowerSequence m_nodeAlign = new Field2dTrajectoryFollowerSequence(m_drivetrain, true);
+  //public final Field2dTrajectoryFollowerSequence m_nodeAlign = new Field2dTrajectoryFollowerSequence(m_drivetrain, true);
+  public final NodeSequenceCommand m_nodeAlignAndPosition = new NodeSequenceCommand(m_nodeSelector, m_drivetrain);
   
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
@@ -142,8 +144,8 @@ public class RobotContainer {
     //Toggle Curvature Drive
     Button.curvatureDrive.toggleOnTrue(m_curvatureDrive);
 
-    //Enable Node Alignment
-    Button.nodeAlign.whileTrue(m_nodeAlign);
+    //Enable Node Alignment and Positioning
+    Button.nodeAlignAndPosition.whileTrue(m_nodeAlignAndPosition);
 
     //Enable Double Substation Alignment And Positioning
     Button.doubleSubstationAlignAndPosition.whileTrue(m_doubleSubstationAlignAndPosition);

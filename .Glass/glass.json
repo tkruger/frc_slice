@@ -18,6 +18,7 @@
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Auto Tab/Auto Mode": "String Chooser",
       "/Shuffleboard/Auto Tab/Starting Position": "String Chooser",
+      "/Shuffleboard/Driver Tab/Alliance": "String Chooser",
       "/Shuffleboard/Driver Tab/DifferentialDrive[1]": "DifferentialDrive",
       "/Shuffleboard/Teleop Tab/DifferentialDrive[1]": "DifferentialDrive",
       "/Shuffleboard/Teleop Tab/Field": "Field2d",
