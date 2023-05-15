@@ -13,9 +13,12 @@ public class LimelightXAlignmentCommand extends CommandBase {
 
   private final Limelight m_limelight;
   private final Drivetrain m_drivetrain;
+  private final double pipeline;
+  private double aprilTag = -1;
 
   private double targetDetected;
   private double targetXOffset;
+  private double currentApriltag = -1;
 
   private double xSteeringAdjust;
 
@@ -23,13 +26,28 @@ public class LimelightXAlignmentCommand extends CommandBase {
 
   boolean finished;
 
-  /** Creates a new LimelightXAlignmentCommand. */
+  /** Creates a new LimelightXAlignmentCommand for a cube. */
   public LimelightXAlignmentCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight, drivetrain);
 
     this.m_limelight = limelight;
     this.m_drivetrain = drivetrain;
+    pipeline = 0;
+
+    Time = new Timer();
+
+  }
+
+  /** Creates a new LimelightXAlignmentCommand for an Apriltag. */
+  public LimelightXAlignmentCommand(Limelight limelight, Drivetrain drivetrain, double aprilTag) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(limelight, drivetrain);
+
+    this.m_limelight = limelight;
+    this.m_drivetrain = drivetrain;
+    this.aprilTag = aprilTag;
+    pipeline = 1;
 
     Time = new Timer();
 
@@ -51,10 +69,13 @@ public class LimelightXAlignmentCommand extends CommandBase {
   @Override
   public void execute() {
 
+    m_limelight.setPipeline(pipeline);
     targetDetected = m_limelight.getTargetDetected();
     targetXOffset = m_limelight.getXOffset();
+    if(aprilTag > 0) currentApriltag = m_limelight.getAprilTagID();
 
-    if(targetDetected == 1) {
+
+    if(targetDetected == 1 && (aprilTag < 1 || currentApriltag == aprilTag)) {
 
       if (targetXOffset > 10) {
         xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * 14;
@@ -71,7 +92,7 @@ public class LimelightXAlignmentCommand extends CommandBase {
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
 
     } else {
-      xSteeringAdjust = 17 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 8 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
     }
@@ -91,12 +112,14 @@ public class LimelightXAlignmentCommand extends CommandBase {
 
     m_drivetrain.ArcadeDrive(0, 0);
 
+    m_limelight.setPipeline(1);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Time.get() >= 3) {
+    if(Time.get() >= 8) {
       return true;
     }
 
