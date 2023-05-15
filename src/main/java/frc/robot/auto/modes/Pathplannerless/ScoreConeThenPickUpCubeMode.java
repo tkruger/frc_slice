@@ -25,9 +25,9 @@ import frc.robot.subsystems.Wrist;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PathplannerlessScoreConeThenPickUpCubeMode extends SequentialCommandGroup {
+public class ScoreConeThenPickUpCubeMode extends SequentialCommandGroup {
   /** Creates a new ScoreOnePieceMobilityThenAlignMode. */
-  public PathplannerlessScoreConeThenPickUpCubeMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
+  public ScoreConeThenPickUpCubeMode(AutoSelector.StartingPosition startPosition, Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
