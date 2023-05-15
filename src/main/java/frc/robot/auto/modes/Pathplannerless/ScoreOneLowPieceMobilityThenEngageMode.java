@@ -20,19 +20,19 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreOneGamePieceMobilityThenEngageMode extends SequentialCommandGroup {
+public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGroup {
   /** Creates a new ScoreOneGamePieceMobilityThenEngageMode. */
-  public ScoreOneGamePieceMobilityThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneLowPieceMobilityThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     // CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     // ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
-    PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.3);
+    //PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
+    AutonomousTimedDriveCommand driveFront = new AutonomousTimedDriveCommand(drive, -0.7, 0, 0.5);
+    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.7, 0, 0.5);
     QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
-    QuickTurnSequence quickTurn2 = new QuickTurnSequence(drive);
     AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 5);
     BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
@@ -41,11 +41,12 @@ public class ScoreOneGamePieceMobilityThenEngageMode extends SequentialCommandGr
 
     addCommands(
       calibrateElevatorAndWrist,
-      placePiece,
+      //placePiece,
+      driveFront,
       driveBack,
-      quickTurn,
+      //quickTurn,
       mobility,
-      quickTurn2,
+      quickTurn,
       getOnChargeStation,
       chargeStationBalance
     );
