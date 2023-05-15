@@ -114,7 +114,7 @@ public class AutoSelector {
         modeChooser.addOption("Any - Score One Game Piece", DesiredMode.SCORE_ONE_CONE_HIGH_ROW_PATHPLANNERLESS);
         modeChooser.addOption("Wire Side - Score One Game Piece Then Mobility", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_MOBILITY_PATHPLANNERLESS);
         modeChooser.addOption("Center - High Row Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNERLESS);
-        modeChooser.addOption("Center - High Row Mobility Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE_PATHPLANNERLESS);
+        modeChooser.addOption("Center - Low Row Mobility Then Engage", DesiredMode.SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE_PATHPLANNERLESS);
         modeChooser.addOption("HP Side - Score Two Game Pieces", DesiredMode.SCORE_TWO_GAME_PIECES_PATHPLANNERLESS);
         modeChooser.addOption("HP Side - Score Cone Then Pick Up Cube", DesiredMode.SCORE_CONE_THEN_PICK_UP_CUBE_PATHPLANNERLESS);
         modeChooser.addOption("(Pathplanner) Score One Cube Go Out Then Engage", DesiredMode.SCORE_ONE_CUBE_GO_OUT_THEN_ENGAGE);
@@ -162,7 +162,8 @@ public class AutoSelector {
     public void updateModeCreator() {
 
         StartingPosition startingPosition = startingPositionChooser.getSelected();
-        DesiredMode desiredMode = modeChooser.getSelected();
+        DesiredMode desiredMode = DesiredMode.SCORE_ONE_GAME_PIECE_THEN_MOBILITY_PATHPLANNERLESS;
+        if(modeChooser.getSelected() != null) desiredMode = modeChooser.getSelected();
 
         if(storedStartingPosition != startingPosition || storedDesiredMode != desiredMode) {
             
@@ -191,7 +192,7 @@ public class AutoSelector {
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ALIGN_PATHPLANNERLESS:
                 return Optional.of(new ScoreOneGamePieceMobilityThenAlignMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_ONE_GAME_PIECE_MOBILITY_THEN_ENGAGE_PATHPLANNERLESS:
-                return Optional.of(new ScoreOneLowPieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake));
+                return Optional.of(new ScoreOneLowPieceMobilityThenEngageMode(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
             case SCORE_TWO_GAME_PIECES_PATHPLANNERLESS:
                 return Optional.of(new ScoreConeAndCubeMode(position, m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
             case SCORE_CONE_THEN_PICK_UP_CUBE_PATHPLANNERLESS:
