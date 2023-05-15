@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
+//import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
 
@@ -35,12 +35,11 @@ public class Limelight extends SubsystemBase {
   private static double[] currentBotPoseBlue;
   private static double[] lastNonNullBotPoseBlue = new double[0];
   private static double[] lastNonEmptyBotPoseBlue = new double[0];
-  private static double[] lastBotPoseTargetSpace = new double[0];
+  //private static double[] lastBotPoseTargetSpace = new double[0];
   private static double[] currentBotPoseTargetSpace;
 
   private static double currentAprilTagID = 0;
-  private static double lastDoubleSubAprilTagID = 0;
-  private static double lastNodeAprilTagID = 0;
+  private static double lastAprilTagID = 0;
 
   private final NetworkTableEntry ledMode;
   private final NetworkTableEntry cameraMode;
@@ -91,7 +90,7 @@ public class Limelight extends SubsystemBase {
     }
 
     
-    currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    //currentBotPoseTargetSpace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
     //currentBotPoseTargetSpace = LimelightHelpers.getBotPose_TargetSpace("limelight-slice");
 
     if(currentBotPoseTargetSpace != null) {
@@ -104,27 +103,21 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    if(currentBotPoseTargetSpace != null) {
+    /*if(currentBotPoseTargetSpace != null) {
 
       lastBotPoseTargetSpace = currentBotPoseTargetSpace;
 
-    }
+    }*/
 
     currentAprilTagID = table.getEntry("tid").getDouble(0);
 
-    if(currentAprilTagID == 4 || currentAprilTagID == 5) {
+    if(currentAprilTagID != 0) {
 
-      lastDoubleSubAprilTagID = currentAprilTagID;
-
-    }
-
-    if(currentAprilTagID != 4 && currentAprilTagID != 5 && currentAprilTagID != 0) {
-
-      lastNodeAprilTagID = currentAprilTagID;
+      lastAprilTagID = currentAprilTagID;
 
     }
 
-    SmartDashboard.putNumber("Last Apriltag ID", lastDoubleSubAprilTagID);
+    SmartDashboard.putNumber("Last Apriltag ID", lastAprilTagID);
 
   }
 
@@ -180,26 +173,77 @@ public class Limelight extends SubsystemBase {
 
   }
 
-  public static Pose2d getBotPoseTargetSpace() {
+  public static Translation2d getLastBotTranslationTargetSpace() {
 
-    double[] lastBotPoseTargetSpace = Limelight.lastBotPoseTargetSpace;
-
-    if(lastBotPoseTargetSpace.length != 0) {
-
-      return new Pose2d(lastBotPoseTargetSpace[2], lastBotPoseTargetSpace[0], Rotation2d.fromDegrees(lastBotPoseTargetSpace[5]));
-
-    }
-    else {
-
-      return null;
-
-    }
+    return new Translation2d(
+      getLastBotPoseBlue().getX() - getLastAprilTagTranslation().getX(), 
+      getLastBotPoseBlue().getY() - getLastAprilTagTranslation().getY());
 
   }
 
   public double getAprilTagID() {
 
     return currentAprilTagID;
+
+  }
+
+  public static Translation2d getLastAprilTagTranslation() {
+    
+    double lastAprilTagID = Limelight.lastAprilTagID;
+
+    double aprilTagX;
+    double aprilTagY;
+
+    if(lastAprilTagID == 1) {
+
+      aprilTagX = 15.52;
+      aprilTagY = 1.06;
+
+    }
+    else if(lastAprilTagID == 2) {
+
+      aprilTagX = 15.52;
+      aprilTagY = 2.74;
+
+    }
+    else if(lastAprilTagID == 3) {
+
+      aprilTagX = 15.52;
+      aprilTagY = 4.42;
+
+    }
+    else if(lastAprilTagID == 4) {
+
+      aprilTagX = 16.19;
+      aprilTagY = 6.74;
+
+    }
+    else if(lastAprilTagID == 5) {
+
+      aprilTagX = 0.37;
+      aprilTagY = 6.74;
+
+    }
+    else if(lastAprilTagID == 6) {
+
+      aprilTagX = 1.04;
+      aprilTagY = 4.42;
+
+    }
+    else if(lastAprilTagID == 7) {
+
+      aprilTagX = 1.04;
+      aprilTagY = 2.74;
+
+    }
+    else {
+
+      aprilTagX = 1.04;
+      aprilTagY = 1.06;
+
+    }
+
+    return new Translation2d(aprilTagX, aprilTagY);
 
   }
 
@@ -223,26 +267,23 @@ public class Limelight extends SubsystemBase {
 
   public static Trajectory generateDoubleSubstationTrajectory(Pose2d initialPosition) {
 
-    double aprilTagX;
-    double aprilTagY;
-
     Pose2d finalPosition;
 
-    double lastDoubleSubAprilTagID = Limelight.lastDoubleSubAprilTagID;
+    double lastAprilTagID = Limelight.lastAprilTagID;
+    Translation2d lastAprilTagTranslation = getLastAprilTagTranslation();
 
-    if(lastDoubleSubAprilTagID != 0) {
+    double aprilTagX = lastAprilTagTranslation.getX();
+    double aprilTagY = lastAprilTagTranslation.getY();
+
+    if(lastAprilTagID != 0 && (lastAprilTagID == 4 || lastAprilTagID == 5)) {
  
-      if(lastDoubleSubAprilTagID == 4) {
+      if(lastAprilTagID == 4) {
 
-        aprilTagX = 16.19;
-        aprilTagY = 6.74;
         finalPosition = new Pose2d(aprilTagX - 2, aprilTagY + 0.6, Rotation2d.fromDegrees(0));
   
       }
       else {
   
-        aprilTagX = 0.37;
-        aprilTagY = 6.74;
         finalPosition = new Pose2d(aprilTagX + 2, aprilTagY + 0.6, Rotation2d.fromDegrees(180));
   
       }
@@ -266,20 +307,18 @@ public class Limelight extends SubsystemBase {
 
   public static Trajectory generateNodeTrajectory(Pose2d initialPosition) {
 
-    double aprilTagX;
-    double aprilTagY;
-
     Translation2d interiorWaypoint = new Translation2d(0, 0);
     Pose2d finalPosition = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
-    double lastNodeAprilTagID = Limelight.lastNodeAprilTagID;
+    double lastAprilTagID = Limelight.lastAprilTagID;
+    Translation2d lastAprilTagTranslation = getLastAprilTagTranslation();
 
-    if(lastNodeAprilTagID != 0) {
+    double aprilTagX = lastAprilTagTranslation.getX();
+    double aprilTagY = lastAprilTagTranslation.getY();
 
-      if(lastNodeAprilTagID == 1) {
+    if(lastAprilTagID != 0 && lastAprilTagID != 4 && lastAprilTagID != 5) {
 
-        aprilTagX = 15.52;
-        aprilTagY = 1.06;
+      if(lastAprilTagID == 1) {
 
         finalPosition = new Pose2d(aprilTagX - 0.8, aprilTagY, Rotation2d.fromDegrees(0));
 
@@ -288,20 +327,14 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getY() + finalPosition.getY()) / 2);
 
       }
-      else if(lastNodeAprilTagID == 2) {
-
-        aprilTagX = 15.52;
-        aprilTagY = 2.74;
+      else if(lastAprilTagID == 2) {
 
         finalPosition = new Pose2d(aprilTagX - 0.8, aprilTagY, Rotation2d.fromDegrees(0));
 
         interiorWaypoint = new Translation2d(13.91, initialPosition.getY());
 
       }
-      else if (lastNodeAprilTagID == 3) {
-
-        aprilTagX = 15.52;
-        aprilTagY = 4.42;
+      else if (lastAprilTagID == 3) {
 
         finalPosition = new Pose2d(aprilTagX - 0.8, aprilTagY, Rotation2d.fromDegrees(0));
 
@@ -310,10 +343,7 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getY() + finalPosition.getY()) / 2);
 
       }
-      else if(lastNodeAprilTagID == 6) {
-
-        aprilTagX = 1.04;
-        aprilTagY = 4.42;
+      else if(lastAprilTagID == 6) {
 
         finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
 
@@ -322,10 +352,7 @@ public class Limelight extends SubsystemBase {
           (initialPosition.getY() + finalPosition.getY()) / 2);
 
       }
-      else if(lastNodeAprilTagID == 7) {
-
-        aprilTagX = 1.04;
-        aprilTagY = 2.74;
+      else if(lastAprilTagID == 7) {
 
         finalPosition = new Pose2d(aprilTagX + 0.8, aprilTagY, Rotation2d.fromDegrees(180));
 

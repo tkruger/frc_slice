@@ -26,6 +26,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 //import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -407,13 +408,13 @@ public class Drivetrain extends SubsystemBase {
       getRightSideDistance());
 
       Pose2d botPose = Limelight.getCurrentBotPoseBlue();
-      Pose2d botPoseTargetSpace = Limelight.getBotPoseTargetSpace();
+      Translation2d botTranslationTargetSpace = Limelight.getLastBotTranslationTargetSpace();
 
       if(
         botPose != null && 
-        //botPoseTargetSpace != null &&
+        botTranslationTargetSpace != null &&
         (Math.abs(botPose.getX() - getPose().getX()) <= 0.5 && Math.abs(botPose.getY() - getPose().getY()) <= 0.5) && 
-        //(Math.abs(botPoseTargetSpace.getX()) < 1 && Math.abs(botPoseTargetSpace.getY()) < 1) && 
+        (Math.abs(botTranslationTargetSpace.getX()) < 1 && Math.abs(botTranslationTargetSpace.getY()) < 1) && 
         !preventVisionImplementation) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
