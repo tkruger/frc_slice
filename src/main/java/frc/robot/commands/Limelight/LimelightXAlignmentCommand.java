@@ -92,7 +92,7 @@ public class LimelightXAlignmentCommand extends CommandBase {
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
 
     } else {
-      xSteeringAdjust = 8 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 14 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
     }
@@ -119,7 +119,7 @@ public class LimelightXAlignmentCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Time.get() >= 8) {
+    if(Time.get() >= 7) {
       return true;
     }
 

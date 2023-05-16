@@ -7,18 +7,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.NodeSelector;
+import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
 import frc.robot.subsystems.Drivetrain;
 
 public class NodeSequenceCommand extends CommandBase {
 
   private final NodeSelector m_nodeSelector;
   private final Drivetrain m_drivetrain;
+
   private SequentialCommandGroup nodeSequence;
+  private final SetPreventVisionImplementationCommand m_disablePreventVisionImplementation;
 
   /** Creates a new NodeSequenceCommand. */
   public NodeSequenceCommand(NodeSelector nodeSelector, Drivetrain drivetrain) {
     m_nodeSelector = nodeSelector;
     m_drivetrain = drivetrain;
+
+    m_disablePreventVisionImplementation = new SetPreventVisionImplementationCommand(drivetrain, false);
 
     // Use addRequirements() here to declare subsystem dependencies.
     //addRequirements(drivetrain);
@@ -42,7 +47,7 @@ public class NodeSequenceCommand extends CommandBase {
   public void end(boolean interrupted) {
 
     nodeSequence.cancel();
-    //m_drivetrain.disablePreventVisionImplementation();
+    m_disablePreventVisionImplementation.schedule();
 
   }
 

@@ -5,24 +5,28 @@
 package frc.robot.auto.modes.Pathplannerless;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
+import frc.robot.commands.Drivetrain.VariableQuickTurnSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
+import frc.robot.commands.Limelight.LimelightXAlignmentCommand;
 import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGroup {
   /** Creates a new ScoreOneGamePieceMobilityThenEngageMode. */
-  public ScoreOneLowPieceMobilityThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake) {
+  public ScoreOneLowPieceMobilityThenEngageMode(Drivetrain drive, Elevator elevator, Wrist wrist, Intake intake, Limelight limelight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -30,12 +34,14 @@ public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGro
     // ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     //PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveCommand driveFront = new AutonomousTimedDriveCommand(drive, -0.7, 0, 0.5);
-    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.7, 0, 0.5);
-    QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 5);
-    BoardChargeStationCommand getOnChargeStation = new BoardChargeStationCommand(drive);
+    AutonomousTimedDriveCommand driveFront = new AutonomousTimedDriveCommand(drive, -0.5, 0, 0.3);
+    AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.5);
+    VariableQuickTurnSequence halfQuickTurn = new VariableQuickTurnSequence(drive, 180);
+    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 4.3);
+    AutonomousAngleDriveCommand getOnChargeStation = new AutonomousAngleDriveCommand(drive, -0.5);
+    AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.7, 0, 0.6);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
+    LimelightXAlignmentCommand alignWithApriltag = new LimelightXAlignmentCommand(limelight, drive, 6);
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
 
@@ -46,8 +52,10 @@ public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGro
       driveBack,
       //quickTurn,
       mobility,
-      quickTurn,
+      halfQuickTurn,
       getOnChargeStation,
+      new WaitCommand(0.2),
+      continueDrive,
       chargeStationBalance
     );
   }
