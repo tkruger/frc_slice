@@ -57,7 +57,8 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
     PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.35); //3.25
     AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.3);
-    AutonomousTimedDriveStraightCommand returnToGrid = new AutonomousTimedDriveStraightCommand(drive, -0.5, 3);
+    AutonomousTimedDriveStraightCommand driveHalfBack = new AutonomousTimedDriveStraightCommand(drive, 0.5, 1.5);
+    AutonomousTimedDriveStraightCommand returnToGrid = new AutonomousTimedDriveStraightCommand(drive, -0.5, 2);
     //VariableQuickTurnSequence quickTurn = new VariableQuickTurnSequence(drive, turnAngle);
     LimelightXAlignmentCommand alignWithCube = new LimelightXAlignmentCommand(limelight, drive);
     LimelightXAlignmentCommand alignWithApriltag = new LimelightXAlignmentCommand(limelight, drive, aprilTag);
@@ -70,7 +71,7 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
     ParallelCommandGroup alignGroup = new ParallelCommandGroup(alignWithCube, confirmMandiblesOpen, setWristGround);
-    ParallelCommandGroup stowWhileTurning = new ParallelCommandGroup(alignWithApriltag, stowWrist);
+    ParallelCommandGroup stowWhileBacking = new ParallelCommandGroup(driveHalfBack, stowWrist);
 
     addCommands(
       calibrateElevatorAndWrist,
@@ -80,7 +81,8 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
       runWristUp,
       pickUpDrive,
       closeMandibles,
-      stowWhileTurning,
+      stowWhileBacking,
+      alignWithApriltag,
       returnToGrid,
       placeSecondPiece
     );
