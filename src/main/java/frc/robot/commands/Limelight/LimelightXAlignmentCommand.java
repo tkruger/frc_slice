@@ -92,7 +92,7 @@ public class LimelightXAlignmentCommand extends CommandBase {
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
 
     } else {
-      xSteeringAdjust = 14 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 17 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
     }

@@ -70,7 +70,7 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
     SetWristPosition stowWrist = new SetWristPosition(wrist, Constants.States.TRAVEL_STATE.wristAngle);
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
-    ParallelCommandGroup alignGroup = new ParallelCommandGroup(alignWithCube, confirmMandiblesOpen, setWristGround);
+    ParallelCommandGroup alignGroup = new ParallelCommandGroup(alignWithCube, confirmMandiblesOpen);
     ParallelCommandGroup stowWhileBacking = new ParallelCommandGroup(driveHalfBack, stowWrist);
 
     addCommands(
@@ -78,6 +78,7 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
       placePiece,
       mobility,
       alignGroup,
+      setWristGround,
       runWristUp,
       pickUpDrive,
       closeMandibles,
