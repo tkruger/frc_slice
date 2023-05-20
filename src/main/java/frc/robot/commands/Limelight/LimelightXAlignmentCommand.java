@@ -78,21 +78,21 @@ public class LimelightXAlignmentCommand extends CommandBase {
     if(targetDetected == 1 && (aprilTag < 1 || currentApriltag == aprilTag)) {
 
       if (targetXOffset > 10) {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * 14;
+        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * 12;
       } else if (targetXOffset < -10) {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * -14;
+        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * -12;
       } else if (targetXOffset <= 10 && targetXOffset > 0) {
         xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * 10;
       } else if (targetXOffset >= -10 && targetXOffset < 0) {
         xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * -10;
       } else {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * targetXOffset;
+        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * targetXOffset * 1.2;
       }
 
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
 
     } else {
-      xSteeringAdjust = 14 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
+      xSteeringAdjust = 10 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
 
       m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
     }

@@ -37,7 +37,7 @@ public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGro
     AutonomousTimedDriveCommand driveFront = new AutonomousTimedDriveCommand(drive, -0.5, 0, 0.3);
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.5);
     VariableQuickTurnSequence halfQuickTurn = new VariableQuickTurnSequence(drive, 180);
-    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.5, 0, 4.3);
+    AutonomousTimedDriveCommand mobility = new AutonomousTimedDriveCommand(drive, -0.6, 0, 3.7);
     AutonomousAngleDriveCommand getOnChargeStation = new AutonomousAngleDriveCommand(drive, -0.5);
     AutonomousTimedDriveCommand continueDrive = new AutonomousTimedDriveCommand(drive, -0.7, 0, 0.6);
     ChargeStationBalancePIDCommand chargeStationBalance = new ChargeStationBalancePIDCommand(drive);
