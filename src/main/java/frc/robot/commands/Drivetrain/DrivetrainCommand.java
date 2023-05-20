@@ -35,8 +35,8 @@ public class DrivetrainCommand extends CommandBase {
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
 
-    forwardFilter = new JoystickFilter(0.07, 0.3, false);
-    turnFilter = new JoystickFilter(0.07, 0.3);
+    forwardFilter = new JoystickFilter(0.05, 0.3, false);
+    turnFilter = new JoystickFilter(0.05, 0.3);
 
     m_drivetrain.resetHeading();
 
@@ -56,7 +56,7 @@ public class DrivetrainCommand extends CommandBase {
 
     // Sets robot speed and turn speed
     double forwardSpeed = forwardFilter.filter(leftJoystick.getY());
-    double turnSpeed = turnFilter.filter(rightJoystick.getX());
+    double turnSpeed = turnFilter.withDead(rightJoystick.getX());
 
     m_drivetrain.ArcadeDrive(forwardSpeed, turnSpeed);
 
