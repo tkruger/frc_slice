@@ -80,6 +80,7 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
       quickTurn,
       alignWithCube,
       alignGroup,
+      setWristGround,
       runWristUp,
       pickUpDrive,
       closeMandibles,
