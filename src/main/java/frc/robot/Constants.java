@@ -85,7 +85,7 @@ public final class Constants {
         public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_DEGREES = ANGLE_POSITION_CONVERSION_FACTOR_DEGREES / 60.0;
         public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_RADIANS = ANGLE_POSITION_CONVERSION_FACTOR_RADIANS / 60.0;
         /* Swerve Profiling Values */
-        public static final double MAX_VELOCITY = 4.5; // meters per second
+        public static final double MAX_VELOCITY = 4; // meters per second
         public static final double MAX_ANGULAR_VELOCITY = 11.5; //radians per second
     
         /* Angle Encoder Invert */

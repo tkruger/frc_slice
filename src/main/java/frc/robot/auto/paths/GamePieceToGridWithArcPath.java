@@ -7,11 +7,15 @@ package frc.robot.auto.paths;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
-import frc.robot.auto.AutoPaths;
+import edu.wpi.first.math.trajectory.Trajectory;
+
+import frc.robot.auto.AutoPath;
 import frc.robot.auto.AutoSelector;
 
 /** Add your docs here. */
-public class GamePieceToGridWithArcPath extends AutoPaths {
+public class GamePieceToGridWithArcPath implements AutoPath {
+
+    Trajectory trajectory;
 
     public GamePieceToGridWithArcPath(AutoSelector.StartingPosition startPosition) {
 
@@ -39,6 +43,13 @@ public class GamePieceToGridWithArcPath extends AutoPaths {
                 break;
 
         }
+
+    }
+
+    @Override
+    public Trajectory getTrajectory() {
+
+        return trajectory;
 
     }
 

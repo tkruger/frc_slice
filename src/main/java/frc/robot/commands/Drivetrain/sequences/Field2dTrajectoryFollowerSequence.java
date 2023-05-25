@@ -8,7 +8,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.auto.AutoPaths;
+import frc.robot.TrajectoryCommands;
+import frc.robot.auto.AutoPath;
 import frc.robot.commands.Drivetrain.PrepareAutoRotationsCommand;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.commands.Drivetrain.SetField2dCommand;
@@ -20,12 +21,12 @@ import frc.robot.subsystems.Drivetrain;
 public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
 
   /** Creates a new Field2dTrajectoryFollowerSequence without reseting the position of the robot. */
-  public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath) {
+  public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPath autoPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
-    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.trajectory);
-    SwerveControllerCommand swerveControllerCommand = autoPath.generateSwerveControllerCommand(drive, autoPath.trajectory);
+    SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.getTrajectory(), drive);
+    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.getTrajectory());
+    SwerveControllerCommand swerveControllerCommand = TrajectoryCommands.generateSwerveControllerCommand(drive, autoPath.getTrajectory());
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
 
     addCommands(
@@ -37,13 +38,13 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
   }
 
   /** Creates a new Field2dTrajectoryFollowerSequence, reseting the position of the robot at the beginning of the sequence. */
-  public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath, Pose2d position) {
+  public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPath autoPath, Pose2d position) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     ResetOdometryCommand resetOdometryCommand = new ResetOdometryCommand(drive, position);
-    SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
-    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.trajectory);
-    SwerveControllerCommand swerveControllerCommand = autoPath.generateSwerveControllerCommand(drive, autoPath.trajectory);
+    SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.getTrajectory(), drive);
+    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.getTrajectory());
+    SwerveControllerCommand swerveControllerCommand = TrajectoryCommands.generateSwerveControllerCommand(drive, autoPath.getTrajectory());
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
 
     addCommands(

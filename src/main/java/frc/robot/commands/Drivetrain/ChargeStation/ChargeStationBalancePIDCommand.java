@@ -37,7 +37,6 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
     m_drivetrain.setAngleIdleMode(true);
 
     m_drivetrain.setDrivePIDF(.17, .000001, .12, .62);
-    m_drivetrain.setDrivePIDF(.17, .000001, .12, .62);
 
   }
 

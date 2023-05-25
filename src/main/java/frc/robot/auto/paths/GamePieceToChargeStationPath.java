@@ -7,11 +7,14 @@ package frc.robot.auto.paths;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
-import frc.robot.auto.AutoPaths;
+import edu.wpi.first.math.trajectory.Trajectory;
+import frc.robot.auto.AutoPath;
 import frc.robot.auto.AutoSelector;
 
 /** Add your docs here. */
-public class GamePieceToChargeStationPath extends AutoPaths {
+public class GamePieceToChargeStationPath implements AutoPath {
+
+    Trajectory trajectory;
 
     public GamePieceToChargeStationPath(AutoSelector.StartingPosition startPosition) {
 
@@ -39,6 +42,13 @@ public class GamePieceToChargeStationPath extends AutoPaths {
                 break;
 
         }
+
+    }
+
+    @Override
+    public Trajectory getTrajectory() {
+
+        return trajectory;
 
     }
 

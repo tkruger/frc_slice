@@ -45,6 +45,12 @@ public class SwerveDriveCommand extends CommandBase {
 
     m_drivetrain.setAnglePIDF(0.01, 0, 0, 0);
 
+    if(m_isOpenLoop) {
+
+      m_drivetrain.setDrivePIDF(.1, 0, 0, 0);
+
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

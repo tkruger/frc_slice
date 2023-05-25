@@ -127,11 +127,11 @@ public class ShuffleboardData {
             autoTab.add("Starting Position", autoSelector.startingPositionChooser).withPosition(5, 0).withSize(2, 1);
 
             //Displays the autonomous mode selected on the sendable chooser on Shuffleboard
-            autoTab.addString("Selected Auto Mode", autoSelector.storedDesiredMode::name).
+            autoTab.addString("Selected Auto Mode", autoSelector::getStoredDesiredMode).
             withPosition(2, 1).
             withSize(2, 1);
             //Displays the robot starting position selected on the sendable chooser on Shuffleboard
-            autoTab.addString("Selected Starting Position", autoSelector.storedStartingPosition::name).
+            autoTab.addString("Selected Starting Position", autoSelector::getStoredStartingPosition).
             withPosition(5, 1).
             withSize(2, 1);
 

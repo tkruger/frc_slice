@@ -29,7 +29,10 @@
         }
       },
       "/SmartDashboard/Field": {
-        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2023 Main Season Code\\2023 Personal Code\\frc_slice\\.Glass\\2023-field.png"
+        "image": "C:\\Users\\tlhar\\.vscode\\VS Projects\\2023 Main Season Code\\2023 Personal Code\\frc_slice\\.Glass\\2023-field.png",
+        "window": {
+          "visible": true
+        }
       }
     }
   }

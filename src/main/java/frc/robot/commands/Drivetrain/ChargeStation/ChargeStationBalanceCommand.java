@@ -31,7 +31,6 @@ public class ChargeStationBalanceCommand extends CommandBase {
     m_drivetrain.setAngleIdleMode(true);
 
     m_drivetrain.setDrivePIDF(.17, .000002, .12, .62);
-    m_drivetrain.setAnglePIDF(.17, .000002, .12, .62);
 
   }
 
@@ -43,13 +42,13 @@ public class ChargeStationBalanceCommand extends CommandBase {
 
     if(pitch > 10) {
 
-      m_drivetrain.swerveDrive(-Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0, 0, true);
+      m_drivetrain.swerveDrive(-Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0, 0, false);
 
     }
 
     if(pitch < -10) {
 
-      m_drivetrain.swerveDrive(Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0, 0, true);
+      m_drivetrain.swerveDrive(Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0, 0, false);
 
     }
 

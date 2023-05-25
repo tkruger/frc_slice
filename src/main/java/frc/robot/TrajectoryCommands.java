@@ -1,18 +1,15 @@
-package frc.robot.auto;
+package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class AutoPaths {
+public class TrajectoryCommands {
 
-    public Trajectory trajectory;
-
-    public SwerveControllerCommand generateSwerveControllerCommand(Drivetrain drive, Trajectory trajectory) {
+    public static SwerveControllerCommand generateSwerveControllerCommand(Drivetrain drive, Trajectory trajectory) {
 
         return new SwerveControllerCommand(
             trajectory,

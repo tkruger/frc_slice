@@ -5,8 +5,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.modes.Pathplanner.ScoreOneCubeMobilityThenEngageMode;
 import frc.robot.auto.modes.Pathplanner.ScoreOneCubePickUpOneGamePieceThenEngageMode;
+import frc.robot.auto.modes.Pathplanner.ScoreTwoGamePiecesMode;
 import frc.robot.auto.modes.Pathplanner.ScoreTwoGamePiecesThenEngageMode;
 import frc.robot.auto.modes.Pathplannerless.ScoreOneConeHighRowMode;
+import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
+import frc.robot.auto.paths.GridToGamePiecePath;
 import frc.robot.subsystems.Drivetrain;
 
 import java.util.Optional;
@@ -29,19 +32,20 @@ public class AutoSelector {
         SCORE_ONE_CONE_HIGH_ROW_PATHPLANNERLESS,
         SCORE_ONE_CUBE_MOBILITY_THEN_ENGAGE_PATHPLANNER,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNER,
+        SCORE_TWO_GAME_PIECES_PATHPLANNER,
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE_PATHPLANNER,
 
     }
 
-    public StartingPosition storedStartingPosition = StartingPosition.BLUE_COMMUNITY_LEFT;
-    public DesiredMode storedDesiredMode = DesiredMode.SCORE_ONE_CONE_HIGH_ROW_PATHPLANNERLESS;
+    public StartingPosition storedStartingPosition;
+    public DesiredMode storedDesiredMode;
 
     public SendableChooser<StartingPosition> startingPositionChooser;
     public SendableChooser<DesiredMode> modeChooser;
 
     private Optional<SequentialCommandGroup> autoMode = Optional.empty();
 
-    private Optional<Pose2d> initialAutoPose = Optional.empty();
+    private Pose2d initialAutoPose;
 
     public double initialAutoPoseXOffset = 0;
     public double initialAutoPoseYOffset = 0;
@@ -70,6 +74,7 @@ public class AutoSelector {
         modeChooser.addOption("(Pathplanner) Score One Cube Mobility Then Engage", DesiredMode.SCORE_ONE_CUBE_MOBILITY_THEN_ENGAGE_PATHPLANNER);
         modeChooser.addOption("(Pathplanner) Score One Cube Pick Up One Game Piece Then Engage", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNER);
         modeChooser.addOption("(Pathplanner) Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_PATHPLANNER);
+        modeChooser.addOption("(Pathplanner) Score Two Game Pieces", DesiredMode.SCORE_TWO_GAME_PIECES_PATHPLANNER);
 
     }
 
@@ -85,7 +90,7 @@ public class AutoSelector {
 
             autoMode = getAutoModeForParams(startingPosition, desiredMode);
 
-            //updateInitialAutoPoseOffset(startingPosition, desiredMode);
+            updateInitialAutoPoseOffset(startingPosition, desiredMode);
 
         }
 
@@ -104,6 +109,8 @@ public class AutoSelector {
                 return Optional.of(new ScoreOneCubeMobilityThenEngageMode(position, m_drivetrain));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNER:
                 return Optional.of(new ScoreOneCubePickUpOneGamePieceThenEngageMode(position, m_drivetrain));
+            case SCORE_TWO_GAME_PIECES_PATHPLANNER:
+                return Optional.of(new ScoreTwoGamePiecesMode(position, m_drivetrain));
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_PATHPLANNER:
                 return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain));
             default:
@@ -116,54 +123,88 @@ public class AutoSelector {
 
     }
 
-    /*public void updateInitialAutoPoseOffset(StartingPosition startingPosition, DesiredMode desiredMode) {
+    public void updateInitialAutoPoseOffset(StartingPosition startingPosition, DesiredMode desiredMode) {
 
-        Pose2d botPose = Limelight.getLastBotPoseBlue();
+        /*This variable should be should be assigned to Limelight.getLastBotPoseBlue() instead when
+        the Limelight subsystem file is added*/
+        Pose2d botPose = m_drivetrain.getPose();
 
-        switch(storedDesiredMode) {
+        switch(desiredMode) {
 
             case SCORE_ONE_CONE_HIGH_ROW_PATHPLANNERLESS:
                 System.out.println("No initial pose is available for the 'ScoreConeHighRow' mode");
-                initialAutoPose = Optional.of(botPose);
+                initialAutoPose = botPose;
                 break;
             case SCORE_ONE_CUBE_MOBILITY_THEN_ENGAGE_PATHPLANNER:
-                initialAutoPose = Optional.of(new GridOutOfCommunityToChargeStationPath(storedStartingPosition).trajectory.getInitialPose());
+                initialAutoPose = new GridOutOfCommunityToChargeStationPath(startingPosition).getTrajectory().getInitialPose();
                 break;
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNER:
-                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
+                initialAutoPose = new GridToGamePiecePath(startingPosition).getTrajectory().getInitialPose();
+                break;
+            case SCORE_TWO_GAME_PIECES_PATHPLANNER:
+                initialAutoPose = new GridToGamePiecePath(startingPosition).getTrajectory().getInitialPose();
                 break;
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_PATHPLANNER:
-                initialAutoPose = Optional.of(new GridToGamePiecePath(storedStartingPosition).trajectory.getInitialPose());
+                initialAutoPose = new GridToGamePiecePath(startingPosition).getTrajectory().getInitialPose();
                 break;
             default:
-                System.err.println("No valid initial auto pose found for " + storedDesiredMode);
-                initialAutoPose = Optional.empty();
+                System.err.println("No valid initial auto pose found for " + desiredMode);
                 break;
                 
             }
 
         if(botPose != null && initialAutoPose != null) {
 
-            initialAutoPoseXOffset = initialAutoPose.get().getX() - botPose.getX();
-            initialAutoPoseYOffset = initialAutoPose.get().getY() - botPose.getY();
-            initialAutoPoseRotationOffset = initialAutoPose.get().getRotation().getDegrees() - botPose.getRotation().getDegrees();
+            initialAutoPoseXOffset = initialAutoPose.getX() - botPose.getX();
+            initialAutoPoseYOffset = initialAutoPose.getY() - botPose.getY();
+            initialAutoPoseRotationOffset = initialAutoPose.getRotation().getDegrees() - botPose.getRotation().getDegrees();
 
         }
 
-    }*/
+    }
 
     public void reset() {
 
         autoMode = Optional.empty();
         storedDesiredMode = null;
 
-        initialAutoPose = Optional.empty();
+        initialAutoPose = null;
 
     }
 
     public SequentialCommandGroup getAutoMode() {
 
         return autoMode.get();
+
+    }
+
+    public String getStoredDesiredMode() {
+
+        if(storedDesiredMode != null) {
+
+            return storedDesiredMode.name();
+
+        }
+        else {
+
+            return "None Stored";
+
+        }
+
+    }
+
+    public String getStoredStartingPosition() {
+
+        if(storedStartingPosition != null) {
+
+            return storedStartingPosition.name();
+
+        }
+        else {
+
+            return "None Stored";
+
+        }
 
     }
 

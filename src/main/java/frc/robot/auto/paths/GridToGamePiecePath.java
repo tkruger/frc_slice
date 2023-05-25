@@ -3,10 +3,14 @@ package frc.robot.auto.paths;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
-import frc.robot.auto.AutoPaths;
+import edu.wpi.first.math.trajectory.Trajectory;
+
+import frc.robot.auto.AutoPath;
 import frc.robot.auto.AutoSelector;
 
-public class GridToGamePiecePath extends AutoPaths {
+public class GridToGamePiecePath implements AutoPath {
+
+    Trajectory trajectory;
     
     public GridToGamePiecePath(AutoSelector.StartingPosition startPosition) {
 
@@ -34,6 +38,13 @@ public class GridToGamePiecePath extends AutoPaths {
                 break;
 
         }
+
+    }
+
+    @Override
+    public Trajectory getTrajectory() {
+
+        return trajectory;
 
     }
 
