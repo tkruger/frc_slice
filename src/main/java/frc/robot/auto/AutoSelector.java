@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,6 +18,12 @@ import frc.robot.subsystems.Drivetrain;
 
 import java.util.Optional;
 
+/**
+ * This class primarily manages the creation and updating of the autonomous mode
+ * and starting position sendable choosers on Shuffleboard.
+ * 
+ * <p> {@link SendableChooser See SendableChooser class here}
+ */
 public class AutoSelector {
     
     public enum StartingPosition {
@@ -136,16 +146,16 @@ public class AutoSelector {
                 initialAutoPose = botPose;
                 break;
             case SCORE_ONE_CUBE_MOBILITY_THEN_ENGAGE_PATHPLANNER:
-                initialAutoPose = new GridOutOfCommunityToChargeStationPath(startingPosition).getTrajectory().getInitialPose();
+                initialAutoPose = new GridOutOfCommunityToChargeStationPath(startingPosition).getPathStartingPosition();
                 break;
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNER:
-                initialAutoPose = new GridToGamePiecePath(startingPosition).getTrajectory().getInitialPose();
+                initialAutoPose = new GridToGamePiecePath(startingPosition).getPathStartingPosition();
                 break;
             case SCORE_TWO_GAME_PIECES_PATHPLANNER:
-                initialAutoPose = new GridToGamePiecePath(startingPosition).getTrajectory().getInitialPose();
+                initialAutoPose = new GridToGamePiecePath(startingPosition).getPathStartingPosition();
                 break;
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_PATHPLANNER:
-                initialAutoPose = new GridToGamePiecePath(startingPosition).getTrajectory().getInitialPose();
+                initialAutoPose = new GridToGamePiecePath(startingPosition).getPathStartingPosition();
                 break;
             default:
                 System.err.println("No valid initial auto pose found for " + desiredMode);

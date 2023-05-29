@@ -7,15 +7,11 @@ package frc.robot.auto.paths;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
-import edu.wpi.first.math.trajectory.Trajectory;
-
 import frc.robot.auto.AutoPath;
 import frc.robot.auto.AutoSelector;
 
 /** Add your docs here. */
-public class GridOutOfCommunityToChargeStationPath implements AutoPath {
-
-    Trajectory trajectory;
+public class GridOutOfCommunityToChargeStationPath extends AutoPath {
 
     public GridOutOfCommunityToChargeStationPath(AutoSelector.StartingPosition startPosition) {
 
@@ -43,13 +39,6 @@ public class GridOutOfCommunityToChargeStationPath implements AutoPath {
                 break;
 
         }
-
-    }
-
-    @Override
-    public Trajectory getTrajectory() {
-
-        return trajectory;
 
     }
 

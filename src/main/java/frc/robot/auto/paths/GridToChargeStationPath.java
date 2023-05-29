@@ -3,14 +3,10 @@ package frc.robot.auto.paths;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
-import edu.wpi.first.math.trajectory.Trajectory;
-
 import frc.robot.auto.AutoPath;
 import frc.robot.auto.AutoSelector;
 
-public class GridToChargeStationPath implements AutoPath {
-
-    Trajectory trajectory;
+public class GridToChargeStationPath extends AutoPath {
     
     public GridToChargeStationPath(AutoSelector.StartingPosition startPosition) {
 
@@ -38,13 +34,6 @@ public class GridToChargeStationPath implements AutoPath {
                 break;
 
         }
-
-    }
-
-    @Override
-    public Trajectory getTrajectory() {
-
-        return trajectory;
 
     }
 

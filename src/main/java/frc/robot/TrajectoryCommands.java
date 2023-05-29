@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -7,6 +11,12 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 import frc.robot.subsystems.Drivetrain;
 
+/**
+ * This class should be used to statically call its methods in order to create
+ * {@link SwerveControllerCommand} objects, which are used to allow the robot to 
+ * drive during autonomous.
+ * 
+ */
 public class TrajectoryCommands {
 
     public static SwerveControllerCommand generateSwerveControllerCommand(Drivetrain drive, Trajectory trajectory) {

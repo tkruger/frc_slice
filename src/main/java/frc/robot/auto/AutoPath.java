@@ -4,11 +4,22 @@
 
 package frc.robot.auto;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 
-/** Add your docs here. */
-public interface AutoPath {
+/** 
+ * This class serves as a superclass for all auto path classes primarily to
+ * provide them all with a common type that can be used for things such as
+ * parameters.
+*/
+public class AutoPath {
 
-    public Trajectory getTrajectory();
+    public Trajectory trajectory;
+
+    public Pose2d getPathStartingPosition() {
+
+        return trajectory.getInitialPose();
+
+    }
 
 }

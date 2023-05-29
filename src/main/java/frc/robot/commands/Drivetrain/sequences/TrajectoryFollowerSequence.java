@@ -23,8 +23,8 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
   public TrajectoryFollowerSequence(Drivetrain drive, AutoPath autoPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.getTrajectory());
-    SwerveControllerCommand swerveControllerCommand = TrajectoryCommands.generateSwerveControllerCommand(drive, autoPath.getTrajectory());
+    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.trajectory);
+    SwerveControllerCommand swerveControllerCommand = TrajectoryCommands.generateSwerveControllerCommand(drive, autoPath.trajectory);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
 
     addCommands(
@@ -39,8 +39,8 @@ public class TrajectoryFollowerSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     ResetOdometryCommand resetOdometryCommand = new ResetOdometryCommand(drive, position);
-    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.getTrajectory());
-    SwerveControllerCommand swerveControllerCommand = TrajectoryCommands.generateSwerveControllerCommand(drive, autoPath.getTrajectory());
+    PrepareAutoRotationsCommand prepareAutoRotationsCommand = new PrepareAutoRotationsCommand(drive, autoPath.trajectory);
+    SwerveControllerCommand swerveControllerCommand = TrajectoryCommands.generateSwerveControllerCommand(drive, autoPath.trajectory);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
 
     addCommands(
