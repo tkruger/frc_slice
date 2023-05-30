@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.auto.modes.Demo.DriveSquareCubeAlignMode;
 import frc.robot.auto.modes.Pathplanner.*;
 import frc.robot.auto.modes.Pathplannerless.*;
 import frc.robot.auto.paths.*;
@@ -41,7 +41,8 @@ public class AutoSelector {
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC,
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE,
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC,
-        SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS
+        SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS,
+        DEMO_DRIVE_SQUARE_CUBE_ALIGN
         
     }
 
@@ -108,6 +109,7 @@ public class AutoSelector {
         modeChooser.addOption("(Pathplanner) Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
         modeChooser.addOption("(Pathplanner) Score Two Game Pieces Then Engage With Arc", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
         modeChooser.addOption("HP Side - Low Row Then Retrieve Cube", DesiredMode.SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS);
+        modeChooser.addOption("Demo - Drive Square with Cube Reference", DesiredMode.DEMO_DRIVE_SQUARE_CUBE_ALIGN);
         
         autoTab = Shuffleboard.getTab("Auto Tab");
 
@@ -195,6 +197,8 @@ public class AutoSelector {
                 return Optional.of(new ScoreTwoGamePiecesThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS:
                 return Optional.of(new ScoreOneLowPieceThenRetrieveCube(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
+            case DEMO_DRIVE_SQUARE_CUBE_ALIGN:
+                return Optional.of(new DriveSquareCubeAlignMode(m_drivetrain, m_limelight));
             default:
                 break;
     

@@ -150,6 +150,7 @@
       "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
       "/Shuffleboard/Auto Tab/Auto Mode": "String Chooser",
       "/Shuffleboard/Auto Tab/Starting Position": "String Chooser",
+      "/Shuffleboard/Driver Tab/Alliance": "String Chooser",
       "/Shuffleboard/Driver Tab/Bottom Row": "String Chooser",
       "/Shuffleboard/Driver Tab/DifferentialDrive[1]": "DifferentialDrive",
       "/Shuffleboard/Driver Tab/Field": "Field2d",
@@ -176,7 +177,19 @@
     }
   },
   "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
+    "Retained Values": {
+      "open": false
+    },
     "transitory": {
+      "CameraPublisher": {
+        "limelight-slice-1": {
+          "open": true
+        },
+        "open": true
+      },
       "SmartDashboard": {
         "Field": {
           "open": true

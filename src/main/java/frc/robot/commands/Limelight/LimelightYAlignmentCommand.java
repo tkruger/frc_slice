@@ -9,7 +9,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer; 
 
-public class LimelightXAlignmentCommand extends CommandBase {
+public class LimelightYAlignmentCommand extends CommandBase {
 
   private final Limelight m_limelight;
   private final Drivetrain m_drivetrain;
@@ -17,17 +17,17 @@ public class LimelightXAlignmentCommand extends CommandBase {
   private double aprilTag = -1;
 
   private double targetDetected;
-  private double targetXOffset;
+  private double targetYOffset;
   private double currentApriltag = -1;
 
-  private double xSteeringAdjust;
+  private double ySteeringAdjust;
 
   private final Timer Time;
 
   boolean finished;
 
   /** Creates a new LimelightXAlignmentCommand for a cube. */
-  public LimelightXAlignmentCommand(Limelight limelight, Drivetrain drivetrain) {
+  public LimelightYAlignmentCommand(Limelight limelight, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight, drivetrain);
 
@@ -40,7 +40,7 @@ public class LimelightXAlignmentCommand extends CommandBase {
   }
 
   /** Creates a new LimelightXAlignmentCommand for an Apriltag. */
-  public LimelightXAlignmentCommand(Limelight limelight, Drivetrain drivetrain, double aprilTag) {
+  public LimelightYAlignmentCommand(Limelight limelight, Drivetrain drivetrain, double aprilTag) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(limelight, drivetrain);
 
@@ -71,33 +71,21 @@ public class LimelightXAlignmentCommand extends CommandBase {
 
     m_limelight.setPipeline(pipeline);
     targetDetected = m_limelight.getTargetDetected();
-    targetXOffset = m_limelight.getXOffset();
+    targetYOffset = m_limelight.getYOffset();
     if(aprilTag > 0) currentApriltag = m_limelight.getAprilTagID();
 
 
     if(targetDetected == 1 && (aprilTag < 1 || currentApriltag == aprilTag)) {
 
-      if (targetXOffset > 10) {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * 10;
-      } else if (targetXOffset < -10) {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * -10;
-      } else if (targetXOffset <= 10 && targetXOffset > 0) {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * 7;
-      } else if (targetXOffset >= -10 && targetXOffset < 0) {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * -7;
+      if(targetYOffset > 0) {
+        m_drivetrain.ArcadeDrive(-.4, 0);
       } else {
-        xSteeringAdjust = Constants.Limelight.STEERING_ADJUST_PROPORTION * targetXOffset * 1.15;
+        m_drivetrain.ArcadeDrive(.4, 0);
       }
 
-      m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
-
-    } else {
-      xSteeringAdjust = 10 * Constants.Limelight.STEERING_ADJUST_PROPORTION;
-
-      m_drivetrain.ArcadeDrive(0, xSteeringAdjust);
     }
 
-    if (targetDetected == 1 && java.lang.Math.abs(targetXOffset) < 2 && java.lang.Math.abs(m_drivetrain.getTurnRate()) < 0.8) {
+    if (targetDetected == 1 && java.lang.Math.abs(targetYOffset) < 2) {
       finished = true;
     }
 
@@ -107,7 +95,7 @@ public class LimelightXAlignmentCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    targetXOffset = 0;
+    targetYOffset = 0;
     targetDetected = 0;
 
     m_drivetrain.ArcadeDrive(0, 0);
