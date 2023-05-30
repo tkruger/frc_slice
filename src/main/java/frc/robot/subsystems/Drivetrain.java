@@ -73,7 +73,7 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean drivetrainReversed = false;
 
-  private final UsbCamera cameraFeed;
+  //*******private final UsbCamera cameraFeed;
 
   private double speedMultiplier = 1;
 
@@ -213,7 +213,7 @@ public class Drivetrain extends SubsystemBase {
     withSize(3, 1).
     getEntry();*/
 
-    cameraFeed = CameraServer.startAutomaticCapture();
+    //*********cameraFeed = CameraServer.startAutomaticCapture();
 
     //Displays how the robot is moving on Shuffleboard
     teleopTab.add(robotDrive).withPosition(5, 2).withSize(3, 2);
@@ -222,7 +222,7 @@ public class Drivetrain extends SubsystemBase {
     teleopTab.add(m_field2d).withPosition(1, 2).withSize(3, 2);
 
     //Displays the feed from the USB camera on Shufflboard
-    driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(0, 0).withSize(3, 2);
+    //*********driverTab.add(cameraFeed).withWidget(BuiltInWidgets.kCameraStream).withPosition(0, 0).withSize(3, 2);
 
     drivetrainReversed = false;
 
