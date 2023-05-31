@@ -35,8 +35,8 @@ public class ScoreConeThenPickUpCubeMode extends SequentialCommandGroup {
 
     switch(startPosition) {
       case BLUE_COMMUNITY_LEFT:
-        turnAngle = 175;
-        turnAngle2 = 185;
+        turnAngle = 180;
+        turnAngle2 = 180;
         break;
       case RED_COMMUNITY_RIGHT:
         turnAngle = 185;

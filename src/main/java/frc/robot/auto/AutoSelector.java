@@ -6,27 +6,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import frc.robot.auto.modes.Pathplanner.ScoreOneCubeGoOutThenEngageMode;
-import frc.robot.auto.modes.Pathplanner.ScoreOneCubePickUpOneGamePieceThenEngageMode;
-import frc.robot.auto.modes.Pathplanner.ScoreOneCubePickUpOneGamePieceThenEngageWithArcMode;
-import frc.robot.auto.modes.Pathplanner.ScoreTwoGamePiecesThenEngageMode;
-import frc.robot.auto.modes.Pathplanner.ScoreTwoGamePiecesThenEngageWithArcMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreConeAndCubeMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreConeThenPickUpCubeMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreOneConeHighRowMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreOneGamePieceMobilityThenAlignMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreOneLowPieceMobilityThenEngageMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreOneGamePieceThenEngageMode;
-import frc.robot.auto.modes.Pathplannerless.ScoreOneGamePieceThenMobilityMode;
-import frc.robot.auto.paths.GridOutOfCommunityToChargeStationPath;
-import frc.robot.auto.paths.GridToGamePiecePath;
-import frc.robot.auto.paths.GridToGamePieceWithArcPath;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Wrist;
+import frc.robot.auto.modes.Demo.DriveSquareCubeAlignMode;
+import frc.robot.auto.modes.Pathplanner.*;
+import frc.robot.auto.modes.Pathplannerless.*;
+import frc.robot.auto.paths.*;
+import frc.robot.subsystems.*;
 
 import java.util.Optional;
 
@@ -56,7 +40,9 @@ public class AutoSelector {
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE,
         SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC,
         SCORE_TWO_GAME_PIECES_THEN_ENGAGE,
-        SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC
+        SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC,
+        SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS,
+        DEMO_DRIVE_SQUARE_CUBE_ALIGN
         
     }
 
@@ -122,7 +108,9 @@ public class AutoSelector {
         modeChooser.addOption("(Pathplanner) Score One Cube Pick Up One Game Piece Then Engage With Arc", DesiredMode.SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_WITH_ARC);
         modeChooser.addOption("(Pathplanner) Score Two Game Pieces Then Engage", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE);
         modeChooser.addOption("(Pathplanner) Score Two Game Pieces Then Engage With Arc", DesiredMode.SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC);
-
+        modeChooser.addOption("HP Side - Low Row Then Retrieve Cube", DesiredMode.SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS);
+        modeChooser.addOption("Demo - Drive Square with Cube Reference", DesiredMode.DEMO_DRIVE_SQUARE_CUBE_ALIGN);
+        
         autoTab = Shuffleboard.getTab("Auto Tab");
 
         autoTab.add("Auto Mode", modeChooser).withPosition(2, 0).withSize(2, 1);
@@ -207,6 +195,10 @@ public class AutoSelector {
                 return Optional.of(new ScoreTwoGamePiecesThenEngageMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
             case SCORE_TWO_GAME_PIECES_THEN_ENGAGE_WITH_ARC:
                 return Optional.of(new ScoreTwoGamePiecesThenEngageWithArcMode(position, m_drivetrain, m_elevator, m_wrist, m_intake));
+            case SCORE_LOW_THEN_RETRIEVE_CUBE_PATHPLANNERLESS:
+                return Optional.of(new ScoreOneLowPieceThenRetrieveCube(m_drivetrain, m_elevator, m_wrist, m_intake, m_limelight));
+            case DEMO_DRIVE_SQUARE_CUBE_ALIGN:
+                return Optional.of(new DriveSquareCubeAlignMode(m_drivetrain, m_limelight));
             default:
                 break;
     

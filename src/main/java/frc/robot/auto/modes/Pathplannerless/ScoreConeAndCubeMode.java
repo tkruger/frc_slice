@@ -55,11 +55,11 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     PlaceHighRowSequence placeSecondPiece = new PlaceHighRowSequence(elevator, wrist, intake);
-    AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.35); //3.25
-    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.3);
+    AutonomousTimedDriveStraightCommand mobility = new AutonomousTimedDriveStraightCommand(drive, 0.5, 3.25); //3.25
+    AutonomousTimedDriveCommand pickUpDrive = new AutonomousTimedDriveCommand(drive, -0.4, 0, 1.7);
     AutonomousTimedDriveStraightCommand driveHalfBack = new AutonomousTimedDriveStraightCommand(drive, 0.5, 1.5);
     AutonomousTimedDriveStraightCommand returnToGrid = new AutonomousTimedDriveStraightCommand(drive, -0.5, 2);
-    //VariableQuickTurnSequence quickTurn = new VariableQuickTurnSequence(drive, turnAngle);
+    QuickTurnSequence quickTurn = new QuickTurnSequence(drive);
     LimelightXAlignmentCommand alignWithCube = new LimelightXAlignmentCommand(limelight, drive);
     LimelightXAlignmentCommand alignWithApriltag = new LimelightXAlignmentCommand(limelight, drive, aprilTag);
     //VariableQuickTurnSequence turnBack = new VariableQuickTurnSequence(drive, turnAngle2);
@@ -70,13 +70,15 @@ public class ScoreConeAndCubeMode extends SequentialCommandGroup {
     SetWristPosition stowWrist = new SetWristPosition(wrist, Constants.States.TRAVEL_STATE.wristAngle);
 
     //ParallelRaceGroup calibrateElevatorAndWrist = new ParallelCommandGroup(calibrateElevator, resetWristAngle).withTimeout(2);
-    ParallelCommandGroup alignGroup = new ParallelCommandGroup(alignWithCube, confirmMandiblesOpen);
+    ParallelCommandGroup alignGroup = new ParallelCommandGroup(confirmMandiblesOpen, setWristGround);
     ParallelCommandGroup stowWhileBacking = new ParallelCommandGroup(driveHalfBack, stowWrist);
 
     addCommands(
       calibrateElevatorAndWrist,
       placePiece,
       mobility,
+      quickTurn,
+      alignWithCube,
       alignGroup,
       setWristGround,
       runWristUp,
