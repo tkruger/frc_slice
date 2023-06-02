@@ -75,7 +75,7 @@ public class RobotContainer {
 
   public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
   public final CustomRainbowLEDs m_flashYellowLEDs = new CustomRainbowLEDs(m_leds, 28);
-  public final RainbowLEDs m_idleLEDs = new RainbowLEDs(m_leds);
+  public final SendableChooserLEDs m_idleLEDs = new SendableChooserLEDs(m_leds);
 
   public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake);
   public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake);
