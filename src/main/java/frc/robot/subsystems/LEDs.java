@@ -18,7 +18,8 @@ public class LEDs extends SubsystemBase {
   public enum LEDMode {
 
     RAINBOW,
-    SOLID_ORANGE
+    SOLID_ORANGE,
+    FLASHING_ORANGE
 
   }
 
@@ -41,6 +42,7 @@ public class LEDs extends SubsystemBase {
     ledModeChooser.setDefaultOption("Rainbow", LEDMode.RAINBOW);
 
     ledModeChooser.addOption("Solid Orange", LEDMode.SOLID_ORANGE);
+    ledModeChooser.addOption("Flashing Orange", LEDMode.FLASHING_ORANGE);
 
     teleopTab.add("LED Mode", ledModeChooser).withPosition(3, 1).withSize(3, 1);
 

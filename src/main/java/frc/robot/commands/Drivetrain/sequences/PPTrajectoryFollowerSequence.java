@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.auto.AutoPaths;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
-import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
+import frc.robot.commands.Drivetrain.SetVisionImplementationCommand;
 import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,10 +24,10 @@ public class PPTrajectoryFollowerSequence extends SequentialCommandGroup {
   public PPTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    SetVisionImplementationCommand preventVisionImplementation = new SetVisionImplementationCommand(drive, true);
     PPRamseteCommand ppRamseteCommand = AutoPaths.generatePPRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
+    SetVisionImplementationCommand allowVisionImplementation = new SetVisionImplementationCommand(drive, false);
 
     addCommands(
       preventVisionImplementation,
@@ -41,11 +41,11 @@ public class PPTrajectoryFollowerSequence extends SequentialCommandGroup {
   public PPTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath, Pose2d position) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    SetVisionImplementationCommand preventVisionImplementation = new SetVisionImplementationCommand(drive, true);
     ResetOdometryCommand resetOdometry = new ResetOdometryCommand(drive, position);
     PPRamseteCommand ppRamseteCommand = AutoPaths.generatePPRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
+    SetVisionImplementationCommand allowVisionImplementation = new SetVisionImplementationCommand(drive, false);
 
     addCommands(
       preventVisionImplementation,

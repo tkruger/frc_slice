@@ -54,6 +54,8 @@ public class RobotContainer {
   public final QuickTurnPIDCommand m_quickTurnPID = new QuickTurnPIDCommand(m_drivetrain);
   public final QuickTurnSequence m_quickTurnSequence = new QuickTurnSequence(m_drivetrain);
   public final AutonomousDriveCommand m_slowDrive = new AutonomousDriveCommand(m_drivetrain, -0.4);
+  public final SetVisionImplementationCommand m_enableVisionImplementation = new SetVisionImplementationCommand(m_drivetrain, true);
+  public final SetVisionImplementationCommand m_disableVisionImplementation = new SetVisionImplementationCommand(m_drivetrain, false);
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
@@ -73,9 +75,12 @@ public class RobotContainer {
 
   public final LimelightXAlignmentCommand m_xAlign = new LimelightXAlignmentCommand(m_limelight, m_drivetrain);
 
-  public final CustomRainbowLEDs m_flashPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
-  public final CustomRainbowLEDs m_flashYellowLEDs = new CustomRainbowLEDs(m_leds, 28);
-  public final SendableChooserLEDs m_idleLEDs = new SendableChooserLEDs(m_leds);
+  public final CustomRainbowLEDs m_solidPurpleLEDs = new CustomRainbowLEDs(m_leds, 140);
+  public final CustomRainbowLEDs m_solidYellowLEDs = new CustomRainbowLEDs(m_leds, 28);
+  public final CustomRainbowLEDs m_solidOrangeLEDs = new CustomRainbowLEDs(m_leds, 145);
+  public final FlashColorCommand m_flashOrangeLEDs = new FlashColorCommand(m_leds, 145, 0.5, 0.5);
+  public final RainbowLEDs m_rainbowLEDs = new RainbowLEDs(m_leds);
+  public final VariableModeLEDs m_idleLEDs = new VariableModeLEDs(m_leds, m_rainbowLEDs, m_solidOrangeLEDs, m_flashOrangeLEDs);
 
   public final PickUpGamePieceGroundSequence m_pickUpGamePieceGround = new PickUpGamePieceGroundSequence(m_elevator, m_wrist, m_intake);
   public final PickUpGamePieceDoubleSubstationSequence m_pickUpGamePieceDoubleSubstation = new PickUpGamePieceDoubleSubstationSequence(m_elevator, m_wrist, m_intake);
@@ -93,7 +98,7 @@ public class RobotContainer {
 
   public final DoubleSubstationAlignAndPositionSequence m_doubleSubstationAlignAndPosition = new DoubleSubstationAlignAndPositionSequence(m_drivetrain, m_elevator, m_wrist);
   //public final Field2dTrajectoryFollowerSequence m_nodeAlign = new Field2dTrajectoryFollowerSequence(m_drivetrain, true);
-  public final NodeSequenceCommand m_nodeAlignAndPosition = new NodeSequenceCommand(m_nodeSelector, m_drivetrain);
+  public final NodeSequenceCommand m_nodeAlignAndPosition = new NodeSequenceCommand(m_nodeSelector, m_drivetrain, m_enableVisionImplementation);
   
   public final BrakeCommand m_brakeCommand = new BrakeCommand(m_drivetrain, true);
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
@@ -189,11 +194,11 @@ public class RobotContainer {
     //Execute Wrist Angle Reset
     //Button.resetWrist.onTrue(m_resetWristAngle);
 
-    //Toggle Purple LED Flashing
-    Button.flashPurpleLEDs.toggleOnTrue(m_flashPurpleLEDs);
+    //Toggle Solid Purple LEDs
+    Button.flashPurpleLEDs.toggleOnTrue(m_solidPurpleLEDs);
 
-    //Toggle Yellow LED Flashing
-    Button.flashYellowLEDs.toggleOnTrue(m_flashYellowLEDs);
+    //Toggle Solid Yellow LEDs
+    Button.flashYellowLEDs.toggleOnTrue(m_solidYellowLEDs);
 
     //Enable Automatic Slow Drive
     Button.slowMode.whileTrue(m_slowDrive);

@@ -69,7 +69,7 @@ public class Drivetrain extends SubsystemBase {
 
   private final Timer m_timer;
 
-  private boolean preventVisionImplementation = false;
+  private boolean implementVision = false;
 
   private boolean drivetrainReversed = false;
 
@@ -371,15 +371,15 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public void enablePreventVisionImplementation() {
+  public void enableVisionImplementation() {
 
-    preventVisionImplementation = true;
+    implementVision = true;
 
   }
 
-  public void disablePreventVisionImplementation() {
+  public void disableVisionImplementation() {
 
-    preventVisionImplementation = false;
+    implementVision = false;
 
   }
 
@@ -415,7 +415,7 @@ public class Drivetrain extends SubsystemBase {
         botTranslationTargetSpace != null &&
         (Math.abs(botPose.getX() - getPose().getX()) <= 0.5 && Math.abs(botPose.getY() - getPose().getY()) <= 0.5) && 
         (Math.abs(botTranslationTargetSpace.getX()) < 1 && Math.abs(botTranslationTargetSpace.getY()) < 1) && 
-        !preventVisionImplementation) {
+        implementVision) {
 
         m_odometry.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
   

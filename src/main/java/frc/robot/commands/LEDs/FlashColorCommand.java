@@ -11,14 +11,14 @@ import frc.robot.subsystems.LEDs;
 
 public class FlashColorCommand extends CommandBase {
   private final LEDs m_LEDs;
-  private final Color color;
+  private final int hue;
   private final double onTime, offTime, totalTime;
   private final Timer timer;
   private boolean on;
   /** Creates a new FlashColorCommand. */
-  public FlashColorCommand(LEDs LEDs, Color color, double onTime, double offTime) {
+  public FlashColorCommand(LEDs LEDs, int hue, double onTime, double offTime) {
     m_LEDs = LEDs;
-    this.color = color;
+    this.hue = hue;
     this.onTime = onTime;
     this.offTime = offTime;
     totalTime = onTime + offTime;
@@ -42,7 +42,7 @@ public class FlashColorCommand extends CommandBase {
   @Override
   public void execute() {
     if ((timer.get() % totalTime) > offTime && !on) {
-      m_LEDs.setAll(color);
+      m_LEDs.setAllHSV(hue, 255, 128);
       on = true;
     }else if ((timer.get() % totalTime) <= offTime && on) {
       m_LEDs.setAll(Color.kBlack);

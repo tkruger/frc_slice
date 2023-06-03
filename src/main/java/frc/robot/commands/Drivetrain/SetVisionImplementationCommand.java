@@ -7,13 +7,13 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class SetPreventVisionImplementationCommand extends CommandBase {
+public class SetVisionImplementationCommand extends CommandBase {
 
   private final Drivetrain m_drivetrain;
   private final boolean m_enable;
 
   /** Creates a new SetPreventVisionImplementation. */
-  public SetPreventVisionImplementationCommand(Drivetrain drivetrain, boolean enable) {
+  public SetVisionImplementationCommand(Drivetrain drivetrain, boolean enable) {
 
     m_drivetrain = drivetrain;
     m_enable = enable;
@@ -29,12 +29,12 @@ public class SetPreventVisionImplementationCommand extends CommandBase {
 
     if(m_enable) {
 
-      m_drivetrain.enablePreventVisionImplementation();
+      m_drivetrain.enableVisionImplementation();
 
     }
     else {
 
-      m_drivetrain.disablePreventVisionImplementation();
+      m_drivetrain.disableVisionImplementation();
 
     }
 

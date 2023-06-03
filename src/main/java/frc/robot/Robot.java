@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand, m_brakeCommand, m_coastCommand;
+  private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.m_autoSelector.reset();
     m_robotContainer.m_autoSelector.updateModeCreator();
-    m_robotContainer.m_drivetrain.disablePreventVisionImplementation();
+    m_robotContainer.m_drivetrain.disableVisionImplementation();
     //m_robotContainer.m_autoSelector.updateInitialAutoPoseOffset();
 
   }

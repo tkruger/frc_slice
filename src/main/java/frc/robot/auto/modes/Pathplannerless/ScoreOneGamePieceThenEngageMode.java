@@ -7,7 +7,6 @@ package frc.robot.auto.modes.Pathplannerless;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
-import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;

@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.NodeSelector;
-import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
+import frc.robot.commands.Drivetrain.SetVisionImplementationCommand;
 import frc.robot.subsystems.Drivetrain;
 
 public class NodeSequenceCommand extends CommandBase {
@@ -16,14 +16,14 @@ public class NodeSequenceCommand extends CommandBase {
   private final Drivetrain m_drivetrain;
 
   private SequentialCommandGroup nodeSequence;
-  private final SetPreventVisionImplementationCommand m_disablePreventVisionImplementation;
+  private final SetVisionImplementationCommand m_enableVisionImplementation;
 
   /** Creates a new NodeSequenceCommand. */
-  public NodeSequenceCommand(NodeSelector nodeSelector, Drivetrain drivetrain) {
+  public NodeSequenceCommand(NodeSelector nodeSelector, Drivetrain drivetrain, SetVisionImplementationCommand enableVisionImplementation) {
     m_nodeSelector = nodeSelector;
     m_drivetrain = drivetrain;
 
-    m_disablePreventVisionImplementation = new SetPreventVisionImplementationCommand(drivetrain, false);
+    m_enableVisionImplementation = enableVisionImplementation;
 
     // Use addRequirements() here to declare subsystem dependencies.
     //addRequirements(drivetrain);
@@ -47,7 +47,7 @@ public class NodeSequenceCommand extends CommandBase {
   public void end(boolean interrupted) {
 
     nodeSequence.cancel();
-    m_disablePreventVisionImplementation.schedule();
+    m_enableVisionImplementation.schedule();
 
   }
 

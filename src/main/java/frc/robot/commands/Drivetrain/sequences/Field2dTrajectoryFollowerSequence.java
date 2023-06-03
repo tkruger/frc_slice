@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.auto.AutoPaths;
 import frc.robot.commands.Drivetrain.ResetOdometryCommand;
 import frc.robot.commands.Drivetrain.SetField2dCommand;
-import frc.robot.commands.Drivetrain.SetPreventVisionImplementationCommand;
+import frc.robot.commands.Drivetrain.SetVisionImplementationCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
@@ -25,11 +25,11 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
   public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    SetVisionImplementationCommand preventVisionImplementation = new SetVisionImplementationCommand(drive, true);
     SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
     RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
+    SetVisionImplementationCommand allowVisionImplementation = new SetVisionImplementationCommand(drive, false);
 
     addCommands(
       preventVisionImplementation,
@@ -44,12 +44,12 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
   public Field2dTrajectoryFollowerSequence(Drivetrain drive, AutoPaths autoPath, Pose2d position) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    SetVisionImplementationCommand preventVisionImplementation = new SetVisionImplementationCommand(drive, true);
     ResetOdometryCommand resetOdometry = new ResetOdometryCommand(drive, position);
     SetField2dCommand setField2dCommand = new SetField2dCommand(autoPath.trajectory, drive);
     RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(autoPath.trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
+    SetVisionImplementationCommand allowVisionImplementation = new SetVisionImplementationCommand(drive, false);
 
     addCommands(
       preventVisionImplementation,
@@ -65,12 +65,12 @@ public class Field2dTrajectoryFollowerSequence extends SequentialCommandGroup {
   public Field2dTrajectoryFollowerSequence(Drivetrain drive, Trajectory trajectory) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SetPreventVisionImplementationCommand preventVisionImplementation = new SetPreventVisionImplementationCommand(drive, true);
+    SetVisionImplementationCommand preventVisionImplementation = new SetVisionImplementationCommand(drive, true);
     ResetOdometryCommand correctOdometry = new ResetOdometryCommand(drive, Limelight.getLastBotPoseBlue());
     SetField2dCommand setField2dCommand = new SetField2dCommand(trajectory, drive);
     RamseteCommand ramseteCommand = AutoPaths.generateRamseteCommand(trajectory, drive);
     InstantCommand stopDriveCommand = new InstantCommand(drive::stopDrive, drive);
-    SetPreventVisionImplementationCommand allowVisionImplementation = new SetPreventVisionImplementationCommand(drive, false);
+    SetVisionImplementationCommand allowVisionImplementation = new SetVisionImplementationCommand(drive, false);
 
     addCommands(
       preventVisionImplementation,

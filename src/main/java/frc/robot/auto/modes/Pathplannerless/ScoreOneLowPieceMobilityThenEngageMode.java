@@ -7,14 +7,11 @@ package frc.robot.auto.modes.Pathplannerless;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Drivetrain.ChargeStation.AutonomousAngleDriveCommand;
-import frc.robot.commands.Drivetrain.ChargeStation.BoardChargeStationCommand;
 import frc.robot.commands.InstantCalibrationCommand;
 import frc.robot.commands.Drivetrain.AutonomousTimedDriveCommand;
 import frc.robot.commands.Drivetrain.QuickTurnSequence;
-import frc.robot.commands.Drivetrain.VariableQuickTurnSequence;
 import frc.robot.commands.Drivetrain.ChargeStation.ChargeStationBalancePIDCommand;
 import frc.robot.commands.Limelight.LimelightXAlignmentCommand;
-import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
@@ -33,7 +30,6 @@ public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGro
     // CalibrateElevatorCommand calibrateElevator = new CalibrateElevatorCommand(elevator);
     // ResetAngleCommand resetWristAngle = new ResetAngleCommand(wrist);
     InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
-    //PlaceHighRowSequence placePiece = new PlaceHighRowSequence(elevator, wrist, intake);
     AutonomousTimedDriveCommand driveFront = new AutonomousTimedDriveCommand(drive, -0.5, 0, 0.3);
     AutonomousTimedDriveCommand driveBack = new AutonomousTimedDriveCommand(drive, 0.5, 0, 0.5);
     QuickTurnSequence halfQuickTurn = new QuickTurnSequence(drive);
@@ -47,10 +43,8 @@ public class ScoreOneLowPieceMobilityThenEngageMode extends SequentialCommandGro
 
     addCommands(
       calibrateElevatorAndWrist,
-      //placePiece,
       driveFront,
       driveBack,
-      //quickTurn,
       mobility,
       halfQuickTurn,
       getOnChargeStation,
