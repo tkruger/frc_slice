@@ -1,97 +1,99 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.LEDs;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.LEDs.LEDMode;
 
 public class VariableModeLEDs extends CommandBase {
+    private final LEDs m_leds;
+    private int m_rainbowFirstPixelHue = 0;
 
-  private final LEDs m_leds;
+    private final Timer timer;
+    private boolean on;
 
-  private final RainbowLEDs m_rainbowLEDs;
-  private final CustomRainbowLEDs m_solidOrangeLEDs;
-  private final FlashColorCommand m_flashOrangeLEDs;
+    private LEDMode ledMode;
+    private LEDMode lastLEDMode;
 
-  private LEDMode ledMode;
-  private LEDMode lastLEDMode;
+    public VariableModeLEDs(LEDs leds) {
 
-  private Command ledCommand;
+      m_leds = leds;
 
-  /** Creates a new VariableModeLEDs. */
-  public VariableModeLEDs(
-    LEDs leds,
-    RainbowLEDs rainbowLEDs, 
-    CustomRainbowLEDs solidOrangeLEDs, 
-    FlashColorCommand flashOrangeLEDs) {
+      timer = new Timer();
 
-    m_leds = leds;
+      // Use addRequirements() here to declare subsystem dependencies.
+      addRequirements(leds);
+    }
 
-    m_rainbowLEDs = rainbowLEDs;
-    m_solidOrangeLEDs = solidOrangeLEDs;
-    m_flashOrangeLEDs = flashOrangeLEDs;
+    @Override
+    public void initialize() {
+      m_leds.setAll(Color.kBlack);
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(leds);
+      timer.reset();
+      timer.start();
+      on = false;
+    }
 
-  }
+    @Override
+    public void execute() {
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+      ledMode = m_leds.getSelectedMode();
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+      if(ledMode != lastLEDMode) {
 
-    ledMode = m_leds.getSelectedMode();
+        lastLEDMode = m_leds.getSelectedMode();
 
-    if(ledMode != lastLEDMode) {
-    
-      switch (ledMode) {
+        m_leds.setAll(Color.kBlack);
 
-        case SOLID_ORANGE:
-          ledCommand = m_solidOrangeLEDs;
-          break;
-        case FLASHING_ORANGE:
-          ledCommand = m_flashOrangeLEDs;
-          break;
-        default:
-          ledCommand = m_rainbowLEDs;
-          break;
-  
       }
 
-      ledCommand.schedule();
+      if(ledMode == LEDMode.RAINBOW) {
+
+        for(int i = 0; i < 77; i++) {
+          final int hue = (m_rainbowFirstPixelHue + (i * 180 / 77 )) % 180;
+          m_leds.setLEDhsv(i, hue, 255, 128);
+        }
+
+        m_rainbowFirstPixelHue += 1.5;
+        m_rainbowFirstPixelHue %= 180;
+
+        m_leds.ledBuffer();
+
+      }
+      else if(ledMode == LEDMode.SOLID_ORANGE) {
+
+        m_leds.setAllHSV(175, 255, 128);
+
+      }
+      else {
+
+        if ((timer.get() % 1) > 0.5 && !on) {
+          m_leds.setAllHSV(175, 255, 128);
+          on = true;
+        }else if ((timer.get() % 1) <= 0.5 && on) {
+          m_leds.setAll(Color.kBlack);
+          on = false;
+        }
+
+      }
 
     }
 
-    lastLEDMode = m_leds.getSelectedMode();
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+      m_leds.setAll(Color.kBlack);
+    }
 
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-
-    ledCommand.cancel();
-
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return true;
-  }
-
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }
