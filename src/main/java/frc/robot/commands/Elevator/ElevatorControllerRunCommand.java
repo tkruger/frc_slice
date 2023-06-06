@@ -4,26 +4,28 @@
 
 package frc.robot.commands.Elevator;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.JoystickFilter;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorJoystickRunCommand extends CommandBase {
+public class ElevatorControllerRunCommand extends CommandBase {
 
   private final Elevator m_elevator;
 
-  private final Joystick m_manipulatorJoystick;
+  private final CommandGenericHID m_manipulatorController;
 
-  private final JoystickFilter speedFilter = new JoystickFilter(0.05, 0.3);
+  private final JoystickFilter speedFilter;
 
   /** Creates a new ElevatorJoystickRunCommand. */
-  public ElevatorJoystickRunCommand(Elevator elevator, Joystick manipulatorJoystick) {
+  public ElevatorControllerRunCommand(Elevator elevator, CommandGenericHID manipulatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
 
     m_elevator = elevator;
-    m_manipulatorJoystick = manipulatorJoystick;
+    m_manipulatorController = manipulatorController;
+
+    speedFilter = new JoystickFilter(0.05, 0.3, false);
 
   }
 
@@ -35,7 +37,7 @@ public class ElevatorJoystickRunCommand extends CommandBase {
   @Override
   public void execute() {
 
-    double elevatorSpeed = speedFilter.filter(m_manipulatorJoystick.getY());
+    double elevatorSpeed = speedFilter.filter(m_manipulatorController.getRawAxis(1));
 
     m_elevator.runElevator(elevatorSpeed);
 

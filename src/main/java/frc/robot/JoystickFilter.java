@@ -40,8 +40,8 @@ public class JoystickFilter {
     }
 
     public double withCurve(double raw) {
-        double firstTerm = Constants.Joysticks.A_COEFFICIENT * Math.pow(raw, Constants.Joysticks.FIRST_POWER);
-        double secondTerm = Constants.Joysticks.B_COEFFICIENT * Math.pow(raw, Constants.Joysticks.SECOND_POWER);
+        double firstTerm = Constants.InputDevices.A_COEFFICIENT * Math.pow(raw, Constants.InputDevices.FIRST_POWER);
+        double secondTerm = Constants.InputDevices.B_COEFFICIENT * Math.pow(raw, Constants.InputDevices.SECOND_POWER);
         return firstTerm + secondTerm;
     }
 

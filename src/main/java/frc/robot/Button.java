@@ -5,16 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public final class Button {
 
-    //Define Joysticks
-    public static Joystick leftJoystick = new Joystick(Constants.Joysticks.LEFT_JOYSTICK_PORT);
-    public static Joystick rightJoystick = new Joystick(Constants.Joysticks.RIGHT_JOYSTICK_PORT);
-    public static Joystick manipulatorJoystick = new Joystick(Constants.Joysticks.MANIPULATOR_JOYSTICK_PORT);
+    //Define Input Devices
+    public static Joystick leftJoystick = new Joystick(Constants.InputDevices.LEFT_JOYSTICK_PORT);
+    public static Joystick rightJoystick = new Joystick(Constants.InputDevices.RIGHT_JOYSTICK_PORT);
+    public static CommandGenericHID manipulatorController = new CommandGenericHID(Constants.InputDevices.MANIPULATOR_CONTROLLER_PORT);
 
     //Define Drivetrain Buttons
     public static Trigger oldDrive = new JoystickButton(leftJoystick, 7); //Left Bottom 7
@@ -26,20 +27,18 @@ public final class Button {
     public static Trigger quickTurnPID2 = new JoystickButton(rightJoystick, 1); //Right Top 1
     public static Trigger quickTurnPID = quickTurnPID1.and(quickTurnPID2); //Left Top 1 and Right Top 1
     public static Trigger slowMode = new JoystickButton(rightJoystick, 2); //Right Top 2
-    
 
     //Define Elevator Buttons
     public static Trigger calibrateElevator = new JoystickButton(rightJoystick, 6); //Right Top 6
 
     //Define Wrist Buttons
-    public static Trigger wristUp = new JoystickButton(manipulatorJoystick, 5); //Manipulator Top 5
-    public static Trigger wristDown = new JoystickButton(manipulatorJoystick, 6); //Manipulator Top 6
     public static Trigger resetWrist = new JoystickButton(rightJoystick, 4); //Right Top 4
+    public static Trigger runWristController = new Trigger(() -> manipulatorController.getRawAxis(3) != 0);
 
     //Define Intake Buttons
-    public static Trigger mandiblesInwards = new JoystickButton(manipulatorJoystick, 3); //Manipulator Top 3
-    public static Trigger mandiblesOutwards = new JoystickButton(manipulatorJoystick, 4); //Manipulator Top 4
-    public static Trigger calibrateAll = new JoystickButton(manipulatorJoystick, 2); //Manipulator Top 2
+    public static Trigger mandiblesInwards = manipulatorController.button(5); //Manipulator Left Bumper
+    public static Trigger mandiblesOutwards = manipulatorController.button(6); //Manipulator Right Bumper
+    public static Trigger calibrateAll = manipulatorController.button(7); //Manipulator Left Trigger
 
     //Define Limelight Buttons
     public static Trigger xAlign = new JoystickButton(rightJoystick, 8); //Right Bottom 8
@@ -49,12 +48,12 @@ public final class Button {
     public static Trigger flashYellowLEDs = new JoystickButton(rightJoystick, 3); //Right Top 3
 
     //Define RobotState Buttons
-    public static Trigger toHighState = new JoystickButton(manipulatorJoystick, 8);
-    public static Trigger toMidCubeState = new JoystickButton(manipulatorJoystick, 9);
-    public static Trigger toMidConeState = new JoystickButton(manipulatorJoystick, 10);
-    public static Trigger toLowRowGroundState = new JoystickButton(manipulatorJoystick, 12);
-    public static Trigger toDoubleSubstationState = new JoystickButton(manipulatorJoystick, 7);
-    public static Trigger toStowState = new JoystickButton(manipulatorJoystick, 1);
+    public static Trigger toHighState = manipulatorController.button(4); //Manipulator Y Button
+    public static Trigger toMidCubeState = manipulatorController.button(1); //Manipulator X Button
+    public static Trigger toMidConeState = manipulatorController.button(3); //Manipulator B Button
+    public static Trigger toLowRowGroundState = manipulatorController.button(2); //Manipulator A Button
+    public static Trigger toDoubleSubstationState = manipulatorController.pov(0); //Manipulator D Pad Up
+    public static Trigger toStowState = manipulatorController.button(8); //Manipulator Right Trigger
 
     //Define Trajectory Alignment Buttons
     public static Trigger doubleSubstationAlignAndPosition = new JoystickButton(leftJoystick, 3); //Left Top 3
@@ -92,16 +91,19 @@ public final class Button {
     public static POVButton leftMiniJoystickLeft = new POVButton(leftJoystick, 270);
     public static POVButton leftMiniJoystickUpLeft = new POVButton(leftJoystick, 315);
 
-    //Unassigned Manipulator Joystick Buttons
-    public static Trigger manipulatorButton11 = new JoystickButton(manipulatorJoystick, 11); //Manipulator Bottom 11
-    
-    //Unassigned Manipulator Joystick POV Axes
-    public static POVButton manipulatorMiniJoystickUp = new POVButton(manipulatorJoystick, 0);
-    public static POVButton manipulatorMiniJoystickUpRight = new POVButton(manipulatorJoystick, 45);
-    public static POVButton manipulatorMiniJoystickRight = new POVButton(manipulatorJoystick, 90);
-    public static POVButton manipulatorMiniJoystickDownRight = new POVButton(manipulatorJoystick, 135);
-    public static POVButton manipulatorMiniJoystickDown = new POVButton(manipulatorJoystick, 180);
-    public static POVButton manipulatorMiniJoystickDownLeft = new POVButton(manipulatorJoystick, 225);
-    public static POVButton manipulatorMiniJoystickLeft = new POVButton(manipulatorJoystick, 270);
-    public static POVButton manipulatorMiniJoystickUpLeft = new POVButton(manipulatorJoystick, 315);
+    //Unassigned Manipulator Controller Buttons
+    public static Trigger manipulatorButton9 = manipulatorController.button(9); //Manipulator Back
+    public static Trigger manipulatorButton10 = manipulatorController.button(10); //Manipulator Start
+    public static Trigger manipulatorButton11 = manipulatorController.button(11); //Manipulator Left Stick Push
+    public static Trigger manipulatorButton12 = manipulatorController.button(12); //Manipulator Right Stick Push
+
+    //Unassigned Manipulator Controller POV Axes
+    public static Trigger manipulatorMiniJoystickUpRight = manipulatorController.pov(45);
+    public static Trigger manipulatorMiniJoystickRight = manipulatorController.pov(90);
+    public static Trigger manipulatorMiniJoystickDownRight = manipulatorController.pov(135);
+    public static Trigger manipulatorMiniJoystickDown = manipulatorController.pov(180);
+    public static Trigger manipulatorMiniJoystickDownLeft = manipulatorController.pov(225);
+    public static Trigger manipulatorMiniJoystickLeft = manipulatorController.pov(270);
+    public static Trigger manipulatorMiniJoystickUpLeft = manipulatorController.pov(315);
+
 }

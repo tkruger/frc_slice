@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -43,7 +44,7 @@ public class RobotContainer {
 
   public final Joystick leftJoystick = Button.leftJoystick;
   public final Joystick rightJoystick = Button.rightJoystick;
-  public final Joystick manipulatorJoystick = Button.manipulatorJoystick;
+  public final CommandGenericHID manipulatorController = Button.manipulatorController;
 
   public final DrivetrainCommand m_oldDrive = new DrivetrainCommand(m_drivetrain, leftJoystick, rightJoystick);
   public final CurvatureDriveCommand m_curvatureDrive = new CurvatureDriveCommand(m_drivetrain, leftJoystick, rightJoystick);
@@ -59,12 +60,13 @@ public class RobotContainer {
 
   public final ElevatorRunCommand m_elevatorRunUpwards = new ElevatorRunCommand(m_elevator, true);
   public final ElevatorRunCommand m_elevatorRunDownwards = new ElevatorRunCommand(m_elevator, false);
-  public final ElevatorJoystickRunCommand m_elevatorJoystickRun = new ElevatorJoystickRunCommand(m_elevator, manipulatorJoystick);
+  public final ElevatorControllerRunCommand m_elevatorJoystickRun = new ElevatorControllerRunCommand(m_elevator, manipulatorController);
   public final CalibrateElevatorCommand m_calibrateElevator = new CalibrateElevatorCommand(m_elevator);
   public final ElevatorSetPIDCommand m_ElevatorSetPIDCommand = new ElevatorSetPIDCommand(m_elevator, 50);
 
   public final WristRunCommand m_wristRunUpwards = new WristRunCommand(m_wrist, true);
   public final WristRunCommand m_wristRunDownwards = new WristRunCommand(m_wrist, false);
+  public final WristControllerRunCommand m_wristControllerRun = new WristControllerRunCommand(m_wrist, manipulatorController);
   public final WristStationaryCommand m_wristStationary = new WristStationaryCommand(m_wrist);
   public final ResetAngleCommand m_resetWristAngle = new ResetAngleCommand(m_wrist);
   public final SetWristPosition m_testSetWristPosition = new SetWristPosition(m_wrist, -50);
@@ -158,11 +160,8 @@ public class RobotContainer {
     //Enable X Alignment
     Button.xAlign.whileTrue(m_xAlign);
 
-    //Enable Wrist Moving Upwards
-    Button.wristUp.whileTrue(m_wristRunUpwards);
-
-    //Enable Wrist Moving Downwards
-    Button.wristDown.whileTrue(m_wristRunDownwards);
+    //Enable Wrist Controller Running
+    Button.runWristController.whileTrue(m_wristControllerRun);
 
     //Execute Low Row Ground State Positioning
     Button.toLowRowGroundState.onTrue(m_manualSetLowRowGround);

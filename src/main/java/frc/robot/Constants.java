@@ -17,13 +17,13 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
 
     //Define Joystick Constants
-    public final class Joysticks {
+    public final class InputDevices {
 
         //Define Joystick Ports
         public static final int LEFT_JOYSTICK_PORT = 0;
         public static final int RIGHT_JOYSTICK_PORT = 1;
         //(This is a placeholder for now)
-        public static final int MANIPULATOR_JOYSTICK_PORT = 2;
+        public static final int MANIPULATOR_CONTROLLER_PORT = 2;
 
         public static final double A_COEFFICIENT = 0.4;
         public static final double B_COEFFICIENT = 1 - A_COEFFICIENT;
