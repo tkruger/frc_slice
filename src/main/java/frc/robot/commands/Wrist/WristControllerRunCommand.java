@@ -44,14 +44,20 @@ public class WristControllerRunCommand extends CommandBase {
     if(wristSpeed > 0) {
 
       if (m_wrist.completelyStowed() || (m_wrist.getAngle() < Constants.Wrist.MIN_ANGLE + 5)) {
+        
         m_wrist.spinWrist(0); 
 
       }
       else {
 
-      m_wrist.spinWrist(wristSpeed);
+        m_wrist.spinWrist(wristSpeed);
 
       }
+
+    }
+    else {
+
+      m_wrist.spinWrist(wristSpeed);
 
     }
 
