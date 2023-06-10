@@ -56,7 +56,7 @@ public class SparkMaxFactory {
 
     private static final Configuration kDefaultAngleConfiguration = new Configuration(
         IdleMode.kBrake,
-        false,
+        true,
         false,
         12,
         0.0,

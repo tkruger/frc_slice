@@ -5,6 +5,7 @@
 package frc.robot.commands.Drivetrain.ChargeStation;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -36,6 +37,7 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
     m_drivetrain.setDriveIdleMode(true);
     m_drivetrain.setAngleIdleMode(true);
 
+    //THESE PID GAINS ARE TUNED FOR DIFFERENTIAL DRIVE AND ARE PLACEHOLDERS FOR NOW
     m_drivetrain.setDrivePIDF(.17, .000001, .12, .62);
 
   }
@@ -48,9 +50,9 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
 
     //if (Math.abs(pitch) > 2) {
     if (Math.abs(pitch) > 0.5) {  
-      m_drivetrain.swerveDrive(pidController.calculate(pitch), 0, 0, true);
+      m_drivetrain.swerveDrive(new Translation2d(pidController.calculate(pitch), 0), 0, false, true);
     } else {
-      m_drivetrain.swerveDrive(0, 0, 0, true);
+      m_drivetrain.swerveDrive(new Translation2d(), 0, false, true);
       pidController.reset();
     }
 

@@ -6,7 +6,7 @@ package frc.robot.commands.Drivetrain.ChargeStation;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
-
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 //import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -48,7 +48,7 @@ public class BoardChargeStationCommand extends CommandBase {
     angle = m_drivetrain.getRoll();
     maxAngle = Math.max(maxAngle, angle);
 
-    m_drivetrain.swerveDrive(Constants.kDrivetrain.BOARD_CHARGE_SPEED, 0, 0, false);
+    m_drivetrain.swerveDrive(new Translation2d(Constants.kDrivetrain.BOARD_CHARGE_SPEED, angle), 0, true, true);
 
   }
 
@@ -56,7 +56,7 @@ public class BoardChargeStationCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(0, 0, 0, false);
+    m_drivetrain.swerveDrive(new Translation2d(), 0, true, true);
 
   }
 

@@ -38,7 +38,7 @@ public final class Constants {
         //ALL CONSTANTS IN THIS CLASS ARE PLACEHOLDERS FOR NOW
 
         public static final Port NAVX_PORT = Port.kUSB1;
-        public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
     
         /* Drivetrain Constants */
         public static final double TRACK_WIDTH = Units.inchesToMeters(21.73);

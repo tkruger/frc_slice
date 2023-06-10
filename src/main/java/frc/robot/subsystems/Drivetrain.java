@@ -52,6 +52,9 @@ public class Drivetrain extends SubsystemBase {
     rightModuleFront = new BaseNEOSwerveModule(2, Constants.kDrivetrain.Mod2.CONSTANTS);
     rightModuleBack = new BaseNEOSwerveModule(3, Constants.kDrivetrain.Mod3.CONSTANTS);
 
+    Timer.delay(1.0);
+    resetModulesToAbsolute();
+
     navXGyro = new AHRS(Constants.kDrivetrain.NAVX_PORT);
 
     m_field2d = new Field2d();
@@ -181,17 +184,17 @@ public class Drivetrain extends SubsystemBase {
   /**
    * Drives the robot at given X, Y, and rotational velocities.
    * 
-   * @param translationX The desired velocity in meters/second for the robot to move at along the X axis of the field(forwards/backwards from driver POV).
-   * @param translationY The desired velocity in meters/second for the robot to move at along the Y axis of the field(left/right from driver POV).
+   * @param translation A Translation2d object representing the desired velocities in meters/second for the robot to move at along the X and Y axes of the field(forwards/backwards from driver POV).
    * @param rotation The desired velocity in radians/second for the robot to rotate at.
    * @param isOpenLoop Whether the accordingly generated states for the given velocities should be set using open loop control for the drive motors
    *                   of the swerve modules.
+   * @param isFieldRelative Whether the given velocities are relative to the field or not.
    */
-  public void swerveDrive(double translationX, double translationY, double rotation, boolean isOpenLoop) {
+  public void swerveDrive(Translation2d translation, double rotation, boolean isOpenLoop, boolean isFieldRelative) {
 
     SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      translationX, 
-      translationY, 
+      translation.getX(), 
+      translation.getY(), 
       rotation, 
       getRotation2d()));
 
@@ -322,6 +325,40 @@ public class Drivetrain extends SubsystemBase {
   }
 
   /**
+   * Obtains and returns the current absolute angle readings
+   * from the CANCoders of all swerve modules without offsets.
+   * 
+   * @return The current absolute angle readings from the CANCoders
+   *         of all swerve modules without offsets.
+   */
+  public double[] getCANCoderAngles() {
+
+    double[] angles = {
+      leftModuleFront.getCanCoder().getDegrees(),
+      leftModuleBack.getCanCoder().getDegrees(),
+      rightModuleFront.getCanCoder().getDegrees(),
+      rightModuleBack.getCanCoder().getDegrees()};
+
+    return angles;
+
+  }
+
+  /**
+   * Sets the positions of the integrated angle motor
+   * encoders of all swerve modules to the absolute position
+   * readings of the CANCoders with their offsets being taken
+   * into account.
+   */
+  public void resetModulesToAbsolute() {
+
+    leftModuleFront.resetToAbsolute();
+    leftModuleBack.resetToAbsolute();
+    rightModuleFront.resetToAbsolute();
+    rightModuleBack.resetToAbsolute();
+
+  }
+
+  /**
    * Resets the position of the odometry object using a specified position.
    * 
    * @param position The desired position to reset the odometry of the robot to.
@@ -339,7 +376,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public Rotation2d getRotation2d() {
 
-    return navXGyro.getRotation2d();
+    return Rotation2d.fromDegrees(getHeading());
     
   }
   
@@ -350,7 +387,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getHeading() {
 
-    return -navXGyro.getYaw() + 180;
+    return Constants.kDrivetrain.INVERT_GYRO? -navXGyro.getYaw() + 180 : navXGyro.getYaw() + 180;
 
   }
 

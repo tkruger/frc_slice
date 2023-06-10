@@ -7,7 +7,7 @@ package frc.robot.commands.Drivetrain;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.JoystickFilter;
-
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -19,8 +19,9 @@ public class SwerveDriveCommand extends CommandBase {
   private final JoystickFilter translationXFilter, translationYFilter, rotationFilter;
 
   private final boolean m_isOpenLoop;
+  private final boolean m_isFieldRelative;
 
-  public SwerveDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick, boolean isOpenLoop) {
+  public SwerveDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick, boolean isOpenLoop, boolean isFieldRelative) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
@@ -30,6 +31,7 @@ public class SwerveDriveCommand extends CommandBase {
     m_rightJoystick = rightJoystick;
 
     m_isOpenLoop = isOpenLoop;
+    m_isFieldRelative = isFieldRelative;
 
     translationXFilter = new JoystickFilter(0.07, 0.3);
     translationYFilter = new JoystickFilter(0.07, 0.3);
@@ -43,14 +45,6 @@ public class SwerveDriveCommand extends CommandBase {
 
     m_drivetrain.resetHeading();
 
-    m_drivetrain.setAnglePIDF(0.01, 0, 0, 0);
-
-    if(m_isOpenLoop) {
-
-      m_drivetrain.setDrivePIDF(.1, 0, 0, 0);
-
-    }
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,10 +56,10 @@ public class SwerveDriveCommand extends CommandBase {
     double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.MAX_ANGULAR_VELOCITY;
 
     m_drivetrain.swerveDrive(
-      translationX,
-      translationY,
+      new Translation2d(translationX, translationY),
       rotation,
-      m_isOpenLoop);
+      m_isOpenLoop,
+      m_isFieldRelative);
 
   }
 
@@ -73,7 +67,7 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(0, 0, 0, m_isOpenLoop);
+    m_drivetrain.swerveDrive(new Translation2d(), 0, m_isOpenLoop, m_isFieldRelative);
 
   }
 
