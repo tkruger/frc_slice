@@ -106,7 +106,7 @@ public final class Constants {
         public static final double MIN_ANGLE = -105;
 
         //Define how fast the wrist spins when resetting angle using limit switch (this is a placeholder for now)
-        public static final double RESET_SPEED = 0.3;
+        public static final double RESET_SPEED = 0.4;
 
         //P, I, and D gains for the wrist when going to a set position
         public static final double CUSTOM_KP = 0.12;
@@ -125,7 +125,7 @@ public final class Constants {
         public static final double VELOCITY_CONVERSION_FACTOR = ((18 * 360) / 1500) / 60;
         public static final double POSITION_CONVERSION_FACTOR = (18 * 360) / 1500;
 
-        public static final double CALIBRATE_CURRENT_THRESHOLD = 40;
+        public static final double CALIBRATE_CURRENT_THRESHOLD = 50;
 
         public static final double POSITIONAL_ERROR_THRESHOLD = 6;
         public static final double POSITIONAL_MAX_SPEED = 0.35;

@@ -104,7 +104,7 @@ public class RobotContainer {
   public final BrakeCommand m_coastCommand = new BrakeCommand(m_drivetrain, false);
 
   public final TimedRunMandiblesCommand m_calibrateCloseMandibles = new TimedRunMandiblesCommand(m_intake, true, 0.3);
-  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle.withTimeout(1.5));
+  public final SequentialCommandGroup m_calibrateCommands = new SequentialCommandGroup(m_calibrateCloseMandibles, m_calibrateElevator, m_resetWristAngle);
 
   public final ManualVoltageWristCommand m_regressionTester = new ManualVoltageWristCommand(m_wrist, -0.25);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
