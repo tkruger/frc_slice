@@ -40,17 +40,21 @@ public class ChargeStationBalanceCommand extends CommandBase {
   @Override
   public void execute() {
 
-    pitch = m_drivetrain.getPitch();
+    /**
+     * THIS SHOULD BE CHANGED TO getPitch()
+     * IF THE PITCH AXIS IS PARALLEL TO THE ROBOT POINTING FORWARD 
+     */
+     pitch = m_drivetrain.getRoll();
 
     if(pitch > 10) {
 
-      m_drivetrain.swerveDrive(new Translation2d(-Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0), 0, false, true);
+      m_drivetrain.swerveDrive(new Translation2d(-Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0), 0, false, false);
 
     }
 
     if(pitch < -10) {
 
-      m_drivetrain.swerveDrive(new Translation2d(Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0), 0, false, true);
+      m_drivetrain.swerveDrive(new Translation2d(Constants.kDrivetrain.CHARGE_STATION_BALANCE_SPEED, 0), 0, false, false);
 
     }
 

@@ -182,7 +182,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   /**
-   * Drives the robot at given X, Y, and rotational velocities.
+   * Drives the robot at either given field-relative X, Y, and rotational velocities or given
+   * robot-relative forward, sideways, and rotational velocities.
+   * 
+   * <p> If using robot-relative velocities, the X component of the Translation2d object should be the forward velocity
+   * and the Y component should be the sideways velocity.
    * 
    * @param translation A Translation2d object representing the desired velocities in meters/second for the robot to move at along the X and Y axes of the field(forwards/backwards from driver POV).
    * @param rotation The desired velocity in radians/second for the robot to rotate at.
@@ -192,12 +196,15 @@ public class Drivetrain extends SubsystemBase {
    */
   public void swerveDrive(Translation2d translation, double rotation, boolean isOpenLoop, boolean isFieldRelative) {
 
-    SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+    SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(
+      isFieldRelative
+      ? ChassisSpeeds.fromFieldRelativeSpeeds(
       translation.getX(), 
       translation.getY(), 
       rotation, 
-      getRotation2d()));
-
+      getRotation2d()) 
+      : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
+      
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_VELOCITY);
 
     leftModuleFront.setDesiredState(states[0], isOpenLoop);

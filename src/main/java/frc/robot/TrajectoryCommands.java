@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -13,7 +16,7 @@ import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class should be used to statically call its methods in order to create
- * {@link SwerveControllerCommand} objects, which are used to allow the robot to 
+ * {@link SwerveControllerCommand} or {@link PPSwerveControllerCommand} objects, which are used to allow the robot to 
  * drive during autonomous.
  * 
  */
@@ -33,6 +36,21 @@ public class TrajectoryCommands {
                     0,
                     Constants.kAutonomous.kThetaControllerConstraints),
             drive::getAutoTrajectoryRotation,
+            //SwerveControllerCommand passes output module states to the callback
+            drive::setModuleStates,
+            drive);
+
+    }
+
+    public static PPSwerveControllerCommand generatePPSwerveControllerCommand(Drivetrain drive, PathPlannerTrajectory trajectory) {
+
+        return new PPSwerveControllerCommand(
+            trajectory,
+            drive::getPose,
+            Constants.kDrivetrain.kSwerveKinematics,
+                new PIDController(Constants.kAutonomous.kPXController, 0, 0),
+                new PIDController(Constants.kAutonomous.kPYController, 0, 0),
+                new PIDController(Constants.kAutonomous.kPThetaController, 0, 0),
             //SwerveControllerCommand passes output module states to the callback
             drive::setModuleStates,
             drive);

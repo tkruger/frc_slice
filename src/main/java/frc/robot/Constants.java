@@ -34,8 +34,10 @@ public final class Constants {
 
     }
 
+    /**
+     * ALL CONSTANTS IN THIS CLASS ARE PLACEHOLDERS FOR NOW
+     */
     public static final class kDrivetrain {
-        //ALL CONSTANTS IN THIS CLASS ARE PLACEHOLDERS FOR NOW
 
         public static final Port NAVX_PORT = Port.kUSB1;
         public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
@@ -87,7 +89,11 @@ public final class Constants {
         /* Swerve Profiling Values */
         public static final double MAX_VELOCITY = 4; // meters per second
         public static final double MAX_ANGULAR_VELOCITY = 11.5; //radians per second
-    
+
+        /* Motor Inverts */
+        public static final boolean DRIVE_INVERT = false;
+        public static final boolean ANGLE_INVERT = true;
+
         /* Angle Encoder Invert */
         public static final boolean CANCODER_INVERT = false;
 
@@ -96,6 +102,8 @@ public final class Constants {
         //public static final double CHARGE_STATION_BALANCE_SPEED = 0.3;
         //public static final double BOARD_CHARGE_SPEED = -0.55;
 
+        /*THESE SPEEDS WERE CALCULATED BASED ON THE CURRENT MAXIMUM VELOCITY
+        CONSTANT AND ARE PLACEHOLDERS FOR NOW*/
         public static final double CHARGE_STATION_BALANCE_SPEED = 1.35;
         public static final double BOARD_CHARGE_SPEED = -2.475;
 

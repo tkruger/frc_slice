@@ -46,13 +46,17 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
   @Override
   public void execute() {
 
+    /**
+     * THIS SHOULD BE CHANGED TO getPitch()
+     * IF THE PITCH AXIS IS PARALLEL TO THE ROBOT POINTING FORWARD 
+     */
     pitch = m_drivetrain.getRoll();
 
     //if (Math.abs(pitch) > 2) {
     if (Math.abs(pitch) > 0.5) {  
-      m_drivetrain.swerveDrive(new Translation2d(pidController.calculate(pitch), 0), 0, false, true);
+      m_drivetrain.swerveDrive(new Translation2d(pidController.calculate(pitch), 0), 0, false, false);
     } else {
-      m_drivetrain.swerveDrive(new Translation2d(), 0, false, true);
+      m_drivetrain.swerveDrive(new Translation2d(), 0, false, false);
       pidController.reset();
     }
 

@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
 
 public class SparkMaxFactory {
     
@@ -47,7 +48,7 @@ public class SparkMaxFactory {
 
     private static final Configuration kDefaultDriveConfiguration = new Configuration(
         IdleMode.kBrake,
-        false,
+        Constants.kDrivetrain.DRIVE_INVERT,
         false,
         12,
         0.0,
@@ -56,7 +57,7 @@ public class SparkMaxFactory {
 
     private static final Configuration kDefaultAngleConfiguration = new Configuration(
         IdleMode.kBrake,
-        true,
+        Constants.kDrivetrain.ANGLE_INVERT,
         false,
         12,
         0.0,

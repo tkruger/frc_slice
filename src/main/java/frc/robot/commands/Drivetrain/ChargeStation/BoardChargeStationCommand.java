@@ -35,7 +35,13 @@ public class BoardChargeStationCommand extends CommandBase {
   public void initialize() {
 
     m_drivetrain.resetHeading();
+
+    /**
+     * THIS SHOULD BE CHANGED TO getPitch()
+     * IF THE PITCH AXIS IS PARALLEL TO THE ROBOT POINTING FORWARD 
+     */
     angle = m_drivetrain.getRoll();
+
     maxAngle = angle;
     
   }
@@ -45,10 +51,16 @@ public class BoardChargeStationCommand extends CommandBase {
   public void execute() {
 
     // Checks if current angle is the largest angle
+
+    /**
+     * THIS SHOULD BE CHANGED TO getPitch()
+     * IF THE PITCH AXIS IS PARALLEL TO THE ROBOT POINTING FORWARD 
+     */
     angle = m_drivetrain.getRoll();
+
     maxAngle = Math.max(maxAngle, angle);
 
-    m_drivetrain.swerveDrive(new Translation2d(Constants.kDrivetrain.BOARD_CHARGE_SPEED, angle), 0, true, true);
+    m_drivetrain.swerveDrive(new Translation2d(Constants.kDrivetrain.BOARD_CHARGE_SPEED, angle), 0, true, false);
 
   }
 
@@ -56,7 +68,7 @@ public class BoardChargeStationCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(new Translation2d(), 0, true, true);
+    m_drivetrain.swerveDrive(new Translation2d(), 0, true, false);
 
   }
 
@@ -64,7 +76,12 @@ public class BoardChargeStationCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
+    /**
+     * THIS SHOULD BE CHANGED TO getPitch()
+     * IF THE PITCH AXIS IS PARALLEL TO THE ROBOT POINTING FORWARD 
+     */
     double angle = Math.abs(m_drivetrain.getRoll());
+    
     boolean dropped = maxAngle - angle > Constants.kDrivetrain.BOARD_CHARGE_ANGLE_CHANGE_THRESHOLD;
     boolean aboveThreshold = maxAngle > Constants.kDrivetrain.BOARD_CHARGE_MINIMUM_STOP_ANGLE;
     return dropped && aboveThreshold;
