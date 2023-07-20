@@ -188,7 +188,10 @@ public class Drivetrain extends SubsystemBase {
    * <p> If using robot-relative velocities, the X component of the Translation2d object should be the forward velocity
    * and the Y component should be the sideways velocity.
    * 
-   * @param translation A Translation2d object representing the desired velocities in meters/second for the robot to move at along the X and Y axes of the field(forwards/backwards from driver POV).
+   * @param translation A Translation2d object representing either the desired field-relative velocities in meters/second for the 
+   *                    robot to move at along the X and Y axes of the field(forwards/backwards from driver POV), or the desired robot-relative forward 
+   *                    and sideways velocities in meters/second for the robot to move at.
+   * 
    * @param rotation The desired velocity in radians/second for the robot to rotate at.
    * @param isOpenLoop Whether the accordingly generated states for the given velocities should be set using open loop control for the drive motors
    *                   of the swerve modules.
@@ -433,7 +436,7 @@ public class Drivetrain extends SubsystemBase {
    * Sets the desired states of all drivetrain swerve modules to a specified arrary of states using
    * closed loop control for the drive motors of the swerve modules.
    * 
-   * @param states The desired states for all drivetrian swerve modules to be set to.
+   * @param states The desired states for all drivetrain swerve modules to be set to.
    */
   public void setModuleStates(SwerveModuleState[] states) {
 
