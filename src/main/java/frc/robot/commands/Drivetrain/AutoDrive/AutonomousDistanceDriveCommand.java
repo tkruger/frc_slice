@@ -6,7 +6,11 @@ package frc.robot.commands.Drivetrain.AutoDrive;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Drivetrain.SetInitialPositionCommand;
+
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,6 +18,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** This command should be used in Pathplannerless autonomous sequences to
  * drive the robot at given x and y speeds over given x and y distances.
+ * 
+ * <p> Instances of this command should be used along with a {@link SetInitialPositionCommand} in sequences if 
+ * there is no other command resetting the odometry elsewhere in the sequence.
  */
 public class AutonomousDistanceDriveCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
@@ -52,8 +59,6 @@ public class AutonomousDistanceDriveCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.resetHeading();
-
     Pose2d initialPosition = m_drivetrain.getPose();
     targetTranslation = new Translation2d(initialPosition.getX() + xDistance, initialPosition.getY() + yDistance);
     
@@ -80,7 +85,7 @@ public class AutonomousDistanceDriveCommand extends CommandBase {
     }
 
     // Sets the x speed and y speed of the robot
-    m_drivetrain.swerveDrive(new Translation2d(xSpeed, ySpeed), 0, true, true);
+    m_drivetrain.swerveDrive(new Transform2d(new Translation2d(xSpeed, ySpeed), new Rotation2d()), true, true);
 
   }
 
@@ -88,7 +93,7 @@ public class AutonomousDistanceDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(new Translation2d(), 0, true, true);
+    m_drivetrain.swerveDrive(new Transform2d(new Translation2d(), new Rotation2d()), true, true);
 
   }
 

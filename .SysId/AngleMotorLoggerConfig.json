@@ -1,6 +1,6 @@
 {
   "sysid": true,
   "test": "Simple",
-  "units": "Radians",
-  "unitsPerRotation": 6.283185307179586
+  "units": "Degrees",
+  "unitsPerRotation": 360
 }

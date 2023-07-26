@@ -47,7 +47,7 @@ public class AutoSelector {
 
     }
 
-    public StartingPosition storedStartingPosition;
+    public static StartingPosition storedStartingPosition;
     public DesiredMode storedDesiredMode;
 
     public SendableChooser<StartingPosition> startingPositionChooser;
@@ -114,7 +114,7 @@ public class AutoSelector {
         switch(mode) {
 
             case SCORE_ONE_CONE_HIGH_ROW_PATHPLANNERLESS:
-                return Optional.of(new ScoreOneConeHighRowMode(/*m_elevator, m_wrist, m_intake*/));
+                return Optional.of(new ScoreOneConeHighRowMode(m_drivetrain/*, m_elevator, m_wrist, m_intake*/));
             case SCORE_ONE_CUBE_MOBILITY_THEN_ENGAGE_PATHPLANNER:
                 return Optional.of(new ScoreOneCubeMobilityThenEngageMode(position, m_drivetrain));
             case SCORE_ONE_CUBE_PICK_UP_ONE_GAME_PIECE_THEN_ENGAGE_PATHPLANNER:
@@ -203,7 +203,13 @@ public class AutoSelector {
 
     }
 
-    public String getStoredStartingPosition() {
+    public static StartingPosition getStoredStartingPosition() {
+
+        return storedStartingPosition;
+
+    }
+
+    public String getStoredStartingPositionName() {
 
         if(storedStartingPosition != null) {
 

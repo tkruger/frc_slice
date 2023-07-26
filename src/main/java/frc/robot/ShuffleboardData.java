@@ -136,7 +136,7 @@ public class ShuffleboardData {
             withPosition(2, 1).
             withSize(2, 1);
             //Displays the robot starting position selected on the sendable chooser on Shuffleboard
-            autoTab.addString("Selected Starting Position", autoSelector::getStoredStartingPosition).
+            autoTab.addString("Selected Starting Position", autoSelector::getStoredStartingPositionName).
             withPosition(5, 1).
             withSize(2, 1);
 

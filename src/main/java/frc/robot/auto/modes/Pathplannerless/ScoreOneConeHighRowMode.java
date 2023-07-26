@@ -10,22 +10,26 @@ import frc.robot.commands.sequences.PlaceHighRowSequence;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;*/
+import frc.robot.commands.Drivetrain.SetInitialPositionCommand;
+import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreOneConeHighRowMode extends SequentialCommandGroup {
   /** Creates a new ScoreOneConeHighRowMode. */
-  public ScoreOneConeHighRowMode(/*Elevator elevator, Wrist wrist, Intake intake*/) {
+  public ScoreOneConeHighRowMode(Drivetrain drivetrain/*, Elevator elevator, Wrist wrist, Intake intake*/) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
+    SetInitialPositionCommand setInitialPosition = new SetInitialPositionCommand(drivetrain);
     //InstantCalibrationCommand calibrateElevatorAndWrist = new InstantCalibrationCommand(elevator, wrist);
     //PlaceHighRowSequence placeCone = new PlaceHighRowSequence(elevator, wrist, intake);
 
     addCommands(
-      //calibrateElevatorAndWrist,
-      //placeCone
+      setInitialPosition/*,
+      calibrateElevatorAndWrist,
+      placeCone*/
     );
 
   }

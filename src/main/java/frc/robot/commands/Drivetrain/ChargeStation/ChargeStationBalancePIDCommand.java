@@ -5,6 +5,8 @@
 package frc.robot.commands.Drivetrain.ChargeStation;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
@@ -54,9 +56,9 @@ public class ChargeStationBalancePIDCommand extends CommandBase {
 
     //if (Math.abs(pitch) > 2) {
     if (Math.abs(pitch) > 0.5) {  
-      m_drivetrain.swerveDrive(new Translation2d(pidController.calculate(pitch), 0), 0, false, false);
+      m_drivetrain.swerveDrive(new Transform2d(new Translation2d(pidController.calculate(pitch), 0), new Rotation2d()), false, false);
     } else {
-      m_drivetrain.swerveDrive(new Translation2d(), 0, false, false);
+      m_drivetrain.swerveDrive(new Transform2d(new Translation2d(), new Rotation2d()), false, false);
       pidController.reset();
     }
 

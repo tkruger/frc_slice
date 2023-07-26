@@ -6,6 +6,8 @@ package frc.robot.commands.Drivetrain.ChargeStation;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -34,8 +36,6 @@ public class BoardChargeStationCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_drivetrain.resetHeading();
-
     /**
      * THIS SHOULD BE CHANGED TO getPitch()
      * IF THE PITCH AXIS IS PARALLEL TO THE ROBOT POINTING FORWARD 
@@ -60,7 +60,7 @@ public class BoardChargeStationCommand extends CommandBase {
 
     maxAngle = Math.max(maxAngle, angle);
 
-    m_drivetrain.swerveDrive(new Translation2d(Constants.kDrivetrain.BOARD_CHARGE_SPEED, angle), 0, true, false);
+    m_drivetrain.swerveDrive(new Transform2d(new Translation2d(Constants.kDrivetrain.BOARD_CHARGE_SPEED, 0), new Rotation2d()), true, false);
 
   }
 
@@ -68,7 +68,7 @@ public class BoardChargeStationCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(new Translation2d(), 0, true, false);
+    m_drivetrain.swerveDrive(new Transform2d(new Translation2d(), new Rotation2d()), true, false);
 
   }
 

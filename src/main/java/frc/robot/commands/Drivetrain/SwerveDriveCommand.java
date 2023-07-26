@@ -7,6 +7,8 @@ package frc.robot.commands.Drivetrain;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.JoystickFilter;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -41,11 +43,7 @@ public class SwerveDriveCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-    m_drivetrain.resetHeading();
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -56,8 +54,7 @@ public class SwerveDriveCommand extends CommandBase {
     double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.MAX_ANGULAR_VELOCITY;
 
     m_drivetrain.swerveDrive(
-      new Translation2d(translationX, translationY),
-      rotation,
+      new Transform2d(new Translation2d(translationX, translationY), new Rotation2d(rotation)),
       m_isOpenLoop,
       m_isFieldRelative);
 
@@ -67,7 +64,7 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    m_drivetrain.swerveDrive(new Translation2d(), 0, m_isOpenLoop, m_isFieldRelative);
+    m_drivetrain.swerveDrive(new Transform2d(new Translation2d(0, 0), new Rotation2d()), m_isOpenLoop, m_isFieldRelative);
 
   }
 

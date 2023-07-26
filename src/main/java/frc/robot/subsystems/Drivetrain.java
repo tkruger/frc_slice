@@ -5,7 +5,10 @@
 package frc.robot.subsystems;
 
 import frc.robot.*;
+import frc.robot.auto.AutoSelector;
+import frc.robot.auto.AutoSelector.StartingPosition;
 import frc.robot.modules.*;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -19,9 +22,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 import com.kauailabs.navx.frc.AHRS;
-
-//import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
-//import com.swervedrivespecialties.swervelib.SwerveModule;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -54,6 +54,7 @@ public class Drivetrain extends SubsystemBase {
 
     Timer.delay(1.0);
     resetModulesToAbsolute();
+    resetHeading();
 
     navXGyro = new AHRS(Constants.kDrivetrain.NAVX_PORT);
 
@@ -188,25 +189,25 @@ public class Drivetrain extends SubsystemBase {
    * <p> If using robot-relative velocities, the X component of the Translation2d object should be the forward velocity
    * and the Y component should be the sideways velocity.
    * 
-   * @param translation A Translation2d object representing either the desired field-relative velocities in meters/second for the 
-   *                    robot to move at along the X and Y axes of the field(forwards/backwards from driver POV), or the desired robot-relative forward 
-   *                    and sideways velocities in meters/second for the robot to move at.
+   * @param transform A Transform2d object representing either the desired field-relative velocities in meters/second for the 
+   *                  robot to move at along the X and Y axes of the field(forwards/backwards from driver POV), or the desired robot-relative forward 
+   *                  and sideways velocities in meters/second for the robot to move at, as well as the desired velocity in radians/second for the 
+   *                  robot to rotate at.
    * 
-   * @param rotation The desired velocity in radians/second for the robot to rotate at.
    * @param isOpenLoop Whether the accordingly generated states for the given velocities should be set using open loop control for the drive motors
    *                   of the swerve modules.
    * @param isFieldRelative Whether the given velocities are relative to the field or not.
    */
-  public void swerveDrive(Translation2d translation, double rotation, boolean isOpenLoop, boolean isFieldRelative) {
+  public void swerveDrive(Transform2d transform, boolean isOpenLoop, boolean isFieldRelative) {
 
     SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(
       isFieldRelative
       ? ChassisSpeeds.fromFieldRelativeSpeeds(
-      translation.getX(), 
-      translation.getY(), 
-      rotation, 
+      transform.getX(), 
+      transform.getY(), 
+      transform.getRotation().getRadians(), 
       getRotation2d()) 
-      : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
+      : new ChassisSpeeds(transform.getX(), transform.getY(), transform.getRotation().getRadians()));
       
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_VELOCITY);
 
@@ -315,7 +316,7 @@ public class Drivetrain extends SubsystemBase {
 
       return states;
 
-    }
+  }
 
   /**
    * Obtains and returns the target states that the drivetrain swerve modules have been set to.
@@ -376,6 +377,41 @@ public class Drivetrain extends SubsystemBase {
   public void resetOdometry(Pose2d position) {
 
     m_swerveDrivetrainOdometry.resetPosition(getRotation2d(), getPositions(), position);
+
+  }
+
+  /**
+   * Resets the position of the odometry object to the robot's initial position based
+   * on the selected starting position on Shuffleboard.
+   */
+  public void setInitialPosition() {
+
+    StartingPosition startingPosition = AutoSelector.getStoredStartingPosition();
+
+    switch (startingPosition) {
+
+      case BLUE_COMMUNITY_LEFT:
+        resetOdometry(new Pose2d(1.83, 4.39, Rotation2d.fromDegrees(180)));
+        break;
+      case BLUE_COMMUNITY_MIDDLE:
+        resetOdometry(new Pose2d(1.83, 2.71, Rotation2d.fromDegrees(180)));
+        break;
+      case BLUE_COMMUNITY_RIGHT:
+        resetOdometry(new Pose2d(1.83, 1.07, Rotation2d.fromDegrees(180)));
+        break;
+      case RED_COMMUNITY_LEFT:
+        resetOdometry(new Pose2d(14.69, 1.07, Rotation2d.fromDegrees(0)));
+        break;
+      case RED_COMMUNITY_MIDDLE:
+        resetOdometry(new Pose2d(14.69, 2.71, Rotation2d.fromDegrees(0)));
+        break;
+      case RED_COMMUNITY_RIGHT:
+        resetOdometry(new Pose2d(14.69, 4.39, Rotation2d.fromDegrees(0)));
+        break;
+      default:
+        break;
+
+    }
 
   }
 
