@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  
   private static Joystick leftJoystick = Button.leftJoystick;
   private static Joystick rightJoystick = Button.rightJoystick;
 
@@ -30,6 +31,7 @@ public class RobotContainer {
 
   public final SwerveDriveCommand m_swerveDriveOpenLoop = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick, true, true);
   public final SwerveDriveCommand m_swerveDriveClosedLoop = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick, false, true);
+  public final SetPercentOutputCommand m_setDrivePercentOutput = new SetPercentOutputCommand(m_drivetrain, 0.3, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -37,7 +39,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(m_swerveDriveClosedLoop);
+    //m_drivetrain.setDefaultCommand(m_swerveDriveClosedLoop);
     
   }
 
@@ -47,7 +49,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    //Sets drivetrain drive motors at a fixed percent output while pressed
+    Button.setDrivePercentOutput.whileTrue(m_setDrivePercentOutput);
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

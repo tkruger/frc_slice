@@ -388,7 +388,7 @@ public class Drivetrain extends SubsystemBase {
 
     StartingPosition startingPosition = AutoSelector.getStoredStartingPosition();
 
-    switch (startingPosition) {
+    switch(startingPosition) {
 
       case BLUE_COMMUNITY_LEFT:
         resetOdometry(new Pose2d(1.83, 4.39, Rotation2d.fromDegrees(180)));
@@ -482,6 +482,22 @@ public class Drivetrain extends SubsystemBase {
     leftModuleBack.setDesiredState(states[1], false);
     rightModuleFront.setDesiredState(states[2], false);
     rightModuleBack.setDesiredState(states[3], false);
+
+  }
+
+  /**
+   * Sets the drive and angle motors of all swerve modules to given drive and angle motor
+   * percent outputs.
+   * 
+   * @param drivePercentOutput The percent output between -1 and 1 to set all drive motors to.
+   * @param anglePercentOutput The percent output between -1 and 1 to set all angle motors to.
+   */
+  public void setPercentOutput(double drivePercentOutput, double anglePercentOutput) {
+
+    leftModuleFront.setPercentOutput(drivePercentOutput, anglePercentOutput);
+    leftModuleBack.setPercentOutput(drivePercentOutput, anglePercentOutput);
+    rightModuleFront.setPercentOutput(drivePercentOutput, anglePercentOutput);
+    rightModuleBack.setPercentOutput(drivePercentOutput, anglePercentOutput);
 
   }
 

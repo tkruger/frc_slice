@@ -74,6 +74,13 @@ public class BaseNEOSwerveModule {
     setSpeed(desiredState, isOpenLoop);
   }
 
+  public void setPercentOutput(double drivePercentOutput, double anglePercentOutput) {
+
+    driveMotor.set(drivePercentOutput);
+    angleMotor.set(anglePercentOutput);
+
+  }
+
   public void resetToAbsolute() {
     double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
     integratedAngleEncoder.setPosition(absolutePosition);

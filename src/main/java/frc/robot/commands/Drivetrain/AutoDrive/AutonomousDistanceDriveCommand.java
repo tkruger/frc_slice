@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 //import edu.wpi.first.wpilibj.smartdashboard.*;
 
-/** This command should be used in Pathplannerless autonomous sequences to
+/** 
+ * This command should be used in Pathplannerless autonomous sequences to
  * drive the robot at given x and y speeds over given x and y distances.
  * 
  * <p> Instances of this command should be used along with a {@link SetInitialPositionCommand} in sequences if 
