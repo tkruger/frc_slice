@@ -52,11 +52,11 @@ public class Drivetrain extends SubsystemBase {
     rightModuleFront = new BaseNEOSwerveModule(2, Constants.kDrivetrain.Mod2.CONSTANTS);
     rightModuleBack = new BaseNEOSwerveModule(3, Constants.kDrivetrain.Mod3.CONSTANTS);
 
+    navXGyro = new AHRS(Constants.kDrivetrain.NAVX_PORT);
+
     Timer.delay(1.0);
     resetModulesToAbsolute();
     resetHeading();
-
-    navXGyro = new AHRS(Constants.kDrivetrain.NAVX_PORT);
 
     m_field2d = new Field2d();
 
@@ -209,7 +209,7 @@ public class Drivetrain extends SubsystemBase {
       getRotation2d()) 
       : new ChassisSpeeds(transform.getX(), transform.getY(), transform.getRotation().getRadians()));
       
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_VELOCITY);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_LINEAR_VELOCITY);
 
     leftModuleFront.setDesiredState(states[0], isOpenLoop);
     leftModuleBack.setDesiredState(states[1], isOpenLoop);
@@ -476,7 +476,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setModuleStates(SwerveModuleState[] states) {
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_VELOCITY);
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_LINEAR_VELOCITY);
 
     leftModuleFront.setDesiredState(states[0], false);
     leftModuleBack.setDesiredState(states[1], false);

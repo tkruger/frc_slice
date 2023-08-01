@@ -9,7 +9,8 @@ import frc.robot.commands.Drivetrain.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,8 +20,10 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class RobotContainer {
   
-  private static Joystick leftJoystick = Button.leftJoystick;
-  private static Joystick rightJoystick = Button.rightJoystick;
+  //private static Joystick leftJoystick = Button.leftJoystick;
+  //private static Joystick rightJoystick = Button.rightJoystick;
+
+  private static GenericHID driverController = Button.driverController;
 
   // The robot's subsystems and commands are defined here...
   public final Drivetrain m_drivetrain = new Drivetrain();
@@ -29,9 +32,9 @@ public class RobotContainer {
   
   public final ShuffleboardData m_shuffleboardData = new ShuffleboardData(m_drivetrain, m_autoSelector);
 
-  public final SwerveDriveCommand m_swerveDriveOpenLoop = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick, true, true);
-  public final SwerveDriveCommand m_swerveDriveClosedLoop = new SwerveDriveCommand(m_drivetrain, leftJoystick, rightJoystick, false, true);
-  public final SetPercentOutputCommand m_setDrivePercentOutput = new SetPercentOutputCommand(m_drivetrain, 0.3, 0);
+  public final SwerveDriveCommand m_swerveDriveOpenLoop = new SwerveDriveCommand(m_drivetrain, driverController, true, true);
+  public final SwerveDriveCommand m_swerveDriveClosedLoop = new SwerveDriveCommand(m_drivetrain, driverController, false, true);
+  public final SetPercentOutputCommand m_setDrivePercentOutput = new SetPercentOutputCommand(m_drivetrain, 0.1, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

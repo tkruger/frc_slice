@@ -248,7 +248,7 @@ public class SparkMaxSwerveModule {
 
     if(isOpenLoop) {
 
-      driveMotor.setVoltage(optimizedDesiredState.speedMetersPerSecond / Constants.kDrivetrain.MAX_VELOCITY * Constants.kDrivetrain.MAX_VOLTAGE);
+      driveMotor.setVoltage(optimizedDesiredState.speedMetersPerSecond / Constants.kDrivetrain.MAX_LINEAR_VELOCITY * Constants.kDrivetrain.MAX_VOLTAGE);
 
     }
     else {

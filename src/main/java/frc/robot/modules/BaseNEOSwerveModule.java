@@ -166,7 +166,7 @@ public class BaseNEOSwerveModule {
 
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
-      double percentOutput = desiredState.speedMetersPerSecond / Constants.kDrivetrain.MAX_VELOCITY;
+      double percentOutput = desiredState.speedMetersPerSecond / Constants.kDrivetrain.MAX_LINEAR_VELOCITY;
       driveMotor.set(percentOutput);
     } else {
       driveController.setReference(
@@ -180,7 +180,7 @@ public class BaseNEOSwerveModule {
   private void setAngle(SwerveModuleState desiredState) {
     // Prevent rotating module if speed is less then 1%. Prevents jittering.
     Rotation2d angle =
-        (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.kDrivetrain.MAX_VELOCITY * 0.01))
+        (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.kDrivetrain.MAX_LINEAR_VELOCITY * 0.01))
             ? lastAngle
             : desiredState.angle;
 

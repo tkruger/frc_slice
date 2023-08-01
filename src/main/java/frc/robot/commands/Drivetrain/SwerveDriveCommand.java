@@ -7,30 +7,30 @@ package frc.robot.commands.Drivetrain;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.JoystickFilter;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SwerveDriveCommand extends CommandBase {
   /** Creates a new SwerveDriveCommand. */
   private final Drivetrain m_drivetrain;
 
-  private final Joystick m_leftJoystick, m_rightJoystick;
+  private final GenericHID m_driverController;
   private final JoystickFilter translationXFilter, translationYFilter, rotationFilter;
 
   private final boolean m_isOpenLoop;
   private final boolean m_isFieldRelative;
 
-  public SwerveDriveCommand(Drivetrain drivetrain, Joystick leftJoystick, Joystick rightJoystick, boolean isOpenLoop, boolean isFieldRelative) {
+  public SwerveDriveCommand(Drivetrain drivetrain, GenericHID driverController, boolean isOpenLoop, boolean isFieldRelative) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
     m_drivetrain = drivetrain;
 
-    m_leftJoystick = leftJoystick;
-    m_rightJoystick = rightJoystick;
+    m_driverController = driverController;
 
     m_isOpenLoop = isOpenLoop;
     m_isFieldRelative = isFieldRelative;
@@ -49,9 +49,9 @@ public class SwerveDriveCommand extends CommandBase {
   @Override
   public void execute() {
     
-    double translationX = translationXFilter.filter(m_leftJoystick.getY()) * Constants.kDrivetrain.MAX_VELOCITY;
-    double translationY = translationYFilter.filter(m_leftJoystick.getX()) * Constants.kDrivetrain.MAX_VELOCITY;
-    double rotation = rotationFilter.filter(m_rightJoystick.getX()) * Constants.kDrivetrain.MAX_ANGULAR_VELOCITY;
+    double translationX = translationXFilter.filter(m_driverController.getRawAxis(0)) * Constants.kDrivetrain.MAX_LINEAR_VELOCITY;
+    double translationY = translationYFilter.filter(m_driverController.getRawAxis(1)) * Constants.kDrivetrain.MAX_LINEAR_VELOCITY;
+    double rotation = rotationFilter.filter(m_driverController.getRawAxis(2)) * Constants.kDrivetrain.MAX_ANGULAR_VELOCITY;
 
     m_drivetrain.swerveDrive(
       new Transform2d(new Translation2d(translationX, translationY), new Rotation2d(rotation)),

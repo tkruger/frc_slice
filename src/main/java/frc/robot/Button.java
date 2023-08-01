@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -14,7 +15,10 @@ public final class Button {
     public static Joystick leftJoystick = new Joystick(Constants.kJoysticks.LEFT_JOYSTICK_PORT);
     public static Joystick rightJoystick = new Joystick(Constants.kJoysticks.RIGHT_JOYSTICK_PORT);
 
-    //Drivetrain Buttons
+    //Controllers
+    public static GenericHID driverController = new GenericHID(Constants.kController.DRIVER_CONTROLLER_PORT);
+
+    //Drivetrain Command Buttons
     public static Trigger setDrivePercentOutput = new JoystickButton(leftJoystick, 3); //Left Top 3
 
     //Unassigned Left Joystick Buttons
@@ -42,6 +46,20 @@ public final class Button {
     public static Trigger rightButton9 = new JoystickButton(rightJoystick, 9); //Right Bottom 9
     public static Trigger rightButton10 = new JoystickButton(rightJoystick, 10); //Right Bottom 10
     public static Trigger rightButton11 = new JoystickButton(rightJoystick, 11); //Right Bottom 11
-    public static Trigger rightButton12 = new JoystickButton(rightJoystick, 12); //Right Bottom 12    
+    public static Trigger rightButton12 = new JoystickButton(rightJoystick, 12); //Right Bottom 12   
+    
+    //Unassigned Driver Controller Buttons
+    public static Trigger driverButton1 = new JoystickButton(driverController, 1); //Driver X Button
+    public static Trigger driverButton2 = new JoystickButton(driverController, 2); //Driver A Button
+    public static Trigger driverButton3 = new JoystickButton(driverController, 3); //Driver B Button
+    public static Trigger driverButton4 = new JoystickButton(driverController, 4); //Driver Y Button
+    public static Trigger driverButton5 = new JoystickButton(driverController, 5); //Driver Left Bumper
+    public static Trigger driverButton6 = new JoystickButton(driverController, 6); //Driver Right Bumper
+    public static Trigger driverButton7 = new JoystickButton(driverController, 7); //Driver Left Trigger
+    public static Trigger driverButton8 = new JoystickButton(driverController, 8); //Driver Right Trigger
+    public static Trigger driverButton9 = new JoystickButton(driverController, 9); //Driver Back Button
+    public static Trigger driverButton10 = new JoystickButton(driverController, 10); //Driver Start Button
+    public static Trigger driverButton11 = new JoystickButton(driverController, 11); //Driver Left Stick Push
+    public static Trigger driverButton12 = new JoystickButton(driverController, 12); //Driver Right Stick Push
 
 }
