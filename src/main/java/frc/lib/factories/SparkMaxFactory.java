@@ -18,7 +18,7 @@ public class SparkMaxFactory {
         public boolean INVERTED;
 
         public int STATUS_FRAME_0_RATE_MS = 10;
-        public int STATUS_FRAME_1_RATE_MS = 1000;
+        public int STATUS_FRAME_1_RATE_MS;
         public int STATUS_FRAME_2_RATE_MS = 1000;
 
         public double OPEN_LOOP_RAMP_RATE;
@@ -29,7 +29,15 @@ public class SparkMaxFactory {
 
         public int CURRENT_LIMIT;
 
-        public Configuration(IdleMode idleMode, boolean inverted, boolean enableVoltageCompensation, double nominalVoltage, double openLoopRampRate, double closedLoopRampRate, int currentLimit) {
+        public Configuration(
+            IdleMode idleMode, 
+            boolean inverted, 
+            boolean enableVoltageCompensation, 
+            double nominalVoltage, 
+            double openLoopRampRate, 
+            double closedLoopRampRate, 
+            int currentLimit, 
+            int status1FrameRate) {
 
             IDLE_MODE = idleMode;
             INVERTED = inverted;
@@ -42,6 +50,8 @@ public class SparkMaxFactory {
 
             CURRENT_LIMIT = currentLimit;
 
+            STATUS_FRAME_1_RATE_MS = status1FrameRate;
+
         }
 
     }
@@ -53,7 +63,8 @@ public class SparkMaxFactory {
         12,
         0.0,
         0.0,
-        80);
+        80,
+        1000);
 
     private static final Configuration kDefaultAngleConfiguration = new Configuration(
         IdleMode.kBrake,
@@ -62,7 +73,8 @@ public class SparkMaxFactory {
         12,
         0.0,
         0.0,
-        20);
+        20,
+        1500);
 
     /** Creates a CANSparkMax object with the default drive motor configuration.*/
     public static CANSparkMax createDefaultDriveSparkMax(int id) {

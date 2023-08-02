@@ -59,30 +59,30 @@ public final class Constants {
     
         public static final SwerveDriveKinematics kSwerveKinematics =
             new SwerveDriveKinematics(
-                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
-                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
                 new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
-                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0));
+                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
+                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0));
         
         /* Swerve Voltage Compensation */
         public static final double MAX_VOLTAGE = 12.0;
     
         /* Angle Motor PID Values */
-        public static final double ANGLE_KP = 0.01;
+        public static final double ANGLE_KP = 0.0375;
         public static final double ANGLE_KI = 0.0;
         public static final double ANGLE_KD = 0.0;
         public static final double ANGLE_KFF = 0.0;
     
         /* Drive Motor PID Values */
-        public static final double DRIVE_KP = 0.1;
+        public static final double DRIVE_KP = 0.0;
         public static final double DRIVE_KI = 0.0;
         public static final double DRIVE_KD = 0.0;
         public static final double DRIVE_KFF = 0.0;
     
         /* Drive Motor Characterization Values */
-        public static final double DRIVE_KS = 0.667;
-        public static final double DRIVE_KV = 2.44;
-        public static final double DRIVE_KA = 0.27;
+        public static final double DRIVE_KS = 0.20464;
+        public static final double DRIVE_KV = 2.6677;
+        public static final double DRIVE_KA = 0.35256;
     
         /* Drive Motor Conversion Factors */
         public static final double DRIVE_POSITION_CONVERSION_FACTOR =

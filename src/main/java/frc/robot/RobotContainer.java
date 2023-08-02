@@ -42,7 +42,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //m_drivetrain.setDefaultCommand(m_swerveDriveClosedLoop);
+    m_drivetrain.setDefaultCommand(m_swerveDriveClosedLoop);
     
   }
 

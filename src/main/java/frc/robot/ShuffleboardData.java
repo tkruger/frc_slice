@@ -6,7 +6,7 @@ package frc.robot;
 
 import java.util.Map;
 
-import edu.wpi.first.cameraserver.CameraServer;
+//import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -17,11 +17,11 @@ import frc.robot.subsystems.Drivetrain;
 /** Contains and runs all code needed to display all necessary information on Shuffleboard.*/
 public class ShuffleboardData {
 
-    private final ShuffleboardTab driverTab, debugTab, modulesTab, autoTab;
+    private final ShuffleboardTab /*driverTab,*/ debugTab, modulesTab, autoTab;
 
     public ShuffleboardData(Drivetrain drivetrain, AutoSelector autoSelector) {
 
-        driverTab = Shuffleboard.getTab("Driver Tab");
+        //driverTab = Shuffleboard.getTab("Driver Tab");
         debugTab = Shuffleboard.getTab("Debug Tab");
         modulesTab = Shuffleboard.getTab("Modules Tab");
         autoTab = Shuffleboard.getTab("Auto Tab");
@@ -113,10 +113,10 @@ public class ShuffleboardData {
             withSize(3, 2);
         
             //Displays the feed from the USB camera on Shuffleboard
-            driverTab.add(CameraServer.startAutomaticCapture()).
+            /*driverTab.add(CameraServer.startAutomaticCapture()).
             withWidget(BuiltInWidgets.kCameraStream).
             withPosition(1, 0).
-            withSize(3, 3);
+            withSize(3, 3);*/
 
         }
 
