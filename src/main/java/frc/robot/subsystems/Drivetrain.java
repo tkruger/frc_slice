@@ -58,6 +58,10 @@ public class Drivetrain extends SubsystemBase {
     resetModulesToAbsolute();
     resetHeading();
 
+    // Set PID Values
+    setDrivePIDF(Constants.kDrivetrain.DRIVE_KP, Constants.kDrivetrain.DRIVE_KI, Constants.kDrivetrain.DRIVE_KD, Constants.kDrivetrain.DRIVE_KFF);
+    setAnglePIDF(Constants.kDrivetrain.ANGLE_KP, Constants.kDrivetrain.ANGLE_KI, Constants.kDrivetrain.ANGLE_KD, Constants.kDrivetrain.ANGLE_KFF);
+
     m_field2d = new Field2d();
 
     autoTrajectoryTimer = new Timer();
@@ -80,6 +84,11 @@ public class Drivetrain extends SubsystemBase {
     updateOdometry();
 
     m_field2d.setRobotPose(getPose());
+
+    SmartDashboard.putNumber("Front Left Integrated Angle", leftModuleFront.getState().angle.getDegrees());
+    SmartDashboard.putNumber("Front Right Integrated Angle", rightModuleFront.getState().angle.getDegrees());
+    SmartDashboard.putNumber("Back Left Integrated Angle", leftModuleBack.getState().angle.getDegrees());
+    SmartDashboard.putNumber("Back Right Integrated Angle", rightModuleBack.getState().angle.getDegrees());
 
   }
 
@@ -208,6 +217,7 @@ public class Drivetrain extends SubsystemBase {
       transform.getRotation().getRadians(), 
       getRotation2d()) 
       : new ChassisSpeeds(transform.getX(), transform.getY(), transform.getRotation().getRadians()));
+
       
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.kDrivetrain.MAX_LINEAR_VELOCITY);
 

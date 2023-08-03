@@ -45,8 +45,8 @@ public final class Constants {
      */
     public static final class kDrivetrain {
 
-        public static final Port NAVX_PORT = Port.kUSB1;
-        public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
+        public static final Port NAVX_PORT = Port.kUSB;
+        public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW- (except for some godforsaken reason CCW- CW+ is the one that actually works so ignore this)
     
         /* Drivetrain Constants */
         public static final double TRACK_WIDTH = Units.inchesToMeters(22);
@@ -68,9 +68,9 @@ public final class Constants {
         public static final double MAX_VOLTAGE = 12.0;
     
         /* Angle Motor PID Values */
-        public static final double ANGLE_KP = 0.0375;
+        public static final double ANGLE_KP = 0.01;
         public static final double ANGLE_KI = 0.0;
-        public static final double ANGLE_KD = 0.0;
+        public static final double ANGLE_KD = 0.001;
         public static final double ANGLE_KFF = 0.0;
     
         /* Drive Motor PID Values */

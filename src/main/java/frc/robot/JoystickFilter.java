@@ -46,11 +46,12 @@ public class JoystickFilter {
     }
 
     public double filter(double raw) {
-        double filtered = withDead(raw);
+        double filtered = raw;
         if (curve) {
             filtered = withCurve(filtered);
         }
-        double signal = smoothing * lastInput + (1 - smoothing) * filtered;
+        filtered = smoothing * lastInput + (1 - smoothing) * filtered;
+        double signal = withDead(filtered);
         lastInput = signal;
         return signal;
     }

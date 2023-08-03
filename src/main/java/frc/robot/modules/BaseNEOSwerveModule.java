@@ -83,7 +83,7 @@ public class BaseNEOSwerveModule {
 
   public void resetToAbsolute() {
     double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
-    integratedAngleEncoder.setPosition(absolutePosition);
+    integratedAngleEncoder.setPosition(-absolutePosition);
   }
 
   private void configAngleEncoder() {
