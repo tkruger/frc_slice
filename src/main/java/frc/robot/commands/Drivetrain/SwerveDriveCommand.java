@@ -35,8 +35,8 @@ public class SwerveDriveCommand extends CommandBase {
     m_isOpenLoop = isOpenLoop;
     m_isFieldRelative = isFieldRelative;
 
-    translationXFilter = new JoystickFilter(0.07, 0.8);
-    translationYFilter = new JoystickFilter(0.07, 0.8);
+    translationXFilter = new JoystickFilter(0.07, 0.9);
+    translationYFilter = new JoystickFilter(0.07, 0.9);
     rotationFilter = new JoystickFilter(0.07, 0.3);
     
   }

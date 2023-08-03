@@ -27,10 +27,11 @@ public final class Constants {
 
         public static final int LEFT_JOYSTICK_PORT = 0, RIGHT_JOYSTICK_PORT = 1;
 
-        public static final double A_COEFFICIENT = 0.7;
-        public static final double B_COEFFICIENT = 0.3;
-        public static final int FIRST_POWER = 3;
-        public static final int SECOND_POWER = 1;
+        public static final double driveExponent = 3;
+        public static final double driveExponentPercent = 0.7;
+
+        public static final double turnExponent = 0.5;
+        public static final double turnExponentPercent = 0.7;
 
     }
 

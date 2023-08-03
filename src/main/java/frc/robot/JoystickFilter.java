@@ -15,6 +15,8 @@ public class JoystickFilter {
     private double lastInput;
     private final double deadzone, smoothing;
     private final boolean curve;
+
+    private final double exponent, exponentPercent;
     /**
      * @param deadzone input from the joystick that is less than the deadzone will be ignored. -1 to 1
      * @param smoothing a higher value will smooth the input more but also increase input delay. 0 to 1
@@ -22,15 +24,19 @@ public class JoystickFilter {
     public JoystickFilter(double deadzone, double smoothing) {
         this.deadzone = deadzone;
         this.smoothing = smoothing;
-        curve = true;
+        this.exponent = 1;
+        this.exponentPercent = 0;
+        curve = false;
         
         lastInput = 0;
     }
 
-    public JoystickFilter(double deadzone, double smoothing, boolean curve) {
+    public JoystickFilter(double deadzone, double smoothing, double exponent, double exponentPercent) {
         this.deadzone = deadzone;
         this.smoothing = smoothing;
-        this.curve = curve;
+        this.exponent = exponent;
+        this.exponentPercent = exponentPercent;
+        this.curve = true;
         
         lastInput = 0;
     }
@@ -40,8 +46,9 @@ public class JoystickFilter {
     }
 
     public double withCurve(double raw) {
-        double firstTerm = Constants.kJoysticks.A_COEFFICIENT * Math.pow(raw, Constants.kJoysticks.FIRST_POWER);
-        double secondTerm = Constants.kJoysticks.B_COEFFICIENT * Math.pow(raw, Constants.kJoysticks.SECOND_POWER);
+        double firstTerm = exponentPercent * Math.pow(Math.abs(raw), exponent);
+        firstTerm = Math.copySign(firstTerm, raw);
+        double secondTerm = (1 - exponentPercent) * raw;
         return firstTerm + secondTerm;
     }
 
