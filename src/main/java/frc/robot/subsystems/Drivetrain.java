@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -37,6 +38,8 @@ public class Drivetrain extends SubsystemBase {
   private final Timer autoTrajectoryTimer;
 
   private Trajectory currentAutoTrajectory;
+
+  private Rotation2d fieldOrientedOffset;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -75,6 +78,8 @@ public class Drivetrain extends SubsystemBase {
       getPositions(),
       new Pose2d(8.28, 4, Rotation2d.fromDegrees(0)));
 
+    fieldOrientedOffset = new Rotation2d();
+
   }
 
   @Override
@@ -85,10 +90,10 @@ public class Drivetrain extends SubsystemBase {
 
     m_field2d.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Front Left Integrated Angle", leftModuleFront.getState().angle.getDegrees());
-    SmartDashboard.putNumber("Front Right Integrated Angle", rightModuleFront.getState().angle.getDegrees());
-    SmartDashboard.putNumber("Back Left Integrated Angle", leftModuleBack.getState().angle.getDegrees());
-    SmartDashboard.putNumber("Back Right Integrated Angle", rightModuleBack.getState().angle.getDegrees());
+    SmartDashboard.putNumber("Front Left Integrated Speed", leftModuleFront.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("Front Right Integrated Speed", rightModuleFront.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("Back Left Integrated Speed", leftModuleBack.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("Back Right Integrated Speed", rightModuleBack.getState().speedMetersPerSecond);
 
   }
 
@@ -209,13 +214,21 @@ public class Drivetrain extends SubsystemBase {
    */
   public void swerveDrive(Transform2d transform, boolean isOpenLoop, boolean isFieldRelative) {
 
+    Rotation2d rotationWithOffset = getRotation2d().minus(fieldOrientedOffset);
+    if (rotationWithOffset.getDegrees() > 360) {
+      rotationWithOffset.minus(Rotation2d.fromDegrees(360));
+    }
+    if (rotationWithOffset.getDegrees() < 0) {
+      rotationWithOffset.plus(Rotation2d.fromDegrees(360));
+    }
+
     SwerveModuleState[] states = Constants.kDrivetrain.kSwerveKinematics.toSwerveModuleStates(
       isFieldRelative
       ? ChassisSpeeds.fromFieldRelativeSpeeds(
       transform.getX(), 
       transform.getY(), 
       transform.getRotation().getRadians(), 
-      getRotation2d()) 
+      rotationWithOffset) 
       : new ChassisSpeeds(transform.getX(), transform.getY(), transform.getRotation().getRadians()));
 
       
@@ -423,6 +436,15 @@ public class Drivetrain extends SubsystemBase {
 
     }
 
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public void resetFieldOrientedHeading() {
+    double error = getHeading() - 180;
+    fieldOrientedOffset = Rotation2d.fromDegrees(error);
   }
 
   /**

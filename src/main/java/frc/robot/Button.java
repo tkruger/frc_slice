@@ -20,6 +20,7 @@ public final class Button {
 
     //Drivetrain Command Buttons
     public static Trigger setDrivePercentOutput = new JoystickButton(leftJoystick, 3); //Left Top 3
+    public static Trigger resetFieldOrientedHeading = new JoystickButton(driverController, 4); //Driver Y Button
 
     //Unassigned Left Joystick Buttons
     public static Trigger leftButton1 = new JoystickButton(leftJoystick, 1); //Left Top 1
@@ -52,7 +53,6 @@ public final class Button {
     public static Trigger driverButton1 = new JoystickButton(driverController, 1); //Driver X Button
     public static Trigger driverButton2 = new JoystickButton(driverController, 2); //Driver A Button
     public static Trigger driverButton3 = new JoystickButton(driverController, 3); //Driver B Button
-    public static Trigger driverButton4 = new JoystickButton(driverController, 4); //Driver Y Button
     public static Trigger driverButton5 = new JoystickButton(driverController, 5); //Driver Left Bumper
     public static Trigger driverButton6 = new JoystickButton(driverController, 6); //Driver Right Bumper
     public static Trigger driverButton7 = new JoystickButton(driverController, 7); //Driver Left Trigger

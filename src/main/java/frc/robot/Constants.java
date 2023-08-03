@@ -74,7 +74,7 @@ public final class Constants {
         public static final double ANGLE_KFF = 0.0;
     
         /* Drive Motor PID Values */
-        public static final double DRIVE_KP = 0.0;
+        public static final double DRIVE_KP = 0.075;
         public static final double DRIVE_KI = 0.0;
         public static final double DRIVE_KD = 0.0;
         public static final double DRIVE_KFF = 0.0;
