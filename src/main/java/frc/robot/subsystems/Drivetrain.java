@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -60,10 +59,6 @@ public class Drivetrain extends SubsystemBase {
     Timer.delay(1.0);
     resetModulesToAbsolute();
     resetHeading();
-
-    // Set PID Values
-    setDrivePIDF(Constants.kDrivetrain.DRIVE_KP, Constants.kDrivetrain.DRIVE_KI, Constants.kDrivetrain.DRIVE_KD, Constants.kDrivetrain.DRIVE_KFF);
-    setAnglePIDF(Constants.kDrivetrain.ANGLE_KP, Constants.kDrivetrain.ANGLE_KI, Constants.kDrivetrain.ANGLE_KD, Constants.kDrivetrain.ANGLE_KFF);
 
     m_field2d = new Field2d();
 
