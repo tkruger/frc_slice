@@ -41,6 +41,8 @@ public class Drivetrain extends SubsystemBase {
 
   private Rotation2d fieldOrientedOffset;
 
+  private ShuffleboardPIDWidget pidWidget;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
@@ -79,6 +81,8 @@ public class Drivetrain extends SubsystemBase {
       new Pose2d(8.28, 4, Rotation2d.fromDegrees(0)));
 
     fieldOrientedOffset = new Rotation2d();
+
+    pidWidget = new ShuffleboardPIDWidget("Back Left Angle", leftModuleBack.getAnglePID());
 
   }
 

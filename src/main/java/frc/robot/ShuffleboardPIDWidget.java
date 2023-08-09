@@ -34,18 +34,19 @@ public class ShuffleboardPIDWidget {
         tab = Shuffleboard.getTab("PID Tuning");
         // A grid layout is used here rather than a list in order to control the order of the items
         list = tab.getLayout(name, BuiltInLayouts.kGrid)
-            .withProperties(Map.of("Number of columns", 1, "Number of rows", 4));
+            .withProperties(Map.of("Number of columns", 1, "Number of rows", 4))
+            .withSize(2, 4);
     
-        pGainWidget = list.add("P", 0.0)
+        pGainWidget = tab.add("P", Constants.kDrivetrain.ANGLE_KP)
             .withPosition(0, 0);
 
-        iGainWidget = list.add("I", 0.0)
+        iGainWidget = tab.add("I", Constants.kDrivetrain.ANGLE_KI)
             .withPosition(0, 1);
 
-        dGainWidget = list.add("D", 0.0)
+        dGainWidget = tab.add("D", Constants.kDrivetrain.ANGLE_KD)
             .withPosition(0, 2);
 
-        list.add("Update", new InstantCommand(this::updateGains))
+        tab.add("Update", new InstantCommand(this::updateGains))
             .withPosition(0, 3)
             .withWidget(BuiltInWidgets.kCommand);
     }

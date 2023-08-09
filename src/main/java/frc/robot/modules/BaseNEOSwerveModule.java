@@ -207,4 +207,8 @@ public class BaseNEOSwerveModule {
   public SwerveModuleState getTargetState() {
     return targetState;
   }
+
+  public SparkMaxPIDController getAnglePID() {
+    return angleController;
+  }
 }
